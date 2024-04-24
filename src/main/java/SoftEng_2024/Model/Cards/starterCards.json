@@ -1,0 +1,114 @@
+[
+  {
+    "angles": [
+      "EMPTY",
+      "PLANTS",
+      "INSECTS",
+      "EMPTY",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "startingBackResources": [
+      "FUNGI",
+      "PLANTS",
+      "INSECTS",
+      "ANIMALS"
+    ]
+  },
+
+
+  {
+    "angles": [
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY",
+      "FUNGI",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "startingBackResources": [
+      "PLANTS",
+      "ANIMALS",
+      "FUNGI",
+      "INSECTS"
+    ]
+  },
+
+
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "PLANTS",
+      "FUNGI",
+      "EMPTY"
+    ],
+    "startingBackResources": [
+      "INSECTS",
+      "ANIMALS",
+      "FUNGI",
+      "PLANTS"
+    ]
+  },
+
+
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "ANIMALS",
+      "INSECTS",
+      "EMPTY"
+    ],
+    "startingBackResources": [
+      "PLANTS",
+      "INSECTS",
+      "ANIMALS",
+      "FUNGI"
+    ]
+  },
+
+
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE",
+      "ANIMALS",
+      "INSECTS",
+      "PLANTS"
+    ],
+    "startingBackResources": [
+      "INSECTS",
+      "FUNGI",
+      "PLANTS",
+      "ANIMALS"
+    ]
+  },
+
+
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE",
+      "PLANTS",
+      "ANIMALS",
+      "FUNGI"
+    ],
+    "startingBackResources": [
+      "FUNGI",
+      "ANIMALS",
+      "PLANTS",
+      "INSECTS"
+    ]
+  }
+]

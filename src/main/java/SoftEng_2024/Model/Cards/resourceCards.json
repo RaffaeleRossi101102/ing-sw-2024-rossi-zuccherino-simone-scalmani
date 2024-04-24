@@ -1,0 +1,402 @@
+[
+  {
+    "angles": [
+      "FUNGI",
+      "EMPTY",
+      "FUNGI",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "FUNGI",
+      "FUNGI",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "FUNGI",
+      "FUNGI"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "FUNGI",
+      "EMPTY",
+      "FUNGI"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "FEATHER",
+      "PLANTS",
+      "FUNGI"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INK",
+      "FUNGI",
+      "INVISIBLE",
+      "ANIMALS"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "FUNGI",
+      "INSECTS",
+      "SCROLL",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "FUNGI",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 1
+  },
+  {
+    "angles": [
+      "FUNGI",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 1
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "FUNGI",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 1
+  },
+  {
+    "angles": [
+      "PLANTS",
+      "EMPTY",
+      "PLANTS",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "PLANTS",
+      "PLANTS",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "PLANTS",
+      "PLANTS"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "PLANTS",
+      "EMPTY",
+      "PLANTS"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "INSECTS",
+      "FEATHER",
+      "PLANTS"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "FUNGI",
+      "PLANTS",
+      "INVISIBLE",
+      "INK"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "SCROLL",
+      "INVISIBLE",
+      "PLANTS",
+      "ANIMALS"
+    ],
+    "backResource": "PLANTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "PLANTS",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "PLANTS"
+    ],
+    "backResource": "PLANTS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "ANIMALS",
+      "ANIMALS",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "ANIMALS",
+      "ANIMALS"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "ANIMALS",
+      "INVISIBLE",
+      "ANIMALS",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "ANIMALS",
+      "INVISIBLE",
+      "ANIMALS"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "INSECTS",
+      "INK",
+      "ANIMALS"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "PLANTS",
+      "ANIMALS",
+      "INVISIBLE",
+      "SCROLL"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "FEATHER",
+      "INVISIBLE",
+      "ANIMALS",
+      "FUNGI"
+    ],
+    "backResource": "ANIMALS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "ANIMALS",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "ANIMALS"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "ANIMALS",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "INSECTS",
+      "INSECTS",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "INSECTS",
+      "INSECTS"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INSECTS",
+      "INVISIBLE",
+      "INSECTS",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INSECTS",
+      "INVISIBLE",
+      "INSECTS"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "FEATHER",
+      "ANIMALS",
+      "INSECTS"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "SCROLL",
+      "INSECTS",
+      "INVISIBLE",
+      "FUNGI"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INSECTS",
+      "PLANTS",
+      "INK",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 0
+  },
+  {
+    "angles": [
+      "INSECTS",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "INSECTS"
+    ],
+    "backResource": "INSECTS",
+    "points": 1
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 1
+  }
+]

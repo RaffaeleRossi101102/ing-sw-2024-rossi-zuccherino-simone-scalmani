@@ -1,0 +1,722 @@
+[
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY",
+      "FEATHER"
+    ],
+    "backResource": "FUNGI",
+    "points": 1,
+    "scoreType": "FEATHER",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  }
+,
+  {
+    "angles": [
+      "EMPTY",
+      "INK",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 1,
+    "scoreType": "INK",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  { "angles": [
+    "SCROLL",
+    "EMPTY",
+    "EMPTY",
+    "INVISIBLE"
+  ],
+    "backResource": "FUNGI",
+    "points": 1,
+    "scoreType": "SCROLL",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "ANIMALS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "PLANTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "INSECTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "INK",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "FEATHER",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "SCROLL",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "FUNGI",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "FUNGI",
+    "points": 5,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ]
+  },
+  {
+    "angles": [
+      "FEATHER",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 1,
+    "scoreType": "FEATHER",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "SCROLL",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 1,
+    "scoreType": "SCROLL",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "INK",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 1,
+    "scoreType": "INK",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "INSECTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "ANIMALS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "FUNGI",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "FEATHER",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "SCROLL",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "INK",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "PLANTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "PLANTS",
+    "points": 5,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "PLANTS",
+      "PLANTS"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "FEATHER",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 1,
+    "scoreType": "FEATHER",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "SCROLL",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 1,
+    "scoreType": "SCROLL",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY",
+      "INK"
+    ],
+    "backResource": "INSECTS",
+    "points": 1,
+    "scoreType": "INK",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "ANIMALS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "PLANTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "FUNGI",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INK",
+      "INVISIBLE",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "SCROLL",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "INVISIBLE",
+      "FEATHER",
+      "EMPTY"
+    ],
+    "backResource": "INSECTS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "INSECTS",
+    "points": 5,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "INSECTS",
+      "INSECTS"
+    ]
+  },
+  {
+    "angles": [
+      "INK",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1,
+    "scoreType": "INK",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "INSECTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY",
+      "SCROLL"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1,
+    "scoreType": "SCROLL",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "PLANTS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "FEATHER",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 1,
+    "scoreType": "FEATHER",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "FUNGI",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "INSECTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "FUNGI",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 2,
+    "scoreType": "ANGLES",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "PLANTS",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INVISIBLE",
+      "SCROLL",
+      "INVISIBLE"
+    ],
+    "backResource": "ANIMALS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "EMPTY",
+      "INK",
+      "INVISIBLE",
+      "INVISIBLE"
+    ],
+    "backResource": "ANIMALS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "INVISIBLE",
+      "FEATHER"
+    ],
+    "backResource": "ANIMALS",
+    "points": 3,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "EMPTY",
+      "EMPTY"
+    ]
+  },
+  {
+    "angles": [
+      "INVISIBLE",
+      "EMPTY",
+      "INVISIBLE",
+      "EMPTY"
+    ],
+    "backResource": "ANIMALS",
+    "points": 5,
+    "scoreType": "STATIC",
+    "requiredResources": [
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS",
+      "ANIMALS"
+    ]
+  }
+]

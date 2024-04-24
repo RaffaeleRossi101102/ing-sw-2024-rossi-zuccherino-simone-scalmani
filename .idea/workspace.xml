@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/CardDeserializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportGoldCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportResourceCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportStarterCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/goldCards.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/resourceCards.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/starterCards.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/AngleIndexes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/Angles.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/ScoreTypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/Front.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/ResourceFront.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2fYPJYl8ag9sFD20LvxMWVrLBhv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.RMIServer.executor": "Run",
+    "Application.Simulator.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.RMIServer">
+    <configuration name="RMIServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.RMIServer" />
+      <module name="ProgettoSoftEng" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SoftEng_2024.Network.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Simulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Simulator" />
+      <module name="ProgettoSoftEng" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SoftEng_2024.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RMIServer" />
+        <item itemvalue="Application.Simulator" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="" />
+      <created>1713974968514</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713974968514</updated>
+      <workItem from="1713974969582" duration="4606000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
+          <line>189</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
+          <line>186</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
+          <line>187</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
