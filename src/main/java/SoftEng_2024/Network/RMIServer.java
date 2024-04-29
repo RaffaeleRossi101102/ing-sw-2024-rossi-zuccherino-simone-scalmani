@@ -40,6 +40,7 @@ public class RMIServer implements ServerInterface{
                     //the game is initialized with 0 players a
                     controller.gameInit();
                 }
+                //il client non prende il posto di nessun client disconnesso
                 if (controller.getClientPlayers().size() < controller.getMaxPlayers()) {
                     //creo i Player e faccio settare il nickname
                     String nick = client.setNickname();
@@ -59,8 +60,19 @@ public class RMIServer implements ServerInterface{
                     //se non è l'ultimo player gli dico di aspettare
                     if (controller.getClientPlayers().size() != controller.getMaxPlayers())
                         notifyClient(client.getNickname(), "Waiting for all the players to join the game...");
-                    else client.showServerMessage("We are ready to start the game!");
-                } else {
+                    else {
+                        controller.notifyAllClients ("We are ready to start the game!");
+                        controller.setWait(false);
+                    }
+                }//sotto c'è il caso in cui il client che vuole collegarsi deve prendere il posto di uno offline
+                //quindi la lista di player è piena e il counter di client offline >0
+                else if (controller.getOfflinePlayers()>0) {
+                    //mi salvo il player associato al primo client disconnesso
+                    Player player = clients.get(disconnectedClients.get(0));
+                    
+                }
+                //nessuno è offline e il client non può collegarsi
+                    else if(){
                     client.showServerError("Unable to connect: reached maxPlayers in game");
                 }
 //            if (controller.getClientPlayers().size() == controller.getMaxPlayers()) {
@@ -108,6 +120,10 @@ public class RMIServer implements ServerInterface{
         System.out.println("Executing printPublicCardToClient due to a client requests");
         controller.printPublicCardToClient(clients.get(client));
     }
+    public void printBackDeckToClient(ClientInterface client) throws RemoteException{
+        System.out.println("Executing printBackDeckToClient due to a client requests");
+        controller.printPublicCardToClient(clients.get(client));
+    }
     public void setAnswer(boolean answer) throws RemoteException{
         this.answer = answer;
     }
@@ -141,14 +157,13 @@ public class RMIServer implements ServerInterface{
     }
     @Override
     public void playStarterCard() throws notAvailableCellException, Board.necessaryResourcesNotAvailableException, RemoteException {
+        notifyAllClients("Waiting other players to place their starter card...");
         for(ClientInterface cl : clients.keySet()) {
+
             //mostro al client la sua mano
-            for(Card card :  clients.get(cl).getHand()){
-                notifyClient(cl.getNickname(), card.toString());
-            }
+            controller.printPlayerHand(clients.get(cl));
             //per ogni client connesso, chiedo l'input e gioco la carta.
             controller.playStarterCard(cl.playStarterCard(), clients.get(cl));
-            controller.notifyAllClients(clients.get(cl).getNickname() +" has played a card!");
         }
     }
     public void choosePrivateGoals(ClientInterface client, GoalCard choice) throws RemoteException{
@@ -167,6 +182,7 @@ public class RMIServer implements ServerInterface{
         return this;
    }
    public void setColor() throws RemoteException{
+        notifyAllClients("Waiting for other players to choose their color");
         String color;
         for(ClientInterface client:clients.keySet()){
             client.showServerMessage("Choose your color between: RED - BLUE - GREEN - YELLOW ");
@@ -175,8 +191,8 @@ public class RMIServer implements ServerInterface{
             client.showServerMessage("Got it :)");
         }
    }
-   public void playCard(int card, ClientInterface client,int r, int c) throws RemoteException {
-        controller.playCard(card,clients.get(client),r,c);
+   public void playCard(int card, ClientInterface client,int r, int c,boolean flipped) throws RemoteException {
+        controller.playCard(card,clients.get(client),r,c,flipped);
    }
    public void drawFromTheDeck(ClientInterface client,int deck)throws RemoteException{
         controller.drawFromTheDeck(clients.get(client),deck);

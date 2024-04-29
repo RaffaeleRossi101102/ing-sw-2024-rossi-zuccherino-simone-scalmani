@@ -33,7 +33,8 @@ public class GameInit {
     private volatile HashMap<Player, ServerInterface> playerServerBindingMap = new HashMap<>();
     private volatile List<ServerInterface> servers = new ArrayList<>();
     private volatile int maxPlayers = 0;
-
+    private volatile boolean wait=true;
+    private volatile int offlinePlayers = 0;
 
     //Queue goldDeck;
     public void gameInit() {
@@ -201,11 +202,9 @@ public class GameInit {
             server.showControllerMessage("Waiting for clients to connect...");
         }
         //System.out.println(maxPlayers + " "+ clientPlayers.size());
-        while (maxPlayers == 0 | clientPlayers.size() < maxPlayers) {
-            //aspetto
+        while (wait) {
             // if(maxPlayers!=0) System.out.println(maxPlayers+ " "+ clientPlayers.size());
         }
-        notifyAllClients("We are ready to start the game!");
         game.shufflePlayers();
         //per ogni client dentro ogni server, viene chiamato il metodo playStarterCard
         for (ServerInterface server : servers) {
@@ -276,7 +275,7 @@ public class GameInit {
         player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
 
         //mostro a tutti la carta giocata
-        notifyAllClients(player.getNickname() + "has played the starter card:" + player.getPlayerBoard().getCardBoard()[42][42].getCard().getPrintableCardString(flipped));
+        notifyAllClients(player.getNickname() + " has played the starter card:" + player.getPlayerBoard().getCardBoard()[42][42].getCard().getPrintableCardString(flipped));
 
 
     }
@@ -290,7 +289,7 @@ public class GameInit {
         //aggiungo una carta starter alla mano del player
         newPlayer.setHand(game.getStarterDeck().poll());
         //gliela mostro
-        servers.get(0).notifyClient(nickname, "Questa é la tua starter card:\n"
+        servers.get(0).notifyClient(nickname, "This is your starter card:\n"
                 + newPlayer.getHand().get(newPlayer.getHand().size() - 1).getPrintableCardString(false)
                 + "\n" + newPlayer.getHand().get(newPlayer.getHand().size() - 1).getPrintableCardString(true));
         //e lo aggiungo al game
@@ -316,9 +315,9 @@ public class GameInit {
                     + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
                     + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
             game.drawFromTheDeck(player, 1);
-            servers.get(0).notifyClient(player.getNickname(), "This is your card[3]:\n");
-                    //+ player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
-                    //+ "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
+            servers.get(0).notifyClient(player.getNickname(), "This is your card[3]:\n"
+                    + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
+                    + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
         }
 
         game.setFirstTurn(false);
@@ -342,18 +341,21 @@ public class GameInit {
         GoalCard[] privateGoals = new GoalCard[2];
         privateGoals[0] = game.getGoalCardDeck().poll();
         privateGoals[1] = game.getGoalCardDeck().poll();
-        servers.get(0).notifyClient(client.getNickname(), "Choose between: " + privateGoals[0] + "digit [1]");
-        servers.get(0).notifyClient(client.getNickname(), " and " + privateGoals[1] + " digit [2]");
+        assert privateGoals[0] != null;
+        servers.get(0).notifyClient(client.getNickname(), "Choose between: " + privateGoals[0].getGoalType() + "digit [1]");
+        assert privateGoals[1] != null;
+        servers.get(0).notifyClient(client.getNickname(), " and " + privateGoals[1].getGoalType() + " digit [2]");
         client.setGoals(privateGoals);
     }
-    public void playCard(int card, Player player,int r, int c) throws RemoteException {
+    public void playCard(int card, Player player,int r, int c,boolean flipped) throws RemoteException {
         //prova a giocare la carta
+        player.getHand().get(card).setFlipped(flipped);
         int result=game.PlayCard(player.getHand().get(card),player,r,c);
         //se tutto va a buon fine, notifica tutti i client del corretto piazzamento
         if(result>0){
             servers.get(0).notifyAllClients(player.getNickname()+" has played a card:\n"
                     + player.getPlayerBoard().getCardBoard()[r][c].getCard().getPrintableCardString(player.getPlayerBoard().getCardBoard()[r][c].getCard().getFlipped())
-                    + "\non the board in position"+ r + c);
+                    + "\non the board in position "+ r +" "+ c);
             servers.get(0).notifyClient(player.getNickname(),"You successfully played a card, now you have to draw!");
         }
         else if(result==-1){
@@ -373,12 +375,12 @@ public class GameInit {
         if(result>0){
             servers.get(0).notifyAllClients(player.getNickname()+" has drawn a card from the deck");
             printPlayerHand(player);
-            //METODO DI FRA CHE FA VEDERE A TUTTI IL DORSO DEI DECK
+            printBackDeckToAll();
             if(!game.TurnEnd()){
                 game.TurnStart();
             }
         } else if (result==0) {
-            playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but you've already drawn one!");
+            playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but you have to play a card first!");
         } else if (result==-1) {
             playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but it's not your turn! Please wait for the current player to end their turn");
         } else if (result==-2) {
@@ -393,14 +395,13 @@ public class GameInit {
             servers.get(0).notifyAllClients(player.getNickname()+" has drawn a public card");
             printPlayerHand(player);
             printPublicCardsToAll();
-            //METODO DI FRA CHE FA VEDERE A TUTTI IL DORSO DEI DECK
+            printBackDeckToAll();
             //se non è stato settato a true il gameEnd, chiamo turn start
             if(!game.TurnEnd()){
                 game.TurnStart();
             }
         }else if(result==0){
-            playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but you've already drawn one!");
-        } else if (result==-1) {
+            playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but you have to play a card first!");
             playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card from the public cards, but there are no more cards to draw from!");
         }else if(result==-2){
             playerServerBindingMap.get(player).notifyClient(player.getNickname(),"You tried to draw a card but it's not your turn! Please wait for the current player to end their turn");
@@ -410,7 +411,7 @@ public class GameInit {
     public void printPlayerHand(Player player) {
 
         try {
-            servers.get(0).notifyClient(player.getNickname(), "Ecco le carte che hai in mano:\n");
+            servers.get(0).notifyClient(player.getNickname(), "These are the cards in your hand:");
         } catch (RemoteException e) {
             System.err.println("Something went wrong, retry...");
         }
@@ -429,37 +430,47 @@ public class GameInit {
 
     public void printBackDeckToClient(Player player) {
         try {
-            servers.get(0).notifyClient(player.getNickname(), "In cima ai deck ci sono:\n");
+            servers.get(0).notifyClient(player.getNickname(), "Visible card on the top of the decks:\n");
         } catch (RemoteException e) {
             System.err.println("Something went wrong, retry...");
         }
         try {
-            if (!game.getGoldDeck().isEmpty()) {
-                servers.get(0).notifyClient(player.getNickname(), game.getGoldDeck().peek().getPrintableCardString(false));
+            if (game.getGoldDeck().peek() != null) {
+
+                servers.get(0).notifyClient(player.getNickname(), game.getGoldDeck().peek().getPrintableCardString(true));
             } else {
-                servers.get(0).notifyClient(player.getNickname(), "The decks are empty!!\n");
+                servers.get(0).notifyClient(player.getNickname(), "The gold deck is empty!\n");
             }
-            if (!game.getResourceDeck().isEmpty()) {
-                servers.get(0).notifyClient(player.getNickname(), game.getResourceDeck().peek().getPrintableCardString(false));
+            if (game.getGoldDeck().peek() != null) {
+
+                servers.get(0).notifyClient(player.getNickname(), game.getResourceDeck().peek().getPrintableCardString(true));
             } else {
-                servers.get(0).notifyClient(player.getNickname(), "The decks are empty!!\n");
+                servers.get(0).notifyClient(player.getNickname(), "The resource deck is empty!!\n");
             }
         } catch (RemoteException e) {
             System.err.println("Something went wrong, retry...");
         }
     }
     public void printBackDeckToAll (){
-            try {
-                if(!game.getGoldDeck().isEmpty()) {
-                    servers.get(0).notifyAllClients("On top of the decks there are::\n");
-                    game.getGoldDeck().peek().getPrintableCardString(true);
-                }
-                else{
-                    servers.get(0).notifyAllClients("The gold deck is empty");
-                }
-            } catch (RemoteException e) {
-                System.err.println("Something went wrong, retry...");
+        try {
+            servers.get(0).notifyAllClients("In cima ai deck ci sono:\n");
+        } catch (RemoteException e) {
+            System.err.println("Something went wrong, retry...");
+        }
+        try {
+            if (game.getGoldDeck().peek() != null) {
+                servers.get(0).notifyAllClients(game.getGoldDeck().peek().getPrintableCardString(true));
+            } else {
+                servers.get(0).notifyAllClients("The gold deck is empty!\n");
             }
+            if (game.getGoldDeck().peek() != null)
+                servers.get(0).notifyAllClients(game.getResourceDeck().peek().getPrintableCardString(true));
+            else {
+                servers.get(0).notifyAllClients("The resource deck is empty!!\n");
+            }
+        } catch (RemoteException e) {
+            System.err.println("Something went wrong, retry...");
+        }
     }
 
     public void printPublicCardsToAll (){
@@ -527,5 +538,15 @@ public class GameInit {
         }
     }
 
+    public void setWait(boolean wait) {
+        this.wait = wait;
+    }
 
+    public int getOfflinePlayers() {
+        return offlinePlayers;
+    }
+
+    public void setOfflinePlayers(int offlinePlayers) {
+        this.offlinePlayers = offlinePlayers;
+    }
 }

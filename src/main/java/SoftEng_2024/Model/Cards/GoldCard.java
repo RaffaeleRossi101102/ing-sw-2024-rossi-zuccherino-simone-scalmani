@@ -17,9 +17,9 @@ public class GoldCard extends ResourceCard{
     @Override
     public String getPrintableCardString( boolean flipped){
         String printableCardString;
-        int[] requiredResources = new int[7];
+        int[] requiredResources = new int[4];
         for(Angles angles : this.getFront().getRequiredResources()){
-            if(angles.ordinal()<6)  requiredResources[angles.ordinal()]++;
+            if(Angles.getIndex(angles)<4)requiredResources[Angles.getIndex(angles)]++;
         }
         if (flipped){
             printableCardString = String.format("%s gold card on its back with empty visible angles, no required resources to place and a visible %s in the center",

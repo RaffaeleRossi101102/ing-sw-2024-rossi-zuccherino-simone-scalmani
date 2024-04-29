@@ -90,13 +90,15 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
         }
         //once out of the while loop, each client will have to choose their private goal
         Scanner scanner= new Scanner(System.in);
-        int choice= scanner.nextInt()-1;
+        int choice= scanner.nextInt();
+        choice--;
         while(choice!=0 && choice!=1){
             System.err.println("Wrong input,in order to choose write [1] or [2]...");
             choice= scanner.nextInt();
+            choice--;
         }
         server.choosePrivateGoals(this,goals[choice]);
-        System.out.println("Got it your goal is: "+goals[choice]+" remember to keep it a secret!");
+        System.out.println("Got it your goal is: "+goals[choice].getGoalType()+" remember to keep it a secret!");
         //now the preparation phase has ended. the real game officially starts
         //waiting until the controller chooses the first player and returns from TurnStart
         while(!startGame){}
@@ -167,6 +169,8 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
         int card = 0;
         int row=0;
         int column=0;
+        boolean flipped = false;
+        String side;
         while (!validInput) {
             try {
                 card = scanner.nextInt();
@@ -174,20 +178,36 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
                     System.err.println("Wrong input, write [1] [2] or [3] to play the corresponding card");
                     card = scanner.nextInt();
                 }
-                System.out.println("Now choose where you want to play the card: [row] [column]");
+                System.out.println("Now choose the side you want to play the card: type 'front' or 'back'");
+                scanner.nextLine();
+                side=scanner.nextLine();
+                while(!side.equals("front") && !side.equals("back")){
+                    System.err.println("Wrong input, type front or back!");
+                    side=scanner.nextLine();
+                }
+                if(side.equals("front")) flipped=false;
+                if(side.equals("back")) flipped=true;
+                System.out.println("Now choose where you want to play the card: [row] [column]. Type only positive numbers < 85");
                 row = scanner.nextInt();
                 column = scanner.nextInt();
+                while(row<0 | column <0 | row>84 | column>84){
+                    System.err.println("Wrong input, the rows and columns need to be positive and <85!");
+                    row=scanner.nextInt();
+                    column=scanner.nextInt();
+                }
+                
                 validInput = true;
             } catch (InputMismatchException ime) {
                 System.err.println("Wrong input, please insert integers");
                 scanner.nextLine();
             }
         }
-        server.playCard(card - 1, this, row, column);
+        server.playCard(card - 1, this, row, column,flipped);
     }
     public void drawCard() throws RemoteException{
         boolean validInput=false;
         server.printPublicCardToClient(this);
+        server.printBackDeckToClient(this);
         System.out.println("Choose between drawing from the deck [1] and drawing from the public cards [2]");
         Scanner scanner= new Scanner(System.in);
         int choice=0;

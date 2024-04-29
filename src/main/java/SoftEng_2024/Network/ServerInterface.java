@@ -24,9 +24,10 @@ public interface ServerInterface extends Remote {
     void run() throws RemoteException, AlreadyBoundException;
     public void choosePrivateGoals(ClientInterface client, GoalCard choice) throws RemoteException;
     void setColor() throws RemoteException;
-    void playCard(int card, ClientInterface client,int r, int c) throws RemoteException;
+    void playCard(int card, ClientInterface client,int r, int c,boolean flipped) throws RemoteException;
     void drawFromTheDeck(ClientInterface client,int deck)throws RemoteException;
     void drawPublicCards(ClientInterface client, int card) throws RemoteException;
     void printPlayerHand (ClientInterface client) throws RemoteException;
     void printPublicCardToClient(ClientInterface client) throws RemoteException;
+    void printBackDeckToClient(ClientInterface client) throws RemoteException;
 }

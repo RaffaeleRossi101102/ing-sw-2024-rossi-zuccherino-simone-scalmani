@@ -14,10 +14,11 @@ public class Main {
 
     public static void main(String[] args) throws AlreadyBoundException, RemoteException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException {
         GameInit controller= new GameInit();
-        ServerInterface engine = new RMIServer(controller);
+        ServerInterface engineRMI = new RMIServer(controller);
+        //inizializza socketServer
         try {
-            engine.run();
-            controller.run(engine);
+            engineRMI.run();
+            controller.run(engineRMI);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

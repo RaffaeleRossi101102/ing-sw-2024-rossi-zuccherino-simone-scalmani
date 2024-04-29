@@ -5,29 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Merge di Network e Model">
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
     </list>
     <list id="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" name="Changes by user" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,13 +42,57 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java">
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java">
       <ranges>
-        <range start1="3" end1="3" start2="3" end2="5" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="5" end1="6" start2="7" end2="9" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
-        <range start1="11" end1="12" start2="14" end2="16" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
-        <range start1="13" end1="13" start2="17" end2="18" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
-        <range start1="18" end1="18" start2="23" end2="26" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="35" end1="36" start2="35" end2="36" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="203" end1="204" start2="203" end2="204" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="207" end1="208" start2="207" end2="208" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="278" end1="279" start2="278" end2="279" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="292" end1="293" start2="292" end2="293" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="318" end1="321" start2="318" end2="321" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="344" end1="346" start2="344" end2="348" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="348" end1="349" start2="350" end2="351" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="350" end1="350" start2="352" end2="353" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="375" end1="376" start2="378" end2="379" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="380" end1="381" start2="383" end2="384" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="395" end1="396" start2="398" end2="399" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="401" end1="403" start2="404" end2="405" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="431" end1="432" start2="433" end2="434" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="436" end1="438" start2="438" end2="441" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="439" end1="440" start2="442" end2="443" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="441" end1="443" start2="444" end2="447" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="444" end1="445" start2="448" end2="449" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="451" end1="462" start2="455" end2="474" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="529" end1="530" start2="541" end2="544" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java">
+      <ranges>
+        <range start1="26" end1="27" start2="26" end2="27" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="31" end1="31" start2="31" end2="32" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java">
+      <ranges>
+        <range start1="92" end1="93" start2="92" end2="94" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="98" end1="99" start2="99" end2="100" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="169" end1="169" start2="170" end2="172" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="176" end1="177" start2="179" end2="189" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="179" end1="179" start2="191" end2="197" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="185" end1="186" start2="203" end2="204" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="190" end1="190" start2="208" end2="209" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java">
+      <ranges>
+        <range start1="61" end1="62" start2="61" end2="65" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="110" end1="110" start2="113" end2="117" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="143" end1="143" start2="150" end2="151" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="144" end1="144" start2="152" end2="153" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="145" end1="148" start2="154" end2="155" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="150" end1="151" start2="157" end2="157" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="169" end1="169" start2="175" end2="176" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="177" end1="179" start2="184" end2="186" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
       </ranges>
     </file>
   </component>
@@ -70,7 +108,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Debug",
-    "Application.RMIClient.executor": "Run",
+    "Application.RMIClient.executor": "Debug",
     "Application.RMIServer.executor": "Run",
     "Application.Simulator.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
@@ -185,7 +223,7 @@
       <workItem from="1714143092677" duration="4940000" />
       <workItem from="1714214542815" duration="22408000" />
       <workItem from="1714309946647" duration="19626000" />
-      <workItem from="1714395994644" duration="6531000" />
+      <workItem from="1714395994644" duration="16743000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />

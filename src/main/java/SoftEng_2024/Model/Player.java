@@ -21,6 +21,7 @@ public class Player {
         this.nickname = nickname;
         this.hand=hand;
         this.playerBoard=playerBoard;
+        this.isOnline=true;
     }
     //SETTERS
 

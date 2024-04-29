@@ -31,7 +31,7 @@ public class GoldFront extends ResourceFront{
         //initializing the array in which
         int[] reqRes= new int[7];
         int index=0;
-        //for each resource update req res
+        //for each resource updates req res
         for(Angles res:requiredResources){
             index=Angles.getIndex(res);
             if(index<7) reqRes[index]++;

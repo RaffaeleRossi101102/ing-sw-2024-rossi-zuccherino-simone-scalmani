@@ -29,6 +29,7 @@ public class Game {
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
         this.starterDeck = starterDeck;
+
         //this.currentPlayer = players.get(0); //ritorna il primo della lista che sarà il primo ad entrare nella "Lobby"
         // quindi il primo a giocare. (in list non c'è la funzione get random)
         //for(int i=0; i<2; i++){
