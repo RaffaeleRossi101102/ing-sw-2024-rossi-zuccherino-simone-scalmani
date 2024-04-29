@@ -70,4 +70,6 @@ public abstract class Card {
     public void setFlipped(Boolean flipped) {
         this.flipped = flipped;
     }
+
+    abstract public String getPrintableCardString( boolean flipped);
 }

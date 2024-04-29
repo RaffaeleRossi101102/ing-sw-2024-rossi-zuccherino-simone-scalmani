@@ -17,7 +17,7 @@ public class StarterCard extends Card {
     @Override
     public int[] getResource() {
         //initializing the array that will be returned and the index variable
-        int res[] = new int[7];
+        int[] res = new int[7];
         int index;
         //if the card is played on its back:
         //the Angles correspond to the "central resources"
@@ -41,5 +41,36 @@ public class StarterCard extends Card {
             }
         }
         return res;
+    }
+    @Override
+    public String getPrintableCardString(boolean flipped){
+        String printableCardString;
+
+        if (flipped){
+            printableCardString = String.format("starter card on its back with these type of angles:\n" +
+                            "%s %s %s %s \n" +
+                            "and nothing in the center",
+                    this.getResources()[0],
+                    this.getResources()[1],
+                    this.getResources()[2],
+                    this.getResources()[3]);
+
+        }else{
+            printableCardString = String.format("starter card on its front with these type of angles:%s %s %s %s\n" +
+                            "and these resources in the center:\n" +
+                            "%s %s %s",
+                    this.getFront().getFrontAngles()[0],
+                    this.getFront().getFrontAngles()[1],
+                    this.getFront().getFrontAngles()[2],
+                    this.getFront().getFrontAngles()[3],
+                    this.getFront().getFrontAngles()[4],
+                    this.getFront().getFrontAngles()[5],
+                    this.getFront().getFrontAngles()[6]);
+        }
+
+
+
+
+        return printableCardString;
     }
 }

@@ -7,8 +7,8 @@ public class ResourceGoalCard extends GoalCard{
     // Attributo che identifica il tipo di risorsa nella tripletta del Goal
     private final Angles resources;
     // Costruttore della classe
-    public ResourceGoalCard(Angles resources, int points){
-        super(points);
+    public ResourceGoalCard(Angles resources, int points, String goaltype){
+        super(points, goaltype);
         this.resources=resources;
     }
 

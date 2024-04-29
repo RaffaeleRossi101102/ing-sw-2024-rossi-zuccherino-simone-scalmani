@@ -15,4 +15,22 @@ public class ResourceCard extends Card{
     public int[] getResource() {
         return super.getResource();
     }
+
+    @Override
+    public String getPrintableCardString( boolean flipped) {
+        String printableCardString;
+
+        if (flipped){
+            printableCardString = String.format("%s resource card on its back with empty visible angles and a visible %s in the center",
+                    this.getResources()[4], this.getResources()[4]);
+        }else{
+            printableCardString = String.format("%s resource card on its front with these type of angles: %s %s %s %s\n" +
+                            "and nothing in the center", this.getResources()[4],
+                    this.getFront().getFrontAngles()[0],
+                    this.getFront().getFrontAngles()[1],
+                    this.getFront().getFrontAngles()[2],
+                    this.getFront().getFrontAngles()[3]);
+        }
+        return printableCardString;
+    }
 }

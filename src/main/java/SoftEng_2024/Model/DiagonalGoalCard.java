@@ -11,8 +11,8 @@ public class DiagonalGoalCard extends GoalCard{
     private final Angles resource;
     private boolean tiltedForward;
 
-    public DiagonalGoalCard(Angles resource, int points, boolean tiltedForward) {
-        super(points);
+    public DiagonalGoalCard(Angles resource, int points, boolean tiltedForward, String goaltype) {
+        super(points, goaltype);
         this.resource=resource;
         this.tiltedForward = tiltedForward;
     }
@@ -25,7 +25,7 @@ public class DiagonalGoalCard extends GoalCard{
         Cell starterCell;
         //copio la lista di celle della board dentro cellArrayList
         List<Cell> cellArrayList = playerBoard.getCardList();
-        //se la diagonale è verso l'avanti
+        //se la diagonale è discendente
         if (!tiltedForward) {
             //per ogni cella dentro la lista
             for (Cell cell : cellArrayList) {
@@ -59,7 +59,7 @@ public class DiagonalGoalCard extends GoalCard{
 
                 }
             }
-
+        //se la diagonale é ascendente
         } else {
             for (Cell cell : cellArrayList) {
                 if (!cell.getVisited() && cell.getCard().getResources()[4].equals(resource)){

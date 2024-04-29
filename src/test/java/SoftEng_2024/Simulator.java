@@ -1,4 +1,4 @@
-package SoftEng_2024;
+/*package SoftEng_2024;
 
 import SoftEng_2024.Controller.GameInit;
 import SoftEng_2024.Model.*;
@@ -11,13 +11,14 @@ import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
 import SoftEng_2024.Model.Player;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class Simulator {
     //riempiamo i player
     static GameInit controller;
 
-    public static void main(String[] args) throws Board.notAvailableCellException, Board.necessaryResourcesNotAvailable {
+    public static void main(String[] args) throws Board.notAvailableCellException, Board.necessaryResourcesNotAvailable, RemoteException {
         //creazione carta che fa vincere
         Angles[] frontAngles1= {Angles.EMPTY,Angles.EMPTY,Angles.EMPTY, Angles.EMPTY};
         Angles[] resources= {Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.INSECTS};
@@ -104,9 +105,9 @@ public class Simulator {
         System.out.println("Inserire true o false per ogni player :");
         for(Player pl:players) {
             if(scan.nextBoolean()){
-                controller.playInit(true,pl);
+                controller.playStarterCard(true,pl);
             }
-            else controller.playInit(false,pl);
+            else controller.playStarterCard(false,pl);
         }
         controller.updatePlayerHands();
         controller.updatePublicGoals();
@@ -184,3 +185,4 @@ public class Simulator {
 
     }
 }
+*/

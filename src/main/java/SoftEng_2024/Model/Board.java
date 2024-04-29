@@ -182,10 +182,10 @@ public class Board {
 
     public static class notAvailableCellException extends Exception{}
 
-    public static class necessaryResourcesNotAvailable extends Exception{}
+    public static class necessaryResourcesNotAvailableException extends Exception{}
 
     //metodo che aggiorna la board con la carta piazzata
-    public boolean updateBoard(int r, int c, Card played) throws notAvailableCellException, necessaryResourcesNotAvailable{
+    public boolean updateBoard(int r, int c, Card played) throws notAvailableCellException, necessaryResourcesNotAvailableException{
         int[] coveredAnglesCounter;// = new int[7];
         boolean placed=false;
         //se posso piazzare la carta nella cella
@@ -219,7 +219,7 @@ public class Board {
                 }
                 //aggiungi la carta piazzata alla lista
                 this.cardList.add(cardBoard[r][c]); //aggiungo alla lista la nuova cella con la nuova carta.
-            } else  throw new necessaryResourcesNotAvailable();
+            } else  throw new necessaryResourcesNotAvailableException();
 
         } else throw new notAvailableCellException();
         return placed;

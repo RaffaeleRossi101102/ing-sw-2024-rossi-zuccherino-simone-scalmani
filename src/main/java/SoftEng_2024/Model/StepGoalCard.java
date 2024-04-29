@@ -11,8 +11,8 @@ public class StepGoalCard extends GoalCard{
     private final boolean baseTop;
     private final boolean sideLeft;
 
-    public StepGoalCard(Angles baseResource, Angles sideResource, boolean baseTop, boolean sideLeft, int points) {
-        super(points);
+    public StepGoalCard(Angles baseResource, Angles sideResource, boolean baseTop, boolean sideLeft, int points, String goalType) {
+        super(points, goalType);
         this.baseResource = baseResource;
         this.sideResource = sideResource;
         this.baseTop = baseTop;

@@ -7,24 +7,24 @@ import java.util.List;
 
 public class Player {
     private List<Card> hand;
-    private String nickname;
+    private final String nickname;
     private Board playerBoard;
     private boolean isOnline;
     public boolean isPlaying;
-    private GoalCard goal;
+    private volatile GoalCard goal;
+    private String color;
 
     //METHODS
 
     //CONSTRUCTOR
-    public Player(List<Card> hand,Board playerBoard){
+    public Player(List<Card> hand,Board playerBoard, String nickname){
+        this.nickname = nickname;
         this.hand=hand;
         this.playerBoard=playerBoard;
     }
     //SETTERS
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    //public void setNickname(String nickname) {this.nickname = nickname;}
     public void setOnline(boolean online){
         this.isOnline= online;
     }
@@ -69,5 +69,9 @@ public class Player {
 
     public void setHand(Card card) {
         this.hand.add(card);
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

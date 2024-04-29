@@ -4,45 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/CardDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportGoldCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportResourceCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/SupportStarterCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/goldCards.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/resourceCards.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/starterCards.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/AngleIndexes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/Angles.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/ScoreTypes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/Front.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/ResourceFront.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Merge di Network e Model">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/ResourceCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
+    </list>
+    <list id="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" name="Changes by user" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/GoldCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/StarterCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,9 +47,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java">
+      <ranges>
+        <range start1="3" end1="3" start2="3" end2="5" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="5" end1="6" start2="7" end2="9" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="11" end1="12" start2="14" end2="16" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="13" end1="13" start2="17" end2="18" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+        <range start1="18" end1="18" start2="23" end2="26" changelist="560ca51d-7adb-4d06-a0c2-8dfca11a9bed" />
+      </ranges>
+    </file>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2fYPJYl8ag9sFD20LvxMWVrLBhv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -73,6 +69,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Debug",
+    "Application.RMIClient.executor": "Run",
     "Application.RMIServer.executor": "Run",
     "Application.Simulator.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
@@ -83,8 +81,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "full.screen.before.presentation.mode": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/coding/Java/E09/ProgettoSoftEng",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,7 +96,33 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.RMIServer">
+  <component name="RunManager" selected="Application.RMIClient">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.Main" />
+      <module name="ProgettoSoftEng" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SoftEng_2024.Network.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RMIClient" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.RMIClient" />
+      <module name="ProgettoSoftEng" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SoftEng_2024.Network.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="RMIServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.RMIServer" />
       <module name="ProgettoSoftEng" />
@@ -123,12 +149,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.RMIClient" />
+      <item itemvalue="Application.RMIServer" />
+      <item itemvalue="Application.Simulator" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RMIServer" />
+        <item itemvalue="Application.RMIClient" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Simulator" />
+        <item itemvalue="Application.RMIServer" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -138,42 +179,53 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713974968514</updated>
-      <workItem from="1713974969582" duration="4606000" />
+      <workItem from="1713974969582" duration="6801000" />
+      <workItem from="1714052123008" duration="1042000" />
+      <workItem from="1714053206750" duration="15077000" />
+      <workItem from="1714143092677" duration="4940000" />
+      <workItem from="1714214542815" duration="22408000" />
+      <workItem from="1714309946647" duration="19626000" />
+      <workItem from="1714395994644" duration="6531000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge di Network e Model">
+      <option name="closed" value="true" />
+      <created>1713980075121</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713980075121</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java</url>
-          <line>110</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
-          <line>189</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
-          <line>186</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java</url>
-          <line>187</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge di Network e Model" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge di Network e Model" />
   </component>
 </project>
