@@ -75,12 +75,22 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
         }
         //once out of the while loop, each client will have to choose their private goal
         Scanner scanner= new Scanner(System.in);
-        int choice= scanner.nextInt();
-        choice--;
-        while(choice!=0 && choice!=1){
-            System.err.println("Wrong input,in order to choose write [1] or [2]...");
-            choice= scanner.nextInt();
-            choice--;
+        boolean inputValid=false;
+        int choice=-1;
+        while(!inputValid) {
+            try {
+                choice = scanner.nextInt();
+                choice--;
+                while (choice != 0 && choice != 1) {
+                    System.err.println("Wrong input,in order to choose write [1] or [2]...");
+                    choice = scanner.nextInt();
+                    choice--;
+                }
+                inputValid=true;
+            }catch(InputMismatchException ime){
+                System.err.println("Wrong input, in order to choose write [1] or [2]...");
+                scanner.nextLine();
+            }
         }
         server.choosePrivateGoals(this,goals[choice]);
         System.out.println("Got it your goal is: "+goals[choice].getGoalType()+" remember to keep it a secret!");
@@ -92,7 +102,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
             System.out.println("Type: [1] to Play a card || [2] to draw a card");
             Scanner scan=new Scanner(System.in);
             int command=0;
-            boolean inputValid=false;
+            inputValid=false;
             while(!inputValid){
                 try{
                     command= scan.nextInt();
@@ -267,6 +277,9 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
 
     public void setGoals(GoalCard[] goals) throws RemoteException{
         this.goals = goals;
+    }
+    public void setNullNickname()throws RemoteException{
+        this.nickname=null;
     }
 
 

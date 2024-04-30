@@ -208,19 +208,24 @@ public class GameInit {
                 }
             }
         }
+        //FASE DI STARTING
         notifyAllClients ("We are ready to start the game!");
         game.shufflePlayers();
         //per ogni client dentro ogni server, viene chiamato il metodo playStarterCard
         for (ServerInterface server : servers) {
             try {
                 server.playStarterCard();
-                //this.disconnectionResilience=true;
+                //per ogni client che ha piazzato una carta, setto la resilienza alle disconnessioni
+                for(Player player:clientPlayers){
+                    if(!player.getPlayerBoard().getCardList().isEmpty())   player.setDisconnectionResilience(true);
+                }
                 server.setColor();
                 //ricorda la pedina nera
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
+        //SONO STATE GIOCATE LE STARTER, SONO DATE LE CARTE E MOSTRATI I PUBLIC GOALS
         //se sono uscito dal for
         try {
             //do a tutti le carte
@@ -230,8 +235,8 @@ public class GameInit {
             GoalCard[] privateGoals = new GoalCard[2];
             //per ogni client
             for (ClientInterface clientInterface : servers.get(0).getClients().keySet()) {
-                //fa vedere due goal
-                showPrivateGoals(clientInterface);
+                //fa vedere due goal se il player è online
+                if(servers.get(0).getClients().get(clientInterface).getIsOnline())  showPrivateGoals(clientInterface);
             }
             //aspetto che tutti i client abbiano scelto l'obiettivo
             for (Player player : clientPlayers) {
@@ -307,22 +312,23 @@ public class GameInit {
     public void updatePlayerHands() throws RemoteException {
 
         game.setFirstTurn(true);
-        //dà le carte a tutti i giocatori
+        //dà le carte a tutti i giocatori ONLINE
         for (Player player : game.getPlayers()) {
-            ServerInterface server = playerServerBindingMap.get(player);
-
-            game.drawFromTheDeck(player, 0);
-            servers.get(0).notifyClient(player.getNickname(), "This is your card[1]:\n"
-                    + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
-                    + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
-            game.drawFromTheDeck(player, 0);
-            servers.get(0).notifyClient(player.getNickname(), "This is your card[2]:\n"
-                    + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
-                    + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
-            game.drawFromTheDeck(player, 1);
-            servers.get(0).notifyClient(player.getNickname(), "This is your card[3]:\n"
-                    + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
-                    + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
+            if (player.getIsOnline()) {
+                ServerInterface server = playerServerBindingMap.get(player);
+                game.drawFromTheDeck(player, 0);
+                servers.get(0).notifyClient(player.getNickname(), "This is your card[1]:\n"
+                        + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
+                        + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
+                game.drawFromTheDeck(player, 0);
+                servers.get(0).notifyClient(player.getNickname(), "This is your card[2]:\n"
+                        + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
+                        + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
+                game.drawFromTheDeck(player, 1);
+                servers.get(0).notifyClient(player.getNickname(), "This is your card[3]:\n"
+                        + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(false)
+                        + "\n" + player.getHand().get(player.getHand().size() - 1).getPrintableCardString(true));
+            }
         }
 
         game.setFirstTurn(false);
@@ -343,14 +349,22 @@ public class GameInit {
 
 
     public void showPrivateGoals(ClientInterface client) throws RemoteException {
+        //This method is called only if the client hasn't already crashed.
         GoalCard[] privateGoals = new GoalCard[2];
         privateGoals[0] = game.getGoalCardDeck().poll();
         privateGoals[1] = game.getGoalCardDeck().poll();
         assert privateGoals[0] != null;
-        servers.get(0).notifyClient(client.getNickname(), "Choose between: " + privateGoals[0].getGoalType() + "digit [1]");
         assert privateGoals[1] != null;
-        servers.get(0).notifyClient(client.getNickname(), " and " + privateGoals[1].getGoalType() + " digit [2]");
-        client.setGoals(privateGoals);
+        //if the notifyClient is successful-->the client hasn't crashed
+        if(servers.get(0).notifyClient(client.getNickname(), "Choose between: " + privateGoals[0].getGoalType() + "digit [1]")) {
+            if (servers.get(0).notifyClient(client.getNickname(), " and " + privateGoals[1].getGoalType() + " digit [2]")) {
+                try{
+                    client.setGoals(privateGoals);
+                }catch(RemoteException re){
+                    servers.get(0).removeFromServer(client);
+                }
+            }
+        }
     }
     public void playCard(int card, Player player,int r, int c,boolean flipped) throws RemoteException {
         //prova a giocare la carta
@@ -414,7 +428,6 @@ public class GameInit {
     }
 
     public void printPlayerHand(Player player) {
-
         try {
             servers.get(0).notifyClient(player.getNickname(), "These are the cards in your hand:");
         } catch (RemoteException e) {

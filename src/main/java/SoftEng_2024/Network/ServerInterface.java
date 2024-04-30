@@ -13,14 +13,14 @@ import java.util.HashMap;
 public interface ServerInterface extends Remote {
     HashMap<ClientInterface, Player> getClients() throws RemoteException;
     void showControllerMessage(String s) throws RemoteException;
-    public void connect(ClientInterface client) throws RemoteException;
-    public void startGame() throws RemoteException;
-    void notifyAllClients(String s)throws RemoteException;
+     void connect(ClientInterface client) throws RemoteException;
+     void startGame() throws RemoteException;
+    boolean notifyAllClients(String s)throws RemoteException;
     //void addToController ()throws RemoteException;
     void setAnswer(boolean answer) throws RemoteException;
     void setMaxPlayers(int i) throws RemoteException;
     void playStarterCard() throws RemoteException, Board.notAvailableCellException, Board.necessaryResourcesNotAvailableException;
-    void notifyClient (String nick, String msg) throws RemoteException;
+    boolean notifyClient (String nick, String msg) throws RemoteException;
     void run() throws RemoteException, AlreadyBoundException;
     public void choosePrivateGoals(ClientInterface client, GoalCard choice) throws RemoteException;
     void setColor() throws RemoteException;

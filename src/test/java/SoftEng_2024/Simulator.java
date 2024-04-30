@@ -182,7 +182,6 @@ public class Simulator {
                 endMatch = controller.getGame().TurnEnd();
             }
         }
-
     }
 }
 */

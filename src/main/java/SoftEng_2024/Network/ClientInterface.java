@@ -7,6 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ClientInterface extends Remote {
+    void setNullNickname()throws RemoteException;
     void showServerMessage(String message) throws RemoteException;
     int choosePlayersMax() throws RemoteException;
     void showServerError(String error) throws RemoteException;
