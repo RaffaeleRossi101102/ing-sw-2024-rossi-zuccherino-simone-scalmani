@@ -1,6 +1,5 @@
 package SoftEng_2024.Model;
 
-import SoftEng_2024.Controller.Game;
 import SoftEng_2024.Model.Cards.Card;
 
 import java.util.List;
@@ -9,11 +8,11 @@ public class Player {
     private List<Card> hand;
     private final String nickname;
     private Board playerBoard;
-    private boolean isOnline;
     public boolean isPlaying;
     private volatile GoalCard goal;
     private String color;
-
+    private boolean isOnline;
+    private boolean disconnectionResilience = false;
     //METHODS
 
     //CONSTRUCTOR
@@ -26,9 +25,6 @@ public class Player {
     //SETTERS
 
     //public void setNickname(String nickname) {this.nickname = nickname;}
-    public void setOnline(boolean online){
-        this.isOnline= online;
-    }
 
     //GETTERS
 
@@ -39,25 +35,11 @@ public class Player {
     public String getNickname() {
         return nickname;
     }
-    public boolean getIsOnline(){
-        return isOnline;
-    }
 
     public Board getPlayerBoard() {
         return playerBoard;
     }
 
-    //metodo che viene chiamato dopo che il client joina
-    //aggiorna la lista del game e setta a true isOnline
-    public void joinGame(Game game){
-        this.isPlaying=true;
-        game.getPlayers().add(this);
-    }
-    //opposto di joinGame
-    public void quitGame(Game game){
-        this.isPlaying=false;
-        game.getPlayers().remove(this);
-    }
     //Il giocatore tramite la view ha già scelto la carta obiettivo che le è stata proposta dal controller
     //in questo metodo la inserisco semplicemente tra le sue carte
     public void setGoalCard(GoalCard goals){
@@ -74,5 +56,21 @@ public class Player {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    public boolean getDisconnectionResilience() {
+        return disconnectionResilience;
+    }
+
+    public void setDisconnectionResilience(boolean disconnectionResilience) {
+        this.disconnectionResilience = disconnectionResilience;
     }
 }

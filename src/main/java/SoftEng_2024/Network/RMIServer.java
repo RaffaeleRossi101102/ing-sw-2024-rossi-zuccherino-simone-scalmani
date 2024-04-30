@@ -3,7 +3,6 @@ package SoftEng_2024.Network;
 import SoftEng_2024.Controller.GameInit;
 import SoftEng_2024.Model.Board;
 import SoftEng_2024.Model.Board.notAvailableCellException;
-import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.GoalCard;
 import SoftEng_2024.Model.Player;
 
@@ -29,7 +28,7 @@ public class RMIServer implements ServerInterface{
     @Override
     public void connect(ClientInterface client) throws RemoteException {
         //sinchronizing on this so that no one can call the server's methods while a client is connecting
-        synchronized (controller) {
+        synchronized (clients) {
             try {
                 //First client connected can decide how many players will have to join
                 //checking inside Controller's list of players
@@ -58,22 +57,36 @@ public class RMIServer implements ServerInterface{
 
                     //lo aggiungo alla lista di client
                     //se non è l'ultimo player gli dico di aspettare
-                    if (controller.getClientPlayers().size() != controller.getMaxPlayers())
-                        notifyClient(client.getNickname(), "Waiting for all the players to join the game...");
-                    else {
-                        controller.notifyAllClients ("We are ready to start the game!");
-                        controller.setWait(false);
-                    }
                 }//sotto c'è il caso in cui il client che vuole collegarsi deve prendere il posto di uno offline
                 //quindi la lista di player è piena e il counter di client offline >0
                 else if (controller.getOfflinePlayers()>0) {
                     //mi salvo il player associato al primo client disconnesso
-                    Player player = clients.get(disconnectedClients.get(0));
-                    
+                    Player player = clients.remove(disconnectedClients.get(0));
+                    clients.put(client,player);
+                    controller.setOfflinePlayers(controller.getOfflinePlayers()-1);
+                    String nick = client.setNickname();
+                    while (nick.equals(player.getNickname())) {
+                        client.showServerError("Nickname already taken, insert a new nickname... ");
+                        nick = client.setNickname();
+                    }
+                    client.showServerMessage("Got it :)");
+                    player.setOnline(true);
+                    notifyClient(client.getNickname(), "You connected to an already started match with this card in you hand:\n"
+                            + clients.get(client).getHand().get(0).getPrintableCardString(false)
+                            + "\n" + clients.get(client).getHand().get(0).getPrintableCardString(true)
+                            + "\nGet ready to play you starter card");
+                    controller.notifyAllClients(client.getNickname() + " has joined the game");
                 }
                 //nessuno è offline e il client non può collegarsi
-                    else if(){
+                else {
                     client.showServerError("Unable to connect: reached maxPlayers in game");
+                    return;
+                }
+                if (controller.getClientPlayers().size() != controller.getMaxPlayers() | controller.getOfflinePlayers()!=0)
+                    notifyClient(client.getNickname(), "Waiting for all the players to join the game...");
+                else {
+
+                    controller.setWait(false);
                 }
 //            if (controller.getClientPlayers().size() == controller.getMaxPlayers()) {
 //                controller.notifyAll();
@@ -83,6 +96,7 @@ public class RMIServer implements ServerInterface{
 //            }
             }catch(RemoteException re){
                 System.err.println("Something went wrong...");
+                removeFromServer(client);
             }
         }
     }
@@ -94,23 +108,31 @@ public class RMIServer implements ServerInterface{
         }
     }
     public void notifyAllClients(String s)throws RemoteException{
-        try {
-            for (ClientInterface client : clients.keySet()) {
-                client.showServerMessage(s);
+
+        for (ClientInterface client : clients.keySet()) {
+            try {
+                if (clients.get(client).getIsOnline()) {
+                    client.showServerMessage(s);
+                }
+            }catch(RemoteException re){
+                removeFromServer(client);
             }
-        }catch(RemoteException re){
-            System.err.println("Something went wrong...");
-            re.printStackTrace();
         }
+
     }
     public void notifyClient (String nickname, String msg) throws RemoteException {
 
-        for(ClientInterface client : clients.keySet()){
-            if (clients.get(client).getNickname().equals(nickname)){
-                client.showServerMessage(msg);
-                break;
+        for (ClientInterface client : clients.keySet()) {
+            try{
+                if (clients.get(client).getNickname().equals(nickname) && clients.get(client).getIsOnline()) {
+                    client.showServerMessage(msg);
+                    break;
+                }
+            }catch(RemoteException re){
+                removeFromServer(client);
             }
         }
+
     }
     public void printPlayerHand (ClientInterface client) throws RemoteException{
         System.out.println("Executing printPlayerHand due to a client requests");
@@ -158,13 +180,20 @@ public class RMIServer implements ServerInterface{
     @Override
     public void playStarterCard() throws notAvailableCellException, Board.necessaryResourcesNotAvailableException, RemoteException {
         notifyAllClients("Waiting other players to place their starter card...");
-        for(ClientInterface cl : clients.keySet()) {
+        for (ClientInterface cl : clients.keySet()) {
+            try {
+                if(clients.get(cl).getIsOnline()){
+                    //mostro al client la sua mano
+                    controller.printPlayerHand(clients.get(cl));
+                    //per ogni client connesso, chiedo l'input e gioco la carta.
+                    controller.playStarterCard(cl.playStarterCard(), clients.get(cl));
+                }
+            }catch(RemoteException re){
+                removeFromServer(cl);
 
-            //mostro al client la sua mano
-            controller.printPlayerHand(clients.get(cl));
-            //per ogni client connesso, chiedo l'input e gioco la carta.
-            controller.playStarterCard(cl.playStarterCard(), clients.get(cl));
+            }
         }
+
     }
     public void choosePrivateGoals(ClientInterface client, GoalCard choice) throws RemoteException{
         clients.get(client).setGoalCard(choice);
@@ -185,10 +214,16 @@ public class RMIServer implements ServerInterface{
         notifyAllClients("Waiting for other players to choose their color");
         String color;
         for(ClientInterface client:clients.keySet()){
-            client.showServerMessage("Choose your color between: RED - BLUE - GREEN - YELLOW ");
-            color=client.chooseColor();
-            clients.get(client).setColor(color);
-            client.showServerMessage("Got it :)");
+            try {
+                if (clients.get(client).getIsOnline()) {
+                    client.showServerMessage("Choose your color between: RED - BLUE - GREEN - YELLOW ");
+                    color = client.chooseColor();
+                    clients.get(client).setColor(color);
+                    client.showServerMessage("Got it :)");
+                }
+            }catch(RemoteException re){
+                removeFromServer(client);
+            }
         }
    }
    public void playCard(int card, ClientInterface client,int r, int c,boolean flipped) throws RemoteException {
@@ -199,6 +234,17 @@ public class RMIServer implements ServerInterface{
    }
    public void drawPublicCards(ClientInterface client, int card) throws RemoteException{
         controller.drawPublicCards(clients.get(client),card);
+   }
+   public void removeFromServer(ClientInterface client) throws RemoteException{
+        disconnectedClients.add(client);
+        clients.get(client).setOnline(false);
+        if (!clients.get(client).getDisconnectionResilience()){
+            controller.setOfflinePlayers(controller.getOfflinePlayers() + 1);
+        }
+   }
+
+   public void disconnect(){
+
    }
 
 }

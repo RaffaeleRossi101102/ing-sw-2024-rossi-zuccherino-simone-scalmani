@@ -47,22 +47,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
 
     //metodo che serve per segnalare l'attività del client
     public boolean heartBeat() throws RemoteException {
-        String answer;
-        System.out.print("Are you still online? (y/n)");
-        Scanner scanner = new Scanner(System.in);
-        answer = scanner.nextLine();
-        while (!answer.equals("y") && !answer.equals("n")) {
-            System.err.println("Didn't understant... type 'y' or 'n'");
-            answer = scanner.nextLine();
-        }
-
-        if (scanner.nextLine().equals("y")) {
-            return true;
-        } else if (scanner.nextLine().equals("n")) {
-            return false;
-        }else {
-            return false;
-        }
+        return true;
     }
 
     public boolean playStarterCard() throws RemoteException{
@@ -283,5 +268,6 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
     public void setGoals(GoalCard[] goals) throws RemoteException{
         this.goals = goals;
     }
+
 
 }

@@ -1,17 +1,13 @@
 package SoftEng_2024.Controller;
 
 import SoftEng_2024.Model.Cards.*;
-import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Player;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.Enums.*;
 import SoftEng_2024.Network.ClientInterface;
-import SoftEng_2024.Network.RMIServer;
 import SoftEng_2024.Network.ServerInterface;
 
 
-import java.math.*;
-import java.io.Serializable;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
@@ -20,12 +16,6 @@ import java.util.*;
 
 import static SoftEng_2024.Model.Cards.CardDeserializer.*;
 
-/*
-1) chiama il costruttore del game con players
-2) distribuisce le starter
-3)gioca le starter prendendo l'imput
-   updateboard(42,42,scanner)
-*/
 
 public class GameInit {
     private volatile Game game;
@@ -33,7 +23,7 @@ public class GameInit {
     private volatile HashMap<Player, ServerInterface> playerServerBindingMap = new HashMap<>();
     private volatile List<ServerInterface> servers = new ArrayList<>();
     private volatile int maxPlayers = 0;
-    private volatile boolean wait=true;
+    private volatile boolean wait = true;
     private volatile int offlinePlayers = 0;
 
     //Queue goldDeck;
@@ -201,15 +191,30 @@ public class GameInit {
         for (ServerInterface server : servers) {
             server.showControllerMessage("Waiting for clients to connect...");
         }
-        //System.out.println(maxPlayers + " "+ clientPlayers.size());
+        //FASE DI CONNECTION
         while (wait) {
-            // if(maxPlayers!=0) System.out.println(maxPlayers+ " "+ clientPlayers.size());
+            //controllo che nessun client si sia disconnesso in fase di connessione
+            for (ServerInterface server : servers){
+                synchronized (server.getClients()) {
+                    for (ClientInterface client : server.getClients().keySet()){
+                        try {
+                            if (server.getClients().get(client).getIsOnline()){
+                                client.heartBeat();
+                            }
+                        } catch (RemoteException re) {
+                            server.removeFromServer(client);
+                        }
+                    }
+                }
+            }
         }
+        notifyAllClients ("We are ready to start the game!");
         game.shufflePlayers();
         //per ogni client dentro ogni server, viene chiamato il metodo playStarterCard
         for (ServerInterface server : servers) {
             try {
                 server.playStarterCard();
+                //this.disconnectionResilience=true;
                 server.setColor();
                 //ricorda la pedina nera
             } catch (RemoteException e) {
@@ -549,4 +554,6 @@ public class GameInit {
     public void setOfflinePlayers(int offlinePlayers) {
         this.offlinePlayers = offlinePlayers;
     }
+
+
 }

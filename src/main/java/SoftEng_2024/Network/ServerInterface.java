@@ -30,4 +30,5 @@ public interface ServerInterface extends Remote {
     void printPlayerHand (ClientInterface client) throws RemoteException;
     void printPublicCardToClient(ClientInterface client) throws RemoteException;
     void printBackDeckToClient(ClientInterface client) throws RemoteException;
+    void removeFromServer(ClientInterface client) throws RemoteException;
 }
