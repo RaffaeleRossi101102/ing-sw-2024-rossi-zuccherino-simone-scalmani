@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Merge di Network e Model">
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardNotTilted.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardTilted.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownLeft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownRight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpLeft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpRight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +27,8 @@
       <list>
         <option value="package.json" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -48,7 +51,7 @@
     "Application.RMIServer.executor": "Run",
     "Application.Simulator.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.BoardTest.testUpdateBoard.executor": "Debug",
+    "JUnit.BoardTest.testUpdateBoard.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -68,11 +71,16 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "terminal",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.BoardTest.testUpdateBoard">
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="SoftEng_2024" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.RMIClient">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.Main" />
       <module name="ProgettoSoftEng" />
@@ -141,6 +149,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="powershell.exe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.RMIClient" />
@@ -150,9 +173,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BoardTest.testUpdateBoard" />
         <item itemvalue="Application.RMIClient" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.BoardTest.testUpdateBoard" />
         <item itemvalue="Application.Simulator" />
         <item itemvalue="Application.RMIServer" />
       </list>
@@ -182,7 +205,9 @@
       <workItem from="1714395994644" duration="36230000" />
       <workItem from="1714470345662" duration="5537000" />
       <workItem from="1714476927536" duration="236000" />
-      <workItem from="1714481403967" duration="424000" />
+      <workItem from="1714481403967" duration="1491000" />
+      <workItem from="1714482913278" duration="236000" />
+      <workItem from="1714483367544" duration="6902000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />

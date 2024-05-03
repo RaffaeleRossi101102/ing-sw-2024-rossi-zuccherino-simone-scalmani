@@ -135,8 +135,8 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface{
         }
         if(command==1){
             //creating the client as an RMI client
-            Registry registry = LocateRegistry.getRegistry("ServerRMI", 6969);
-            ServerInterface server = (ServerInterface) registry.lookup("ServerRMI");
+            Registry registry = LocateRegistry.getRegistry("localhost", 6969);
+            ServerInterface server = (ServerInterface) registry.lookup("localhost");
             new RMIClient(server).run();
         }
         else{

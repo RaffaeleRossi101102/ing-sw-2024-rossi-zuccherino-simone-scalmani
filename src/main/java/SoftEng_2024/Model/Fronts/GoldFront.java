@@ -39,8 +39,10 @@ public class GoldFront extends ResourceFront{
         //now that it has filled req res with the requirements it compares it with what the player
         //actually has on the board
         //if the board doesn't have enough resources, it returns false and ends the method
+        int iteration = 0;
         for(int i:boardResources){
-            if(boardResources[i]<reqRes[i]) return false;
+            if(i<reqRes[iteration]) return false;
+            iteration++;
         }
         //if it gets out of the for loop without returning, it means that the player has enough resources
         //to play the card so the method returns true

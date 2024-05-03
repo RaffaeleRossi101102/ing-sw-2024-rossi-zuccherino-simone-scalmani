@@ -160,7 +160,7 @@ public class RMIServer implements ServerInterface{
     public void run() throws RemoteException, AlreadyBoundException {
         //System.out.println("Insert name association with the server: ");
         //Scanner nameServer = new Scanner(System.in);
-        String registryName= "ServerRMI";//String.valueOf(nameServer);
+        String registryName= "localhost";//String.valueOf(nameServer);
         //ServerInterface engine = new RMIServer(new GameInit());
         //this.addToController();
 //        System.out.println("added to controller");

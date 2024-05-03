@@ -109,6 +109,7 @@ public class Board {
                     //Se l'angolo non è vuoto, aumenta il counter
                     if (index < 7) {
                         counter[index] += 1;
+                        //SETTARE COVERED A TRUE
                     }
                     //se la carta non è flippata
                 } else {
@@ -198,6 +199,7 @@ public class Board {
                 cardBoard[r][c].setColumn(c);
                 cardBoard[r][c].setPlaceable(false);
                 System.out.println("PLACED IN THE MATRIX");
+                placed=true;
                 //Se la carta l'ho giocata di back
                 if (played.getFlipped()) {
                     //Rendi disponibili per il piazzamento le altre celle
