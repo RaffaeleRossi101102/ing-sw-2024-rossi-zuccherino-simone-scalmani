@@ -1,5 +1,6 @@
 package SoftEng_2024.Model.Fronts;
 
+import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.ScoreTypes;
 
@@ -17,7 +18,7 @@ abstract public class Front {
         this.covered=covered;
     }
     //checking requirements for resource cards (always playable)
-    abstract public boolean checkRequiredResources(int[] resources);
+    abstract public boolean checkRequiredResources(int[] resources, Card played);
 
     //getting the points that the player scored by placing the card
     abstract public int updateScoredPoints(int[] anglesCounter, int coveredAngles);

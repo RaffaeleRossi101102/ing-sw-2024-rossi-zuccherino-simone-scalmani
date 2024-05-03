@@ -13,11 +13,10 @@
       "FUNGI",
       "PLANTS",
       "INSECTS",
-      "ANIMALS"
+      "ANIMALS",
+      "EMPTY"
     ]
   },
-
-
   {
     "angles": [
       "ANIMALS",
@@ -32,11 +31,10 @@
       "PLANTS",
       "ANIMALS",
       "FUNGI",
-      "INSECTS"
+      "INSECTS",
+      "EMPTY"
     ]
   },
-
-
   {
     "angles": [
       "EMPTY",
@@ -51,11 +49,10 @@
       "INSECTS",
       "ANIMALS",
       "FUNGI",
-      "PLANTS"
+      "PLANTS",
+      "EMPTY"
     ]
   },
-
-
   {
     "angles": [
       "EMPTY",
@@ -70,11 +67,10 @@
       "PLANTS",
       "INSECTS",
       "ANIMALS",
-      "FUNGI"
+      "FUNGI",
+      "EMPTY"
     ]
   },
-
-
   {
     "angles": [
       "EMPTY",
@@ -89,11 +85,10 @@
       "INSECTS",
       "FUNGI",
       "PLANTS",
-      "ANIMALS"
+      "ANIMALS",
+      "EMPTY"
     ]
   },
-
-
   {
     "angles": [
       "EMPTY",
@@ -108,7 +103,8 @@
       "FUNGI",
       "ANIMALS",
       "PLANTS",
-      "INSECTS"
+      "INSECTS",
+      "EMPTY"
     ]
   }
 ]

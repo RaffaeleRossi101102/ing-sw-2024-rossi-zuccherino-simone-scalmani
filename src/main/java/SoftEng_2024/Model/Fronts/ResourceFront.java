@@ -1,5 +1,6 @@
 package SoftEng_2024.Model.Fronts;
 
+import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.*;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.ScoreTypes;
@@ -31,7 +32,7 @@ public class ResourceFront extends Front{
     }
 
     @Override
-    public boolean checkRequiredResources(int[] boardResources) {
+    public boolean checkRequiredResources(int[] boardResources, Card played) {
         return true;
     }
 

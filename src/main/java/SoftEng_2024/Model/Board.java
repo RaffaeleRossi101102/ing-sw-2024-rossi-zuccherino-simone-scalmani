@@ -109,7 +109,6 @@ public class Board {
                     //Se l'angolo non è vuoto, aumenta il counter
                     if (index < 7) {
                         counter[index] += 1;
-                        //SETTARE COVERED A TRUE
                     }
                     //se la carta non è flippata
                 } else {
@@ -192,14 +191,14 @@ public class Board {
         //se posso piazzare la carta nella cella
         if (cardBoard[r][c].getPlaceable()) {
             //e se nella catena ho le risorse necessarie per piazzarla
-            if(played.getFlipped() | played.getFront().checkRequiredResources(anglesCounter)){
+            if(played.getFront().checkRequiredResources(anglesCounter, played)){
                 //setto tutti i valori nella cella
                 cardBoard[r][c].setCard(played);
                 cardBoard[r][c].setRow(r);
                 cardBoard[r][c].setColumn(c);
                 cardBoard[r][c].setPlaceable(false);
-                System.out.println("PLACED IN THE MATRIX");
-                placed=true;
+                System.out.println("HO INSERITO LA CARTA DENTRO LA MATRICE");
+                placed = true;
                 //Se la carta l'ho giocata di back
                 if (played.getFlipped()) {
                     //Rendi disponibili per il piazzamento le altre celle
@@ -208,7 +207,7 @@ public class Board {
                     coveredAnglesCounter = coveredAnglesCounter(r, c);
                     //aggiorna il counter delle risorse totali
                     updateCounters(coveredAnglesCounter, played);
-                    System.out.println("score=" + this.score); //da eliminare la rica in questione
+                    System.out.println("punteggio=" + this.score); //da eliminare la rica in questione
                 } else {
                     //stessa cosa ma per carta giocata di front
                     setAvailableCells(r, c, played);
@@ -216,8 +215,7 @@ public class Board {
                     updateCounters(coveredAnglesCounter, played);
                     //controlla l'eventuale punteggio ottenuto al piazzamento e aggiungilo
                     this.score += played.getFront().updateScoredPoints(anglesCounter, coveredAnglesCounter[7]);
-                    System.out.println("score=" + this.score); //da eliminare la rica in questione
-                    placed=false;
+                    System.out.println("punteggio=" + this.score); //da eliminare la rica in questione
                 }
                 //aggiungi la carta piazzata alla lista
                 this.cardList.add(cardBoard[r][c]); //aggiungo alla lista la nuova cella con la nuova carta.
@@ -231,7 +229,6 @@ public class Board {
     public void updateCounters(int[] counter, Card played){
         int[] count;//= new int[7];
         // Angles[] angles;
-        int index;
         // toglie da anglescounter le risorse/oggetti coperte dalla nuova carta
         //System.out.println("Dentro updateCounters il counter di risorse nella board è : " + counter.length);
         for(int i=0; i<7; i++){
@@ -243,10 +240,11 @@ public class Board {
         //System.out.println("la lunghezza di count è: " + count.length);
 
         //sommo il numero di risorse/oggetti della carta al totale di risorse/oggetti nella board
-        System.out.print("The player's resources are: [");
+        System.out.print("Le risorse sono: [");
         for(int i=0;i<7;i++){
             this.anglesCounter[i] += count[i];
-            System.out.print(this.anglesCounter[i]+"-");
+            if (i<6) System.out.print(this.anglesCounter[i]+" - "); //reso carino
+            else System.out.print(this.anglesCounter[i]);
         }
         System.out.println("]");
     }

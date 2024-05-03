@@ -131,11 +131,11 @@ public class CardDeserializer {
             Arrays.fill(covered, false);
             for (SupportStarterCard card : starterCardsInfoArray) {
                 Angles[] startingResourcesTemp = new Angles[7];
-                Angles[] startingBackResourcesTemp = new Angles[4];
+                Angles[] startingBackResourcesTemp = new Angles[5];
                 for (int j = 0; j < 7; j++) {
                     startingResourcesTemp[j] = Angles.valueOf(card.angles[j]);
                 }
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 5; j++) {
                     startingBackResourcesTemp[j] = Angles.valueOf(card.startingBackResources[j]);
                 }
                 Front starterFront = new ResourceFront(startingResourcesTemp, points, covered);

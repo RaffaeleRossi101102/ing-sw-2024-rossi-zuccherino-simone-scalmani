@@ -1,6 +1,7 @@
 package SoftEng_2024.Model.Fronts;
 
 
+import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.ScoreTypes;
 
@@ -27,11 +28,12 @@ public class GoldFront extends ResourceFront{
 
     //This method has to confront the board Resources with the required ones
     @Override
-    public boolean checkRequiredResources(int[] boardResources) {
+    public boolean checkRequiredResources(int[] boardResources, Card played) {
+        if (played.getFlipped()) return true;
         //initializing the array in which
         int[] reqRes= new int[7];
         int index=0;
-        //for each resource updates req res
+        //for each resource update req res
         for(Angles res:requiredResources){
             index=Angles.getIndex(res);
             if(index<7) reqRes[index]++;
@@ -39,10 +41,8 @@ public class GoldFront extends ResourceFront{
         //now that it has filled req res with the requirements it compares it with what the player
         //actually has on the board
         //if the board doesn't have enough resources, it returns false and ends the method
-        int iteration = 0;
-        for(int i:boardResources){
-            if(i<reqRes[iteration]) return false;
-            iteration++;
+        for(int i=0; i<7; i++){
+            if(boardResources[i]<reqRes[i]) return false;
         }
         //if it gets out of the for loop without returning, it means that the player has enough resources
         //to play the card so the method returns true
