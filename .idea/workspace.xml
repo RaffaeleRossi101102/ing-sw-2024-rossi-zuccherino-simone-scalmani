@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Merge di Network e Model">
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardNotTilted.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardTilted.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownLeft.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownRight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpLeft.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpRight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Fronts/GoldFront.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" afterDir="false" />
-    </list>
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Model corretto" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -208,6 +196,7 @@
       <workItem from="1714481403967" duration="1491000" />
       <workItem from="1714482913278" duration="236000" />
       <workItem from="1714483367544" duration="6902000" />
+      <workItem from="1714746048232" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />
@@ -217,7 +206,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713980075121</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Model corretto">
+      <option name="closed" value="true" />
+      <created>1714746369819</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714746369819</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,7 +231,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -248,7 +245,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge di Network e Model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge di Network e Model" />
+    <MESSAGE value="Model corretto" />
+    <option name="LAST_COMMIT_MESSAGE" value="Model corretto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
