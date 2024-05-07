@@ -5,11 +5,11 @@ import SoftEng_2024.Model.Fronts.Front;
 
 public abstract class Card {
     private Front front;
-    private Boolean flipped;
+    private boolean flipped;
     private Angles[] resource;
 
     //METHODS
-    public Card(Front front, Boolean flipped, Angles[] resource){
+    public Card(Front front, boolean flipped, Angles[] resource){
         this.front=front;
         //flipped can also be dFront froeclared as false
         this.flipped=flipped;
@@ -17,7 +17,7 @@ public abstract class Card {
     }
     //GETTERS
 
-    public Boolean getFlipped() {
+    public boolean getFlipped() {
         return flipped;
     }
 
@@ -67,7 +67,7 @@ public abstract class Card {
         return res;
     }
 
-    public void setFlipped(Boolean flipped) {
+    public void setFlipped(boolean flipped) {
         this.flipped = flipped;
     }
 
