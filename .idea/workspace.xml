@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Model corretto" />
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Model corretto">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/Color.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MessageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameInit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientRMI.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,15 +26,32 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="localmod" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;FraBit0&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RaffaeleRossi101102/ing-sw-2024-rossi-zuccherino-simone-scalmani.git&quot;,
+    &quot;accountId&quot;: &quot;314a2cdb-0141-4459-968d-ac4eed61ed13&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -32,37 +61,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.RMIClient.executor&quot;: &quot;Run&quot;,
-    &quot;Application.RMIServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Simulator.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.BoardTest.testUpdateBoard.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/coding/Java/E09/ProgettoSoftEng&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.RMIClient.executor": "Run",
+    "Application.RMIServer.executor": "Run",
+    "Application.Simulator.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.BoardTest.testUpdateBoard.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "localnet",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/coding/Java/E09/ProgettoSoftEng",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "terminal",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="SoftEng_2024" />
@@ -137,21 +167,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ShConfigurationType">
-      <option name="SCRIPT_TEXT" value="" />
-      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-      <option name="SCRIPT_PATH" value="" />
-      <option name="SCRIPT_OPTIONS" value="" />
-      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
-      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
-      <option name="INTERPRETER_PATH" value="powershell.exe" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="EXECUTE_IN_TERMINAL" value="true" />
-      <option name="EXECUTE_SCRIPT_FILE" value="true" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.RMIClient" />
@@ -161,18 +176,19 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RMIClient" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.BoardTest.testUpdateBoard" />
         <item itemvalue="Application.Simulator" />
         <item itemvalue="Application.RMIServer" />
+        <item itemvalue="Application.RMIClient" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -197,6 +213,9 @@
       <workItem from="1714482913278" duration="236000" />
       <workItem from="1714483367544" duration="6902000" />
       <workItem from="1714746048232" duration="337000" />
+      <workItem from="1715184001577" duration="60000" />
+      <workItem from="1715184071381" duration="722000" />
+      <workItem from="1715245538373" duration="1981000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />
@@ -231,7 +250,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="origin/network" />
                       </list>
                     </value>
                   </entry>
