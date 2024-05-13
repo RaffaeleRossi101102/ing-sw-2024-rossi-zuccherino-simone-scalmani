@@ -7,9 +7,11 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     ServerInterface server;
+    double ID;
 
-    public ClientRMI(ServerInterface server) throws RemoteException {
+    public ClientRMI(ServerInterface server, double ID) throws RemoteException {
         this.server = server;
+        this.ID = ID;
     }
 
 
@@ -18,8 +20,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         server.addToQueue(msg);
     }
 
+    @Override
+    public void quit(MessageView msg) throws RemoteException {
 
-
+    }
 
 
 }
