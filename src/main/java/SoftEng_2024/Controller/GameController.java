@@ -3,8 +3,7 @@ import SoftEng_2024.Model.Cards.*;
 import SoftEng_2024.Model.Player;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.Enums.*;
-import SoftEng_2024.Network.ServerInterface;
-import java.rmi.RemoteException;
+
 import java.util.*;
 
 import static SoftEng_2024.Model.Cards.CardDeserializer.*;
@@ -181,7 +180,6 @@ public class GameController {
         }
     }
     public synchronized void joinGame(String nickname, double ID){
-
         if(clientPlayers.isEmpty()) {
             addPlayer(nickname, ID);
         }
@@ -190,7 +188,6 @@ public class GameController {
                 if(player.getNickname().equals(nickname)){
                     //show "NickAlreadyChosenError + return
                 }
-
             }
             //se esco dal for, significa che il nickname scelto è originale
             addPlayer(nickname,ID);
@@ -207,6 +204,9 @@ public class GameController {
         playerIdMap.put(ID,newPlayer);
         //aggiungo una carta starter alla mano del player
         newPlayer.setHand(game.getStarterDeck().poll());
+        //aggiungo due goals
+        newPlayer.getAvailableGoals().add(game.getGoalCardDeck().poll());
+        newPlayer.getAvailableGoals().add(game.getGoalCardDeck().poll());
         //e lo aggiungo al game
         game.getPlayers().add(newPlayer);
         System.out.println("Player "+ nickname+ " added to the game...");
@@ -222,19 +222,21 @@ public class GameController {
                 System.out.println(nickname + " has reJoined and successfully remapped with the new ID "+ ID);
                 return;
             }
-
         }
-
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
         //notify observer for a failed reJoin by "nickname"
     }
 
-    public void playStarterCard(boolean flipped, double ID) throws Board.notAvailableCellException, Board.necessaryResourcesNotAvailableException {
+    public void playStarterCard(boolean flipped, double ID) {
         //piazza la carta starter del client che chiama il metodo
-        Player player=playerIdMap.get(ID);
-        player.getHand().get(0).setFlipped(flipped);
-        player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
-
+        try {
+            Player player = playerIdMap.get(ID);
+            player.getHand().get(0).setFlipped(flipped);
+            player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
+        }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
+            e.printStackTrace();
+            throw new RuntimeException("Something went very wrong");
+        }
         //notify observer for all public info and hand observer for ID player
     }
 
@@ -297,11 +299,32 @@ public class GameController {
         game.setPublicGoals(goalCards);
         //notify all clients for public goals
     }
+    public void choosePrivateGoals(int choice, double ID){
+        Player player=playerIdMap.get(ID);
+        player.getAvailableGoals().remove(2-choice);
 
+    }
+    public void playCard(int card, int row, int column, boolean flipped,double ID){
+        Player player=playerIdMap.get(ID);
+        player.getHand().get(card).setFlipped(flipped);
+        game.PlayCard(player.getHand().get(card), player,row,column);
+        //notify : in base a quello che ritorna il metodo playCard, notifico gli observer.
+    }
+    public void drawFromTheDeck(int deck,double ID){
+        Player player=playerIdMap.get(ID);
+        game.drawFromTheDeck(player,deck);
+        //notify the right observers
+    }
+    public void drawFromPublicCards(int card,double ID){
+        Player player=playerIdMap.get(ID);
+        game.drawPublicCards(player,card);
+        //notify the right observers
+    }
 
-
-
-
+    //GETTERS AND SETTERS*********************************************
+    public Game getGame() {
+        return game;
+    }
 
     public List<Player> getClientPlayers() {
         return clientPlayers;

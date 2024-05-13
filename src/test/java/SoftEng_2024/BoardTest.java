@@ -1,7 +1,8 @@
 package SoftEng_2024;
 
 
-import SoftEng_2024.Controller.GameInit;
+
+import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Player;
@@ -33,7 +34,7 @@ class BoardTest {
 //
 
 
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 

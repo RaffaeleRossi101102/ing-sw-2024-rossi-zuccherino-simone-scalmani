@@ -1,10 +1,17 @@
 package SoftEng_2024.View;
 
 
-import java.rmi.ServerError;
+import SoftEng_2024.Model.Enums.Color;
+import SoftEng_2024.Network.ToModel.ClientInterface;
+import SoftEng_2024.View.Messages.*;
+
+import java.rmi.RemoteException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CliViewClient {
+    ClientInterface client;
+
     double ID;
     public CliViewClient(double ID){
         this.ID=ID;
@@ -34,7 +41,6 @@ public class CliViewClient {
                     initializePlayer();
                 default:
                     System.err.println("Command not available... retry");
-
             }
 
             command=scanner.nextLine();
@@ -45,6 +51,19 @@ public class CliViewClient {
 
     }
 
+    private void playStarterCard() {
+        Scanner input= new Scanner(System.in);
+        String answer;
+        boolean flipped;
+        do {
+            System.out.println("Type the side of the card (front or back): ");
+            answer = input.nextLine();
+        }while(!answer.equals("front") && !answer.equals("back"));
+        flipped= !answer.equals("front");
+        MessageView msg= new PlayStarterCardMessage(flipped,this.ID);
+        updateClient(msg);
+    }
+
     private void initializePlayer() {
     }
 
@@ -52,6 +71,20 @@ public class CliViewClient {
     }
 
     private void join() {
+    }
+    private void setColorMessage() {
+        Scanner input = new Scanner(System.in);
+        String answer;
+        Color color;
+        System.out.println("Type the color (RED,BLUE,GREEN,YELLOW) you want for your pawn");
+        answer = input.nextLine();
+        while(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
+            System.err.println("Wrong input, please choose between the colors: [RED,BLUE,GREEN,YELLOW]");
+            answer=input.nextLine();
+        }
+        color = Color.valueOf(answer);
+        MessageView msg = new SetColorMessage(color, this.ID);
+        updateClient(msg);
     }
 
     private void playCard(){

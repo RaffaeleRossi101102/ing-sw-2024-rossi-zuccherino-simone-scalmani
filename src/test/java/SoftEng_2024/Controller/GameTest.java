@@ -12,7 +12,7 @@ class GameTest {
 
     @Test
     void turnStart() {
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -34,7 +34,7 @@ class GameTest {
 
     @Test
     void turnEnd() {
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -54,7 +54,7 @@ class GameTest {
 
     @Test
     void playCard() {
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
         int playCode;
@@ -82,7 +82,7 @@ class GameTest {
 
     @Test
     void drawPublicCards(){
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
         int actual;
@@ -124,7 +124,7 @@ class GameTest {
 
     @Test
     void drawFromTheDeckTest() {
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
         int actual;
@@ -156,7 +156,7 @@ class GameTest {
 
     @Test
     void shufflePlayers() {
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 

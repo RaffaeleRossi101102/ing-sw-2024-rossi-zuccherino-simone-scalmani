@@ -1,7 +1,7 @@
 package SoftEng_2024.Model;
 
 
-import SoftEng_2024.Controller.GameInit;
+import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.Angles;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class BoardTest {
     @Test
     void testUpdateBoard(){
 
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -44,7 +44,7 @@ class BoardTest {
         int[] counters;
         int[] tempCounters;
         Angles[] tempAngles;
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 

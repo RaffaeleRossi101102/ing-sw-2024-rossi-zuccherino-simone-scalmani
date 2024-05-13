@@ -1,15 +1,12 @@
 package SoftEng_2024.View;
 
-import SoftEng_2024.Network.ClientRMI;
-import SoftEng_2024.Network.ServerInterface;
+import SoftEng_2024.Network.ToModel.ClientRMI;
+import SoftEng_2024.Network.ToModel.ServerInterface;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainView {

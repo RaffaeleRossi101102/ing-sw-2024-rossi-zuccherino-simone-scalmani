@@ -1,6 +1,6 @@
-package SoftEng_2024.Network;
+package SoftEng_2024.Network.ToModel;
 
-import SoftEng_2024.View.MessageView;
+import SoftEng_2024.View.Messages.MessageView;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -35,5 +35,6 @@ public class RMIServer implements ServerInterface{
         } catch (RemoteException remoteException ) {
             throw new RuntimeException("Something went wrong, retry... ");
         }
+
     }
 }

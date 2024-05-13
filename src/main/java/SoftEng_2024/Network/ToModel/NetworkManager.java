@@ -1,8 +1,7 @@
-package SoftEng_2024.Network;
+package SoftEng_2024.Network.ToModel;
 
 import SoftEng_2024.Controller.GameController;
-import SoftEng_2024.Controller.GameController;
-import SoftEng_2024.View.MessageView;
+import SoftEng_2024.View.Messages.MessageView;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -19,13 +18,15 @@ public class NetworkManager {
 
     public void run(){
         while(running){
-            try {
-                //Thread t= new Thread()
-                viewMessages.take().executeMessage();
-            } catch (InterruptedException e) {
-                System.err.println("Something went wrong while executing the messages");
-                throw new RuntimeException(e);
-            }
+            Thread t = new Thread(() -> {
+                try {
+                    viewMessages.take().executeMessage(this.controller);
+                } catch (InterruptedException e) {
+                    System.err.println("Something went wrong while executing the messages");
+                    throw new RuntimeException(e);
+                }
+            });
+            t.start();
         }
     }
 

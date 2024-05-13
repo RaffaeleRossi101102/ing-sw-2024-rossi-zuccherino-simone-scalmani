@@ -3,6 +3,7 @@ package SoftEng_2024.Model;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -22,6 +23,8 @@ public class Player {
         this.hand=hand;
         this.playerBoard=playerBoard;
         this.isOnline=true;
+        this.availableGoals=new ArrayList<>();
+        this.color=new ArrayList<>();
     }
     //SETTERS
 

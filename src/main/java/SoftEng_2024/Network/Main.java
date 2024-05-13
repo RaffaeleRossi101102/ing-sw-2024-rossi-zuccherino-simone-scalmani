@@ -3,6 +3,9 @@ package SoftEng_2024.Network;
 
 import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Board;
+import SoftEng_2024.Network.ToModel.NetworkManager;
+import SoftEng_2024.Network.ToModel.RMIServer;
+import SoftEng_2024.Network.ToModel.ServerInterface;
 
 
 import java.rmi.AlreadyBoundException;

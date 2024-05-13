@@ -44,7 +44,7 @@ public class Game {
         for(Player player:players){
             localBoard=player.getPlayerBoard();
             playerScore[players.indexOf(player)] = localBoard.getScore();
-            goalScore= player.getGoal().calcScore(localBoard);
+            goalScore= player.getAvailableGoals().getFirst().calcScore(localBoard);
             if(goalScore!=0){
                 goalTypes[players.indexOf(player)]++;
                 playerScore[players.indexOf(player)] += goalScore;
