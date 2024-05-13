@@ -1,7 +1,9 @@
 package SoftEng_2024.Model;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -10,7 +12,7 @@ public class Player {
     private Board playerBoard;
     public boolean isPlaying;
     private volatile GoalCard goal;
-    private String color;
+    private List<Color> color;
     private boolean isOnline;
     private boolean disconnectionResilience = false;
     //METHODS
@@ -21,6 +23,8 @@ public class Player {
         this.hand=hand;
         this.playerBoard=playerBoard;
         this.isOnline=true;
+        this.availableGoals=new ArrayList<>();
+        this.color=new ArrayList<>();
     }
     //SETTERS
 
@@ -54,8 +58,12 @@ public class Player {
         this.hand.add(card);
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColor(Color color) {
+        this.color.add(color);
+    }
+
+    public List<Color> getColor() {
+        return color;
     }
 
     public boolean getIsOnline() {

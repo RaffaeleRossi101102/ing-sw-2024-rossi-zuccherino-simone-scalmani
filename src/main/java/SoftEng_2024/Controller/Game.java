@@ -29,44 +29,10 @@ public class Game {
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
         this.starterDeck = starterDeck;
-
-        //this.currentPlayer = players.get(0); //ritorna il primo della lista che sarà il primo ad entrare nella "Lobby"
-        // quindi il primo a giocare. (in list non c'è la funzione get random)
-        //for(int i=0; i<2; i++){
-        //    this.publicCards.add(resourceDeck.poll()); //poll toglie la carta dal deck a differenza di peek che
-        // "ne restituisce una copia" non so se è un problema che public cards inizialmente sia vuoto. non mi viene un metodo diverso per riempire al difuori dei due cicli for orribili
-        //}
-        //for(int i=0; i<2; i++){
-        //    this.publicCards.add(goldDeck.poll());
-        //}
         this.publicCards=new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
-        //Collections.shuffle(this.players);
     }
 
-    //metodo che viene invocato al primo turno
-    //public void PlayStarterCard(boolean flipped, Player player,StarterCard starterCard) throws Board.notAvailableCellException, Board.necessaryResourcesNotAvailable {
-    //piazza la carta iniziale nel centro della board
-    //  player.getPlayerBoard().updateBoard(42,42,starterCard);
-    //}
-    //pescare le publicCards
-    //distribuisce StarterCard ai giocatori
-
-    // e le fa piazzare e fa modificare il model
-
-    //********************************************************
-
-    //giocatore sceglie il colore
-
-    //giocatore pesca due carte risorsa e una oro
-    //pesca i publicGoals
-
-    //fa scegliere al giocatore la carta goal
-
-    //determina l'ordine dei turni
-
-    //Calcola punteggi dei Goal, dichiara vincitore, termina partita
-    //Quando fare i thread?
     protected List<Integer> GameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
@@ -78,7 +44,7 @@ public class Game {
         for(Player player:players){
             localBoard=player.getPlayerBoard();
             playerScore[players.indexOf(player)] = localBoard.getScore();
-            goalScore= player.getGoal().calcScore(localBoard);
+            goalScore= player.getAvailableGoals().getFirst().calcScore(localBoard);
             if(goalScore!=0){
                 goalTypes[players.indexOf(player)]++;
                 playerScore[players.indexOf(player)] += goalScore;

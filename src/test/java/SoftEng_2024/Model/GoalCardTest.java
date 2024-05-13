@@ -1,6 +1,7 @@
 package SoftEng_2024.Model;
 
-import SoftEng_2024.Controller.GameInit;
+import SoftEng_2024.Controller.GameController;
+
 import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.ResourceFront;
@@ -19,7 +20,7 @@ class GoalCardTest {
 
         ResourceGoalCard testGoal = new ResourceGoalCard(Angles.PLANTS, 2, String.format("Get %s points for each triplet of mushrooms on the board", 2));
 
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -52,7 +53,7 @@ class GoalCardTest {
 
         ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.INK, Angles.INK}, 2, String.format("Get %s points for each pair of feathers on the board", 2));
 
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -84,7 +85,7 @@ class GoalCardTest {
     void TripleObjectsCalcScore() {
         ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.FEATHER, Angles.INK, Angles.SCROLL}, 3, String.format("Get %s points for each triplet of different objects on the board", 3));
 
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -119,7 +120,7 @@ class GoalCardTest {
     void StepCalcScore() {
         StepGoalCard testGoal = new StepGoalCard(Angles.INSECTS, Angles.PLANTS, false, false, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.INSECTS, Angles.PLANTS));
         StepGoalCard testGoal2 = new StepGoalCard(Angles.FUNGI, Angles.ANIMALS, true, true, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.FUNGI, Angles.ANIMALS));
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
         ResourceCard testCard;
@@ -164,7 +165,7 @@ class GoalCardTest {
     @Test
     void DiagonalCalcScore() {
         DiagonalGoalCard testGoal = new DiagonalGoalCard(Angles.FUNGI, 2, true, String.format("Get %s points for each ascending diagonal pattern of mushroom cards on the board", 2));
-        GameInit testGameInit = new GameInit();
+        GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
 
