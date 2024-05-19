@@ -1,8 +1,10 @@
 package SoftEng_2024.Controller;
 import SoftEng_2024.Model.Cards.*;
-import SoftEng_2024.Model.Player;
+import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
+import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
+
 
 import java.util.*;
 
@@ -15,6 +17,9 @@ public class GameController {
     private List<Player> clientPlayers = new ArrayList<>();
     private int maxPlayers;
     private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
+    GameState gameState;
+    //private List<Player>
+
     //METHODS**********************************************************************
 
     //Method that creates the Game with all the cards.
@@ -175,7 +180,7 @@ public class GameController {
         }
         else{
             //the method sends back a message saying that the game has already been created.
-            System.err.println(nickname + "attempted to create a game");
+            System.err.println(nickname + " attempted to create a game");
             //notify to the correct viewID
         }
     }
@@ -183,7 +188,7 @@ public class GameController {
         if(clientPlayers.isEmpty()) {
             addPlayer(nickname, ID);
         }
-        else{
+        else if(clientPlayers.size()<maxPlayers){
             for(Player player: clientPlayers){
                 if(player.getNickname().equals(nickname)){
                     //show "NickAlreadyChosenError + return
@@ -191,6 +196,17 @@ public class GameController {
             }
             //se esco dal for, significa che il nickname scelto è originale
             addPlayer(nickname,ID);
+            //controllo se il player collegato è l'ultimo
+            if(clientPlayers.size()==maxPlayers){
+                gameState=GameState.STARTER;
+                game.shufflePlayers();
+                //notify game status update--> per le notify degli status ha senso far partire il thread?
+                //Rischio che il thread di notify status venga eseguito dopo l'update delle hands.
+            }
+        }
+        else{
+            System.err.println("Someone tried to join the game...");
+            //show error maxPlayerReached
         }
     }
     private void addPlayer(String nickname, double ID) {
@@ -202,11 +218,6 @@ public class GameController {
         this.clientPlayers.add(newPlayer);
         //add the player to the binding HashMap to link players to their viewID
         playerIdMap.put(ID,newPlayer);
-        //aggiungo una carta starter alla mano del player
-        newPlayer.setHand(game.getStarterDeck().poll());
-        //aggiungo due goals
-        newPlayer.getAvailableGoals().add(game.getGoalCardDeck().poll());
-        newPlayer.getAvailableGoals().add(game.getGoalCardDeck().poll());
         //e lo aggiungo al game
         game.getPlayers().add(newPlayer);
         System.out.println("Player "+ nickname+ " added to the game...");
@@ -219,7 +230,8 @@ public class GameController {
             if(nickname.equals(playerIdMap.get(playerId).getNickname())){
                 Player player = playerIdMap.remove(playerId);
                 playerIdMap.put(ID, player);
-                System.out.println(nickname + " has reJoined and successfully remapped with the new ID "+ ID);
+                System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
+                //notify reJoin Observer
                 return;
             }
         }
@@ -237,6 +249,18 @@ public class GameController {
             e.printStackTrace();
             throw new RuntimeException("Something went very wrong");
         }
+        //per ogni player controlla se è stata piazzata la starter
+        int counter=0;
+        for(Player player:game.getPlayers()){
+            if(player.getPlayerBoard().getCardList().size()==1){
+                counter++;
+            }
+        }
+        //se ogni player ha piazzato la carta, cambio lo stato
+        if(counter==maxPlayers){
+            gameState=GameState.SETCOLOR;
+            //notify change in gameState
+        }
         //notify observer for all public info and hand observer for ID player
     }
 
@@ -245,37 +269,42 @@ public class GameController {
         boolean found = false;
         //controlla se il player ha scelto un colore non ancora preso
         for(Player player: clientPlayers){
-            if(color.equals(player.getColor().getFirst())){
+            if(color.equals(player.getColor().get(0))){
                 //ERROR, CLIENT HAS TO CHOOSE ANOTHER COLOR, SEND MESSAGE
                 found = true;
             }
             if(!player.getColor().isEmpty()){
-                //ERROR, EVERY PLAYER HAS ALREADY CHOSEN THEIR COLOR
                 counter++;
             }
         }
         if(found | counter==maxPlayers){
-            //notifica dell'errore
+            //notify dell'errore
             return;
         }
         playerIdMap.get(ID).setColor(color);
+        //avendo già contato il numero di giocatori che hanno già scelto il colore, basterà che il numero
+        //di giocatori che hanno scelto il colore sia maxPlayers - 1, ovvero quello che l'ha scelto ora
+        if(counter==maxPlayers-1){
+            //notify change of state
+            gameState=GameState.CHOOSEGOAL;
+        }
 
         //parte un nuovo thread che controlla se tutti hanno scelto il colore.
         //se l'esito è positivo,
-        Thread t = new Thread(() -> {
-            for(Player player:clientPlayers){
-                if(player.getColor().isEmpty())
+        //Thread t = new Thread(() -> {
+          //  for(Player player:clientPlayers){
+            //    if(player.getColor().isEmpty())
                     return;
-            }
-            updatePlayerHands();
-            updatePublicGoals();
+            //}
+            //updatePlayerHands();
+            //updatePublicGoals();
             //FOR EACH OBSERVER NOTIFY (ALTRI THREAD PARTONO FORSE)
-        });
-        t.start();
+        //});
+        //t.start();
 
         //notify observers
     }
-    public void updatePlayerHands() {
+    private void updatePlayerHands() {
 
         game.setFirstTurn(true);
         //dà le carte a tutti i giocatori
@@ -292,7 +321,7 @@ public class GameController {
         //notify each client view for their own hand
     }
 
-    public void updatePublicGoals() {
+    private void updatePublicGoals() {
         GoalCard[] goalCards = new GoalCard[2];
         goalCards[0] = game.getGoalCardDeck().poll();
         goalCards[1] = game.getGoalCardDeck().poll();
@@ -320,6 +349,29 @@ public class GameController {
         game.drawPublicCards(player,card);
         //notify the right observers
     }
+    public void handOutStarterCards(){
+        for(Player player: game.getPlayers()){
+            //aggiungo una carta starter alla mano del player
+            player.setHand(game.getStarterDeck().poll());
+        }
+    }
+    //SONO AGGIUNTI ANCHE DENTRO ADD PLAYER, DA VEDERE SE HA SENSO QUESTO METODO O MENO
+    public void handOutPrivateGoals(){
+        for(Player player: game.getPlayers()){
+            //aggiungo due goals
+            player.getAvailableGoals().add(game.getGoalCardDeck().poll());
+            player.getAvailableGoals().add(game.getGoalCardDeck().poll());
+        }
+    }
+    public void handOutCards(){
+        for(Player player: game.getPlayers()){
+            //aggiungo due carte risorsa alla mano del player
+            player.setHand(game.getResourceDeck().poll());
+            player.setHand(game.getResourceDeck().poll());
+            //aggiungo una carta ora alla mano
+            player.setHand(game.getGoldDeck().poll());
+        }
+    }
 
     //GETTERS AND SETTERS*********************************************
     public Game getGame() {
@@ -332,5 +384,13 @@ public class GameController {
 
     public void setClientPlayers(List<Player> clientPlayers) {
         this.clientPlayers = clientPlayers;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 }

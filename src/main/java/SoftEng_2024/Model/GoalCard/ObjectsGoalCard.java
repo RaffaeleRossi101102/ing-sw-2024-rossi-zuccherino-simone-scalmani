@@ -1,9 +1,10 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.GoalCard;
 
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Enums.Angles;
 
 // Classe che rappresenta le carte con il Goal delle coppie di un tipo di oggetto e delle triplette di oggetti differenti
-public class ObjectsGoalCard extends GoalCard{
+public class ObjectsGoalCard extends GoalCard {
     // Array di oggetti nel Goal
     private final Angles[] objects;
     // Costruttore

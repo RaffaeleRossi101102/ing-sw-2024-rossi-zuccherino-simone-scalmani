@@ -4,43 +4,67 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Model corretto">
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ClientObServerRMI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/CreateGameMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/DrawFromPublicCardsMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/DrawFromTheDeckMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/JoinGameMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/MessageView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/PlayCardMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/PlayStarterCardMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/QuitMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/SetColorMessage.java" afterDir="false" />
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Implementazione networkManager, view, rmi, tutto da completare">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ModelMessages/ModelMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/RMIObServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/SocketObServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/ChoosePrivateGoal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/ReJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_09_05_2024_17_04_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_09_05_2024_17_04__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientRMI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientRMI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player_and_Board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player_and_Board/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/DiagonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard/DiagonalGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard/GoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ObjectsGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard/ObjectsGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player_and_Board/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/ResourceGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard/ResourceGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/StepGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/GoalCard/StepGoalCard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ServerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientRMI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientRMI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ServerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MessageView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/CreateGameMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/CreateGameMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/DrawFromPublicCardsMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/DrawFromPublicCardsMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/DrawFromTheDeckMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/DrawFromTheDeckMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/JoinGameMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/JoinGameMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/MessageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/ViewMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/PlayCardMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/PlayCardMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/PlayStarterCardMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/PlayStarterCardMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/QuitMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/QuitMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/Messages/SetColorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/SetColorMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/BoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Cards/CardsPackageTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Cards/CardsPackageTesting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Controller/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Controller/GameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardNotTilted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardNotTilted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardTilted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/DiagonalGoalCardTilted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Model/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Model/BoardTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Model/GoalCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Model/GoalCardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/Simulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownLeft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardDownRight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpLeft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpLeft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpRight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SoftEng_2024/StepGoalCardUpRight.java" afterDir="false" />
     </list>
-    <list id="0224909f-5e04-43d6-8eb9-a8f579dd06b9" name="Changes by user" comment="">
+    <list id="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" name="Changes by raffo" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Enums/GameState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ClientRMI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientRMI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ClientObServerRMI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ClientObServerRMI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" afterDir="false" />
     </list>
+    <list id="0224909f-5e04-43d6-8eb9-a8f579dd06b9" name="Changes by user" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,8 +75,8 @@
       <list>
         <option value="package.json" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -79,72 +103,89 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java">
       <ranges>
-        <range start1="2" end1="4" start2="2" end2="4" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="9" end1="12" start2="9" end2="9" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="46" end1="47" start2="43" end2="44" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="57" end1="58" start2="54" end2="55" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
+        <range start1="2" end1="2" start2="2" end2="3" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="4" end1="4" start2="5" end2="8" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="40" end1="41" start2="44" end2="45" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="43" end1="45" start2="47" end2="55" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="46" end1="47" start2="56" end2="57" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="54" end1="55" start2="64" end2="65" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/NetworkManager.java">
+      <ranges>
+        <range start1="3" end1="4" start2="3" end2="5" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="9" end1="10" start2="10" end2="11" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="15" end1="15" start2="16" end2="17" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="19" end1="29" start2="21" end2="25" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="30" end1="30" start2="26" end2="53" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="31" end1="31" start2="54" end2="66" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="36" end1="37" start2="71" end2="72" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
       </ranges>
     </file>
     <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/CliViewClient.java">
       <ranges>
-        <range start1="3" end1="4" start2="3" end2="9" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="7" end1="7" start2="12" end2="14" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="24" end1="27" start2="31" end2="36" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="28" end1="29" start2="37" end2="38" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="30" end1="34" start2="39" end2="45" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="36" end1="37" start2="47" end2="47" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="38" end1="39" start2="48" end2="49" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="46" end1="46" start2="56" end2="69" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="47" end1="49" start2="70" end2="70" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="51" end1="51" start2="72" end2="99" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="54" end1="54" start2="102" end2="112" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="55" end1="55" start2="113" end2="127" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="57" end1="57" start2="129" end2="192" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="59" end1="60" start2="194" end2="210" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="62" end1="62" start2="212" end2="229" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="65" end1="66" start2="232" end2="233" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="68" end1="70" start2="235" end2="256" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
+        <range start1="5" end1="6" start2="5" end2="6" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="11" end1="12" start2="11" end2="13" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="13" end1="14" start2="14" end2="14" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="15" end1="16" start2="15" end2="17" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="17" end1="17" start2="18" end2="19" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="19" end1="20" start2="21" end2="22" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="21" end1="22" start2="23" end2="24" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="29" end1="29" start2="31" end2="32" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="31" end1="34" start2="34" end2="42" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="35" end1="36" start2="43" end2="45" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="37" end1="41" start2="46" end2="59" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="43" end1="43" start2="61" end2="62" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="44" end1="45" start2="63" end2="65" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="48" end1="49" start2="68" end2="68" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="50" end1="51" start2="69" end2="69" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="52" end1="52" start2="70" end2="86" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="62" end1="63" start2="96" end2="97" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="66" end1="68" start2="100" end2="100" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="70" end1="70" start2="102" end2="130" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="73" end1="73" start2="133" end2="144" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="85" end1="86" start2="156" end2="157" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="90" end1="90" start2="161" end2="224" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="92" end1="93" start2="226" end2="261" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="95" end1="95" start2="263" end2="264" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="98" end1="99" start2="267" end2="272" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="101" end1="102" start2="274" end2="290" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="103" end1="103" start2="291" end2="297" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
       </ranges>
     </file>
     <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java">
       <ranges>
-        <range start1="5" end1="7" start2="5" end2="6" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="183" end1="184" start2="182" end2="182" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="192" end1="193" start2="190" end2="190" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="209" end1="209" start2="206" end2="209" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="221" end1="222" start2="221" end2="223" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="224" end1="225" start2="225" end2="225" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="226" end1="227" start2="226" end2="226" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="231" end1="232" start2="230" end2="231" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="233" end1="237" start2="232" end2="240" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="255" end1="256" start2="258" end2="259" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="275" end1="276" start2="278" end2="279" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="292" end1="293" start2="295" end2="296" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="299" end1="300" start2="302" end2="305" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="301" end1="301" start2="306" end2="323" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="302" end1="304" start2="324" end2="328" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Player.java">
-      <ranges>
-        <range start1="5" end1="5" start2="5" end2="6" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="12" end1="13" start2="13" end2="14" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="24" end1="24" start2="25" end2="27" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="31" end1="34" start2="34" end2="34" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="43" end1="49" start2="43" end2="43" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="80" end1="80" start2="74" end2="78" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientRMI.java">
-      <ranges>
-        <range start1="0" end1="1" start2="0" end2="1" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
         <range start1="2" end1="3" start2="2" end2="3" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="8" end1="9" start2="8" end2="8" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="10" end1="10" start2="9" end2="10" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="11" end1="12" start2="11" end2="12" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="13" end1="13" start2="13" end2="14" changelist="0224909f-5e04-43d6-8eb9-a8f579dd06b9" />
-        <range start1="21" end1="22" start2="22" end2="22" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
-        <range start1="23" end1="24" start2="23" end2="23" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="4" end1="4" start2="4" end2="5" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="6" end1="6" start2="7" end2="8" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="17" end1="17" start2="19" end2="22" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="177" end1="178" start2="182" end2="183" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="185" end1="186" start2="190" end2="191" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="193" end1="193" start2="198" end2="209" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="204" end1="209" start2="220" end2="220" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="221" end1="222" start2="232" end2="234" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="239" end1="239" start2="251" end2="263" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="247" end1="248" start2="271" end2="272" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="252" end1="253" start2="276" end2="276" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="257" end1="258" start2="280" end2="281" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="261" end1="261" start2="284" end2="290" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="264" end1="267" start2="293" end2="296" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="268" end1="271" start2="297" end2="300" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="272" end1="274" start2="301" end2="303" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="277" end1="278" start2="306" end2="307" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="294" end1="295" start2="323" end2="324" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="302" end1="302" start2="331" end2="332" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="304" end1="304" start2="334" end2="344" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
+        <range start1="322" end1="322" start2="362" end2="385" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="335" end1="335" start2="398" end2="406" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/RMIServer.java">
+      <ranges>
+        <range start1="2" end1="3" start2="2" end2="3" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="19" end1="20" start2="19" end2="20" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="23" end1="25" start2="23" end2="25" changelist="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" />
+        <range start1="33" end1="34" start2="33" end2="34" changelist="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" />
       </ranges>
     </file>
   </component>
@@ -159,7 +200,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.MainView.executor&quot;: &quot;Debug&quot;,
     &quot;Application.RMIClient.executor&quot;: &quot;Run&quot;,
     &quot;Application.RMIServer.executor&quot;: &quot;Run&quot;,
     &quot;Application.Simulator.executor&quot;: &quot;Run&quot;,
@@ -173,7 +215,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;network&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/coding/Java/ing-sw-2024-rossi-zuccherino-simone-scalmani2&quot;,
@@ -182,19 +224,20 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="SoftEng_2024.Model" />
       <recent name="SoftEng_2024" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RMIClient">
+  <component name="RunManager" selected="Application.MainView">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.Main" />
       <module name="ProgettoSoftEng" />
@@ -204,6 +247,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainView" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="SoftEng_2024.View.MainView" />
+      <module name="ProgettoSoftEng" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -264,6 +314,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.MainView" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.RMIClient" />
       <item itemvalue="Application.RMIServer" />
@@ -272,18 +323,19 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.BoardTest.testUpdateBoard" />
         <item itemvalue="Application.Simulator" />
         <item itemvalue="Application.RMIServer" />
         <item itemvalue="Application.RMIClient" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -312,6 +364,8 @@
       <workItem from="1715184071381" duration="722000" />
       <workItem from="1715245538373" duration="1981000" />
       <workItem from="1715595178298" duration="15328000" />
+      <workItem from="1716043864535" duration="8641000" />
+      <workItem from="1716116032153" duration="18396000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />

@@ -1,6 +1,6 @@
 package SoftEng_2024.Network.ToModel;
 
-import SoftEng_2024.View.Messages.MessageView;
+import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,12 +16,12 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
 
     @Override
-    public void update(MessageView msg) throws RemoteException {
+    public void update(ViewMessage msg) throws RemoteException {
         server.addToQueue(msg);
     }
 
     @Override
-    public void quit(MessageView msg) throws RemoteException {
+    public void quit(ViewMessage msg) throws RemoteException {
 
     }
 

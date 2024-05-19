@@ -1,13 +1,14 @@
 package SoftEng_2024.Network.ToModel;
 
 import SoftEng_2024.Controller.GameController;
-import SoftEng_2024.View.Messages.MessageView;
+import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NetworkManager {
     GameController controller;
-    LinkedBlockingQueue<MessageView> viewMessages;
+    LinkedBlockingQueue<ViewMessage> viewMessages;
     boolean running;
 
     public NetworkManager(GameController controller){
@@ -34,7 +35,7 @@ public class NetworkManager {
         this.running = running;
     }
 
-    public void addViewMessages(MessageView msg) {
+    public void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
     }
 }

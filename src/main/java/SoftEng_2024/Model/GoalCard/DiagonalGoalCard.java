@@ -1,12 +1,14 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.GoalCard;
 
 
+import SoftEng_2024.Model.Player_and_Board.Board;
+import SoftEng_2024.Model.Player_and_Board.Cell;
 import SoftEng_2024.Model.Enums.Angles;
 
 import java.util.List;
 
 
-public class DiagonalGoalCard extends GoalCard{
+public class DiagonalGoalCard extends GoalCard {
 
     private final Angles resource;
     private boolean tiltedForward;

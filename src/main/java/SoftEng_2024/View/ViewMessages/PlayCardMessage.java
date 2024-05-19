@@ -1,9 +1,9 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
 
-public class PlayCardMessage implements MessageView {
+public class PlayCardMessage implements ViewMessage {
     int card;
     int row;
     int column;

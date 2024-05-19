@@ -1,9 +1,9 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.Color;
 
-public class SetColorMessage implements MessageView{
+public class SetColorMessage implements ViewMessage {
     Color color;
     double ID;
     public SetColorMessage(Color color,double ID){

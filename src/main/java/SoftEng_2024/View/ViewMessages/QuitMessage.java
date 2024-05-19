@@ -1,8 +1,8 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
-public class QuitMessage implements MessageView{
+public class QuitMessage implements ViewMessage {
     double ID;
 
     public QuitMessage(double ID) {

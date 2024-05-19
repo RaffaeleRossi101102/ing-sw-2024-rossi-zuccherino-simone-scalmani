@@ -3,7 +3,7 @@ package SoftEng_2024.View;
 
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Network.ToModel.ClientInterface;
-import SoftEng_2024.View.Messages.*;
+import SoftEng_2024.View.ViewMessages.*;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
@@ -17,7 +17,7 @@ public class CliViewClient {
         this.ID=ID;
     }
 
-    protected void run(){
+    public void run(){
         System.out.println("The CliView is running!");
         System.out.println("Type join or rejoin to play!");
         Scanner scanner= new Scanner(System.in);
@@ -60,7 +60,7 @@ public class CliViewClient {
             answer = input.nextLine();
         }while(!answer.equals("front") && !answer.equals("back"));
         flipped= !answer.equals("front");
-        MessageView msg= new PlayStarterCardMessage(flipped,this.ID);
+        ViewMessage msg= new PlayStarterCardMessage(flipped,this.ID);
         updateClient(msg);
     }
 
@@ -83,7 +83,7 @@ public class CliViewClient {
             answer=input.nextLine();
         }
         color = Color.valueOf(answer);
-        MessageView msg = new SetColorMessage(color, this.ID);
+        ViewMessage msg = new SetColorMessage(color, this.ID);
         updateClient(msg);
     }
 
@@ -93,6 +93,7 @@ public class CliViewClient {
     private void drawCard(){
 
     }
+
     private void writeInChat(){
 
     }

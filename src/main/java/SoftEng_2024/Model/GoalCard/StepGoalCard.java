@@ -1,11 +1,13 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.GoalCard;
 
 
+import SoftEng_2024.Model.Player_and_Board.Board;
+import SoftEng_2024.Model.Player_and_Board.Cell;
 import SoftEng_2024.Model.Enums.Angles;
 
 import java.util.List;
 
-public class StepGoalCard extends GoalCard{
+public class StepGoalCard extends GoalCard {
     private final Angles baseResource;
     private final Angles sideResource;
     private final boolean baseTop;

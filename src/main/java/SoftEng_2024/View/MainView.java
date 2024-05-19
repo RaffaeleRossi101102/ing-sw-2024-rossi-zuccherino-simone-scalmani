@@ -1,5 +1,6 @@
 package SoftEng_2024.View;
 
+import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ClientRMI;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 
@@ -41,10 +42,16 @@ public class MainView {
                 //lookup of the registry
                 Registry registry = LocateRegistry.getRegistry("localhost", 6969);
                 ServerInterface server = (ServerInterface) registry.lookup("localhost");
-                new ClientRMI(server).run();
-                //running the chosen type of UI
+                ClientInterface client= new ClientRMI(server, ID);
+
+                //lookup of the to view registry
+                Registry registry2 = LocateRegistry.getRegistry("localhost", 9696);
+                RMIObServer server2 = (RMIObServer) registry2.lookup("localhost");
+                ObServerInterface client2 = new ClientObServerRMI(server2);
+
+            //running the chosen type of UI
                 if(viewType.equals("CLI"))
-                    new CliViewClient(ID).run();
+                    new CliViewClient(ID,client).run();
                 else if(viewType.equals("GUI"))
                     System.out.println("La gui nun ce sta");
             }catch(RemoteException | NotBoundException e){
@@ -52,7 +59,7 @@ public class MainView {
                 e.printStackTrace();
             }
         } else if (connectionType.equals("Socket")) {
-
+            System.out.println("Er Socket nun ce sta");
         }
     }
 }

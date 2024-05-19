@@ -1,6 +1,6 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.GoalCard;
 
-import SoftEng_2024.Model.Board;
+import SoftEng_2024.Model.Player_and_Board.Board;
 
 import java.io.Serializable;
 

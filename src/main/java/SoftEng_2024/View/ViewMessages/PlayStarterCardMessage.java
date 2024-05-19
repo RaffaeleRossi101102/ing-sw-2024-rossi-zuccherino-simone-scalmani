@@ -1,9 +1,8 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
-import SoftEng_2024.Model.Board;
 
-public class PlayStarterCardMessage implements MessageView{
+public class PlayStarterCardMessage implements ViewMessage {
     boolean flipped;
     double ID;
     public PlayStarterCardMessage(boolean flipped, double ID){

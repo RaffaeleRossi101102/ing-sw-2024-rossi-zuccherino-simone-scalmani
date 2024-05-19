@@ -2,14 +2,14 @@
 
 import SoftEng_2024.Controller.GameInit;
 import SoftEng_2024.Model.*;
-import SoftEng_2024.Model.Board;
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Cards.ResourceCard;
-import SoftEng_2024.Model.Cell;
+import SoftEng_2024.Model.Player_and_Board.Cell;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
-import SoftEng_2024.Model.Player;
+import SoftEng_2024.Model.Player_and_Board.Player;
 
 import java.rmi.RemoteException;
 import java.util.*;

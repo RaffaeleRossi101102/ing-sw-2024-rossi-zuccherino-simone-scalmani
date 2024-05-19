@@ -3,9 +3,9 @@ package SoftEng_2024;
 
 
 import SoftEng_2024.Controller.GameController;
-import SoftEng_2024.Model.Board;
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Cards.Card;
-import SoftEng_2024.Model.Player;
+import SoftEng_2024.Model.Player_and_Board.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

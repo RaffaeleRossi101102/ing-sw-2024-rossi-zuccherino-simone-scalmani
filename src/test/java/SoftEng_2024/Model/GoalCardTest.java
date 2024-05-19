@@ -5,6 +5,8 @@ import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.ResourceFront;
+import SoftEng_2024.Model.Player_and_Board.Board;
+import SoftEng_2024.Model.Player_and_Board.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

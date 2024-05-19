@@ -1,8 +1,8 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
-public class JoinGameMessage implements MessageView{
+public class JoinGameMessage implements ViewMessage {
     String nickname;
     double ID;
     public JoinGameMessage(String nickname, double ID){

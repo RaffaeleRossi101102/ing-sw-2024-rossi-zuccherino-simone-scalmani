@@ -1,4 +1,4 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.Player_and_Board;
 
 import SoftEng_2024.Model.Cards.Card;
 

@@ -1,9 +1,10 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.GoalCard;
 
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Enums.Angles;
 
 // Classe che rappresenta le carte con il Goal delle triplette di un solo tipo di risorsa
-public class ResourceGoalCard extends GoalCard{
+public class ResourceGoalCard extends GoalCard {
     // Attributo che identifica il tipo di risorsa nella tripletta del Goal
     private final Angles resources;
     // Costruttore della classe

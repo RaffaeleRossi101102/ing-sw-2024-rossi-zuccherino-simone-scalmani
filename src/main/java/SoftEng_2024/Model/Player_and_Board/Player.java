@@ -1,9 +1,11 @@
-package SoftEng_2024.Model;
+package SoftEng_2024.Model.Player_and_Board;
 
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Color;
+import SoftEng_2024.Model.GoalCard.GoalCard;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Player {
@@ -11,14 +13,14 @@ public class Player {
     private final String nickname;
     private Board playerBoard;
     public boolean isPlaying;
-    private volatile GoalCard goal;
+    private List<GoalCard> availableGoals;
     private List<Color> color;
     private boolean isOnline;
     private boolean disconnectionResilience = false;
     //METHODS
 
     //CONSTRUCTOR
-    public Player(List<Card> hand,Board playerBoard, String nickname){
+    public Player(List<Card> hand, Board playerBoard, String nickname){
         this.nickname = nickname;
         this.hand=hand;
         this.playerBoard=playerBoard;
@@ -32,9 +34,6 @@ public class Player {
 
     //GETTERS
 
-    public GoalCard getGoal() {
-        return goal;
-    }
 
     public String getNickname() {
         return nickname;
@@ -42,12 +41,6 @@ public class Player {
 
     public Board getPlayerBoard() {
         return playerBoard;
-    }
-
-    //Il giocatore tramite la view ha già scelto la carta obiettivo che le è stata proposta dal controller
-    //in questo metodo la inserisco semplicemente tra le sue carte
-    public void setGoalCard(GoalCard goals){
-        this.goal=goals;
     }
 
     public List<Card> getHand() {
@@ -80,5 +73,9 @@ public class Player {
 
     public void setDisconnectionResilience(boolean disconnectionResilience) {
         this.disconnectionResilience = disconnectionResilience;
+    }
+
+    public List<GoalCard> getAvailableGoals() {
+        return availableGoals;
     }
 }

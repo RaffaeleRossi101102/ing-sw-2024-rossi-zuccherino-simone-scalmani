@@ -1,6 +1,6 @@
 package SoftEng_2024.Network.ToModel;
 
-import SoftEng_2024.View.Messages.MessageView;
+import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -17,12 +17,12 @@ public class RMIServer implements ServerInterface{
         this.manager = manager;
     }
     @Override
-    public void addToQueue(MessageView msg) throws RemoteException {
+    public void addToQueue(ViewMessage msg) throws RemoteException {
         manager.addViewMessages(msg);
     }
     public void run() throws RemoteException, AlreadyBoundException {
-        String registryName= "localhost";
-        ServerInterface stub= (ServerInterface) UnicastRemoteObject.exportObject(this,0);
+        String registryName = "localhost";
+        ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(this,0);
         Registry registry;
         try {
             registry = LocateRegistry.createRegistry(6969);

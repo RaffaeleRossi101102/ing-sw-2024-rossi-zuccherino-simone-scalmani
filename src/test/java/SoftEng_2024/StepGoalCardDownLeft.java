@@ -1,10 +1,10 @@
 package SoftEng_2024;
 
-import SoftEng_2024.Model.Board;
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Cards.StarterCard;
-import SoftEng_2024.Model.Cell;
+import SoftEng_2024.Model.Player_and_Board.Cell;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;

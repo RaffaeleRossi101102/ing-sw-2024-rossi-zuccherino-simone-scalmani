@@ -1,9 +1,9 @@
-package SoftEng_2024.Controller;
+package SoftEng_2024.Model;
 
-import SoftEng_2024.Model.Board;
 import SoftEng_2024.Model.Cards.Card;
-import SoftEng_2024.Model.GoalCard;
-import SoftEng_2024.Model.Player;
+import SoftEng_2024.Model.GoalCard.GoalCard;
+import SoftEng_2024.Model.Player_and_Board.Board;
+import SoftEng_2024.Model.Player_and_Board.Player;
 
 
 import java.util.*;
@@ -44,7 +44,7 @@ public class Game {
         for(Player player:players){
             localBoard=player.getPlayerBoard();
             playerScore[players.indexOf(player)] = localBoard.getScore();
-            goalScore= player.getAvailableGoals().getFirst().calcScore(localBoard);
+            goalScore= player.getAvailableGoals().get(0).calcScore(localBoard);
             if(goalScore!=0){
                 goalTypes[players.indexOf(player)]++;
                 playerScore[players.indexOf(player)] += goalScore;
@@ -196,6 +196,13 @@ public class Game {
         }
         if(!player.equals(currentPlayer)) result=-1;
         return result;
+    }
+    public void updatePublicCards(){
+        publicCards.add(resourceDeck.poll());
+        publicCards.add(resourceDeck.poll());
+        publicCards.add(goldDeck.poll());
+        publicCards.add(goldDeck.poll());
+        //notify
     }
     //metodo che aggiorna il current player,
     public GoalCard[] getPublicGoals() {

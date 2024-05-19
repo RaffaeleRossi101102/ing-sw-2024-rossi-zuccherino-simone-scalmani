@@ -1,8 +1,8 @@
-package SoftEng_2024.View.Messages;
+package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
-public class CreateGameMessage implements MessageView{
+public class CreateGameMessage implements ViewMessage {
     String nickname;
     int maxPlayers;
     double ID;
