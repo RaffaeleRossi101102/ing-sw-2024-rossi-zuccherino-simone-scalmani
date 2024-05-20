@@ -31,7 +31,7 @@ public class RMIServer implements ServerInterface{
         }
         try {
             registry.bind(registryName, stub);
-            System.out.println("ServerBound");
+            System.out.println("ToModelServerBound");
         } catch (RemoteException remoteException ) {
             throw new RuntimeException("Something went wrong, retry... ");
         }

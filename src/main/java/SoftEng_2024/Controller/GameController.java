@@ -329,8 +329,19 @@ public class GameController {
         //notify all clients for public goals
     }
     public void choosePrivateGoals(int choice, double ID){
+        //discards a private goal from the player attrbute
         Player player=playerIdMap.get(ID);
         player.getAvailableGoals().remove(2-choice);
+        //checks if all the players had already chosen their private goal
+        int counter=0;
+        for(Player player1: game.getPlayers()){
+            if(player1.getAvailableGoals().size()==1)
+                counter++;
+        }
+        if(counter==maxPlayers){
+            gameState=GameState.PLAY;
+            //notify we are ready to start the game
+        }
 
     }
     public void playCard(int card, int row, int column, boolean flipped,double ID){

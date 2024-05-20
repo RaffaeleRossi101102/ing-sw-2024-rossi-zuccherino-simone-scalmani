@@ -3,6 +3,9 @@ package SoftEng_2024.View;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ClientRMI;
 import SoftEng_2024.Network.ToModel.ServerInterface;
+import SoftEng_2024.Network.ToView.ClientObServerRMI;
+import SoftEng_2024.Network.ToView.ObServerInterface;
+import SoftEng_2024.Network.ToView.RMIObServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -39,7 +42,7 @@ public class MainView {
         //creating an RMI connection
         if(connectionType.equals("RMI")){
             try {
-                //lookup of the registry
+                //lookup of the to model registry
                 Registry registry = LocateRegistry.getRegistry("localhost", 6969);
                 ServerInterface server = (ServerInterface) registry.lookup("localhost");
                 ClientInterface client= new ClientRMI(server, ID);

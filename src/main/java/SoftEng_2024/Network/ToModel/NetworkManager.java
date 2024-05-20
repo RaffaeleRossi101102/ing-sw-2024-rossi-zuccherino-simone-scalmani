@@ -14,21 +14,55 @@ public class NetworkManager {
     public NetworkManager(GameController controller){
         this.controller = controller;
         this.viewMessages = new LinkedBlockingQueue<>();
+
     }
 
 
     public void run(){
-        while(running){
-            Thread t = new Thread(() -> {
-                try {
-                    viewMessages.take().executeMessage(this.controller);
-                } catch (InterruptedException e) {
-                    System.err.println("Something went wrong while executing the messages");
-                    throw new RuntimeException(e);
-                }
-            });
-            t.start();
+        System.out.println("Executing messages from the queue");
+        controller.setGameState(GameState.CONNECTION);
+        while(controller.getGameState()==GameState.CONNECTION){
+            pollThreaded();
         }
+        //vengono pescate le carte risorsa e oro e messe nel centro
+        controller.getGame().updatePublicCards();
+        //viene data a ciascun player la carta iniziale
+
+        controller.handOutStarterCards();
+
+        //Each player plays their starter card and choose the color of his pawn
+        while(controller.getGameState()==GameState.STARTER | controller.getGameState()==GameState.SETCOLOR){
+            pollThreaded();
+        }
+
+
+        //I goal privati vengono aggiunti al player già nella addPlayer, da valutare se serve il metodo
+        //oppure se tenerlo lì
+        controller.handOutPrivateGoals();
+        //Each player choose his private goal
+        while(controller.getGameState()==GameState.CHOOSEGOAL){
+            pollThreaded();
+        }
+        //vengono date le carte a tutti i giocatori
+        controller.handOutCards();
+
+        //Each player is now initialized, and we are ready to start the game
+        while(controller.getGameState()==GameState.PLAY){
+            pollThreaded();
+        }
+
+    }
+
+    private void pollThreaded(){
+        Thread t = new Thread(() -> {
+            try {
+                viewMessages.take().executeMessage(this.controller);
+            } catch (InterruptedException e) {
+                System.err.println("Something went wrong while executing the messages");
+                throw new RuntimeException(e);
+            }
+        });
+        t.start();
     }
 
     public void setRunning(boolean running){
