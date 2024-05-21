@@ -4,14 +4,20 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
+import SoftEng_2024.Network.ToModel.RMIServer;
+import SoftEng_2024.Network.ToModel.ServerInterface;
+import SoftEng_2024.Network.ToModel.SocketServer;
 
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 import static SoftEng_2024.Model.Cards.CardDeserializer.*;
 
 public class GameController {
 
+    private ServerInterface serverRMI;
+    private SocketServer serverSocket;
 
     private Game game;
     private List<Player> clientPlayers = new ArrayList<>();
@@ -171,7 +177,7 @@ public class GameController {
         return new LinkedList<>(goalCardArrayList);
     }
     //Method that creates the game
-    public synchronized void createGame(int maxPlayers, String nickname, double ID){
+    public synchronized void createGame(int maxPlayers, String nickname, double ID) throws RemoteException {
         //if noone has already created the game, the number of maxPlayers is set and a new player is created
         if (clientPlayers.isEmpty()){
             this.maxPlayers=maxPlayers;
@@ -181,10 +187,12 @@ public class GameController {
         else{
             //the method sends back a message saying that the game has already been created.
             System.err.println(nickname + " attempted to create a game");
+            serverRMI.unregisterClient(ID);
+            serverSocket.unregisterClient(ID);
             //notify to the correct viewID
         }
     }
-    public synchronized void joinGame(String nickname, double ID){
+    public synchronized void joinGame(String nickname, double ID) throws RemoteException {
         if(clientPlayers.isEmpty()) {
             addPlayer(nickname, ID);
         }
@@ -196,6 +204,7 @@ public class GameController {
             }
             //se esco dal for, significa che il nickname scelto è originale
             addPlayer(nickname,ID);
+            System.out.println(nickname+ " has joined the game");
             //controllo se il player collegato è l'ultimo
             if(clientPlayers.size()==maxPlayers){
                 gameState=GameState.STARTER;
@@ -385,6 +394,15 @@ public class GameController {
     }
 
     //GETTERS AND SETTERS*********************************************
+
+    public void setServerRMI(ServerInterface serverRMI) {
+        this.serverRMI = serverRMI;
+    }
+
+    public void setServerSocket(SocketServer serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
     public Game getGame() {
         return game;
     }

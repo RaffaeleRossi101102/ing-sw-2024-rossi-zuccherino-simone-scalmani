@@ -22,6 +22,17 @@ public class CliViewClient implements View {
     public void run(){
         System.out.println("The CliView is running!");
         System.out.println("Type  CreateGame, Join or ReJoin to play!");
+
+        Thread clientQueueExecutor = new Thread(()->
+        {
+            try {
+                this.client.run();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        clientQueueExecutor.start();
+
         Scanner scanner= new Scanner(System.in);
         String command=scanner.nextLine();
 

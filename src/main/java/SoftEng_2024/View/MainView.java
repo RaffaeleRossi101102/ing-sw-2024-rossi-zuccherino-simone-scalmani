@@ -2,20 +2,13 @@ package SoftEng_2024.View;
 
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ClientRMI;
-import SoftEng_2024.Network.ToModel.ServerInterface;
-import SoftEng_2024.Network.ToView.ClientObServerRMI;
-import SoftEng_2024.Network.ToView.ObServerInterface;
-import SoftEng_2024.Network.ToView.RMIObServer;
-
-import java.rmi.NotBoundException;
+import SoftEng_2024.Network.ToModel.SocketClient;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class MainView {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
         //creating a random ID based on currentTimeMillis() method
         double ID = System.currentTimeMillis();
         System.out.println("Welcome to CODEX NATURALIS!");
@@ -42,27 +35,32 @@ public class MainView {
         //creating an RMI connection
         if(connectionType.equals("RMI")){
             try {
-                //lookup of the to model registry
-                Registry registry = LocateRegistry.getRegistry("localhost", 6969);
-                ServerInterface server = (ServerInterface) registry.lookup("localhost");
-                ClientInterface client= new ClientRMI(server, ID);
-
-                //lookup of the to view registry
-                Registry registry2 = LocateRegistry.getRegistry("localhost", 9696);
-                RMIObServer server2 = (RMIObServer) registry2.lookup("localhost");
-                ObServerInterface client2 = new ClientObServerRMI(server2);
-
-            //running the chosen type of UI
-                if(viewType.equals("CLI"))
-                    new CliViewClient(ID,client).run();
-                else if(viewType.equals("GUI"))
-                    System.out.println("La gui nun ce sta");
-            }catch(RemoteException | NotBoundException e){
-                System.err.println("Something went wrong during the binding. Retry... ");
-                e.printStackTrace();
+                 client = new ClientRMI(ID);
+            } catch (RemoteException e) {
+                throw new RuntimeException("Something went wrong while trying to create the client...");
             }
-        } else if (connectionType.equals("Socket")) {
-            System.out.println("Er Socket nun ce sta");
+
+            if(viewType.equals("CLI")) {
+                CliViewClient cliView = new CliViewClient(ID, client);
+                client.setView(cliView);
+                cliView.run();
+            }
+            else {
+                System.out.println("La gui nun ce sta per ora, paolo incoming :)");
+            }
+
+        } else {
+
+            ClientInterface socketClient= new SocketClient("localhost",4567);
+
+            if(viewType.equals("CLI")) {
+
+                new CliViewClient(ID, socketClient).run();
+            } else {
+
+                System.out.println("La gui nun ce sta per ora, paolo incoming :)");
+            }
+
         }
     }
 }

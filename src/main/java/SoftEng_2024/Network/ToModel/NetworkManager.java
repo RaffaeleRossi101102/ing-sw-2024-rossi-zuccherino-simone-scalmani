@@ -4,6 +4,7 @@ import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
+import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NetworkManager {
@@ -53,11 +54,11 @@ public class NetworkManager {
 
     }
 
-    private void pollThreaded(){
+    private void pollThreaded()  {
         Thread t = new Thread(() -> {
             try {
                 viewMessages.take().executeMessage(this.controller);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | RemoteException e) {
                 System.err.println("Something went wrong while executing the messages");
                 throw new RuntimeException(e);
             }
@@ -72,4 +73,5 @@ public class NetworkManager {
     public void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
     }
+
 }

@@ -2,6 +2,8 @@ package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
+import java.rmi.RemoteException;
+
 public class CreateGameMessage implements ViewMessage {
     String nickname;
     int maxPlayers;
@@ -12,7 +14,7 @@ public class CreateGameMessage implements ViewMessage {
         this.nickname=nickname;
     }
     @Override
-    public void executeMessage(GameController controller){
+    public void executeMessage(GameController controller) throws RemoteException {
         controller.createGame(maxPlayers,nickname,ID);
     }
 }

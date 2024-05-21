@@ -17,7 +17,7 @@ public class RMIServer implements ServerInterface{
         this.manager = manager;
     }
     @Override
-    public void addToQueue(ViewMessage msg) throws RemoteException {
+    public void addToNetworkManager(ViewMessage msg) throws RemoteException {
         manager.addViewMessages(msg);
     }
     public void run() throws RemoteException, AlreadyBoundException {

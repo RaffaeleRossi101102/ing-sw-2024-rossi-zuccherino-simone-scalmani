@@ -9,15 +9,19 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     ServerInterface server;
     double ID;
 
-    public ClientRMI(ServerInterface server, double ID) throws RemoteException {
-        this.server = server;
+    public ClientRMI(double ID) throws RemoteException {
+        this.modelQueue=new LinkedBlockingQueue<>();
         this.ID = ID;
     }
 
-
+    public void run(){
+        while(true){
+            pollThreaded();
+        }
+    }
     @Override
     public void update(ViewMessage msg) throws RemoteException {
-        server.addToQueue(msg);
+        server.addToNetworkManager(msg);
     }
 
     @Override

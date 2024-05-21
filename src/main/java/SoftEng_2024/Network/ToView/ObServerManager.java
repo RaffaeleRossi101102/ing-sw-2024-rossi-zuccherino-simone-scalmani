@@ -1,15 +1,34 @@
 package SoftEng_2024.Network.ToView;
 
-import java.util.Queue;
+import java.rmi.RemoteException;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import SoftEng_2024.Model.ModelMessages.*;
+import SoftEng_2024.Network.ToModel.ServerInterface;
+import SoftEng_2024.Network.ToModel.SocketServer;
 
 public class ObServerManager {
 
-    private Queue<ModelMessage> modelMessages;
-    private SocketObServer socket;
+    private LinkedBlockingQueue<ModelMessage> modelMessages;
+    private ServerInterface serverRMI;
+    private SocketServer socketServer;
+
+    public ObServerManager(ServerInterface serverRMI, SocketServer socketServer){
+        this.serverRMI = serverRMI;
+        this.socketServer = socketServer;
+    }
 
 
-    public void run(){
-
+    public void run() throws RemoteException {
+    ModelMessage msg;
+        while(true){
+            try {
+                msg=modelMessages.take();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            serverRMI.addToClientQueue(msg);
+            socketServer.addToClientQueue(msg);
+        }
     }
 }
