@@ -10,4 +10,6 @@ public abstract class ModelMessage {
         this.ID = ID;
         this.message = message;
     }
+
+    public abstract void executeMessage(View view);
 }

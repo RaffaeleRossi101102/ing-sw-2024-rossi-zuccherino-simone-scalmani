@@ -34,6 +34,7 @@ public class MainView {
         System.out.println("Got it :)");
         //creating an RMI connection
         if(connectionType.equals("RMI")){
+            ClientInterface client;
             try {
                  client = new ClientRMI(ID);
             } catch (RemoteException e) {

@@ -11,6 +11,6 @@ public class QuitMessage implements ViewMessage {
 
     @Override
     public void executeMessage(GameController controller) {
-
+        controller.quit(ID);
     }
 }

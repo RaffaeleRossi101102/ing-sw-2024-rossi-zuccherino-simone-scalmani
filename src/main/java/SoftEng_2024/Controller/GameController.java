@@ -215,9 +215,16 @@ public class GameController {
         }
         else{
             System.err.println("Someone tried to join the game...");
+            serverRMI.unregisterClient(ID);
+            serverSocket.unregisterClient(ID);
             //show error maxPlayerReached
         }
     }
+
+    public void quit(double ID) {
+        //TODO disconnetti client e resilienza alle disconnessioni
+    }
+
     private void addPlayer(String nickname, double ID) {
         //istanzio la board
         Board board = new Board();
@@ -422,4 +429,6 @@ public class GameController {
     public GameState getGameState() {
         return gameState;
     }
+
+
 }

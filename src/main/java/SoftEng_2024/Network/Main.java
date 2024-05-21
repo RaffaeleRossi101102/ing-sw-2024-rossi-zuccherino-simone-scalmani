@@ -12,17 +12,22 @@ import SoftEng_2024.Network.ToView.RMIObServer;
 import SoftEng_2024.Network.ToView.SocketObServer;
 
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
 public class Main {
     //method that creates
-    public static void main(String[] args) throws AlreadyBoundException, RemoteException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException {
+    public static void main(String[] args) throws AlreadyBoundException, RemoteException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException, IOException {
         //crea
         GameController controller= new GameController();
+
         NetworkManager managerToModel= new NetworkManager(controller);
         managerToModel.setRunning(true);
+
         ServerInterface engineRMI = new RMIServer(managerToModel);
+
         RMIObServer obServerRMI = new RMIObServer();
 
         SocketServer serverSocket = new SocketServer(4567, managerToModel); //Attenzione alla porta da inserire
@@ -38,11 +43,12 @@ public class Main {
 
 
         engineRMI.run();
+        serverSocket.startServer();
         managerToModel.run();
         managerToView.run();
         obServerRMI.run();
 
         //SocketObServer obServerSocket = new SocketObServer();
-        //ServerSocket serverSocket=new ServerSocket(controller);
+
     }
 }

@@ -1,5 +1,7 @@
 package SoftEng_2024.Network.ToModel;
 
+import SoftEng_2024.Model.ModelMessages.ModelMessage;
+import SoftEng_2024.View.ViewMessages.QuitMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.rmi.AlreadyBoundException;
@@ -7,14 +9,19 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RMIServer implements ServerInterface{
-    private NetworkManager manager;
+    private final NetworkManager manager;
+    private ConcurrentHashMap<Double, ClientInterface> IdClientBindingMap;
+    private ModelMessage msg;
+
     //**************************************
     //METHODS
     //CONSTRUCTOR
     public RMIServer(NetworkManager manager) throws RemoteException{
         this.manager = manager;
+        IdClientBindingMap = new ConcurrentHashMap<>();
     }
     @Override
     public void addToNetworkManager(ViewMessage msg) throws RemoteException {
@@ -37,4 +44,42 @@ public class RMIServer implements ServerInterface{
         }
 
     }
+
+    @Override
+    public void registerClient(double ID, ClientInterface client) throws RemoteException{
+
+        if (!IdClientBindingMap.containsKey(ID)) {
+            IdClientBindingMap.put(ID, client);
+        }else {
+            System.err.println("ID already mapped...");
+        }
+    }
+
+    @Override
+    public void unregisterClient(double ID) throws RemoteException{
+
+        if (IdClientBindingMap.containsKey(ID)) {
+            IdClientBindingMap.remove(ID);
+        }else {
+            System.err.println("ID not found...");
+        }
+    }
+
+    @Override
+    public void addToClientQueue(ModelMessage msg) throws RemoteException {
+        //for each client that is connected
+        for(double ID: IdClientBindingMap.keySet()){
+            try{
+                //adds the message to the client's modelMessageQueue
+                IdClientBindingMap.get(ID).addToViewQueue(msg);
+            }catch(RemoteException re){
+
+                //client probably crashed or something went wrong with his stub
+                unregisterClient(ID);
+                ViewMessage message = new QuitMessage(ID);
+                manager.addViewMessages(message);
+            }
+        }
+    }
+
 }

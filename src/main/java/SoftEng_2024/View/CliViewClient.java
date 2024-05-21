@@ -5,6 +5,7 @@ import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.ViewMessages.*;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -136,6 +137,14 @@ public class CliViewClient implements View {
             }
         }
 
+
+        try {
+            client.registerToServer(ID, client);
+        } catch (RemoteException | NotBoundException e) {
+            System.err.println("Server not found or something went terribly wrong!");
+            return;
+        }
+
         ViewMessage msg = new CreateGameMessage(nickname, maxPlayers, this.ID);
         updateClient(msg);
 
@@ -151,6 +160,14 @@ public class CliViewClient implements View {
             System.err.println("Nice name, but make it shorter! (max 20 char)");
             nickname=input.nextLine();
         }
+
+        try {
+            client.registerToServer(ID, client);
+        } catch (RemoteException | NotBoundException e) {
+            System.err.println("Error 404... server not found");
+            return;
+        }
+
         ViewMessage msg= new JoinGameMessage(nickname,this.ID);
         updateClient(msg);
     }
