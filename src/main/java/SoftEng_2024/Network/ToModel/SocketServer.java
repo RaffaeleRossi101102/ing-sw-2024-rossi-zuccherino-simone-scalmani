@@ -1,12 +1,8 @@
 package SoftEng_2024.Network.ToModel;
 
 
-import SoftEng_2024.Model.ModelMessages.ModelMessage;
-import SoftEng_2024.View.ViewMessages.ViewMessage;
-
 import java.io.*;
 import java.net.*;
-import java.rmi.*;
 
 public class SocketServer{
     private final int port;
@@ -33,31 +29,5 @@ public class SocketServer{
                 break; //esce quando si chiude il server
             }
         }
-    }
-
-
-
-
-    public void addToNetworkManager(ViewMessage msg)  {
-
-    }
-
-
-    public void run() {
-
-    }
-
-
-    public void registerClient(double ID)  {
-        //TODO il serverSocket avrà una mappa in cui la chiave sono gli ID dei client e il valore sono i socket.
-        //TODO Aggiungi alla mappa il socket e l'ID
-    }
-
-    public void unregisterClient(double ID) {
-        //TODO elimina dalla mappa il socket da non considerare per l'invio dei messaggi
-    }
-
-    public void addToClientQueue(ModelMessage msg){
-
     }
 }

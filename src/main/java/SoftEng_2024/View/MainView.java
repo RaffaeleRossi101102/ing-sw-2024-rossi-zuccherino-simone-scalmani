@@ -52,7 +52,7 @@ public class MainView {
 
         } else {
 
-            ClientInterface socketClient= new SocketClient("localhost",4567);
+            ClientInterface socketClient = new SocketClient("localhost",4567, ID);
 
             if(viewType.equals("CLI")) {
 

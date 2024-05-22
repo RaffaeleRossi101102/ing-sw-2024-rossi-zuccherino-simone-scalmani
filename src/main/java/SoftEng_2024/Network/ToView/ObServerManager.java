@@ -6,16 +6,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
+import SoftEng_2024.Network.ToModel.SocketClientHandler;
 
 public class ObServerManager {
 
     private LinkedBlockingQueue<ModelMessage> modelMessages;
     private ServerInterface serverRMI;
     private SocketServer socketServer;
+    private SocketClientHandler socketServerHandler;
 
-    public ObServerManager(ServerInterface serverRMI, SocketServer socketServer){
+    public ObServerManager(ServerInterface serverRMI, SocketServer socketServer, SocketClientHandler socketServerHandler){
         this.serverRMI = serverRMI;
         this.socketServer = socketServer;
+        this.socketServerHandler = socketServerHandler;
     }
 
 
@@ -28,7 +31,7 @@ public class ObServerManager {
                 throw new RuntimeException(e);
             }
             serverRMI.addToClientQueue(msg);
-            socketServer.addToClientQueue(msg);
+            socketServerHandler.addToClientQueue(msg);
         }
     }
 }
