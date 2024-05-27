@@ -1,6 +1,8 @@
 package SoftEng_2024.Network.ToModel;
 
 
+import SoftEng_2024.Model.ModelMessages.ModelMessage;
+
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +67,19 @@ public class SocketServer{
             clientsOut.remove(id);
         }else{
             System.err.println("ID NOT REGISTERED...");
+        }
+    }
+
+    //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
+    public void addToClientQueue(ModelMessage msg) throws IOException {
+        for(ObjectOutputStream out : clientsOut.values()) {
+            try {
+                out.writeObject(msg);
+                out.flush();
+                out.reset();
+            } catch (IOException e) {
+                System.out.println("ERROR WRITING OBJECT...");
+            }
         }
     }
 }
