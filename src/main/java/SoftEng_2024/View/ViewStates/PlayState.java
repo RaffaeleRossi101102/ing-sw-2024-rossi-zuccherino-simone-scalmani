@@ -1,5 +1,6 @@
 package SoftEng_2024.View.ViewStates;
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
 
@@ -16,7 +17,7 @@ public class PlayState extends ViewState{
         defaultCommand(GameState.CHOOSEGOAL);
         //TODO System.out.println("Now it's time to Play! It's "+ currentPlayer+ " turn");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type ChoosePrivateGoal  or chat");
+        System.out.println("Type Play, Chat or Quit");
         String command = scanner.nextLine();
         //TODO: e se ci fosse un while in cui si aspetta di diventare di turno per giocare? O in generale dentro al metodo
         //TODO: play e draw card ci potrebbe essere un controllo diretto se si è di turno
@@ -37,7 +38,7 @@ public class PlayState extends ViewState{
                     System.err.println("Command not available... retry");
                     break;
             }
-            System.out.println("Type  'Set Color' or 'Chat'");
+            System.out.println("Type Play, Chat or Quit");
             command = scanner.nextLine();
         }
         waitingState.setPreviousState(this);

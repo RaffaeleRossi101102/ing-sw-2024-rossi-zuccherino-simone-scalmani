@@ -6,6 +6,7 @@ import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
 import SoftEng_2024.Network.ToModel.RMIServer;
 import SoftEng_2024.Network.ToModel.ServerInterface;
+import SoftEng_2024.Network.ToModel.SocketClientHandler;
 import SoftEng_2024.Network.ToModel.SocketServer;
 
 
@@ -193,13 +194,19 @@ public class GameController {
         }
     }
     public synchronized void joinGame(String nickname, double ID) throws RemoteException {
+
+        if (!gameState.equals(GameState.CONNECTION)){
+            //TODO: manda messaggio only reconnect
+            return;
+        }
+
         if(clientPlayers.isEmpty()) {
             addPlayer(nickname, ID);
         }
         else if(clientPlayers.size()<maxPlayers){
             for(Player player: clientPlayers){
                 if(player.getNickname().equals(nickname)){
-                    //show "NickAlreadyChosenError + return
+                    //TODO show "NickAlreadyChosenError + return
                 }
             }
             //se esco dal for, significa che il nickname scelto è originale
@@ -209,20 +216,23 @@ public class GameController {
             if(clientPlayers.size()==maxPlayers){
                 gameState=GameState.STARTER;
                 game.shufflePlayers();
-                //notify game status update--> per le notify degli status ha senso far partire il thread?
+                //TODO notify game status update
+                //--> per le notify degli status ha senso far partire il thread?
                 //Rischio che il thread di notify status venga eseguito dopo l'update delle hands.
             }
         }
         else{
             System.err.println("Someone tried to join the game...");
             serverRMI.unregisterClient(ID);
-          //serverSocket.unregisterClient(ID);
-            //show error maxPlayerReached
+            //serverSocket.unregisterClient(ID);
+            //TODO show error maxPlayerReached
         }
     }
 
     public void quit(double ID) throws RemoteException{
         //TODO disconnetti client e resilienza alle disconnessioni
+        serverRMI.unregisterClient(ID);
+        //serverSocket.unregisterClient(ID);
     }
 
     private void addPlayer(String nickname, double ID) {
@@ -240,7 +250,13 @@ public class GameController {
     }
 
     public void reJoinGame(String nickname, double ID){
-        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id o qualcosa di meglio (********************)
+
+        if (gameState.equals(GameState.CONNECTION)){
+            //TODO: manda messaggio only connect
+            return;
+        }
+
+        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
         for (Double playerId : playerIdMap.keySet()) {
 
             if(nickname.equals(playerIdMap.get(playerId).getNickname())){
@@ -252,7 +268,7 @@ public class GameController {
             }
         }
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-        //notify observer for a failed reJoin by "nickname"
+        //TODO notify observer for a failed reJoin by "nickname"
     }
 
     public void playStarterCard(boolean flipped, double ID) {

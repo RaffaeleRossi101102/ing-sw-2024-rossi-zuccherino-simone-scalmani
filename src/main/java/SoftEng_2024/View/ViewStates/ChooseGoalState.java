@@ -19,14 +19,18 @@ public class ChooseGoalState extends ViewState {
         defaultCommand(GameState.SETCOLOR);
         System.out.println("Now it's time to choose your private goal!");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type ChoosePrivateGoal  or chat");
+        System.out.println("Type Choose Private Goal, Chat or Quit");
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
             switch (command.trim().toLowerCase()) {
                 case "chooseprivategoal":
-                    choosePrivateGoal();
-                    commandChosen = true;
+                    if (view.getLocalModel().getAvailableGoals().isEmpty()){
+                        System.err.println("Goals are not already available, wait a few seconds and retry...");
+                    }else{
+                        choosePrivateGoal();
+                        commandChosen = true;
+                    }
                     break;
                 case "chat":
                     writeInChat();
@@ -38,7 +42,7 @@ public class ChooseGoalState extends ViewState {
                     System.err.println("Command not available... retry");
                     break;
             }
-            System.out.println("Type  SetColor or chat");
+            System.out.println("Type Choose Private Goal, Chat or Quit");
             command = scanner.nextLine();
         }
         waitingState.setPreviousState(this);
@@ -50,6 +54,8 @@ public class ChooseGoalState extends ViewState {
         System.out.println("Inside choose private goal...");
         Scanner scanner = new Scanner(System.in);
         String answer;
+        System.out.println("Goal 1: " + view.getLocalModel().getAvailableGoals().get(0).getGoalType());
+        System.out.println("Goal 2: " + view.getLocalModel().getAvailableGoals().get(1).getGoalType());
         System.out.println("Type [1] or [2] to choose your private goal");
         answer = scanner.nextLine();
         while (!answer.equals("1") && !answer.equals("2")) {

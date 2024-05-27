@@ -37,7 +37,7 @@ public class SocketClientHandler extends Thread  {
             id = dis.readDouble();
             clientsConnected.put(id, socket);
             while(true) {
-                //RECIVING MESSAGES FROM CLIENT AND ADDING THEM TO THE NETWORKMANAGER QUEUE
+                //RECEIVING MESSAGES FROM CLIENT AND ADDING THEM TO THE NETWORK MANAGER QUEUE
                 message = (ViewMessage) in.readObject();
                 addToQueue(message);
                 System.out.println("MESSAGE ADDED TO QUEUE");

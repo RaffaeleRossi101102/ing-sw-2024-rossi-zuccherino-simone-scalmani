@@ -91,7 +91,7 @@ public class SocketClient implements ClientInterface {
         }
     }
 
-    //METODO CHE VIENE CHIAMATO DALLA VIEW PER DARE IL RIFEREMENTO AL CLIENT
+    //METODO CHE VIENE CHIAMATO DALLA VIEW PER DARE IL RIFERIMENTO AL CLIENT
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;

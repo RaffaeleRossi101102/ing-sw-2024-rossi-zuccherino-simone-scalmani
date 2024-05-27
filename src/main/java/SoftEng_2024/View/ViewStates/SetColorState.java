@@ -7,6 +7,7 @@ import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.ViewMessages.SetColorMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class SetColorState extends ViewState{
@@ -19,9 +20,8 @@ public class SetColorState extends ViewState{
         System.out.println("Waiting for all the players to play their starter card...");
         defaultCommand(GameState.STARTER);
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
-        //TODO: valutare se stampare tutti i colori o solo quelli disponibili (in caso di fallimento)
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type  set color, chat or quit");
+        System.out.println("Type  Set Color, Chat or Quit");
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){

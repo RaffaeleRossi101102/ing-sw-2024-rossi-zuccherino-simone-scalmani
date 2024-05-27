@@ -29,7 +29,7 @@ public class Game {
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
         this.starterDeck = starterDeck;
-        this.publicCards=new ArrayList<>();
+        this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
     }
 

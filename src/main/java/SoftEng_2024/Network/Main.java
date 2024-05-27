@@ -40,8 +40,7 @@ public class Main {
         engineRMI.run();
         serverSocket.startServer();
         managerToModel.run();
-        managerToView.run();
-        obServerRMI.run();
+        //managerToView.run();
 
         //SocketObServer obServerSocket = new SocketObServer();
 

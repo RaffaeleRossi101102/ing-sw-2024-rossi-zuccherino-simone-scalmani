@@ -19,7 +19,7 @@ public class StarterState extends ViewState{
         System.out.println("Now it's time to play your starter card:");
         //TODO: prints player's starter card
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type  Play Starter Card  or chat");
+        System.out.println("Type  Play Starter Card, Chat or Quit");
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
