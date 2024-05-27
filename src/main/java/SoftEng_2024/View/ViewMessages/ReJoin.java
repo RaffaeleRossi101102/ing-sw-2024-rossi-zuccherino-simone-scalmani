@@ -14,6 +14,6 @@ public class ReJoin implements ViewMessage {
 
     @Override
     public void executeMessage(GameController controller) {
-
+        controller.reJoinGame(nickname, ID);
     }
 }
