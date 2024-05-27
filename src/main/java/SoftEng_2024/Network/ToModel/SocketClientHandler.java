@@ -58,19 +58,6 @@ public class SocketClientHandler extends Thread {
         }
     }
 
-    //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
-    public void addToClientQueue(ModelMessage msg) throws IOException {
-        for(ObjectOutputStream out : server.getClientsOut().values()) {
-            try {
-                out.writeObject(msg);
-                out.flush();
-                out.reset();
-            } catch (IOException e) {
-                System.out.println("ERROR WRITING OBJECT...");
-            }
-        }
-    }
-
     private void addToQueue(ViewMessage msg) {
         manager.addViewMessages(msg);
     }
