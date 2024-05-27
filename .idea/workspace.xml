@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Implementazione networkManager, view, rmi, tutto da completare">
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Socket implementato andata/ritorno da testare e controllare">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ClientInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/ServerInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" afterDir="false" />
     </list>
     <list id="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" name="Changes by raffo" comment="" />
     <list id="0224909f-5e04-43d6-8eb9-a8f579dd06b9" name="Changes by user" comment="" />
@@ -100,7 +97,7 @@
       <recent name="SoftEng_2024" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainView">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.Main" />
       <module name="ProgettoSoftEng" />
@@ -233,7 +230,10 @@
       <workItem from="1716305282388" duration="738000" />
       <workItem from="1716306095969" duration="476000" />
       <workItem from="1716358863041" duration="288000" />
-      <workItem from="1716384644161" duration="11382000" />
+      <workItem from="1716384644161" duration="11659000" />
+      <workItem from="1716473452459" duration="5556000" />
+      <workItem from="1716549576702" duration="33000" />
+      <workItem from="1716819294971" duration="6126000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />
@@ -251,7 +251,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714746369819</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Socket implementato andata/ritorno da testare e controllare">
+      <option name="closed" value="true" />
+      <created>1716397513508</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716397513508</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,7 +291,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="localnetwork" />
                       </list>
                     </value>
                   </entry>
@@ -298,7 +306,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge di Network e Model" />
     <MESSAGE value="Model corretto" />
-    <option name="LAST_COMMIT_MESSAGE" value="Model corretto" />
+    <MESSAGE value="Socket implementato andata/ritorno da testare e controllare" />
+    <option name="LAST_COMMIT_MESSAGE" value="Socket implementato andata/ritorno da testare e controllare" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

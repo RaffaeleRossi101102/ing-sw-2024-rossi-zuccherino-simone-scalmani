@@ -36,23 +36,27 @@ public class SocketClient implements ClientInterface {
             //STARTING CONNECTION
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeDouble(ID);
             //THREAD CHE STA IN ASCOLTO DEI MESSAGGI CHE ARRIVANO DAL SERVER
             Thread t = new Thread(() -> {
+                try {
+                    in = new ObjectInputStream(socket.getInputStream());
                 while(true){
                     try {
                         ModelMessage message= (ModelMessage) in.readObject();
                         addToViewQueue(message);
                     } catch (ClassNotFoundException | IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("ERROR READING OBJECT...");
                     }
+                }
+                } catch (IOException e) {
+                    System.out.println("ERROR INITIALIZING INPUT STREAM...");
                 }
             });
             t.start();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("ERROR CONNECTING CLIENT TO SERVER...");
         }
     }
 
@@ -62,6 +66,7 @@ public class SocketClient implements ClientInterface {
             out.writeObject(msg);
             out.flush();
         } catch (IOException ignored) {
+            System.out.println("ERROR WRITING OBJECT...");
         }
     }
 
@@ -69,7 +74,15 @@ public class SocketClient implements ClientInterface {
     @Override
     public void quit(ViewMessage msg) throws IOException {
         update(msg);
-        this.socket.close();
+        //DEVO CHIUDERE IL THREAD???
+        try {
+            this.out.close();
+            this.dos.close();
+            this.in.close();
+            this.socket.close();
+        }catch (IOException e){
+            System.out.println("ERROR CLOSING OUTPUT/INPUT STREAM OR SOCKET...");
+        }
     }
 
     //METODO CHE RICEVE I MESSAGI DAL SERVER E LI AGGIUNGE ALLA QUEUE DEL CLIENT
@@ -105,13 +118,11 @@ public class SocketClient implements ClientInterface {
             try {
                 this.modelQueue.take().executeMessage(this.view);
             } catch (InterruptedException e) {
-                System.err.println("Something went wrong while executing the messages");
-                throw new RuntimeException(e);
+                System.err.println("SOMETHING WENT WRONG WHILE EXECUTING MESSAGE");
+
             }
 
         });
         t.start();
     }
-
-
 }
