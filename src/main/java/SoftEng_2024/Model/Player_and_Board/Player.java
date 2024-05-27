@@ -16,7 +16,6 @@ public class Player {
     private List<GoalCard> availableGoals;
     private List<Color> color;
     private boolean isOnline;
-    private boolean disconnectionResilience = false;
     //METHODS
 
     //CONSTRUCTOR
@@ -29,8 +28,6 @@ public class Player {
         this.color=new ArrayList<>();
     }
     //SETTERS
-
-    //public void setNickname(String nickname) {this.nickname = nickname;}
 
     //GETTERS
 
@@ -65,14 +62,6 @@ public class Player {
 
     public void setOnline(boolean isOnline) {
         this.isOnline = isOnline;
-    }
-
-    public boolean getDisconnectionResilience() {
-        return disconnectionResilience;
-    }
-
-    public void setDisconnectionResilience(boolean disconnectionResilience) {
-        this.disconnectionResilience = disconnectionResilience;
     }
 
     public List<GoalCard> getAvailableGoals() {

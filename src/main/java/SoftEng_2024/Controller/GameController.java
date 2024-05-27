@@ -214,6 +214,7 @@ public class GameController {
             System.out.println(nickname+ " has joined the game");
             //controllo se il player collegato è l'ultimo
             if(clientPlayers.size()==maxPlayers){
+                //TODO inserire timer che ricontrolla dopo 10 secondi la condizione e se é ancora valida procede, altrimenti termina normalmente senza transire di stato
                 gameState=GameState.STARTER;
                 game.shufflePlayers();
                 //TODO notify game status update
@@ -232,7 +233,12 @@ public class GameController {
     public void quit(double ID) throws RemoteException{
         //TODO disconnetti client e resilienza alle disconnessioni
         serverRMI.unregisterClient(ID);
-        //serverSocket.unregisterClient(ID);
+        serverSocket.unRegisterClient(ID);
+        if (gameState.equals(GameState.CONNECTION)){
+            clientPlayers.remove(playerIdMap.remove(ID));
+        }else{
+            playerIdMap.get(ID).setOnline(false);
+        }
     }
 
     private void addPlayer(String nickname, double ID) {
@@ -262,6 +268,7 @@ public class GameController {
             if(nickname.equals(playerIdMap.get(playerId).getNickname())){
                 Player player = playerIdMap.remove(playerId);
                 playerIdMap.put(ID, player);
+                playerIdMap.get(ID).setOnline(true);
                 System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
                 //notify reJoin Observer
                 return;

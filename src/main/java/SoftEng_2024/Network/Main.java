@@ -27,7 +27,7 @@ public class Main {
 
         SocketServer serverSocket = new SocketServer(4567, managerToModel); //Attenzione alla porta da inserire
 
-        //ObServerManager managerToView = new ObServerManager(engineRMI, serverSocket);
+        ObServerManager managerToView = new ObServerManager(engineRMI, serverSocket);
 
         controller.setServerRMI(engineRMI);
         controller.setServerSocket(serverSocket);
@@ -38,11 +38,10 @@ public class Main {
 
 
         engineRMI.run();
-        serverSocket.startServer();
+        serverSocket.startServer(serverSocket);
         managerToModel.run();
-        //managerToView.run();
+        managerToView.run();
 
-        //SocketObServer obServerSocket = new SocketObServer();
 
     }
 }

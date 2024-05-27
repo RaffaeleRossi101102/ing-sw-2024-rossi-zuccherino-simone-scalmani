@@ -85,7 +85,7 @@ public class ConnectionState extends ViewState {
             client.registerToServer(ID, client);
         } catch (RemoteException | NotBoundException e) {
             System.err.println("Server not found or something went terribly wrong!");
-            return;
+            System.exit(0);
         }
 
         ViewMessage msg = new CreateGameMessage(nickname, maxPlayers, this.ID);
