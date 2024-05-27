@@ -399,6 +399,15 @@ public class GameController {
             player.setHand(game.getGoldDeck().poll());
         }
     }
+    //method that checks if someone has arrived at 20 points by calling drawCard inside the game class
+    private void checkingIfGameEnds(boolean gameEnd){
+        //if no one arrived at 20 points, a new turn starts
+        if(!gameEnd){
+            game.TurnStart();
+        }
+        //else, the game state changes and the network manager stops taking messages
+        else gameState=GameState.ENDGAME;
+    }
 
     //GETTERS AND SETTERS*********************************************
 

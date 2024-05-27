@@ -5,6 +5,7 @@ public enum GameState {
     STARTER,
     SETCOLOR,
     CHOOSEGOAL,
-    PLAY;
+    PLAY,
+    ENDGAME;
 
 }

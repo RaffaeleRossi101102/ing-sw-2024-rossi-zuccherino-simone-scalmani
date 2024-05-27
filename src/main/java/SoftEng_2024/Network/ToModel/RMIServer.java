@@ -45,6 +45,7 @@ public class RMIServer implements ServerInterface{
 
     }
 
+    //registers the client to the hash map
     @Override
     public void registerClient(double ID, ClientInterface client) throws RemoteException{
 
@@ -54,14 +55,14 @@ public class RMIServer implements ServerInterface{
             System.err.println("ID already mapped...");
         }
     }
-
+    //removes the client from the hash map
     @Override
     public void unregisterClient(double ID) throws RemoteException{
 
         if (IdClientBindingMap.containsKey(ID)) {
             IdClientBindingMap.remove(ID);
         }else {
-            System.err.println("ID not found...");
+            System.err.println("ID not found in RMI hashmap...");
         }
     }
 

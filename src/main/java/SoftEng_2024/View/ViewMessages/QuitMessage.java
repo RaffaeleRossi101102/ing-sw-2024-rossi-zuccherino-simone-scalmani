@@ -4,7 +4,6 @@ import SoftEng_2024.Controller.GameController;
 
 public class QuitMessage implements ViewMessage {
     double ID;
-
     public QuitMessage(double ID) {
         this.ID = ID;
     }

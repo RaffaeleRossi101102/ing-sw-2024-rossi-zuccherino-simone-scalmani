@@ -33,7 +33,7 @@ public class Game {
         this.goalCardDeck = goalCardDeck;
     }
 
-    protected List<Integer> GameEnd() {
+    public List<Integer> GameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
         List<Integer> indexWinners= new ArrayList<>();

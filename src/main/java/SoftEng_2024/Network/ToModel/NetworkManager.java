@@ -46,11 +46,14 @@ public class NetworkManager {
         }
         //vengono date le carte a tutti i giocatori
         controller.handOutCards();
-
+        //TODO: potrebbe mandare un messaggio in cui dice chi è di turno? Oppure lo si manda direttamente con
+        //TODO: il messaggio di cambio stato
         //Each player is now initialized, and we are ready to start the game
         while(controller.getGameState()==GameState.PLAY){
             pollThreaded();
         }
+        //when out of while loop it means that someone arrived at 20 points and users can only use the chat
+        controller.getGame().GameEnd();
 
     }
 
