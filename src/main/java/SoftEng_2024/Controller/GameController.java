@@ -188,7 +188,7 @@ public class GameController {
             //the method sends back a message saying that the game has already been created.
             System.err.println(nickname + " attempted to create a game");
             serverRMI.unregisterClient(ID);
-            serverSocket.unregisterClient(ID);
+            //serverSocket.unregisterClient(ID);
             //notify to the correct viewID
         }
     }
@@ -216,7 +216,7 @@ public class GameController {
         else{
             System.err.println("Someone tried to join the game...");
             serverRMI.unregisterClient(ID);
-            serverSocket.unregisterClient(ID);
+          //serverSocket.unregisterClient(ID);
             //show error maxPlayerReached
         }
     }
