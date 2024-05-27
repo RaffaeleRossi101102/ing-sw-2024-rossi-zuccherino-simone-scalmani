@@ -51,11 +51,26 @@ public class SetColorState extends ViewState{
         Scanner input = new Scanner(System.in);
         String answer;
         Color color;
-        System.out.println("Type the color (RED,BLUE,GREEN,YELLOW) you want for your pawn");
-        answer = input.nextLine();
-        while(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
-            System.err.println("Wrong input, please choose between the colors: [RED,BLUE,GREEN,YELLOW]");
-            answer=input.nextLine();
+        HashMap<String, Color> colorMap = view.getLocalModel().getPlayersColor();
+        System.out.println("The available colors are: ");
+        for(Color availableColor : Color.values()) {
+            if(!colorMap.containsValue(availableColor)){
+                System.out.print(availableColor+ " ");
+            }
+        }
+        System.out.println();
+        answer = input.nextLine().trim().toUpperCase();
+        boolean correctColor = false;
+        while (!correctColor) {
+            if ((answer.equals("RED") | answer.equals("BLUE") | answer.equals("YELLOW") | answer.equals("GREEN")) && !colorMap.containsValue(Color.valueOf(answer))) {
+                correctColor = true;
+            }else if(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
+                System.err.println("Wrong input, please choose between the colors: Red , Blue, Green, Yellow");
+                answer = input.nextLine().trim().toUpperCase();
+            } else if (colorMap.containsValue(Color.valueOf(answer))){
+                System.err.println("Type a correct color, but it has been already chosen by someone else... retry");
+                answer = input.nextLine().trim().toUpperCase();
+            }
         }
         color = Color.valueOf(answer);
         ViewMessage msg = new SetColorMessage(color, this.ID);

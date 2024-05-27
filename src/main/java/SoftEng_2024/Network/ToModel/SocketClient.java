@@ -77,18 +77,15 @@ public class SocketClient implements ClientInterface {
     public void addToViewQueue(ModelMessage msg) throws RemoteException {
         this.modelQueue.add(msg);
     }
-
-
     @Override
     public void run() throws RemoteException{
         while(true){
             pollThreaded();
         }
     }
-
     //CREA IL SOCKET E AGGIUNGE L'ID NELLA MAPPA DEL SERVER
     public void registerToServer(double ID, ClientInterface client) throws RemoteException{
-        if(socketCreated == false){
+        if(!socketCreated){
             startClient();
             socketCreated = true;
         }

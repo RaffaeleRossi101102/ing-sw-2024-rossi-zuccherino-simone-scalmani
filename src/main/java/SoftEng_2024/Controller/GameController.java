@@ -178,7 +178,7 @@ public class GameController {
     }
     //Method that creates the game
     public synchronized void createGame(int maxPlayers, String nickname, double ID) throws RemoteException {
-        //if noone has already created the game, the number of maxPlayers is set and a new player is created
+        //if no one has already created the game, the number of maxPlayers is set and a new player is created
         if (clientPlayers.isEmpty()){
             this.maxPlayers=maxPlayers;
             gameInit();
@@ -221,7 +221,7 @@ public class GameController {
         }
     }
 
-    public void quit(double ID) {
+    public void quit(double ID) throws RemoteException{
         //TODO disconnetti client e resilienza alle disconnessioni
     }
 

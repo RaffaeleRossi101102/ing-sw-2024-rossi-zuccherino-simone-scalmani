@@ -1,5 +1,6 @@
 package SoftEng_2024.Network.ToView;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -22,7 +23,7 @@ public class ObServerManager {
     }
 
 
-    public void run() throws RemoteException {
+    public void run() throws IOException {
     ModelMessage msg;
         while(true){
             try {

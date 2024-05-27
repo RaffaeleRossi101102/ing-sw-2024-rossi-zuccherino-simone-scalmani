@@ -1,5 +1,6 @@
 package SoftEng_2024.View.ViewStates;
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.ViewMessages.ChoosePrivateGoalMessage;
@@ -14,6 +15,8 @@ public class ChooseGoalState extends ViewState {
 
     @Override
     public void display() {
+        System.out.println("Waiting for all the players to choose their color...");
+        defaultCommand(GameState.SETCOLOR);
         System.out.println("Now it's time to choose your private goal!");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type ChoosePrivateGoal  or chat");

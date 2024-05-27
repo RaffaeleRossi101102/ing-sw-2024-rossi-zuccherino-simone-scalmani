@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SocketClientHandler extends Thread implements ServerInterface {
+public class SocketClientHandler extends Thread  {
     private Socket socket;
     private NetworkManager manager;
     private ViewMessage message;
@@ -22,12 +22,9 @@ public class SocketClientHandler extends Thread implements ServerInterface {
         this.socket = socket;
         this.manager = manager;
     }
-
-    @Override
     public void addToNetworkManager(ViewMessage msg) throws RemoteException {
 
     }
-
     public void run() {
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
@@ -48,16 +45,23 @@ public class SocketClientHandler extends Thread implements ServerInterface {
         } catch (IOException | ClassNotFoundException ignored){
         }
     }
-
-    @Override
-    public void registerClient(double ID, ClientInterface client) throws RemoteException {
+    public void registerClient(double ID, ClientInterface client)  {
     }
 
-    @Override
-    public void unregisterClient(double ID) throws RemoteException {
+
+    public void unregisterClient(double ID) {
+        if (clientsConnected.containsKey(ID)) {
+            try {
+                clientsConnected.remove(ID).close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+            System.err.println("Removing client from RMI server");
     }
 
-    @Override
+
     public void addToClientQueue(ModelMessage msg) throws IOException {
         for (double id : clientsConnected.keySet()) {
             Socket sok = clientsConnected.get(id);

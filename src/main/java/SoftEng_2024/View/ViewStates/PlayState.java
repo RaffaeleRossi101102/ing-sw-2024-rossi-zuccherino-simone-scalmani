@@ -12,7 +12,9 @@ public class PlayState extends ViewState{
 
     @Override
     public void display() {
-       // System.out.println("Now it's time to Play! It's "+ currentPlayer+ " turn");
+        System.out.println("Waiting for all the players to choose their private goal...");
+        defaultCommand(GameState.CHOOSEGOAL);
+        //TODO System.out.println("Now it's time to Play! It's "+ currentPlayer+ " turn");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type ChoosePrivateGoal  or chat");
         String command = scanner.nextLine();

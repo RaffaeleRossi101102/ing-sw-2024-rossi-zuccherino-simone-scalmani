@@ -25,8 +25,13 @@ public class StarterState extends ViewState{
         while(!commandChosen){
             switch(command.trim().toLowerCase()) {
                 case "playstartercard":
-                    playStarterCard();
-                    commandChosen=true;
+                    if(view.getLocalModel().getStarterCard()==null){
+                        System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
+                    }
+                    else {
+                        playStarterCard();
+                        commandChosen=true;
+                    }
                     break;
                 case "chat":
                     writeInChat();
@@ -49,6 +54,7 @@ public class StarterState extends ViewState{
         Scanner input= new Scanner(System.in);
         String answer;
         boolean flipped;
+        //TODO: Print delle starterCard
         do {
             System.out.println("Type the side of the card (front or back): ");
             answer = input.nextLine();

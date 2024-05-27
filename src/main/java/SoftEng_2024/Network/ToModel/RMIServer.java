@@ -62,7 +62,7 @@ public class RMIServer implements ServerInterface{
         if (IdClientBindingMap.containsKey(ID)) {
             IdClientBindingMap.remove(ID);
         }else {
-            System.err.println("ID not found in RMI hashmap...");
+            System.err.println("Removing client from SocketServer");
         }
     }
 
@@ -74,7 +74,6 @@ public class RMIServer implements ServerInterface{
                 //adds the message to the client's modelMessageQueue
                 IdClientBindingMap.get(ID).addToViewQueue(msg);
             }catch(RemoteException re){
-
                 //client probably crashed or something went wrong with his stub
                 unregisterClient(ID);
                 ViewMessage message = new QuitMessage(ID);
