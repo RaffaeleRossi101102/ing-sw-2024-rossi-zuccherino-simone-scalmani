@@ -12,7 +12,7 @@ public class PlayState extends ViewState{
 
     @Override
     public void display() {
-        System.out.println("Now it's time to Play! It's "+ currentPlayer+ " turn");
+       // System.out.println("Now it's time to Play! It's "+ currentPlayer+ " turn");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type ChoosePrivateGoal  or chat");
         String command = scanner.nextLine();
@@ -22,7 +22,7 @@ public class PlayState extends ViewState{
         while (!commandChosen) {
             switch (command.trim().toLowerCase()) {
                 case "chooseprivategoal":
-                    choosePrivateGoal();
+                   // choosePrivateGoal();
                     commandChosen = true;
                     break;
                 case "chat":
