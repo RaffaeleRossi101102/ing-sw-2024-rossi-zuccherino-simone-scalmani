@@ -11,21 +11,21 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SocketClientHandler extends Thread  {
+public class SocketClientHandler extends Thread {
     private Socket socket;
     private NetworkManager manager;
     private ViewMessage message;
     private double id;
-    private ConcurrentHashMap<Double, Socket> clientsConnected = new ConcurrentHashMap<>();
+    private SocketServer server;
 
-    public SocketClientHandler(Socket socket, NetworkManager manager) {
+    public SocketClientHandler(SocketServer server, Socket socket, NetworkManager manager) {
+        this.server = server;
         this.socket = socket;
         this.manager = manager;
     }
-    public void addToNetworkManager(ViewMessage msg) throws RemoteException {
 
-    }
-    public void run() {
+
+    public void run(){
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
         DataInputStream dis = null;
@@ -35,39 +35,39 @@ public class SocketClientHandler extends Thread  {
             dis = new DataInputStream(socket.getInputStream());
             //RECEIVING THE CLIENT-ID
             id = dis.readDouble();
-            clientsConnected.put(id, socket);
+            server.setClientsConnected(id, this.socket);
+            server.setClientsOut(id, out);
             while(true) {
-                //RECEIVING MESSAGES FROM CLIENT AND ADDING THEM TO THE NETWORK MANAGER QUEUE
+                //RECIVING MESSAGES FROM CLIENT AND ADDING THEM TO THE NETWORKMANAGER QUEUE
                 message = (ViewMessage) in.readObject();
                 addToQueue(message);
                 System.out.println("MESSAGE ADDED TO QUEUE");
             }
-        } catch (IOException | ClassNotFoundException ignored){
-        }
-    }
-    public void registerClient(double ID, ClientInterface client)  {
-    }
-
-
-    public void unregisterClient(double ID) {
-        if (clientsConnected.containsKey(ID)) {
+        } catch (IOException e) {
+            System.out.println("IO EXCEPTION...");
+        } catch (ClassNotFoundException e) {
+            System.out.println("ERROR READING OBJECT...");
+        }finally {
             try {
-                clientsConnected.remove(ID).close();
+                in.close();
+                out.close();
+                dis.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("ERROR CLOSING OUTPUT/INPUT STREAM...");
             }
         }
-        else
-            System.err.println("Removing client from RMI server");
     }
 
-
+    //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
     public void addToClientQueue(ModelMessage msg) throws IOException {
-        for (double id : clientsConnected.keySet()) {
-            Socket sok = clientsConnected.get(id);
-            ObjectOutputStream out = new ObjectOutputStream(sok.getOutputStream());
-            out.writeObject(msg);
-            out.flush();
+        for(ObjectOutputStream out : server.getClientsOut().values()) {
+            try {
+                out.writeObject(msg);
+                out.flush();
+                out.reset();
+            } catch (IOException e) {
+                System.out.println("ERROR WRITING OBJECT...");
+            }
         }
     }
 
