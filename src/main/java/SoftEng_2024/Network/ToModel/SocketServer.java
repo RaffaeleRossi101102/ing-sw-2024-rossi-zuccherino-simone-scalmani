@@ -54,4 +54,17 @@ public class SocketServer{
     public ConcurrentHashMap<Double, ObjectOutputStream> getClientsOut() {
         return clientsOut;
     }
+
+    public void unRegisterClient(double id) {
+        if (clientsConnected.containsKey(id)) {
+            clientsConnected.remove(id);
+        }else {
+            System.err.println("ID NOT REGISTERED...");
+        }
+        if (clientsOut.containsKey(id)) {
+            clientsOut.remove(id);
+        }else{
+            System.err.println("ID NOT REGISTERED...");
+        }
+    }
 }
