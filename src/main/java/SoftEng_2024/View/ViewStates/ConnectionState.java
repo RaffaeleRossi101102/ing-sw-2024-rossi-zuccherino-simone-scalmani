@@ -46,6 +46,8 @@ public class ConnectionState extends ViewState {
                     System.err.println("Command not available... retry");
                     break;
             }
+            if(commandChosen)
+                break;
             System.out.println("Type  CreateGame, Join or ReJoin to play!");
             command=scanner.nextLine();
         }

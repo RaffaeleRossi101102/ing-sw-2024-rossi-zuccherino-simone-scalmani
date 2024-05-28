@@ -29,6 +29,7 @@ public class SocketServer{
                     Socket socket = serverSocket.accept();
                     Thread t = new SocketClientHandler(server, socket, manager);
                     t.start();
+
                 } catch (IOException e) {
                     System.err.println("Error accepting client connection... ");
                     break;
@@ -57,15 +58,17 @@ public class SocketServer{
         return clientsOut;
     }
 
-    public void unRegisterClient(double id) {
-        if (clientsConnected.containsKey(id)) {
-            clientsConnected.remove(id);
-        }else {
+    public void unRegisterClient(double id) throws IOException {
+        if (clientsOut.containsKey(id)) {
+            ObjectOutputStream out = clientsOut.remove(id);
+            out.close();
+        }else{
             System.err.println("ID NOT REGISTERED...");
         }
-        if (clientsOut.containsKey(id)) {
-            clientsOut.remove(id);
-        }else{
+        if (clientsConnected.containsKey(id)) {
+            Socket remove = clientsConnected.remove(id);
+            remove.close();
+        }else {
             System.err.println("ID NOT REGISTERED...");
         }
     }

@@ -10,6 +10,7 @@ import SoftEng_2024.Network.ToModel.SocketClientHandler;
 import SoftEng_2024.Network.ToModel.SocketServer;
 
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -230,7 +231,7 @@ public class GameController {
         }
     }
 
-    public void quit(double ID) throws RemoteException{
+    public void quit(double ID) throws IOException {
         //TODO disconnetti client e resilienza alle disconnessioni
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);

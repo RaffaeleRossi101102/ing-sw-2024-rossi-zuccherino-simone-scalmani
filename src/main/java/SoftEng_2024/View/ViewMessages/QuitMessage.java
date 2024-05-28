@@ -2,6 +2,9 @@ package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
+
 public class QuitMessage implements ViewMessage {
     double ID;
     public QuitMessage(double ID) {
@@ -9,7 +12,11 @@ public class QuitMessage implements ViewMessage {
     }
 
     @Override
-    public void executeMessage(GameController controller) {
-        controller.quit(ID);
+    public void executeMessage(GameController controller) throws RemoteException {
+        try {
+            controller.quit(ID);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -92,6 +92,7 @@ public class SocketClient implements ClientInterface {
     }
     @Override
     public void run() throws RemoteException{
+        startClient();
         while(true){
             pollThreaded();
         }

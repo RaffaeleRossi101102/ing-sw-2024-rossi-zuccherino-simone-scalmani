@@ -32,7 +32,7 @@ public class ObServerManager {
                 throw new RuntimeException(e);
             }
             serverRMI.addToClientQueue(msg);
-            // TODO socketServer.addToClientQueue(msg);
+            socketServer.addToClientQueue(msg);
         }
     }
 }

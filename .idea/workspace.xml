@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="Socket implementato andata/ritorno da testare e controllare">
+    <list default="true" id="be8e0183-aff7-4ebb-bcef-b9c0ebce8987" name="Changes" comment="ADDTOCLIENTQUEUE SPOSTATA SU SOCKETSERVER.">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/CardDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Model/Cards/CardDeserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToModel/SocketServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/Network/ToView/ObServerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/QuitMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewMessages/QuitMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewStates/ConnectionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SoftEng_2024/View/ViewStates/ConnectionState.java" afterDir="false" />
     </list>
     <list id="6463b264-fb7e-4fb1-8b5e-69bc531a1ef3" name="Changes by raffo" comment="" />
     <list id="0224909f-5e04-43d6-8eb9-a8f579dd06b9" name="Changes by user" comment="" />
@@ -84,10 +90,10 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -97,10 +103,10 @@
       <recent name="SoftEng_2024" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.MainView">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.Network.Main" />
-      <module name="ProgettoSoftEng" />
+      <module name="INGSW_FINAL24" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="SoftEng_2024.Network.ToView.*" />
@@ -113,7 +119,7 @@
     </configuration>
     <configuration name="MainView" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="SoftEng_2024.View.MainView" />
-      <module name="ProgettoSoftEng" />
+      <module name="INGSW_FINAL24" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -183,11 +189,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.BoardTest.testUpdateBoard" />
         <item itemvalue="Application.Simulator" />
         <item itemvalue="Application.RMIServer" />
         <item itemvalue="Application.RMIClient" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -233,7 +239,8 @@
       <workItem from="1716384644161" duration="11659000" />
       <workItem from="1716473452459" duration="5556000" />
       <workItem from="1716549576702" duration="33000" />
-      <workItem from="1716819294971" duration="6126000" />
+      <workItem from="1716819294971" duration="14191000" />
+      <workItem from="1716898465804" duration="8826000" />
     </task>
     <task id="LOCAL-00001" summary="Merge di Network e Model">
       <option name="closed" value="true" />
@@ -259,7 +266,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716397513508</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="SOCKET PARZIALMENTE TESTATO (ANDATA E RITORNO) - METODINI CLIENT">
+      <option name="closed" value="true" />
+      <created>1716829786531</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716829786531</updated>
+    </task>
+    <task id="LOCAL-00005" summary="SOCKET PARZIALMENTE TESTATO (ANDATA E RITORNO) - METODINI CLIENT">
+      <option name="closed" value="true" />
+      <created>1716831254919</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716831254919</updated>
+    </task>
+    <task id="LOCAL-00006" summary="ADDTOCLIENTQUEUE SPOSTATA SU SOCKETSERVER.">
+      <option name="closed" value="true" />
+      <created>1716833663181</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716833663181</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,7 +322,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="localnetwork" />
+                        <option value="origin/network" />
                       </list>
                     </value>
                   </entry>
@@ -307,7 +338,11 @@
     <MESSAGE value="Merge di Network e Model" />
     <MESSAGE value="Model corretto" />
     <MESSAGE value="Socket implementato andata/ritorno da testare e controllare" />
-    <option name="LAST_COMMIT_MESSAGE" value="Socket implementato andata/ritorno da testare e controllare" />
+    <MESSAGE value="AGGIUNTO UNREGISTERCLIENT" />
+    <MESSAGE value="AGGIUNTO UNREGISTERCLIENT" />
+    <MESSAGE value="AGGIUNTO UNREGISTERCLIENT" />
+    <MESSAGE value="ADDTOCLIENTQUEUE SPOSTATA SU SOCKETSERVER." />
+    <option name="LAST_COMMIT_MESSAGE" value="ADDTOCLIENTQUEUE SPOSTATA SU SOCKETSERVER." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -316,6 +351,11 @@
           <properties class="java.util.ConcurrentModificationException" package="java.util" />
           <option name="timeStamp" value="8" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SoftEng_2024/View/MainView.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

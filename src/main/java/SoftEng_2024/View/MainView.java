@@ -55,8 +55,9 @@ public class MainView {
             ClientInterface socketClient = new SocketClient("localhost",4567, ID);
 
             if(viewType.equals("CLI")) {
-
-                new CliViewClient(ID, socketClient).run();
+                CliViewClient cliView = new CliViewClient(ID, socketClient);
+                socketClient.setView(cliView);
+                cliView.run();
             } else {
 
                 System.out.println("La gui nun ce sta per ora, paolo incoming :)");

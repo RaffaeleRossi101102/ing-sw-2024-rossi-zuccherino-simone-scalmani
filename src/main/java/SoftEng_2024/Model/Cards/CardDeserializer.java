@@ -6,7 +6,6 @@ import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.GoldFront;
 import SoftEng_2024.Model.Fronts.ResourceFront;
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
