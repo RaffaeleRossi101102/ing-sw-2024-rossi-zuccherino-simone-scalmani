@@ -32,37 +32,31 @@ public class MainView {
             viewType= scan.nextLine();
         }
         System.out.println("Got it :)");
-        //creating an RMI connection
+
+
+        ClientInterface client;
+
         if(connectionType.equals("RMI")){
-            ClientInterface client;
+
             try {
                  client = new ClientRMI(ID);
             } catch (RemoteException e) {
                 throw new RuntimeException("Something went wrong while trying to create the client...");
             }
 
-            if(viewType.equals("CLI")) {
-                CliViewClient cliView = new CliViewClient(ID, client);
-                client.setView(cliView);
-                cliView.run();
-            }
-            else {
-                System.out.println("La gui nun ce sta per ora, paolo incoming :)");
-            }
-
         } else {
 
-            ClientInterface socketClient = new SocketClient("localhost",4567, ID);
+            client = new SocketClient("localhost",4567, ID);
 
-            if(viewType.equals("CLI")) {
-                CliViewClient cliView = new CliViewClient(ID, socketClient);
-                socketClient.setView(cliView);
-                cliView.run();
-            } else {
+        }
 
-                System.out.println("La gui nun ce sta per ora, paolo incoming :)");
-            }
-
+        if(viewType.equals("CLI")) {
+            CliViewClient cliView = new CliViewClient(ID, client);
+            client.setView(cliView);
+            cliView.run();
+        }
+        else {
+            System.out.println("La gui nun ce sta per ora, paolo incoming :)");
         }
     }
 }
