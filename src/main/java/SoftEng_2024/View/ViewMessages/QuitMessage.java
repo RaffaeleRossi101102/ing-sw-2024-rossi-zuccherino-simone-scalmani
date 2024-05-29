@@ -12,11 +12,11 @@ public class QuitMessage implements ViewMessage {
 
     @Override
     public void executeMessage(GameController controller) {
-        try {
-            controller.quit(ID);
-        } catch (RemoteException e) {
-            System.err.println("Something went terribly wrong");
-            throw new RuntimeException(e);
-        }
-    }
+//        try {
+//            controller.quit(ID);
+//        } catch (RemoteException e) {
+//            System.err.println("Something went terribly wrong");
+//            throw new RuntimeException(e);
+//        }
+      }
 }

@@ -221,9 +221,9 @@ public class Board {
                 }
                 //aggiungi la carta piazzata alla lista
                 this.cardList.add(cardBoard[r][c]);
-                for(ModelObserver observer:boardObservers){
-                    observer.notifyClient();
-                }
+//                for(ModelObserver observer:boardObservers){
+//                    observer.notifyClient();
+//                }
                 //aggiungo alla lista la nuova cella con la nuova carta.
             } else  throw new necessaryResourcesNotAvailableException();
 
@@ -254,9 +254,9 @@ public class Board {
         }
         System.out.println("]");
     }
-    public void addObservers(ModelObserver ob){
-        boardObservers.add()
-    }
+    //public void addObservers(ModelObserver ob){
+//        boardObservers.add()
+//    }
     //GETTER
     public int[] getAnglesCounter() {
         return anglesCounter;

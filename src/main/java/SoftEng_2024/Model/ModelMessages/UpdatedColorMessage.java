@@ -12,6 +12,6 @@ public class UpdatedColorMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setPlayersColor(nickname,playerColor);
+       //view.getLocalModel().setPlayersColor(nickname,playerColor);
     }
 }
