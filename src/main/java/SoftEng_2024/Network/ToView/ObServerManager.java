@@ -35,4 +35,7 @@ public class ObServerManager {
             socketServer.addToClientQueue(msg);
         }
     }
+    public void addModelMessageToQueue(ModelMessage msg){
+        modelMessages.add(msg);
+    }
 }

@@ -44,6 +44,8 @@ public class DrawState extends ViewState{
                     System.err.println("Command not available... retry");
                     break;
             }
+            if(commandChosen)
+                break;
             System.out.println("Type Play Card, Chat or Quit");
             command = scanner.nextLine();
         }

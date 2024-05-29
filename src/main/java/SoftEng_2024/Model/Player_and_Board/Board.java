@@ -3,6 +3,7 @@ package SoftEng_2024.Model.Player_and_Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.AngleIndexes;
 import SoftEng_2024.Model.Enums.Angles;
+import SoftEng_2024.Model.Observers.ModelObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Board {
     private ArrayList<Cell> cardList;
     private int[] anglesCounter;
     private int score;
+    private List<ModelObserver> boardObservers;
 
     //CONSTRUCTOR AND METHODS
     public Board(){
@@ -197,7 +199,7 @@ public class Board {
                 cardBoard[r][c].setRow(r);
                 cardBoard[r][c].setColumn(c);
                 cardBoard[r][c].setPlaceable(false);
-                System.out.println("HO INSERITO LA CARTA DENTRO LA MATRICE");
+                //System.out.println("HO INSERITO LA CARTA DENTRO LA MATRICE");
                 placed = true;
                 //Se la carta l'ho giocata di back
                 if (played.getFlipped()) {
@@ -207,7 +209,7 @@ public class Board {
                     coveredAnglesCounter = coveredAnglesCounter(r, c);
                     //aggiorna il counter delle risorse totali
                     updateCounters(coveredAnglesCounter, played);
-                    System.out.println("punteggio=" + this.score); //da eliminare la rica in questione
+                    //System.out.println("punteggio=" + this.score); //da eliminare la rica in questione
                 } else {
                     //stessa cosa ma per carta giocata di front
                     setAvailableCells(r, c, played);
@@ -218,7 +220,11 @@ public class Board {
                     System.out.println("punteggio=" + this.score); //da eliminare la rica in questione
                 }
                 //aggiungi la carta piazzata alla lista
-                this.cardList.add(cardBoard[r][c]); //aggiungo alla lista la nuova cella con la nuova carta.
+                this.cardList.add(cardBoard[r][c]);
+                for(ModelObserver observer:boardObservers){
+                    observer.notifyClient();
+                }
+                //aggiungo alla lista la nuova cella con la nuova carta.
             } else  throw new necessaryResourcesNotAvailableException();
 
         } else throw new notAvailableCellException();
@@ -248,7 +254,9 @@ public class Board {
         }
         System.out.println("]");
     }
-
+    public void addObservers(ModelObserver ob){
+        boardObservers.add()
+    }
     //GETTER
     public int[] getAnglesCounter() {
         return anglesCounter;

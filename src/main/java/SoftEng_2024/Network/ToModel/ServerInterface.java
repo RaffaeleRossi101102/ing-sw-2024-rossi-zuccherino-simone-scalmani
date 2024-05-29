@@ -15,4 +15,5 @@ public interface ServerInterface extends Remote {
     void registerClient(double ID, ClientInterface client) throws RemoteException;
     void unregisterClient(double ID) throws RemoteException;
     void addToClientQueue(ModelMessage msg) throws RemoteException;
+
 }

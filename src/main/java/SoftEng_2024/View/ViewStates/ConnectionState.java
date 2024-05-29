@@ -21,6 +21,7 @@ public class ConnectionState extends ViewState {
 
     @Override
     public void display() {
+        ViewState nextState=new StarterState(view,client,ID);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type  CreateGame, Join or ReJoin to play!");
         String command = scanner.nextLine();
@@ -37,6 +38,7 @@ public class ConnectionState extends ViewState {
                     break;
                 case "rejoin":
                     reJoin();
+                    nextState=new RejoinState(view,client,ID);
                     commandChosen = true;
                     break;
                 case "quit":
@@ -53,7 +55,7 @@ public class ConnectionState extends ViewState {
         }
         //once the user chose a command he will have to wait for the model's response
         waitingState.setPreviousState(this);
-        waitingState.setNextState(new StarterState(view,client,ID));
+        waitingState.setNextState(nextState);
         waitingState.display();
     }
     private void createGame() {

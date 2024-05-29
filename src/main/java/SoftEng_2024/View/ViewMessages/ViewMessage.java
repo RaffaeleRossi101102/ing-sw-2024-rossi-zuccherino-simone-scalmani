@@ -6,5 +6,5 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 
 public interface ViewMessage extends Serializable {
-    void executeMessage(GameController controller) throws RemoteException;
+    void executeMessage(GameController controller) ;
 }

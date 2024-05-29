@@ -42,6 +42,8 @@ public class ChooseGoalState extends ViewState {
                     System.err.println("Command not available... retry");
                     break;
             }
+            if(commandChosen)
+                break;
             System.out.println("Type Choose Private Goal, Chat or Quit");
             command = scanner.nextLine();
         }

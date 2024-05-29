@@ -2,6 +2,7 @@ package SoftEng_2024.Model;
 
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.GoalCard.GoalCard;
+import SoftEng_2024.Model.Observers.ModelObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
 
@@ -23,6 +24,7 @@ public class Game {
     private boolean gameEnd;
     private boolean firstTurn= true;
     private static int maxScore=0;
+    private List<ModelObserver> observers;
 
     public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
         this.players = players;
@@ -31,6 +33,7 @@ public class Game {
         this.starterDeck = starterDeck;
         this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
+        this.observers= new ArrayList<>();
     }
 
     public List<Integer> GameEnd() {
@@ -203,6 +206,12 @@ public class Game {
         publicCards.add(goldDeck.poll());
         publicCards.add(goldDeck.poll());
         //notify
+    }
+    public void registerObserver(ModelObserver observer){
+        observers.add(observer);
+    }
+    public void unregisterObserver(ModelObserver observer){
+        observers.remove(observer);
     }
     //metodo che aggiorna il current player,
     public GoalCard[] getPublicGoals() {

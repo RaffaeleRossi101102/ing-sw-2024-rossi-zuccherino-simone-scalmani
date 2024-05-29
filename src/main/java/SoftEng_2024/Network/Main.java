@@ -31,7 +31,7 @@ public class Main {
 
         controller.setServerRMI(engineRMI);
         controller.setServerSocket(serverSocket);
-
+        controller.setToViewManager(managerToView);
 
 
 

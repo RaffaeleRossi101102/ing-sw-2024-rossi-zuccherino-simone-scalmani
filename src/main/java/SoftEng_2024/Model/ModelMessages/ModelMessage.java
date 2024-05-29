@@ -4,11 +4,11 @@ import SoftEng_2024.View.View;
 
 public abstract class ModelMessage {
     double ID;
-    String message;
-    public ModelMessage(double ID, String message) {
+    String nickname;
+    public ModelMessage(double ID, String nickname) {
 
         this.ID = ID;
-        this.message = message;
+        this.nickname = nickname;
     }
 
     public abstract void executeMessage(View view);

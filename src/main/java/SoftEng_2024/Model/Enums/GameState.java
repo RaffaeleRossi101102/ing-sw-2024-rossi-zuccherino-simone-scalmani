@@ -7,6 +7,9 @@ public enum GameState {
     CHOOSEGOAL,
     PLAY,
     NOTPLAYING,
-    ENDGAME
+    ENDGAME;
+    public GameState nextState(){
+        return values()[this.ordinal()+1];
+    }
 
 }

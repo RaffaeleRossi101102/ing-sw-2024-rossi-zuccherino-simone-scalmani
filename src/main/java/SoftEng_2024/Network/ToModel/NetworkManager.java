@@ -2,6 +2,7 @@ package SoftEng_2024.Network.ToModel;
 
 import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.Model.Player_and_Board.Player;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.rmi.RemoteException;
@@ -25,17 +26,19 @@ public class NetworkManager {
         while(controller.getGameState()==GameState.CONNECTION){
             pollThreaded();
         }
+        //exiting the loop only after every player has connected
+
         //vengono pescate le carte risorsa e oro e messe nel centro
         controller.getGame().updatePublicCards();
         //viene data a ciascun player la carta iniziale
 
         controller.handOutStarterCards();
 
+
         //Each player plays their starter card and choose the color of his pawn
         while(controller.getGameState()==GameState.STARTER | controller.getGameState()==GameState.SETCOLOR){
             pollThreaded();
         }
-
 
         //I goal privati vengono aggiunti al player già nella addPlayer, da valutare se serve il metodo
         //oppure se tenerlo lì
@@ -62,7 +65,7 @@ public class NetworkManager {
         Thread t = new Thread(() -> {
             try {
                 viewMessages.take().executeMessage(this.controller);
-            } catch (InterruptedException | RemoteException e) {
+            } catch (InterruptedException e) {
                 System.err.println("Something went wrong while executing the messages");
                 throw new RuntimeException(e);
             }
@@ -77,5 +80,6 @@ public class NetworkManager {
     public void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
     }
+
 
 }

@@ -4,6 +4,6 @@ public interface View {
 
 
     void run();
-
+    LocalModel getLocalModel();
 
 }

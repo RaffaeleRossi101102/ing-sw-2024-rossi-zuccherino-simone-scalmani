@@ -1,5 +1,8 @@
 package SoftEng_2024.Controller;
 import SoftEng_2024.Model.Cards.*;
+import SoftEng_2024.Model.Observers.ModelObserver;
+import SoftEng_2024.Model.Observers.PlayerHandObserver;
+import SoftEng_2024.Model.Observers.PlayerObserver;
 import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
@@ -8,6 +11,7 @@ import SoftEng_2024.Network.ToModel.RMIServer;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketClientHandler;
 import SoftEng_2024.Network.ToModel.SocketServer;
+import SoftEng_2024.Network.ToView.ObServerManager;
 
 
 import java.io.IOException;
@@ -20,12 +24,12 @@ public class GameController {
 
     private ServerInterface serverRMI;
     private SocketServer serverSocket;
-
     private Game game;
     private List<Player> clientPlayers = new ArrayList<>();
     private int maxPlayers;
     private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
     GameState gameState;
+    private ObServerManager toViewManager;
     //private List<Player>
 
     //METHODS**********************************************************************
@@ -212,16 +216,17 @@ public class GameController {
             }
             //se esco dal for, significa che il nickname scelto è originale
             addPlayer(nickname,ID);
+            playerIdMap.get(ID).setPlayerState(GameState.STARTER);
             System.out.println(nickname+ " has joined the game");
             //controllo se il player collegato è l'ultimo
-            if(clientPlayers.size()==maxPlayers){
-                //TODO inserire timer che ricontrolla dopo 10 secondi la condizione e se é ancora valida procede, altrimenti termina normalmente senza transire di stato
-                gameState=GameState.STARTER;
-                game.shufflePlayers();
-                //TODO notify game status update
-                //--> per le notify degli status ha senso far partire il thread?
-                //Rischio che il thread di notify status venga eseguito dopo l'update delle hands.
-            }
+//            if(clientPlayers.size()==maxPlayers){
+//                //TODO inserire timer che ricontrolla dopo 10 secondi la condizione e se é ancora valida procede, altrimenti termina normalmente senza transire di stato
+//                gameState=GameState.STARTER;
+//                game.shufflePlayers();
+//                //TODO notify game status update
+//                //--> per le notify degli status ha senso far partire il thread?
+//                //Rischio che il thread di notify status venga eseguito dopo l'update delle hands.
+//            }
         }
         else{
             System.err.println("Someone tried to join the game...");
@@ -240,6 +245,7 @@ public class GameController {
         }else{
             playerIdMap.get(ID).setOnline(false);
         }
+        checkIfNextState();
     }
 
     private void addPlayer(String nickname, double ID) {
@@ -247,6 +253,8 @@ public class GameController {
         Board board = new Board();
         //istanzio il player e gli assegno la board
         Player newPlayer = new Player(new ArrayList<>(), board, nickname);
+        //gli aggiungo i suoi observer
+        newPlayer.addObserver( new PlayerHandObserver(this,ID));
         //lo aggiungo alla lista di player del controller
         this.clientPlayers.add(newPlayer);
         //add the player to the binding HashMap to link players to their viewID
@@ -269,7 +277,7 @@ public class GameController {
             if(nickname.equals(playerIdMap.get(playerId).getNickname())){
                 Player player = playerIdMap.remove(playerId);
                 playerIdMap.put(ID, player);
-                playerIdMap.get(ID).setOnline(true);
+                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
                 System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
                 //notify reJoin Observer
                 return;
@@ -285,6 +293,7 @@ public class GameController {
             Player player = playerIdMap.get(ID);
             player.getHand().get(0).setFlipped(flipped);
             player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
+            player.setPlayerState(GameState.SETCOLOR);
         }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
             e.printStackTrace();
             throw new RuntimeException("Something went very wrong");
@@ -322,26 +331,14 @@ public class GameController {
             return;
         }
         playerIdMap.get(ID).setColor(color);
+        playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
+
         //avendo già contato il numero di giocatori che hanno già scelto il colore, basterà che il numero
         //di giocatori che hanno scelto il colore sia maxPlayers - 1, ovvero quello che l'ha scelto ora
         if(counter==maxPlayers-1){
             //notify change of state
             gameState=GameState.CHOOSEGOAL;
         }
-
-        //parte un nuovo thread che controlla se tutti hanno scelto il colore.
-        //se l'esito è positivo,
-        //Thread t = new Thread(() -> {
-          //  for(Player player:clientPlayers){
-            //    if(player.getColor().isEmpty())
-                    return;
-            //}
-            //updatePlayerHands();
-            //updatePublicGoals();
-            //FOR EACH OBSERVER NOTIFY (ALTRI THREAD PARTONO FORSE)
-        //});
-        //t.start();
-
         //notify observers
     }
     private void updatePlayerHands() {
@@ -372,7 +369,9 @@ public class GameController {
         //discards a private goal from the player attrbute
         Player player=playerIdMap.get(ID);
         player.getAvailableGoals().remove(2-choice);
+        player.setPlayerState(GameState.PLAY);
         //checks if all the players had already chosen their private goal
+        //TODO:giocatori offline??
         int counter=0;
         for(Player player1: game.getPlayers()){
             if(player1.getAvailableGoals().size()==1)
@@ -433,7 +432,39 @@ public class GameController {
         else gameState=GameState.ENDGAME;
     }
 
+    private void checkIfNextState(){
+        Thread checkIfNextState = new Thread(()->{
+            boolean found=false;
+
+            //per ogni player OPPURE LISTA DI PLAYER ONLINE?
+            for(Player player: clientPlayers){
+                //se il player è online, controllo il suo stato, altrimenti lo skippo
+                if(player.getIsOnline()){
+                    //se il player è online, controllo se il suo stato è lo stesso di quello del game
+                    //quindi, se ha svolto o meno l'operazione dello stato
+                    if(player.getPlayerState().ordinal()<= gameState.ordinal()){
+                        found=true;
+                    }
+                }
+            }
+            if(!found){
+                //se i player online hanno fatto tutti l'operazione, chiamo n nuovo stato
+                gameState=gameState.nextState();
+            }
+
+        });
+        checkIfNextState.start();
+    }
     //GETTERS AND SETTERS*********************************************
+
+
+    public ObServerManager getToViewManager() {
+        return toViewManager;
+    }
+
+    public void setToViewManager(ObServerManager toViewManager) {
+        this.toViewManager = toViewManager;
+    }
 
     public void setServerRMI(ServerInterface serverRMI) {
         this.serverRMI = serverRMI;

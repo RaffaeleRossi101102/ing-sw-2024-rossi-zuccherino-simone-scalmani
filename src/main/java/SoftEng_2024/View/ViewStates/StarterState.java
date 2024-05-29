@@ -43,6 +43,8 @@ public class StarterState extends ViewState{
                     System.err.println("Command not available... retry");
                     break;
             }
+            if(commandChosen)
+                break;
             System.out.println("Type  Play starter card  or chat");
             command=scanner.nextLine();
         }

@@ -40,6 +40,8 @@ public class SetColorState extends ViewState{
                     System.err.println("Command not available... retry");
                     break;
             }
+            if(commandChosen)
+                break;
             System.out.println("Type  Set color, chat or quit");
             command=scanner.nextLine();
         }

@@ -1,6 +1,7 @@
 package SoftEng_2024.View;
 
-import SoftEng_2024.Model.Cards.StarterCard;
+
+import SoftEng_2024.Model.Cards.*;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.GoalCard.GoalCard;
@@ -9,14 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LocalModel {
+    private List<Card> personalHand;
     private HashMap<String,Color> playersColor;
     private StarterCard starterCard;
     private GameState gameState;
+    private GameState playerState;
     private List<GoalCard> availableGoals;
     //GETTERS******************************************************************
-    public GameState getState(){
-
-        return gameState;
+    public GameState getState(){return gameState;}
+    public GameState getPlayerState(){
+        return this.playerState;
     }
 
     public List<GoalCard> getAvailableGoals() {
@@ -31,8 +34,15 @@ public class LocalModel {
         return playersColor;
     }
 
-
+    public List<Card> getPersonalHand() {
+        return personalHand;
+    }
     //SETTERS******************************************************************
+
+    public void setPersonalHand(List<Card> personalHand) {
+        this.personalHand = personalHand;
+    }
+
     public void setAvailableGoals(List<GoalCard> availableGoals) {
         this.availableGoals = availableGoals;
     }
@@ -45,7 +55,13 @@ public class LocalModel {
         this.gameState = gameState;
     }
 
+    public void setPlayerState(GameState playerState) {
+        this.playerState = playerState;
+    }
+
     public void setStarterCard(StarterCard starterCard) {
         this.starterCard = starterCard;
     }
+
+
 }

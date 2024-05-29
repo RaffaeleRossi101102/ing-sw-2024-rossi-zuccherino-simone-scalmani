@@ -40,26 +40,28 @@ public abstract class ViewState {
     }
 
     protected void defaultCommand(GameState gameState) {
-        setDefaultCommand("");
-        listenDefaultCommand();
-        while (view.getLocalModel().getState().equals(gameState)) {
-            switch (defaultCommand.trim().toLowerCase()) {
-                case "chat":
-                    writeInChat();
-                    listenDefaultCommand();
-                    setDefaultCommand("");
-                    break;
-                case "quit":
-                    quit();
-                    listenDefaultCommand();
-                    setDefaultCommand("");
-                case "":
-                    break;
-                default:
-                    System.err.println("Command not available... retry");
-                    listenDefaultCommand();
-                    setDefaultCommand("");
-                    break;
+        if(view.getLocalModel().getState().equals(gameState)) {
+            setDefaultCommand("");
+            listenDefaultCommand();
+            while (view.getLocalModel().getState().equals(gameState)) {
+                switch (defaultCommand.trim().toLowerCase()) {
+                    case "chat":
+                        writeInChat();
+                        listenDefaultCommand();
+                        setDefaultCommand("");
+                        break;
+                    case "quit":
+                        quit();
+                        listenDefaultCommand();
+                        setDefaultCommand("");
+                    case "":
+                        break;
+                    default:
+                        System.err.println("Command not available... retry");
+                        listenDefaultCommand();
+                        setDefaultCommand("");
+                        break;
+                }
             }
         }
     }
