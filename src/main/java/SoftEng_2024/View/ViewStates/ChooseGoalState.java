@@ -46,7 +46,7 @@ public class ChooseGoalState extends ViewState {
             command = scanner.nextLine();
         }
         waitingState.setPreviousState(this);
-        waitingState.setNextState(new PlayState(view,client, ID));
+        waitingState.setNextState(new ReadyToStartState(view,client, ID));
         waitingState.display();
     }
 

@@ -30,6 +30,7 @@ public abstract class ViewState {
         waitingState = new WaitingState();
     }
     public abstract void display();
+
     protected void updateClient(ViewMessage msg){
         try {
             client.update(msg);
@@ -37,6 +38,7 @@ public abstract class ViewState {
             System.err.println("Something went wrong, retry!");
         }
     }
+
     protected void defaultCommand(GameState gameState) {
         setDefaultCommand("");
         listenDefaultCommand();
@@ -61,6 +63,7 @@ public abstract class ViewState {
             }
         }
     }
+
     protected void listenDefaultCommand(){
         Thread t = new Thread(() -> {
             System.out.println("Type 'chat' or 'quit' to use the chat or to quit the game");
@@ -69,6 +72,7 @@ public abstract class ViewState {
         });
         t.start();
     }
+
     protected void writeInChat(){
         System.out.println("Inside write in chat command...");
         System.out.println("Do you want to whisper or to broadcast your message? Type 'whisper' or 'broadcast'");
@@ -83,6 +87,7 @@ public abstract class ViewState {
         else
             broadcast();
     }
+
     protected void whisper(){
         System.out.println("Inside whisper command...");
         System.out.println("Who do you want to whisper to? Type the player's nickname:");
@@ -92,11 +97,13 @@ public abstract class ViewState {
         // nella view o nello stato?)
         updateClient(new WhisperMessage(typeMessage(),nickname,ID));
     }
+
     protected void broadcast(){
         System.out.println("Inside broadcast command...");
         updateClient(new BroadcastMessage(typeMessage(),ID));
 
     }
+
     protected String typeMessage(){
         System.out.println("Type your message [max 128 char]");
         Scanner scanner= new Scanner(System.in);
@@ -107,6 +114,7 @@ public abstract class ViewState {
         }
         return message;
     }
+
     protected void quit() {
         Scanner input = new Scanner(System.in);
         String answer;
