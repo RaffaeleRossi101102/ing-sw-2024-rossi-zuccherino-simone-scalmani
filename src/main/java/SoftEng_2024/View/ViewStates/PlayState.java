@@ -24,7 +24,7 @@ public class PlayState extends ViewState{
         System.out.println("Wait for your turn to play, meanwhile...");
         defaultCommand(GameState.NOTPLAYING);
         System.out.println("Now it's your turn!");
-        // TODO if(view.getLocalModel().getPlayerHand().size() == 3) {
+        if(view.getLocalModel().getPersonalHand().size() == 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type Play Card, Chat or Quit");
             String command = scanner.nextLine();
@@ -50,10 +50,10 @@ public class PlayState extends ViewState{
                 System.out.println("Type Play Card, Chat or Quit");
                 command = scanner.nextLine();
             }
-        //TODO } else {
-        // System.out.println("When you logged off last time, you played a card but didn't draw another.
-        //                     Now, you'll need to finish your turn by drawing a card without playing...");
-        // }
+        } else {
+        System.out.println("When you logged off last time, you played a card but didn't draw another. " +
+                           "Now, you'll need to finish your turn by drawing a card without playing...");
+        }
         waitingState.setPreviousState(this);
         waitingState.setNextState(drawState);
         waitingState.display();
