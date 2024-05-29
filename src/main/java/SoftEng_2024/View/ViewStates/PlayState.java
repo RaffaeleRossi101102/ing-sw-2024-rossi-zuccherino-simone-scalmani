@@ -50,13 +50,16 @@ public class PlayState extends ViewState{
                 System.out.println("Type Play Card, Chat or Quit");
                 command = scanner.nextLine();
             }
+            waitingState.setPreviousState(this);
+            waitingState.setNextState(drawState);
+            waitingState.display();
         } else {
-        System.out.println("When you logged off last time, you played a card but didn't draw another. " +
-                           "Now, you'll need to finish your turn by drawing a card without playing...");
+            System.out.println("When you logged off last time, you played a card but didn't draw another. " +
+                               "Now, you'll need to finish your turn by drawing a card without playing...");
+
+            drawState.display();
         }
-        waitingState.setPreviousState(this);
-        waitingState.setNextState(drawState);
-        waitingState.display();
+
     }
 
     public void setDrawState(ViewState drawState) {
