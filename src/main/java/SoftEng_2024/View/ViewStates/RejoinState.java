@@ -23,7 +23,11 @@ public class RejoinState extends ViewState{
             new ChooseGoalState(view, client, ID).display();
         }
         if(view.getLocalModel().getState().equals(GameState.PLAY)){
-            new PlayState(view, client, ID).display();
+            new ReadyToStartState(view, client, ID).display();
+        }
+        if(view.getLocalModel().getState().equals(GameState.NOTPLAYING)){
+            new ReadyToStartState(view, client, ID).display();
         }
     }
+
 }

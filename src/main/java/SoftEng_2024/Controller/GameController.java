@@ -1,15 +1,11 @@
 package SoftEng_2024.Controller;
 import SoftEng_2024.Model.Cards.*;
-import SoftEng_2024.Model.Observers.ModelObserver;
 import SoftEng_2024.Model.Observers.PlayerHandObserver;
-import SoftEng_2024.Model.Observers.PlayerObserver;
 import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
-import SoftEng_2024.Network.ToModel.RMIServer;
 import SoftEng_2024.Network.ToModel.ServerInterface;
-import SoftEng_2024.Network.ToModel.SocketClientHandler;
 import SoftEng_2024.Network.ToModel.SocketServer;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
@@ -241,11 +237,21 @@ public class GameController {
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (gameState.equals(GameState.CONNECTION)){
-            clientPlayers.remove(playerIdMap.remove(ID));
+            Player removedPlayer = playerIdMap.get(ID);
+            clientPlayers.remove(removedPlayer);
+            game.getPlayers().remove(removedPlayer);
+
         }else{
             playerIdMap.get(ID).setOnline(false);
+            if (gameState.equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
+                playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
+                game.turnStart();
+            }else{
+                checkIfNextState();
+            }
+
         }
-        checkIfNextState();
+
     }
 
     private void addPlayer(String nickname, double ID) {
@@ -386,7 +392,7 @@ public class GameController {
     public void playCard(int card, int row, int column, boolean flipped,double ID){
         Player player=playerIdMap.get(ID);
         player.getHand().get(card).setFlipped(flipped);
-        game.PlayCard(player.getHand().get(card), player,row,column);
+        game.playCard(player.getHand().get(card), player,row,column);
         //notify : in base a quello che ritorna il metodo playCard, notifico gli observer.
     }
     public void drawFromTheDeck(int deck,double ID){
@@ -426,7 +432,7 @@ public class GameController {
     private void checkingIfGameEnds(boolean gameEnd){
         //if no one arrived at 20 points, a new turn starts
         if(!gameEnd){
-            game.TurnStart();
+            game.turnStart();
         }
         //else, the game state changes and the network manager stops taking messages
         else gameState=GameState.ENDGAME;
@@ -448,7 +454,7 @@ public class GameController {
                 }
             }
             if(!found){
-                //se i player online hanno fatto tutti l'operazione, chiamo n nuovo stato
+                //se i player online hanno fatto tutti l'operazione, chiamo un nuovo stato
                 gameState=gameState.nextState();
             }
 

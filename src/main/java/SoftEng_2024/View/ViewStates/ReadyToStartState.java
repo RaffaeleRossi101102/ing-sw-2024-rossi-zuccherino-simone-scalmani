@@ -17,11 +17,19 @@ public class ReadyToStartState extends ViewState{
 
         PlayState playState = new PlayState(view, client, ID);
         DrawState drawState = new DrawState(view, client, ID);
+        WaitingForTurnState waitingForTurnStateState = new WaitingForTurnState(view, client, ID);
 
-        playState.setDrawState(drawState);
-        drawState.setPlayState(playState);
 
-        playState.display();
+        waitingForTurnStateState.setNextState(playState);
+        playState.setNextState(drawState);
+        drawState.setNextState(waitingForTurnStateState);
+
+        if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
+            playState.display();
+        }else{
+            waitingForTurnStateState.display();
+        }
+
 
     }
 }

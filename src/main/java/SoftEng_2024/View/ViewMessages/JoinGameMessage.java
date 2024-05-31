@@ -12,7 +12,11 @@ public class JoinGameMessage implements ViewMessage{
         this.ID=ID;
     }
     @Override
-    public void executeMessage(GameController controller) throws RemoteException{
-        controller.joinGame(nickname,ID);
+    public void executeMessage(GameController controller) {
+        try {
+            controller.joinGame(nickname,ID);
+        } catch (RemoteException e) {
+            throw new RuntimeException("Something went terribly wrong.");
+        }
     }
 }

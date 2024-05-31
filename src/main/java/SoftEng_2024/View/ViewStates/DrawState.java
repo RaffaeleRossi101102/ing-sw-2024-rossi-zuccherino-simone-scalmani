@@ -1,5 +1,6 @@
 package SoftEng_2024.View.ViewStates;
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.ViewMessages.DrawFromPublicCardsMessage;
@@ -12,51 +13,55 @@ import java.util.Scanner;
 public class DrawState extends ViewState{
 
 
-    private ViewState playState;
+    private ViewState nextState;
     public DrawState(CliViewClient view, ClientInterface client, double ID) {
         super(view,client,ID);
     }
 
     @Override
     public void display() {
-        System.out.println("Now you have to draw a card from the 4 public cards or from one of the decks!");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
-        String command = scanner.nextLine();
+        if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
+            new EndGameState(view, client, ID).display();
+        }else {
+            System.out.println("Now you have to draw a card from the 4 public cards or from one of the decks!");
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
+            String command = scanner.nextLine();
 
-        while (!commandChosen) {
-            switch (command.trim().toLowerCase()) {
-                case "drawfromdeck":
-                    drawFromTheDeck();
-                    commandChosen = true;
+            while (!commandChosen) {
+                switch (command.trim().toLowerCase()) {
+                    case "drawfromdeck":
+                        drawFromTheDeck();
+                        commandChosen = true;
+                        break;
+                    case "drawpubliccard":
+                        drawPublicCard();
+                        commandChosen = true;
+                        break;
+                    case "chat":
+                        writeInChat();
+                        break;
+                    case "quit":
+                        quit();
+                        break;
+                    default:
+                        System.err.println("Command not available... retry");
+                        break;
+                }
+                if (commandChosen)
                     break;
-                case "drawpubliccard":
-                    drawPublicCard();
-                    commandChosen = true;
-                    break;
-                case "chat":
-                    writeInChat();
-                    break;
-                case "quit":
-                    quit();
-                    break;
-                default:
-                    System.err.println("Command not available... retry");
-                    break;
+                System.out.println("Type Play Card, Chat or Quit");
+                command = scanner.nextLine();
             }
-            if(commandChosen)
-                break;
-            System.out.println("Type Play Card, Chat or Quit");
-            command = scanner.nextLine();
+            waitingState.setPreviousState(this);
+            waitingState.setNextState(nextState);
+            waitingState.display();
         }
-        waitingState.setPreviousState(this);
-        waitingState.setNextState(playState);
-        waitingState.display();
 
     }
 
-    public void setPlayState(ViewState playState) {
-        this.playState = playState;
+    public void setNextState(ViewState nextState) {
+        this.nextState = nextState;
     }
 
     private void drawFromTheDeck(){

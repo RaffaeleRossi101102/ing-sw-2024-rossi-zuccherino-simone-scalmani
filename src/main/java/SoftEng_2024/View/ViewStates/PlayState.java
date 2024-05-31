@@ -13,7 +13,7 @@ public class PlayState extends ViewState{
 
 
 
-    private ViewState drawState;
+    private ViewState nextState;
 
     public PlayState(CliViewClient view, ClientInterface client, double ID){
         super(view,client,ID);
@@ -21,8 +21,6 @@ public class PlayState extends ViewState{
 
     @Override
     public void display() {
-        System.out.println("Wait for your turn to play, meanwhile...");
-        defaultCommand(GameState.NOTPLAYING);
         System.out.println("Now it's your turn!");
         if(view.getLocalModel().getPersonalHand().size() == 3) {
             Scanner scanner = new Scanner(System.in);
@@ -51,19 +49,19 @@ public class PlayState extends ViewState{
                 command = scanner.nextLine();
             }
             waitingState.setPreviousState(this);
-            waitingState.setNextState(drawState);
+            waitingState.setNextState(nextState);
             waitingState.display();
         } else {
             System.out.println("When you logged off last time, you played a card but didn't draw another. " +
                                "Now, you'll need to finish your turn by drawing a card without playing...");
 
-            drawState.display();
+            nextState.display();
         }
 
     }
 
-    public void setDrawState(ViewState drawState) {
-        this.drawState = drawState;
+    public void setNextState(ViewState nextState) {
+        this.nextState = nextState;
     }
 
     private void playCard(){

@@ -36,7 +36,7 @@ public class Game {
         this.observers= new ArrayList<>();
     }
 
-    public List<Integer> GameEnd() {
+    public List<Integer> gameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
         List<Integer> indexWinners= new ArrayList<>();
@@ -93,7 +93,7 @@ public class Game {
         return indexWinners;
     }
     //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
-    public void TurnStart(){
+    public void turnStart(){
         if(players.get(playerIndex).getIsOnline()) {
             currentPlayer = players.get(playerIndex);
             currentPlayer.isPlaying = true;
@@ -106,7 +106,7 @@ public class Game {
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori
     //else, passa il turno al prossimo ritornando a turn start
-    public boolean TurnEnd(){
+    public boolean turnEnd(){
         gameEnd= false;
         if((maxScore >= 20 && playerIndex == players.size() - 1) || (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
             gameEnd = true;
@@ -120,7 +120,7 @@ public class Game {
     }
     //metodo che aggiorna il model in base alla carta scelta dal client
     //ESISTE IL MODO PER ASCOLTARE SOLTANTO UN PLAYER?
-    public int PlayCard(Card playedCard,Player player,int r,int c){
+    public int playCard(Card playedCard, Player player, int r, int c){
         int result=-2;
         try{
             //controllo che il player che ha chiamato questo metodo sia quello che deve giocare il turno

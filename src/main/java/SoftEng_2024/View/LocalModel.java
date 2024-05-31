@@ -10,14 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LocalModel {
+
+    private String nickname;
+    private String currentTurnPlayerNickname;
     private List<Card> personalHand;
     private HashMap<String,Color> playersColor;
     private StarterCard starterCard;
     private GameState gameState;
     private GameState playerState;
     private List<GoalCard> availableGoals;
+    private List<String> winnersNickname;
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
+
     public GameState getPlayerState(){
         return this.playerState;
     }
@@ -37,6 +42,15 @@ public class LocalModel {
     public List<Card> getPersonalHand() {
         return personalHand;
     }
+
+    public String getCurrentTurnPlayerNickname() {
+        return currentTurnPlayerNickname;
+    }
+
+    public String getNickname() {return nickname;}
+
+    public List<String> getWinnersNickname() {return winnersNickname;}
+
     //SETTERS******************************************************************
 
     public void setPersonalHand(List<Card> personalHand) {
@@ -63,5 +77,12 @@ public class LocalModel {
         this.starterCard = starterCard;
     }
 
+    public void setCurrentTurnPlayerNickname(String currentTurnPlayerNickname) {
+        this.currentTurnPlayerNickname = currentTurnPlayerNickname;
+    }
+
+    public void setNickname(String nickname) {this.nickname = nickname;}
+
+    public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
 
 }

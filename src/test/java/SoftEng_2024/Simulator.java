@@ -117,7 +117,7 @@ public class Simulator {
         boolean endMatch = false;
         while(!endMatch){
             for(Player pl:players){
-                controller.getGame().TurnStart();
+                controller.getGame().turnStart();
                 // SHOWING THE PERSONAL CARD TO THE CURRENT PLAYER
                 for(int i=0; i<3; i++) {
                     Card currentCard = controller.getGame().getCurrentPlayer().getHand().get(i);
@@ -146,7 +146,7 @@ public class Simulator {
                 boolean flip = scan2.nextBoolean();
                 System.out.println(indice1+"-" + indice2+"-" + indice3+"-" + "bool: "+ flip);
                 controller.getGame().getCurrentPlayer().getHand().get(indice1).setFlipped(flip);
-                controller.getGame().PlayCard(controller.getGame().getCurrentPlayer().getHand().get(indice1),controller.getGame().getCurrentPlayer(), indice2, indice3);
+                controller.getGame().playCard(controller.getGame().getCurrentPlayer().getHand().get(indice1),controller.getGame().getCurrentPlayer(), indice2, indice3);
                 //SHOWING THE PUBLIC CARDS
                 System.out.println("CARTE DA CUI PESCARE : ");
                 for(int i=0; i<4; i++){
@@ -179,7 +179,7 @@ public class Simulator {
                     controller.getGame().drawPublicCards(controller.getGame().getCurrentPlayer(), position);
                 }
                 else if(deck==5)    controller.getGame().getCurrentPlayer().getPlayerBoard().setScore(20);
-                endMatch = controller.getGame().TurnEnd();
+                endMatch = controller.getGame().turnEnd();
             }
         }
     }

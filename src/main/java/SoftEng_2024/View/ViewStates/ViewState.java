@@ -43,7 +43,7 @@ public abstract class ViewState {
         if(view.getLocalModel().getState().equals(gameState)) {
             setDefaultCommand("");
             listenDefaultCommand();
-            while (view.getLocalModel().getState().equals(gameState)) {
+            while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
                 switch (defaultCommand.trim().toLowerCase()) {
                     case "chat":
                         writeInChat();

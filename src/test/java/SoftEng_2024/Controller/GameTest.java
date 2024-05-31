@@ -18,7 +18,7 @@ class GameTest {
 
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
 
         //Player is online, entering if statement
         assertEquals(testGameInit.getGame().getPlayers().get(0), testGameInit.getGame().getCurrentPlayer());
@@ -40,14 +40,14 @@ class GameTest {
 
         Player player1 = new Player(new ArrayList<>(), testBoard, "paolo");
         testGameInit.getGame().getPlayers().add(player1);
-        assertFalse(testGameInit.getGame().TurnEnd());
+        assertFalse(testGameInit.getGame().turnEnd());
 
         testGameInit.getGame().getPlayers().get(0).getPlayerBoard().setScore(20);
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
-        testGameInit.getGame().TurnStart();
-        testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
-        assertTrue(testGameInit.getGame().TurnEnd());
+        testGameInit.getGame().turnStart();
+        testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
+        assertTrue(testGameInit.getGame().turnEnd());
 
         // Empty decks case missing - else case missing
     }
@@ -63,18 +63,18 @@ class GameTest {
         testGameInit.getGame().getPlayers().add(player1);
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
 
-        playCode = testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
+        playCode = testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
         assertEquals(-3, playCode);
 
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
 
-        playCode = testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
+        playCode = testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
         assertEquals(1, playCode);
 
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
-        playCode = testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 0, 0);
+        playCode = testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 0, 0);
         assertEquals(-1, playCode);
 
         // necessaryResourcesNotAvailableException case not done yet
@@ -96,24 +96,24 @@ class GameTest {
 
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
 
         testGameInit.getGame().getPlayers().get(0).getHand().get(0).setFlipped(true);
-        testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
+        testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
 
         actual = testGameInit.getGame().drawPublicCards(player1, 0);
         assertEquals(1, actual);
 
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
         testGameInit.getGame().getPlayers().get(0).getHand().get(0).setFlipped(true);
-        testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 43, 43);
+        testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 43, 43);
 
         for(i=1; i<4; i++) {
             actual = testGameInit.getGame().drawPublicCards(player1, i);
             assertEquals(1, actual);
-            testGameInit.getGame().TurnStart();
+            testGameInit.getGame().turnStart();
             testGameInit.getGame().getPlayers().get(0).getHand().get(0).setFlipped(true);
-            testGameInit.getGame().PlayCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, i + 43, i + 43);
+            testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, i + 43, i + 43);
         }
 
         testGameInit.getGame().getPublicCards().clear();
@@ -131,7 +131,7 @@ class GameTest {
 
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
-        testGameInit.getGame().TurnStart();
+        testGameInit.getGame().turnStart();
 
         int i;
         for (i=0; i<38; i++) {

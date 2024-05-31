@@ -2,10 +2,8 @@ package SoftEng_2024.Network.ToModel;
 
 import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.GameState;
-import SoftEng_2024.Model.Player_and_Board.Player;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
-import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NetworkManager {
@@ -49,7 +47,7 @@ public class NetworkManager {
         }
         //vengono date le carte a tutti i giocatori
         controller.handOutCards();
-        controller.getGame().TurnStart();
+        controller.getGame().turnStart();
         //TODO: potrebbe mandare un messaggio in cui dice chi è di turno? Oppure lo si manda direttamente con
         //TODO: il messaggio di cambio stato
         //Each player is now initialized, and we are ready to start the game
@@ -57,7 +55,8 @@ public class NetworkManager {
             pollThreaded();
         }
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat
-        controller.getGame().GameEnd();
+        controller.getGame().gameEnd();
+        //TODO ritornare ad inizio run per la creazione di una nuova partita??
 
     }
 
