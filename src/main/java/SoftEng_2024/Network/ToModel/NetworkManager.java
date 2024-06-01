@@ -34,7 +34,7 @@ public class NetworkManager {
 
 
         //Each player plays their starter card and choose the color of his pawn
-        while(controller.getGameState()==GameState.STARTER | controller.getGameState()==GameState.SETCOLOR){
+        while(controller.getGame().getGameState()==GameState.STARTER | controller.getGame().getGameState()==GameState.SETCOLOR){
             pollThreaded();
         }
 
@@ -42,7 +42,7 @@ public class NetworkManager {
         //oppure se tenerlo lì
         controller.handOutPrivateGoals();
         //Each player choose his private goal
-        while(controller.getGameState()==GameState.CHOOSEGOAL){
+        while(controller.getGame().getGameState()==GameState.CHOOSEGOAL){
             pollThreaded();
         }
         //vengono date le carte a tutti i giocatori
@@ -51,7 +51,7 @@ public class NetworkManager {
         //TODO: potrebbe mandare un messaggio in cui dice chi è di turno? Oppure lo si manda direttamente con
         //TODO: il messaggio di cambio stato
         //Each player is now initialized, and we are ready to start the game
-        while(controller.getGameState()==GameState.PLAY){
+        while(controller.getGame().getGameState()==GameState.PLAY){
             pollThreaded();
         }
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat

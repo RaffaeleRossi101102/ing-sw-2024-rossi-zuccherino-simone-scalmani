@@ -305,18 +305,9 @@ public class GameController {
             e.printStackTrace();
             throw new RuntimeException("Something went very wrong");
         }
-        //per ogni player controlla se è stata piazzata la starter
-        int counter=0;
-        for(Player player:game.getPlayers()){
-            if(player.getPlayerBoard().getCardList().size()==1){
-                counter++;
-            }
-        }
+
         //se ogni player ha piazzato la carta, cambio lo stato
-        if(counter==maxPlayers){
-            gameState=GameState.SETCOLOR;
-            //notify change in gameState
-        }
+        checkIfNextState();
         //notify observer for all public info and hand observer for ID player
     }
 
@@ -340,12 +331,8 @@ public class GameController {
         playerIdMap.get(ID).setColor(color);
         playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
 
-        //avendo già contato il numero di giocatori che hanno già scelto il colore, basterà che il numero
-        //di giocatori che hanno scelto il colore sia maxPlayers - 1, ovvero quello che l'ha scelto ora
-        if(counter==maxPlayers-1){
-            //notify change of state
-            gameState=GameState.CHOOSEGOAL;
-        }
+        //se ogni player ha scelto il colore cambio lo stato
+        checkIfNextState();
         //notify observers
     }
     private void updatePlayerHands() {
@@ -373,22 +360,18 @@ public class GameController {
         //notify all clients for public goals
     }
     public void choosePrivateGoals(int choice, double ID){
-        //discards a private goal from the player attrbute
+        //discards a private goal from the player attribute
         Player player=playerIdMap.get(ID);
         player.getAvailableGoals().remove(2-choice);
-        player.setPlayerState(GameState.PLAY);
+        //if the player will be the first one, set their state to PLAYING
+        if(playerIdMap.get(ID).equals(game.getPlayers().get(0))){
+            player.setPlayerState(GameState.PLAY);
+        }//else, set NOT PLAYING
+        else{
+            player.setPlayerState(GameState.NOTPLAYING);
+        }
         //checks if all the players had already chosen their private goal
-        //TODO:giocatori offline??
-        int counter=0;
-        for(Player player1: game.getPlayers()){
-            if(player1.getAvailableGoals().size()==1)
-                counter++;
-        }
-        if(counter==maxPlayers){
-            gameState=GameState.PLAY;
-            //notify we are ready to start the game
-        }
-
+        checkIfNextState();
     }
     public void playCard(int card, int row, int column, boolean flipped,double ID){
         Player player=playerIdMap.get(ID);
@@ -399,6 +382,7 @@ public class GameController {
     public void drawFromTheDeck(int deck,double ID){
         Player player=playerIdMap.get(ID);
         game.drawFromTheDeck(player,deck);
+        checkingIfGameEnds(game.turnEnd());
         //notify the right observers
     }
     public void drawFromPublicCards(int card,double ID){
@@ -438,7 +422,7 @@ public class GameController {
             game.turnStart();
         }
         //else, the game state changes and the network manager stops taking messages
-        else gameState=GameState.ENDGAME;
+        else game.setGameState(GameState.ENDGAME);
     }
 
     private void checkIfNextState(){
