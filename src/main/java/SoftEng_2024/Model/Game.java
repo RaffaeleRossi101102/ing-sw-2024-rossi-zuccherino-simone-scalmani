@@ -1,6 +1,7 @@
 package SoftEng_2024.Model;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.Observers.ModelObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
@@ -10,6 +11,7 @@ import SoftEng_2024.Model.Player_and_Board.Player;
 import java.util.*;
 
 public class Game {
+    GameState gameState;
     private List<Player> players;
     private int playerIndex = 0;
     private Player currentPlayer;
@@ -96,7 +98,7 @@ public class Game {
     public void turnStart(){
         if(players.get(playerIndex).getIsOnline()) {
             currentPlayer = players.get(playerIndex);
-            currentPlayer.isPlaying = true;
+            currentPlayer.setPlayerState(GameState.PLAY);
             play = true;
         }
         else {
@@ -108,9 +110,10 @@ public class Game {
     //else, passa il turno al prossimo ritornando a turn start
     public boolean turnEnd(){
         gameEnd= false;
-        if((maxScore >= 20 && playerIndex == players.size() - 1) || (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
+        if((maxScore >= 20 && playerIndex == players.size() - 1) | (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
             gameEnd = true;
         }
+        currentPlayer.setPlayerState(GameState.NOTPLAYING);
         if(playerIndex == players.size()-1){
             playerIndex = 0;
         }else{
@@ -225,6 +228,9 @@ public class Game {
     public void setPublicGoals(GoalCard[] publicGoals) {
         this.publicGoals = publicGoals;
     }
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     public Queue<GoalCard> getGoalCardDeck() {
         return goalCardDeck;
@@ -252,6 +258,10 @@ public class Game {
 
     public Queue<Card> getStarterDeck() {
         return starterDeck;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public void setPlayerIndex(int playerIndex) {

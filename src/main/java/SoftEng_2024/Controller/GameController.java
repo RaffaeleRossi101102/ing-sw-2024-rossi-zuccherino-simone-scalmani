@@ -24,7 +24,7 @@ public class GameController {
     private List<Player> clientPlayers = new ArrayList<>();
     private int maxPlayers;
     private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
-    GameState gameState;
+
     private ObServerManager toViewManager;
     //private List<Player>
 
@@ -196,7 +196,7 @@ public class GameController {
     }
     public synchronized void joinGame(String nickname, double ID) throws RemoteException {
 
-        if (!gameState.equals(GameState.CONNECTION)){
+        if (!game.getGameState().equals(GameState.CONNECTION)){
             //TODO: manda messaggio only reconnect
             return;
         }
@@ -236,17 +236,17 @@ public class GameController {
         //TODO disconnetti client e resilienza alle disconnessioni
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
-        if (gameState.equals(GameState.CONNECTION)){
+        if (game.getGameState().equals(GameState.CONNECTION)){
             Player removedPlayer = playerIdMap.get(ID);
             clientPlayers.remove(removedPlayer);
             game.getPlayers().remove(removedPlayer);
 
         }else{
             playerIdMap.get(ID).setOnline(false);
-            if (gameState.equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
+            if (game.getGameState().equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
                 game.turnStart();
-            }else if(gameState.ordinal()<GameState.PLAY.ordinal()){
+            }else if(game.getGameState().ordinal()<GameState.PLAY.ordinal()){
                 checkIfNextState();
             }
 
@@ -258,9 +258,10 @@ public class GameController {
         //istanzio la board
         Board board = new Board();
         //istanzio il player e gli assegno la board
-        Player newPlayer = new Player(new ArrayList<>(), board, nickname);
+        Player newPlayer = new Player(new ArrayList<>(), board);
+        newPlayer.setNickname(nickname);
         //gli aggiungo i suoi observer
-        newPlayer.addObserver( new PlayerHandObserver(this,ID));
+        newPlayer.setAllPlayerObservers(newPlayer,ID,toViewManager);
         //lo aggiungo alla lista di player del controller
         this.clientPlayers.add(newPlayer);
         //add the player to the binding HashMap to link players to their viewID
@@ -272,7 +273,7 @@ public class GameController {
 
     public void reJoinGame(String nickname, double ID){
 
-        if (gameState.equals(GameState.CONNECTION)){
+        if (game.getGameState().equals(GameState.CONNECTION)){
             //TODO: manda messaggio only connect
             return;
         }
@@ -403,6 +404,8 @@ public class GameController {
     public void drawFromPublicCards(int card,double ID){
         Player player=playerIdMap.get(ID);
         game.drawPublicCards(player,card);
+        checkingIfGameEnds(game.turnEnd());
+
         //notify the right observers
     }
     public void handOutStarterCards(){
@@ -442,20 +445,20 @@ public class GameController {
         Thread checkIfNextState = new Thread(()->{
             boolean found=false;
 
-            //per ogni player OPPURE LISTA DI PLAYER ONLINE?
+            //per ogni player
             for(Player player: clientPlayers){
                 //se il player è online, controllo il suo stato, altrimenti lo skippo
                 if(player.getIsOnline()){
                     //se il player è online, controllo se il suo stato è lo stesso di quello del game
                     //quindi, se ha svolto o meno l'operazione dello stato
-                    if(player.getPlayerState().ordinal()<= gameState.ordinal()){
+                    if(player.getPlayerState().ordinal()<= game.getGameState().ordinal()){
                         found=true;
                     }
                 }
             }
             if(!found){
                 //se i player online hanno fatto tutti l'operazione, chiamo un nuovo stato
-                gameState=gameState.nextState();
+                game.getGameState().nextState();
             }
 
         });
@@ -492,13 +495,6 @@ public class GameController {
         this.clientPlayers = clientPlayers;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public GameState getGameState() {
-        return gameState;
-    }
 
 
 }

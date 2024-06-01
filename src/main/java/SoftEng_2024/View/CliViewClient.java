@@ -34,7 +34,10 @@ public class CliViewClient implements View {
         ViewState state = new ConnectionState(this,client, ID);
         state.display();
     }
-
+    @Override
+    public double getID() {
+        return ID;
+    }
 
     public LocalModel getLocalModel() {
         return localModel;

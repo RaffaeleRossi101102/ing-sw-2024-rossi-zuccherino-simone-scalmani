@@ -4,6 +4,7 @@ public interface View {
 
 
     void run();
+    double getID();
     LocalModel getLocalModel();
 
 }

@@ -5,7 +5,6 @@ import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.ViewMessages.PlayCardMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

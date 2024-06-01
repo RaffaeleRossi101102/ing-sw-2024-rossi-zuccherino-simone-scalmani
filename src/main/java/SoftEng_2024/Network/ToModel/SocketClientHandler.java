@@ -36,7 +36,7 @@ public class SocketClientHandler extends Thread {
             server.setClientsConnected(id, this.socket);
             server.setClientsOut(id, out);
             while(true) {
-                    //RECIVING MESSAGES FROM CLIENT AND ADDING THEM TO THE NETWORKMANAGER QUEUE
+                    //RECEIVING MESSAGES FROM THE CLIENT AND ADDING THEM TO NETWORK MANAGER QUEUE
                     message = (ViewMessage) in.readObject();
                     addToQueue(message);
                     System.out.println("MESSAGE ADDED TO QUEUE");

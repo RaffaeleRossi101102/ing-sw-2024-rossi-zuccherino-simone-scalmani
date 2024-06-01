@@ -20,8 +20,8 @@ public class NetworkManager {
 
     public void run(){
         System.out.println("Executing messages from the queue");
-        controller.setGameState(GameState.CONNECTION);
-        while(controller.getGameState()==GameState.CONNECTION){
+        controller.getGame().setGameState(GameState.CONNECTION);
+        while(controller.getGame().getGameState()==GameState.CONNECTION){
             pollThreaded();
         }
         //exiting the loop only after every player has connected

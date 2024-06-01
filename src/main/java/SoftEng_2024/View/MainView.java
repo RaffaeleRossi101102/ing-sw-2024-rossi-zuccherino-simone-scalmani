@@ -43,13 +43,9 @@ public class MainView {
             } catch (RemoteException e) {
                 throw new RuntimeException("Something went wrong while trying to create the client...");
             }
-
         } else {
-
             client = new SocketClient("localhost",4567, ID);
-
         }
-
         if(viewType.equals("CLI")) {
             CliViewClient cliView = new CliViewClient(ID, client);
             client.setView(cliView);
