@@ -246,7 +246,7 @@ public class GameController {
             if (gameState.equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
                 game.turnStart();
-            }else{
+            }else if(gameState.ordinal()<GameState.PLAY.ordinal()){
                 checkIfNextState();
             }
 
