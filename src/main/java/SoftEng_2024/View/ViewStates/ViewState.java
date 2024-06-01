@@ -3,6 +3,7 @@ package SoftEng_2024.View.ViewStates;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
+import SoftEng_2024.View.LocalModel;
 import SoftEng_2024.View.ViewMessages.BroadcastMessage;
 import SoftEng_2024.View.ViewMessages.QuitMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
@@ -15,7 +16,7 @@ public abstract class ViewState {
     protected CliViewClient view;
 
     protected ClientInterface client;
-
+    protected LocalModel model;
     protected double ID;
     protected boolean commandChosen;
     protected WaitingState waitingState;
@@ -27,7 +28,8 @@ public abstract class ViewState {
         this.client=client;
         this.ID=ID;
         this.commandChosen=false;
-        waitingState = new WaitingState();
+        this.model= view.getLocalModel();
+        waitingState = new WaitingState(model);
     }
     public abstract void display();
 

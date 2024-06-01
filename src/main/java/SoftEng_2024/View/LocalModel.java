@@ -20,6 +20,8 @@ public class LocalModel {
     private GameState playerState;
     private List<GoalCard> availableGoals;
     private List<String> winnersNickname;
+    private volatile boolean ackReceived;
+    private boolean ackSuccessful;
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
 
@@ -50,6 +52,12 @@ public class LocalModel {
     public String getNickname() {return nickname;}
 
     public List<String> getWinnersNickname() {return winnersNickname;}
+
+    public boolean isAckReceived() {return ackReceived;}
+
+    public boolean isAckSuccessful() {
+        return ackSuccessful;
+    }
 
     //SETTERS******************************************************************
 
@@ -84,5 +92,9 @@ public class LocalModel {
     public void setNickname(String nickname) {this.nickname = nickname;}
 
     public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
+
+    public void setAckReceived(boolean ackReceived) {this.ackReceived = ackReceived;}
+
+    public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
 
 }
