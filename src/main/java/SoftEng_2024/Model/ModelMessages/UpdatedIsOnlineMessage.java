@@ -11,6 +11,6 @@ public class UpdatedIsOnlineMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setOnline
+//        view.getLocalModel().setOnline
     }
 }
