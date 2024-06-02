@@ -1,17 +1,15 @@
 package SoftEng_2024.View.ViewStates;
 
 
-import SoftEng_2024.Network.ToModel.ClientInterface;
-import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.LocalModel;
 
-import javax.swing.*;
+import java.util.Timer;
+
 
 public class WaitingState {
     private ViewState previousState;
     private ViewState nextState;
-    private LocalModel model;
-    //TODO private Log log;
+    private final LocalModel model;
 
 
 
@@ -24,10 +22,10 @@ public class WaitingState {
         while(!model.isAckReceived());
         model.setAckReceived(false);
         if (!model.isAckSuccessful()) {
-            //diplayLastLog
             previousState.display();
         } else {
-            //displayLastLog
+            //display last error log
+            System.out.println(model.getErrorLog().get(model.getErrorLog().size() - 1));
             model.setAckSuccessful(false);
             nextState.display();
         }

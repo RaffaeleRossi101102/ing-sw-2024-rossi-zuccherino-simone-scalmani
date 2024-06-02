@@ -14,7 +14,7 @@ public class WhisperMessage implements ViewMessage{
         this.ID=ID;
     }
     @Override
-    public void executeMessage(GameController controller) throws RemoteException {
+    public void executeMessage(GameController controller) {
 
     }
 }

@@ -16,4 +16,5 @@ public interface ClientInterface extends Remote {
     void run() throws RemoteException;
     void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException;
     void setView(View view) throws RemoteException;
+    void pong() throws RemoteException;
 }

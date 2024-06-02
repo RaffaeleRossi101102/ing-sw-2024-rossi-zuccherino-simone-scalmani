@@ -61,6 +61,10 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         t.start();
     }
 
+    @Override
+    public void pong() throws RemoteException{
+    }
+
     public void setView(View view) {
         this.view = view;
     }

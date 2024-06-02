@@ -22,6 +22,8 @@ public class LocalModel {
     private List<String> winnersNickname;
     private volatile boolean ackReceived;
     private boolean ackSuccessful;
+    private List<String> playersNickname;
+    private List<String> errorLog;
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
 
@@ -51,6 +53,8 @@ public class LocalModel {
 
     public String getNickname() {return nickname;}
 
+    public List<String> getPlayersNickname() {return playersNickname;}
+
     public List<String> getWinnersNickname() {return winnersNickname;}
 
     public boolean isAckReceived() {return ackReceived;}
@@ -58,6 +62,8 @@ public class LocalModel {
     public boolean isAckSuccessful() {
         return ackSuccessful;
     }
+
+    public List<String> getErrorLog() {return errorLog;};
 
     //SETTERS******************************************************************
 
@@ -91,10 +97,14 @@ public class LocalModel {
 
     public void setNickname(String nickname) {this.nickname = nickname;}
 
+    public void setPlayersNickname(List<String> playersNickname) {this.playersNickname = playersNickname;}
+
     public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
 
     public void setAckReceived(boolean ackReceived) {this.ackReceived = ackReceived;}
 
     public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
+
+    public void setErrorLog(List<String> errorLog) {this.errorLog = errorLog;}
 
 }

@@ -11,6 +11,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static java.lang.Thread.sleep;
+
 public class RMIServer implements ServerInterface{
     private final NetworkManager manager;
     private ConcurrentHashMap<Double, ClientInterface> IdClientBindingMap;
@@ -43,6 +45,40 @@ public class RMIServer implements ServerInterface{
             throw new RuntimeException("Something went wrong, retry... ");
         }
 
+        Thread pingThread = new Thread(() -> {
+            while (true) {
+                if (!IdClientBindingMap.isEmpty()){
+                    ping();
+                }
+
+                try {
+                    //noinspection BusyWait
+                    sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
+        pingThread.start();
+
+    }
+
+    private void ping() {
+        for(Double id : IdClientBindingMap.keySet()){
+            try {
+                IdClientBindingMap.get(id).pong();
+            }catch (RemoteException e){
+                System.err.println("Client with id: " + id + " has crashed or disconnected, sending quit message...");
+                ViewMessage msg = new QuitMessage(id);
+                try {
+                    addToNetworkManager(msg);
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 
     //registers the client to the hash map
@@ -58,12 +94,7 @@ public class RMIServer implements ServerInterface{
     //removes the client from the hash map
     @Override
     public void unregisterClient(double ID) throws RemoteException{
-
-        if (IdClientBindingMap.containsKey(ID)) {
-            IdClientBindingMap.remove(ID);
-        }else {
-            System.err.println("Removing client from SocketServer");
-        }
+        IdClientBindingMap.remove(ID);
     }
 
     @Override
@@ -75,9 +106,7 @@ public class RMIServer implements ServerInterface{
                 IdClientBindingMap.get(ID).addToViewQueue(msg);
             }catch(RemoteException re){
                 //client probably crashed or something went wrong with his stub
-                unregisterClient(ID);
-                ViewMessage message = new QuitMessage(ID);
-                manager.addViewMessages(message);
+                //pingThread is going to find it and send a quit message to model
             }
         }
     }

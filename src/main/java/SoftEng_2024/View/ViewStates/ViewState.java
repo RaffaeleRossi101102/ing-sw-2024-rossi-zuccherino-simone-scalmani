@@ -10,6 +10,8 @@ import SoftEng_2024.View.ViewMessages.ViewMessage;
 import SoftEng_2024.View.ViewMessages.WhisperMessage;
 
 import java.rmi.RemoteException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public abstract class ViewState {
@@ -81,10 +83,11 @@ public abstract class ViewState {
         System.out.println("Inside write in chat command...");
         System.out.println("Do you want to whisper or to broadcast your message? Type 'whisper' or 'broadcast'");
         Scanner scanner= new Scanner(System.in);
-        String choice= scanner.nextLine();
+        String choice= scanner.nextLine().toLowerCase().trim();
         while(!choice.equals("whisper") & !choice.equals("broadcast")){
-            System.out.println("Wrong input, please write 'whisper' or 'broadcast'");
-            choice=scanner.nextLine();
+            System.out.println("Wrong input, please write 'whisper' or 'broadcast', but if you want to cancel type 'exit'");
+            choice=scanner.nextLine().toLowerCase().trim();
+            if(choice.equals("exit")) return;
         }
         if(choice.equals("whisper"))
             whisper();
@@ -97,19 +100,34 @@ public abstract class ViewState {
         System.out.println("Who do you want to whisper to? Type the player's nickname:");
         Scanner scanner= new Scanner(System.in);
         String nickname= scanner.nextLine();
-        //TODO: confronto con i nickname degli utenti (nel server o nel local model? se nel local model, dove si trova,
-        // nella view o nello stato?)
-        updateClient(new WhisperMessage(typeMessage(),nickname,ID));
+        while(!view.getLocalModel().getPlayersNickname().contains(nickname)){
+            System.out.println("There isn't a player with that nickname! Retry or type 'exit' to cancel...");
+            nickname= scanner.nextLine();
+            if(nickname.equals("exit")) return;
+        }
+        String msg = typeMessage();
+        if (!msg.equals("exit")) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            updateClient(new WhisperMessage("[" + dtf.format(now) + "]" + " " +
+                    model.getNickname() + " " + "has whispered to you: " + msg, nickname, ID));
+        }
     }
 
     protected void broadcast(){
         System.out.println("Inside broadcast command...");
-        updateClient(new BroadcastMessage(typeMessage(),ID));
+        String msg = typeMessage();
+        if (!msg.equals("exit")) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            updateClient(new BroadcastMessage("[" + dtf.format(now) + "]" + " " +
+                    model.getNickname() + ": " + msg, ID));
+        }
 
     }
 
     protected String typeMessage(){
-        System.out.println("Type your message [max 128 char]");
+        System.out.println("Type your message [max 128 char] or type 'exit' to cancel");
         Scanner scanner= new Scanner(System.in);
         String message= scanner.nextLine();
         while(message.length()>128){

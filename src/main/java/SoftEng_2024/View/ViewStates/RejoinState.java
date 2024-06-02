@@ -13,19 +13,16 @@ public class RejoinState extends ViewState{
     @Override
     public void display() {
 
-        if(view.getLocalModel().getState().equals(GameState.STARTER)){
+        if(view.getLocalModel().getPlayerState().equals(GameState.STARTER)){
             new StarterState(view, client, ID).display();
         }
-        if(view.getLocalModel().getState().equals(GameState.SETCOLOR)){
+        if(view.getLocalModel().getPlayerState().equals(GameState.SETCOLOR)){
             new SetColorState(view, client, ID).display();
         }
-        if(view.getLocalModel().getState().equals(GameState.CHOOSEGOAL)){
+        if(view.getLocalModel().getPlayerState().equals(GameState.CHOOSEGOAL)){
             new ChooseGoalState(view, client, ID).display();
         }
-        if(view.getLocalModel().getState().equals(GameState.PLAY)){
-            new ReadyToStartState(view, client, ID).display();
-        }
-        if(view.getLocalModel().getState().equals(GameState.NOTPLAYING)){
+        if(view.getLocalModel().getPlayerState().equals(GameState.NOTPLAYING)){
             new ReadyToStartState(view, client, ID).display();
         }
     }
