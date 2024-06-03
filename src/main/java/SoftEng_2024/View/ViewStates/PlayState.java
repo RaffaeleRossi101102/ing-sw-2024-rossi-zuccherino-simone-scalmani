@@ -21,6 +21,7 @@ public class PlayState extends ViewState{
     @Override
     public void display() {
         System.out.println("Now it's your turn!");
+        Thread newStateDisplayThread;
         if(view.getLocalModel().getPersonalHand().size() == 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type Play Card, Chat or Quit");
@@ -49,13 +50,16 @@ public class PlayState extends ViewState{
             }
             waitingState.setPreviousState(this);
             waitingState.setNextState(nextState);
-            waitingState.display();
+            newStateDisplayThread = new Thread(waitingState::display);
         } else {
             System.out.println("When you logged off last time, you played a card but didn't draw another. " +
                                "Now, you'll need to finish your turn by drawing a card without playing...");
 
-            nextState.display();
+            newStateDisplayThread = new Thread(nextState::display);
+
         }
+
+        newStateDisplayThread.start();
 
     }
 
@@ -66,38 +70,37 @@ public class PlayState extends ViewState{
     private void playCard(){
         Scanner input = new Scanner(System.in);
         int card;
+        String answer;
+        System.out.println("Type the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel ");
+        answer = input.nextLine();
+        while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("exit")){
+            System.err.println("Wrong input... retry!!\nType the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel");
+            answer = input.nextLine();
 
-        System.out.println("Type the index (1, 2 or 3) of the card you want to play: ");
-        try {
-            card = input.nextInt();
-        }catch (InputMismatchException e){
-            card = -1;
-            input.nextLine();
-            System.err.println("Wrong input, type an integer!");
         }
-        while(card!=1 && card!=2 &&card!=3 ){
-            System.err.println("Wrong input, type '1', '2' or '3'");
-            try {
-                card = input.nextInt();
-            }catch (InputMismatchException e){
-                card = -1;
-                input.nextLine();
-                System.err.println("Wrong input, type an integer!");
-            }
+        if(answer.equals("exit")){
+            commandChosen = false;
+            return;
         }
+
+        card = Integer.parseInt(answer);
         card--;
 
         int row;
         int column;
 
-        System.out.println("Type the row and the column (0 <= r,c <= 84) of the cell: ");
+        System.out.println("Type the row and the column (0 <= r,c <= 84) of the cell, or type 'exit' to cancel ");
         try {
             row = input.nextInt();
             column = input.nextInt();
         }catch(InputMismatchException e){
             row=-1;
             column=-1;
-            input.nextLine();
+            String command = input.nextLine().trim().toLowerCase();
+            if (command.equals("exit")){
+                commandChosen = false;
+                return;
+            }
             System.err.println("Wrong input, type an integer!");
         }
         while(row<0 | row>84 | column<0 | column>84){
@@ -108,18 +111,25 @@ public class PlayState extends ViewState{
             }catch(InputMismatchException e){
                 row=-1;
                 column=-1;
-                input.nextLine();
+                String command = input.nextLine().trim().toLowerCase();
+                if (command.equals("exit")){
+                    commandChosen = false;
+                    return;
+                }
                 System.err.println("Wrong input, type an integer!");
             }
         }
 
         boolean flipped;
-        String answer;
-        System.out.println("Type the side of the card (front or back): ");
+        System.out.println("Type the side of the card (front or back), or type 'exit' to cancel ");
         answer = input.nextLine();
-        while(!answer.equals("front") && !answer.equals("back")){
-            System.err.println("Wrong input, type 'front' or 'back'!");
+        while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
+            System.err.println("Wrong input... retry!! \nType the side of the card (front or back), or type 'exit' to cancel");
             answer = input.nextLine();
+        }
+        if(answer.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
         flipped = !answer.equals("front");

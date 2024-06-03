@@ -47,7 +47,9 @@ public class SetColorState extends ViewState{
         }
         waitingState.setPreviousState(this);
         waitingState.setNextState(new ChooseGoalState(view,client,ID));
-        waitingState.display();
+
+        Thread newStateDisplayThread = new Thread(waitingState::display);
+        newStateDisplayThread.start();
     }
     private void setColor() {
         Scanner input = new Scanner(System.in);
@@ -60,11 +62,15 @@ public class SetColorState extends ViewState{
                 System.out.print(availableColor+ " ");
             }
         }
-        System.out.println();
+        System.out.println("Type the color you want for your pawn, or type 'exit' to cancel");
         answer = input.nextLine().trim().toUpperCase();
         boolean correctColor = false;
         while (!correctColor) {
-            if ((answer.equals("RED") | answer.equals("BLUE") | answer.equals("YELLOW") | answer.equals("GREEN")) && !colorMap.containsValue(Color.valueOf(answer))) {
+            if(answer.equals("EXIT")){
+                commandChosen=false;
+                return;
+            }
+            else if ((answer.equals("RED") | answer.equals("BLUE") | answer.equals("YELLOW") | answer.equals("GREEN")) && !colorMap.containsValue(Color.valueOf(answer))) {
                 correctColor = true;
             }else if(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
                 System.err.println("Wrong input, please choose between the colors: Red , Blue, Green, Yellow");

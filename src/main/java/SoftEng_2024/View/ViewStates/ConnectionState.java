@@ -56,34 +56,29 @@ public class ConnectionState extends ViewState {
         //once the user chose a command he will have to wait for the model's response
         waitingState.setPreviousState(this);
         waitingState.setNextState(nextState);
-        waitingState.display();
+
+        Thread newStateDisplayThread = new Thread(waitingState::display);
+        newStateDisplayThread.start();
+
     }
     private void createGame() {
-        System.out.println("Inside createGame command...");
+        System.out.println("Inside join command...");
+
         Scanner input = new Scanner(System.in);
-        System.out.println("Type your nickname (max 20 char)");
-        String nickname=input.nextLine();
-        while(nickname.length()>20){
-            System.err.println("Nice name, but make it shorter! (max 20 char)");
-            nickname= input.nextLine();
-        }
-        System.out.println("Got it :)");
-        System.out.println("Insert how many players the game will have");
-        int maxPlayers = input.nextInt();
-        boolean inputValid = false;
-        while(!inputValid){
-            try{
-                while(maxPlayers<2 | maxPlayers>4){
-                    System.err.println("The maximum number of players has to be between 2 and 4");
-                    maxPlayers = input.nextInt();
-                }
-                inputValid = true;
-            }catch(InputMismatchException e){
-                System.err.println("Wrong type of input, insert an integer");
-                input.nextLine();
-            }
+
+        String nickname;
+        nickname=askNickname(input);
+
+        if(nickname.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
+        System.out.println("Insert how many players the game will have, or type 'exit' to cancel");
+        int maxPlayers = askMaxPlayers(input);
+        if(maxPlayers==-1){
+            return;
+        }
 
         try {
             client.registerToServer(ID, client);
@@ -96,15 +91,47 @@ public class ConnectionState extends ViewState {
         updateClient(msg);
 
     }
-    private void join() {
-        System.out.println("Inside join command...");
-        Scanner input = new Scanner(System.in);
+
+    private int askMaxPlayers(Scanner input) {
+        System.out.println("Insert how many players the game will have, or type 'exit' to cancel");
+        String maxPlayers = input.nextLine().toLowerCase().trim();
+
+        while(!maxPlayers.equals("2") && !maxPlayers.equals("3") && !maxPlayers.equals("4") && !maxPlayers.equals("exit")){
+            System.err.println("The maximum number of players has to be between 2 and 4, or you can type 'exit' to cancel");
+            maxPlayers = input.nextLine();
+        }
+
+        if(maxPlayers.equals("exit")){
+            return -1;
+        }
+
+
+        return Integer.parseInt(maxPlayers);
+    }
+
+    private String askNickname(Scanner input){
         String nickname;
-        System.out.println("Type your nickname (max 20 char)");
+        System.out.println("Type your nickname (max 20 char), or type 'exit' to cancel");
         nickname=input.nextLine();
         while(nickname.length()>20){
             System.err.println("Nice name, but make it shorter! (max 20 char)");
             nickname=input.nextLine();
+        }
+        System.out.println("Got it :)");
+        return nickname;
+    }
+
+    private void join() {
+        System.out.println("Inside join command...");
+
+        Scanner input = new Scanner(System.in);
+
+        String nickname;
+        nickname=askNickname(input);
+
+        if(nickname.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
         try {
@@ -119,11 +146,17 @@ public class ConnectionState extends ViewState {
     }
     private void reJoin(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type the nickname you chose on first connection (max 20 char)");
+        System.out.println("Type the nickname you chose on first connection (max 20 char), or type 'exit' to cancel");
         String nickname = scanner.nextLine();
         while(nickname.length()>20){
             System.err.println("There are not nicknames this long in game, retry...");
             nickname = scanner.nextLine();
+
+        }
+
+        if(nickname.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
         ViewMessage msg = new ReJoin(this.ID, nickname);

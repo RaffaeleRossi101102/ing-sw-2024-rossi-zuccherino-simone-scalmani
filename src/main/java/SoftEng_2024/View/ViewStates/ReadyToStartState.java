@@ -24,11 +24,13 @@ public class ReadyToStartState extends ViewState{
         playState.setNextState(drawState);
         drawState.setNextState(waitingForTurnStateState);
 
+        Thread newStateDisplayThread;
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
-            playState.display();
+            newStateDisplayThread = new Thread(playState::display);
         }else{
-            waitingForTurnStateState.display();
+            newStateDisplayThread = new Thread(waitingForTurnStateState::display);
         }
+        newStateDisplayThread.start();
 
 
     }

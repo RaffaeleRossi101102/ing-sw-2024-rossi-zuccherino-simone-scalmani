@@ -50,17 +50,27 @@ public class StarterState extends ViewState{
         }
         waitingState.setPreviousState(this);
         waitingState.setNextState(new SetColorState(view,client,ID));
-        waitingState.display();
+
+        Thread newStateDisplayThread = new Thread(waitingState::display);
+        newStateDisplayThread.start();
     }
     private void playStarterCard() {
         Scanner input= new Scanner(System.in);
         String answer;
         boolean flipped;
         //TODO: Print delle starterCard
-        do {
-            System.out.println("Type the side of the card (front or back): ");
+        System.out.println("Type the side of the card (front or back), or type 'exit' to cancel");
+        answer = input.nextLine().trim().toLowerCase();
+        while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
+            System.out.println("Wrong input... retry!\nType the side of the card (front or back), or type 'exit' to cancel");
             answer = input.nextLine();
-        }while(!answer.equals("front") && !answer.equals("back"));
+        }
+
+        if(answer.equals("exit")){
+            commandChosen=false;
+            return;
+        }
+
         flipped= !answer.equals("front");
         ViewMessage msg= new PlayStarterCardMessage(flipped,this.ID);
         updateClient(msg);

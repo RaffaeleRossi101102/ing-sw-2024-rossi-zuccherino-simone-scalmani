@@ -49,7 +49,9 @@ public class ChooseGoalState extends ViewState {
         }
         waitingState.setPreviousState(this);
         waitingState.setNextState(new ReadyToStartState(view,client, ID));
-        waitingState.display();
+
+        Thread newStateDisplayThread = new Thread(waitingState::display);
+        newStateDisplayThread.start();
     }
 
     private void choosePrivateGoal() {
@@ -58,11 +60,15 @@ public class ChooseGoalState extends ViewState {
         String answer;
         System.out.println("Goal 1: " + view.getLocalModel().getAvailableGoals().get(0).getGoalType());
         System.out.println("Goal 2: " + view.getLocalModel().getAvailableGoals().get(1).getGoalType());
-        System.out.println("Type [1] or [2] to choose your private goal");
+        System.out.println("Type 1 or 2 to choose your private goal, or type exit to cancel");
         answer = scanner.nextLine();
-        while (!answer.equals("1") && !answer.equals("2")) {
+        while (!answer.equals("1") && !answer.equals("2") && !answer.equals("exit")) {
             System.err.println("Wrong input, type [1] or [2] to choose your private goal");
             answer = scanner.nextLine();
+        }
+        if (answer.equals("exit")) {
+            commandChosen = false;
+            return;
         }
         int choice = Integer.parseInt(answer);
         System.out.println("Got it, keep it a secret!");

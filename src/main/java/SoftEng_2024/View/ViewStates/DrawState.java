@@ -20,6 +20,8 @@ public class DrawState extends ViewState{
 
     @Override
     public void display() {
+
+        Thread newStateDisplayThread;
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
             new EndGameState(view, client, ID).display();
         }else {
@@ -55,7 +57,10 @@ public class DrawState extends ViewState{
             }
             waitingState.setPreviousState(this);
             waitingState.setNextState(nextState);
-            waitingState.display();
+
+
+            newStateDisplayThread = new Thread(waitingState::display);
+            newStateDisplayThread.start();
         }
 
     }
@@ -68,12 +73,17 @@ public class DrawState extends ViewState{
         Scanner input = new Scanner(System.in);
         String deck;
         int index;
-        System.out.println("Type which deck (gold or resources) you want to draw from: ");
+        System.out.println("Type which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
         deck = input.nextLine();
-        while(!deck.equals("gold") && !deck.equals("resources")){
-            System.err.println("Wrong input, type 'gold' or 'resources'!");
+        while(!deck.equals("gold") && !deck.equals("resources") && !deck.equals("exit")){
+            System.err.println("Wrong input... retry!!\nType which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
             deck = input.nextLine();
 
+        }
+
+        if(deck.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
         index = deck.equals("gold") ? 1 : 0;
@@ -84,24 +94,23 @@ public class DrawState extends ViewState{
 
     private void drawPublicCard(){
         Scanner input=new Scanner(System.in);
+        String answer;
         int card;
-        try {
-            card = input.nextInt();
-        }catch(InputMismatchException e){
-            card=-1;
-            input.nextLine();
+
+        System.out.println("Type which card you want to draw: [1,2] for resource cards [3,4] for gold cards, or type 'exit' to cancel ");
+        answer = input.nextLine();
+
+        while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("4") && !answer.equals("exit")){
+            System.out.println("Wrong Input!\nType which card you want to draw: [1,2] for resource cards [3,4] for gold cards, or type 'exit' to cancel ");
+            answer = input.nextLine();
         }
 
-        while(card!=1 && card!=2 && card!=3 && card!=4){
-            System.out.println("Wrong Input!\nType which card you want to draw: [1,2] for resource cards [3,4] for gold cards ");
-            try {
-                card = input.nextInt();
-            }catch(InputMismatchException e){
-                card=-1;
-                input.nextLine();
-            }
+        if(answer.equals("exit")){
+            commandChosen = false;
+            return;
         }
 
+        card = Integer.parseInt(answer);
         card--;
         ViewMessage msg= new DrawFromPublicCardsMessage(card,this.ID);
         updateClient(msg);
