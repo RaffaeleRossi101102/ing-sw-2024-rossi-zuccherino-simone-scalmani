@@ -1,13 +1,10 @@
 package SoftEng_2024.Network.ToView;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
-import SoftEng_2024.Network.ToModel.SocketClientHandler;
 
 public class ObServerManager {
 
