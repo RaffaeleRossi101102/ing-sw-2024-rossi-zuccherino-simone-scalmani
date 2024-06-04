@@ -16,7 +16,7 @@ public class UpdatedHandMessage extends ModelMessage{
     public void executeMessage(View view) {
         //if the message came from the corresponding player, update the hand
         //otherwise do nothing
-        if(view.getID()==ID)
-            view.getLocalModel().setPersonalHand(playerHand);
+//        if(view.getID()==ID)
+//            view.getLocalModel().setPersonalHand(playerHand);
     }
 }

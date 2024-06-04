@@ -12,8 +12,8 @@ public class UpdatedPlayerStateMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        if(view.getID()==ID){
-            view.getLocalModel().setPlayerState(playerState);
-        }
+//        if(view.getID()==ID){
+//            view.getLocalModel().setPlayerState(playerState);
+//        }
     }
 }

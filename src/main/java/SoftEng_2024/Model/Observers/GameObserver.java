@@ -49,9 +49,9 @@ public class GameObserver {
     public void updatedPublicGoals(GoalCard[] publicGoals){
         notifyServer(new UpdatedPublicGoals("The public goals have been chosen",publicGoals));
     }
-    public void updatedCurrentPlayer(String currentPlayerNick){
-        notifyServer();
-    }
+//    public void updatedCurrentPlayer(String currentPlayerNick){
+//        notifyServer();
+//    }
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);
     }
