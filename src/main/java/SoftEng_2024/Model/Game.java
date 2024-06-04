@@ -46,10 +46,10 @@ public class Game {
         gameObserver=o;
     }
 
-    public List<Integer> gameEnd() {
+    public List<String> gameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
-        List<Integer> indexWinners= new ArrayList<>();
+        List<String> nicknameWinners= new ArrayList<>();
         int goalScore;
         int counter;
         int[] goalTypes= new int[players.size()];
@@ -97,10 +97,10 @@ public class Game {
         //ora in playerScore ho gli indici dei vincitori
         for(int i=0; i<playerScore.length; i++){
             if(playerScore[i]!= (-1)){
-                indexWinners.add(i);
+                nicknameWinners.add(players.get(i).getNickname());
             }
         }
-        return indexWinners;
+        return nicknameWinners;
     }
     //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
     public void turnStart(){

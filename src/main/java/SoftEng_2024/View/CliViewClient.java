@@ -7,6 +7,8 @@ import SoftEng_2024.View.ViewStates.ConnectionState;
 import SoftEng_2024.View.ViewStates.ViewState;
 import java.rmi.RemoteException;
 
+import static java.lang.Thread.sleep;
+
 public class CliViewClient implements View {
     ClientInterface client;
     double ID;
@@ -32,7 +34,9 @@ public class CliViewClient implements View {
         clientQueueExecutor.start();
         //First display to join, rejoin or quit
         ViewState state = new ConnectionState(this,client, ID);
-        state.display();
+        Thread newStateDisplayThread = new Thread(state::display);
+        newStateDisplayThread.start();
+
     }
     @Override
     public double getID() {

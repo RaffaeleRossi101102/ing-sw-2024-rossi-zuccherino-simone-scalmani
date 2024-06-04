@@ -234,11 +234,10 @@ public class GameController {
     }
 
     public void quit(double ID) throws IOException {
-        //TODO disconnetti client e resilienza alle disconnessioni
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (game.getGameState().equals(GameState.CONNECTION)){
-            Player removedPlayer = playerIdMap.get(ID);
+            Player removedPlayer = playerIdMap.remove(ID);
             clientPlayers.remove(removedPlayer);
             game.getPlayers().remove(removedPlayer);
 
@@ -252,6 +251,7 @@ public class GameController {
             }
 
         }
+
 
     }
 
@@ -438,7 +438,9 @@ public class GameController {
             game.turnStart();
         }
         //else, the game state changes and the network manager stops taking messages
-        else game.setGameState(GameState.ENDGAME);
+        else{
+            game.setGameState(GameState.ENDGAME);
+        }
     }
 
     private void checkIfNextState(){

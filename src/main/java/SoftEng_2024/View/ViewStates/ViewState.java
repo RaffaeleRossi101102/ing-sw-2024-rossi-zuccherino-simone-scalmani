@@ -22,7 +22,6 @@ public abstract class ViewState {
     protected double ID;
     protected boolean commandChosen;
     protected WaitingState waitingState;
-
     protected String defaultCommand;
 
     public ViewState(CliViewClient view,ClientInterface client, double ID){
@@ -72,9 +71,14 @@ public abstract class ViewState {
 
     protected void listenDefaultCommand(){
         Thread t = new Thread(() -> {
-            System.out.println("Type 'chat' or 'quit' to use the chat or to quit the game");
+            System.out.println("Type 'chat', 'quit' or 'exit' to use the chat, to quit the game or to cancel");
             Scanner scanner = new Scanner(System.in);
-            setDefaultCommand(scanner.nextLine());
+            String command = scanner.nextLine().toLowerCase().trim();
+            if (command.equals("exit")) {
+                setDefaultCommand("");
+            } else{
+                setDefaultCommand(command);
+            }
         });
         t.start();
     }

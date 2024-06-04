@@ -16,11 +16,16 @@ public class WaitingForTurnState extends ViewState{
     public void display() {
         System.out.println("Wait for your turn to play, meanwhile...");
         defaultCommand(GameState.PLAY);
+
+        Thread newStateDisplayThread;
         if (view.getLocalModel().getState().equals(GameState.ENDGAME)) {
-            new EndGameState(view, client, ID).display();
+            nextState = new EndGameState(view, client, ID);
         }else{
             nextState.display();
         }
+        newStateDisplayThread = new Thread(nextState::display);
+
+        newStateDisplayThread.start();
     }
 
     public void setNextState(ViewState nextState) {
