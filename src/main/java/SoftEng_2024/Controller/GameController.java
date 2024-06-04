@@ -1,6 +1,8 @@
 package SoftEng_2024.Controller;
 import SoftEng_2024.Model.Cards.*;
-import SoftEng_2024.Model.Observers.PlayerHandObserver;
+import SoftEng_2024.Model.Observers.BoardObserver;
+import SoftEng_2024.Model.Observers.GameObserver;
+import SoftEng_2024.Model.Observers.PlayerObserver;
 import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
@@ -24,7 +26,7 @@ public class GameController {
     private List<Player> clientPlayers = new ArrayList<>();
     private int maxPlayers;
     private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
-
+    private List<PlayerObserver> playerObservers=new ArrayList<>();
     private ObServerManager toViewManager;
     //private List<Player>
 
@@ -59,8 +61,7 @@ public class GameController {
         //costruisco i 16 goal, inserisco in una lista, faccio shuffle, aggiungo alla coda
         Queue<GoalCard> goalCardDeck = goalInit();
 
-        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck);
-
+        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck,new GameObserver(toViewManager,game));
 
         //Draw from the decks the cards visible on the table
         for (int i = 0; i < 2; i++) {
@@ -259,11 +260,22 @@ public class GameController {
         Board board = new Board();
         //istanzio il player e gli assegno la board
         Player newPlayer = new Player(new ArrayList<>(), board);
-        newPlayer.setNickname(nickname);
-        //gli aggiungo i suoi observer
-        newPlayer.setAllPlayerObservers(newPlayer,ID,toViewManager);
         //lo aggiungo alla lista di player del controller
         this.clientPlayers.add(newPlayer);
+        //creo i nuovi observer
+        PlayerObserver newPlayerObserver=new PlayerObserver(toViewManager,ID,nickname);
+        BoardObserver newBoardObserver=new BoardObserver(nickname,toViewManager);
+        board.setObserver(newBoardObserver);
+        //aggiungo a tutti i player il nuovo observer
+        for(Player p:clientPlayers){
+            p.addObserver(newPlayerObserver);
+        }
+        //aggiungo al nuovo player tutti gli observer degli altri player
+        for(PlayerObserver o:playerObservers){
+            newPlayer.addObserver(o);
+        }
+        //aggiungo solo alla fine il nuovo observer, così da evitare di aggiungerlo più volte
+        playerObservers.add(newPlayerObserver);
         //add the player to the binding HashMap to link players to their viewID
         playerIdMap.put(ID,newPlayer);
         //e lo aggiungo al game
@@ -362,7 +374,9 @@ public class GameController {
     public void choosePrivateGoals(int choice, double ID){
         //discards a private goal from the player attribute
         Player player=playerIdMap.get(ID);
-        player.getAvailableGoals().remove(2-choice);
+        List<GoalCard> privateGoal=new ArrayList<>(player.getAvailableGoals());
+        privateGoal.remove(2-choice);
+        player.setAvailableGoals(privateGoal);
         //if the player will be the first one, set their state to PLAYING
         if(playerIdMap.get(ID).equals(game.getPlayers().get(0))){
             player.setPlayerState(GameState.PLAY);
@@ -401,9 +415,11 @@ public class GameController {
     //SONO AGGIUNTI ANCHE DENTRO ADD PLAYER, DA VEDERE SE HA SENSO QUESTO METODO O MENO
     public void handOutPrivateGoals(){
         for(Player player: game.getPlayers()){
+            List<GoalCard> availableGoals=new ArrayList<>();
+            availableGoals.add(game.getGoalCardDeck().poll());
+            availableGoals.add(game.getGoalCardDeck().poll());
             //aggiungo due goals
-            player.getAvailableGoals().add(game.getGoalCardDeck().poll());
-            player.getAvailableGoals().add(game.getGoalCardDeck().poll());
+            player.setAvailableGoals(availableGoals);
         }
     }
     public void handOutCards(){

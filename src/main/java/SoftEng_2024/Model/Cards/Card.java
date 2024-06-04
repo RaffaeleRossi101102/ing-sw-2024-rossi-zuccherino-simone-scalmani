@@ -11,7 +11,6 @@ public abstract class Card {
     //METHODS
     public Card(Front front, boolean flipped, Angles[] resource){
         this.front=front;
-        //flipped can also be dFront froeclared as false
         this.flipped=flipped;
         this.resource=resource;
     }

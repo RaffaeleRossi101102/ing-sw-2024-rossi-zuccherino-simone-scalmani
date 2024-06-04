@@ -99,16 +99,27 @@ public class RMIServer implements ServerInterface{
 
     @Override
     public void addToClientQueue(ModelMessage msg) throws RemoteException {
-        //for each client that is connected
-        for(double ID: IdClientBindingMap.keySet()){
-            try{
-                //adds the message to the client's modelMessageQueue
-                IdClientBindingMap.get(ID).addToViewQueue(msg);
-            }catch(RemoteException re){
-                //client probably crashed or something went wrong with his stub
-                //pingThread is going to find it and send a quit message to model
+        try {
+            //if the ID==0 it means that the messge has to be sent to everyone
+            if (msg.getReceiverID() == 0) {
+                for (ClientInterface client : IdClientBindingMap.values()) {
+                    client.addToViewQueue(msg);
+                }
             }
+            else{
+                //for each ID registered in the map
+                for(double ID: IdClientBindingMap.keySet()){
+                    //if the message is destined to a client connected to the RMI server, send it
+                    if(msg.getReceiverID()==ID)
+                        IdClientBindingMap.get(ID).addToViewQueue(msg);
+                }
+            }
+        }catch(RemoteException re){
+            //TODO: quit message?
+        //client probably crashed or something went wrong with his stub
+        //pingThread is going to find it and send a quit message to model
         }
+
     }
 
 }

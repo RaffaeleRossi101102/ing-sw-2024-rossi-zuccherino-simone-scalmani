@@ -3,7 +3,7 @@ package SoftEng_2024.Model;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.GoalCard.GoalCard;
-import SoftEng_2024.Model.Observers.ModelObserver;
+import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
 
@@ -26,16 +26,24 @@ public class Game {
     private boolean gameEnd;
     private boolean firstTurn= true;
     private static int maxScore=0;
-    private List<ModelObserver> observers;
+    private final GameObserver gameObserver;
+    //TODO: notificare il cambiamento di:
+    //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
+    //TODO: LE PUBLIC CARDS--> vanno fatte vedere sempre aggiornate ---
+    //TODO: I PUBLIC GOALS-->vanno fatti vedere una volta posizionati ---
+    //TODO: I CURRENT PLAYERS--> ogni volta che cambia, va fatto sapere ai client
+    //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
+    //TODO: LO STATO DEL PLAYER
+    //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
-    public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
+    public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck,GameObserver o){
         this.players = players;
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
         this.starterDeck = starterDeck;
         this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
-        this.observers= new ArrayList<>();
+        gameObserver=o;
     }
 
     public List<Integer> gameEnd() {
@@ -104,6 +112,7 @@ public class Game {
         else {
             playerIndex=(playerIndex+1)%players.size();
         }
+
     }
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori
@@ -135,7 +144,7 @@ public class Game {
                 player.getPlayerBoard().updateBoard(r,c,playedCard);
                 play=false;
                 draw=true;
-                player.getHand().remove(playedCard);
+                player.removeCard(playedCard);
                 //dopo che ho giocato la carta, devo aggiornare max score
                 if(player.getPlayerBoard().getScore() > maxScore) maxScore=player.getPlayerBoard().getScore();
                 result=1;
@@ -157,19 +166,24 @@ public class Game {
         if (player.equals(currentPlayer) && draw){
             //aggiungi la carta pubblica alla sua mano
             if(!publicCards.isEmpty()) {
-                player.getHand().add(publicCards.get(index));
+                player.setHand(publicCards.get(index));
                 draw = false;
                 //tutto liscio
                 result = 1;
                 //e rimpiazza il suo spazio con una carta
                 //se la carta pescata era risorsa:
                 if (!resourceDeck.isEmpty()) {
-                    if (index < 2) publicCards.set(index, resourceDeck.poll());
+                    if (index < 2) {
+                        publicCards.set(index, resourceDeck.poll());
+                    }
                 }
                 //se la carta pescata era oro:
                 if (!goldDeck.isEmpty()) {
-                    if (index >= 2) publicCards.set(index, goldDeck.poll());
+                    if (index >= 2) {
+                        publicCards.set(index, goldDeck.poll());
+                    }
                 }
+                gameObserver.updatedPublicCards(player.getNickname(),index);
             }else {
                 result = -1;
             }
@@ -185,17 +199,19 @@ public class Game {
             //se è uguale a 0 prendo il deck risorsa se è =1 quello oro
             if(whichDeck==0) {
                 if(!resourceDeck.isEmpty()) {
-                    player.getHand().add(resourceDeck.poll());
+                    player.setHand(resourceDeck.poll());
                     draw=false;
                     result=1;
+                    gameObserver.updatedDeck(player.getNickname(),resourceDeck.peek(),whichDeck);
                 }
                 else result=-2;
             }
             if(whichDeck==1) {
                 if(!goldDeck.isEmpty()) {
-                    player.getHand().add(goldDeck.poll());
+                    player.setHand(goldDeck.poll());
                     draw=false;
                     result=1;
+                    gameObserver.updatedDeck(player.getNickname(), goldDeck.peek(),whichDeck);
                 }
                 else result=-3;
             }
@@ -210,12 +226,6 @@ public class Game {
         publicCards.add(goldDeck.poll());
         //notify
     }
-    public void registerObserver(ModelObserver observer){
-        observers.add(observer);
-    }
-    public void unregisterObserver(ModelObserver observer){
-        observers.remove(observer);
-    }
     //metodo che aggiorna il current player,
     public GoalCard[] getPublicGoals() {
         return publicGoals;
@@ -227,6 +237,7 @@ public class Game {
 
     public void setPublicGoals(GoalCard[] publicGoals) {
         this.publicGoals = publicGoals;
+        gameObserver.updatedPublicGoals(this.publicGoals);
     }
     public void setGameState(GameState gameState) {
         this.gameState = gameState;

@@ -5,8 +5,8 @@ import SoftEng_2024.View.View;
 
 public class UpdatedPlayerStateMessage extends ModelMessage{
     GameState playerState;
-    public UpdatedPlayerStateMessage(double ID, String message,GameState gs) {
-        super(ID, message);
+    public UpdatedPlayerStateMessage(double ID, String message,GameState gs,String senderNickname) {
+        super(ID, message,senderNickname);
         playerState=gs;
     }
 

@@ -63,24 +63,30 @@ public class SocketServer{
             ObjectOutputStream out = clientsOut.remove(id);
             out.close();
         }else{
-            System.err.println("ID NOT REGISTERED...");
+            System.err.println("ID not registered...");
         }
         if (clientsConnected.containsKey(id)) {
             Socket remove = clientsConnected.remove(id);
             remove.close();
         }else {
-            System.err.println("ID NOT REGISTERED...");
+            System.err.println("ID not registered...");
         }
     }
 
     //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
-    public void addToClientQueue(ModelMessage msg) throws IOException {
-        for(ObjectOutputStream out : clientsOut.values()) {
+    public void addToClientQueue(ModelMessage msg) {
+        for(double ID : clientsOut.keySet()) {
             try {
-                out.writeObject(msg);
-                out.flush();
-                out.reset();
+                //se l'ID contenuto nel messaggio è lo stesso di uno dei client collegati con
+                //socket, lo manda. Atrimenti significa che il client di destinazione è di tipo RMI
+                if(ID== msg.getReceiverID()){
+                   ObjectOutputStream out=clientsOut.get(ID);
+                   out.writeObject(msg);
+                   out.flush();
+                   out.reset();
+                }
             } catch (IOException e) {
+                //TODO: lancia l'eccezione o no?
                 System.out.println("ERROR WRITING OBJECT...");
             }
         }

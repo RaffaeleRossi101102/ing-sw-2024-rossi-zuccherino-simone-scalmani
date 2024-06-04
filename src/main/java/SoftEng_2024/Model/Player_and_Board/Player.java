@@ -4,16 +4,11 @@ import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.GoalCard.GoalCard;
-import SoftEng_2024.Model.ModelMessages.ModelMessage;
-import SoftEng_2024.Model.ModelMessages.UpdatedPlayerStateMessage;
-import SoftEng_2024.Model.Observers.PlayerColorObserver;
-import SoftEng_2024.Model.Observers.PlayerHandObserver;
 import SoftEng_2024.Model.Observers.PlayerObserver;
-import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//RELATED PROBLEMS CON I CASI DI TEST
 public class Player {
 
     private List<Card> hand;
@@ -38,41 +33,49 @@ public class Player {
         playerObservers=new ArrayList<>();
     }
     //OBSERVER METHODS
-    private void notifyAllObservers(){
-        for(PlayerObserver o:playerObservers){
-            o.notify(this);
-        }
-    }
     public void addObserver(PlayerObserver o){
         playerObservers.add(o);
     }
     public void removeObserver(PlayerObserver o){playerObservers.remove(o);}
-    public void setAllPlayerObservers(Player newPlayer, double viewID, ObServerManager toViewManager){
-        newPlayer.addObserver(new PlayerHandObserver(toViewManager,viewID));
-        newPlayer.addObserver(new PlayerColorObserver(toViewManager,viewID));
-    }
 
     //SETTERS
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        for(PlayerObserver o:playerObservers)
+            o.updatedNickname(nickname);
     }
     public void setColor(Color color) {
         this.color.add(color);
-        notifyAllObservers();
+        for(PlayerObserver o:playerObservers)
+            o.updatedPlayerColor(color,nickname);
     }
     public void setOnline(boolean isOnline) {
         this.isOnline = isOnline;
-        notifyAllObservers();
+        for(PlayerObserver o:playerObservers)
+            o.updatedIsPlayerOnline(isOnline,nickname);
     }
     public void setHand(Card card) {
         this.hand.add(card);
-        notifyAllObservers();
+        for(PlayerObserver o:playerObservers)
+            o.updatedHand(hand,nickname);
+    }
+    public void removeCard(Card playedCard){
+        this.hand.remove(playedCard);
+        for(PlayerObserver o:playerObservers)
+            o.updatedHand(hand,nickname);
     }
     public void setPlayerState(GameState playerState) {
         this.playerState = playerState;
-        notifyAllObservers();
+        for(PlayerObserver o:playerObservers)
+            o.updatedPlayerState(playerState,nickname);
     }
 
+    public void setAvailableGoals(List<GoalCard> availableGoals) {
+        this.availableGoals = availableGoals;
+        for(PlayerObserver o:playerObservers)
+            o.updatedAvailableGoals(availableGoals,nickname);
+
+    }
     //GETTERS
 
     public String getNickname() {

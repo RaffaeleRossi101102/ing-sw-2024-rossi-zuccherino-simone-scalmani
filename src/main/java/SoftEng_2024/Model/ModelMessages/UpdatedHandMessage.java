@@ -7,8 +7,8 @@ import java.util.List;
 
 public class UpdatedHandMessage extends ModelMessage{
     List<Card> playerHand;
-    public UpdatedHandMessage(double ID, String message, List<Card> playerHand) {
-        super(ID, message);
+    public UpdatedHandMessage(double ID, String message, List<Card> playerHand,String senderNickname) {
+        super(ID, message,senderNickname);
         this.playerHand=playerHand;
     }
 
