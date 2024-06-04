@@ -31,9 +31,8 @@ public class Game {
     //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
     //TODO: LE PUBLIC CARDS--> vanno fatte vedere sempre aggiornate ---
     //TODO: I PUBLIC GOALS-->vanno fatti vedere una volta posizionati ---
-    //TODO: I CURRENT PLAYERS--> ogni volta che cambia, va fatto sapere ai client
+    //TODO: I CURRENT PLAYERS--> ogni volta che cambia, va fatto sapere ai client ---
     //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
-    //TODO: LO STATO DEL PLAYER
     //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
     public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck,GameObserver o){
@@ -104,15 +103,13 @@ public class Game {
     }
     //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
     public void turnStart(){
-        if(players.get(playerIndex).getIsOnline()) {
-            currentPlayer = players.get(playerIndex);
-            currentPlayer.setPlayerState(GameState.PLAY);
-            play = true;
-        }
-        else {
+        while(!players.get(playerIndex).getIsOnline()){
             playerIndex=(playerIndex+1)%players.size();
         }
-
+        currentPlayer = players.get(playerIndex);
+        currentPlayer.setPlayerState(GameState.PLAY);
+        play = true;
+        gameObserver.updatedCurrentPlayer(currentPlayer.getNickname());
     }
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori
@@ -241,6 +238,7 @@ public class Game {
     }
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        gameObserver.updatedGameState(gameState);
     }
 
     public Queue<GoalCard> getGoalCardDeck() {

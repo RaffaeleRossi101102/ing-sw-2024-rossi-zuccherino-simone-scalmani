@@ -123,4 +123,5 @@ public class SocketClient implements ClientInterface {
         });
         t.start();
     }
+    public void pong() throws RemoteException{}
 }

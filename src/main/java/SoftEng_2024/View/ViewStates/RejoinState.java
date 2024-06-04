@@ -3,7 +3,7 @@ package SoftEng_2024.View.ViewStates;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
-import jdk.javadoc.internal.tool.Start;
+
 
 public class RejoinState extends ViewState{
     public RejoinState(CliViewClient view, ClientInterface client, double ID) {

@@ -1,6 +1,7 @@
 package SoftEng_2024.Model.Observers;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Game;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
@@ -49,9 +50,12 @@ public class GameObserver {
     public void updatedPublicGoals(GoalCard[] publicGoals){
         notifyServer(new UpdatedPublicGoals("The public goals have been chosen",publicGoals));
     }
-//    public void updatedCurrentPlayer(String currentPlayerNick){
-//        notifyServer();
-//    }
+    public void updatedCurrentPlayer(String currentPlayerNick){
+        notifyServer(new UpdatedCurrentPlayerMessage(currentPlayerNick+" is your turn to play!",currentPlayerNick));
+    }
+    public void updatedGameState(GameState gameState){
+        notifyServer(new UpdatedGameStateMessage(" we have entered a new state",gameState));
+    }
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);
     }

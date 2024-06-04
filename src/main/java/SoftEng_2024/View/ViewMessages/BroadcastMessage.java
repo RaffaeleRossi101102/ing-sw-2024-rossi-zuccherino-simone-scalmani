@@ -12,7 +12,7 @@ public class BroadcastMessage implements ViewMessage{
         this.message=message;
     }
     @Override
-    public void executeMessage(GameController controller) throws RemoteException {
+    public void executeMessage(GameController controller) {
 
     }
 }
