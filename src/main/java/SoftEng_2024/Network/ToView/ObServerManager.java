@@ -21,26 +21,24 @@ public class ObServerManager {
     }
 
 
-    public void run() throws IOException, InterruptedException {
+    public synchronized void run() throws IOException, InterruptedException {
     ModelMessage msg;
-        while(true){
-            if (!modelMessages.isEmpty()) {
+        while(true) {
+            if (modelMessages.isEmpty()) {
+                wait();
+            }else{
                 try {
-
                     msg = modelMessages.take();
-
-
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 serverRMI.addToClientQueue(msg);
                 socketServer.addToClientQueue(msg);
-            }else{
-                Thread.sleep(2000);
             }
         }
     }
-    public void addModelMessageToQueue(ModelMessage msg){
+    public synchronized void addModelMessageToQueue(ModelMessage msg){
         modelMessages.add(msg);
+        notifyAll();
     }
 }

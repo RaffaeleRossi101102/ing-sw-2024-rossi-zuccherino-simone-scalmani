@@ -56,6 +56,12 @@ public class GameObserver {
     public void updatedGameState(GameState gameState){
         notifyServer(new UpdatedGameStateMessage(" we have entered a new state",gameState));
     }
+    public void updatedAck(boolean ack,double receiverID){
+        notifyServer(new UpdatedAckMessage(receiverID,"",ack));
+    }
+    public void updatedError(double receiverID,String errorMessage){
+        notifyServer(new UpdatedErrorMessage(receiverID,errorMessage));
+    }
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);
     }

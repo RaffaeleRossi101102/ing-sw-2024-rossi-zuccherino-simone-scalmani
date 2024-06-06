@@ -50,7 +50,7 @@ public class ConnectionState extends ViewState {
             command=scanner.nextLine();
         }
         //once the user chose a command he will have to wait for the model's response
-        waitingState.setPreviousState(this);
+        waitingState.setPreviousState(new ConnectionState(this.view,this.client,this.ID));
         waitingState.setNextState(nextState);
 
         Thread newStateDisplayThread = new Thread(waitingState::display);
@@ -75,7 +75,6 @@ public class ConnectionState extends ViewState {
             commandChosen = false;
             return;
         }
-
         try {
             client.registerToServer(ID, client);
         } catch (RemoteException | NotBoundException e) {

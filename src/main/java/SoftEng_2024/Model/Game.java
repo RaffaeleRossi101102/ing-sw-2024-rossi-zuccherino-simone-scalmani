@@ -9,6 +9,7 @@ import SoftEng_2024.Model.Player_and_Board.Player;
 
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
     GameState gameState;
@@ -27,6 +28,8 @@ public class Game {
     private boolean firstTurn= true;
     private static int maxScore=0;
     private final GameObserver gameObserver;
+    private ConcurrentHashMap<Double,Boolean> AckIdBindingMap;
+    private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
     //TODO: notificare il cambiamento di:
     //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
     //TODO: LE PUBLIC CARDS--> vanno fatte vedere sempre aggiornate ---
@@ -43,6 +46,10 @@ public class Game {
         this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
         gameObserver=o;
+        this.AckIdBindingMap=new ConcurrentHashMap<>();
+        this.ErrorMessageBindingMap=new ConcurrentHashMap<>();
+        this.gameState=GameState.CONNECTION;
+
     }
 
     public List<String> gameEnd() {
@@ -227,6 +234,17 @@ public class Game {
     public GoalCard[] getPublicGoals() {
         return publicGoals;
     }
+    public synchronized void setAckIdBindingMap(double ID, boolean ack) {
+        AckIdBindingMap.put(ID,ack);
+        gameObserver.updatedAck(ack,ID);
+    }
+
+    public void setErrorMessageBindingMap(double ID,String errorMessage) {
+        ErrorMessageBindingMap.put(ID,errorMessage);
+        gameObserver.updatedError(ID,errorMessage);
+        //TODO: VALUTARE CASO CHAT!!! Fare una mappa a parte/controllare nella view/invece di una stringa mettere una
+
+    }
 
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
@@ -281,6 +299,14 @@ public class Game {
     }
     public boolean getGameEnd(){
         return this.gameEnd;
+    }
+
+    public ConcurrentHashMap<Double, Boolean> getAckIdBindingMap() {
+        return AckIdBindingMap;
+    }
+
+    public ConcurrentHashMap<Double, String> getErrorMessageBindingMap() {
+        return ErrorMessageBindingMap;
     }
 }
 

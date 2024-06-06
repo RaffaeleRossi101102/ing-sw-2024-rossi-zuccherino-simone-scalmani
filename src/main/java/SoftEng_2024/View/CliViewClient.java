@@ -2,6 +2,7 @@ package SoftEng_2024.View;
 
 
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.ViewStates.ConnectionState;
 import SoftEng_2024.View.ViewStates.ViewState;
@@ -27,11 +28,13 @@ public class CliViewClient implements View {
         {
             try {
                 this.client.run();
-            } catch (RemoteException e) {
+            } catch (RemoteException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
         clientQueueExecutor.start();
+        localModel.setPlayerState(GameState.CONNECTION);
+        localModel.setGameState(GameState.CONNECTION);
         //First display to join, rejoin or quit
         ViewState state = new ConnectionState(this,client, ID);
         Thread newStateDisplayThread = new Thread(state::display);

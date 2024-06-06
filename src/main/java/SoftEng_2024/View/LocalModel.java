@@ -7,12 +7,13 @@ import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
-
+    private ConcurrentHashMap<String,List<Card>> otherPlayershand=new ConcurrentHashMap<>();
     private String nickname;
     private String currentTurnPlayerNickname;
     private List<Card> personalHand;
@@ -23,12 +24,20 @@ public class LocalModel {
     private List<GoalCard> availableGoals;
     private List<String> winnersNickname;
     private volatile boolean ackReceived;
-    private boolean ackSuccessful;
+    private volatile boolean ackSuccessful;
     private List<String> playersNickname;
-    private List<String> errorLog;
+    private volatile List<String> errorLog= new ArrayList<>();
     private ConcurrentLinkedDeque<String> chat = new ConcurrentLinkedDeque<>();
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
+
+    public ConcurrentHashMap<String, List<Card>> getOtherPlayershand() {
+        return otherPlayershand;
+    }
+
+    public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
+        this.otherPlayershand.replace(playerNickname,otherPlayersHand);
+    }
 
     public GameState getPlayerState(){
         return this.playerState;
@@ -99,10 +108,12 @@ public class LocalModel {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        System.out.println("camestatttteeeeeee");
     }
 
     public void setPlayerState(GameState playerState) {
         this.playerState = playerState;
+        System.out.println("settando il player state a "+playerState);
     }
 
     public void setStarterCard(StarterCard starterCard) {
@@ -119,11 +130,12 @@ public class LocalModel {
 
     public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
 
+
     public void setAckReceived(boolean ackReceived) {this.ackReceived = ackReceived;}
 
     public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
 
-    public void setErrorLog(List<String> errorLog) {this.errorLog = errorLog;}
+    public synchronized void setErrorLog(String error) {this.errorLog.add(error);}
 
     public void addToChat(String msg) {this.chat.add(msg);}
 

@@ -4,12 +4,12 @@ import SoftEng_2024.Model.ModelMessages.ModelMessage;
 import SoftEng_2024.View.View;
 import SoftEng_2024.View.ViewMessages.*;
 
+
+
 import java.io.*;
 import java.net.*;
 import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
-
-
 public class SocketClient implements ClientInterface {
     private View view;
     private String ip;
@@ -55,7 +55,7 @@ public class SocketClient implements ClientInterface {
                 }
             });
             t.start();
-        } catch (IOException e) {
+        }catch (IOException e) {
             System.out.println("ERROR CONNECTING CLIENT TO SERVER...");
         }
     }
@@ -128,5 +128,5 @@ public class SocketClient implements ClientInterface {
         });
         t.start();
     }
-    public void pong() throws RemoteException{}
+    //public void pong() throws RemoteException{}
 }

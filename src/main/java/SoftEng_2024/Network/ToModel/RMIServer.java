@@ -84,7 +84,6 @@ public class RMIServer implements ServerInterface{
     //registers the client to the hash map
     @Override
     public void registerClient(double ID, ClientInterface client) throws RemoteException{
-
         if (!IdClientBindingMap.containsKey(ID)) {
             IdClientBindingMap.put(ID, client);
         }else {

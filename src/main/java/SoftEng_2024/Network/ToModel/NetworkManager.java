@@ -18,10 +18,9 @@ public class NetworkManager {
     }
 
 
-    public void run(){
+    public synchronized void run() throws InterruptedException {
         System.out.println("Executing messages from the queue");
         controller.gameInit();
-        controller.getGame().setGameState(GameState.CONNECTION);
         while(controller.getGame().getGameState()==GameState.CONNECTION){
             pollThreaded();
         }
@@ -61,24 +60,29 @@ public class NetworkManager {
 
     }
 
-    private void pollThreaded()  {
-        Thread t = new Thread(() -> {
-            try {
-                viewMessages.take().executeMessage(this.controller);
-            } catch (InterruptedException e) {
-                System.err.println("Something went wrong while executing the messages");
-                throw new RuntimeException(e);
-            }
-        });
-        t.start();
+    private void pollThreaded() throws InterruptedException {
+        if (viewMessages.isEmpty()) {
+            this.wait();
+        } else {
+            Thread t = new Thread(() -> {
+                try {
+                    viewMessages.take().executeMessage(this.controller);
+                } catch (InterruptedException e) {
+                    System.err.println("Something went wrong while executing the messages");
+                    throw new RuntimeException(e);
+                }
+            });
+            t.start();
+        }
     }
 
     public void setRunning(boolean running){
         this.running = running;
     }
 
-    public void addViewMessages(ViewMessage msg) {
+    public synchronized void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
+        notifyAll();
     }
 
 

@@ -53,7 +53,13 @@ public class Main {
                 throw new RuntimeException(e);
             }
         });
-        Thread managerToModelThread = new Thread(managerToModel::run);
+        Thread managerToModelThread = new Thread(() -> {
+            try {
+                managerToModel.run();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         Thread managerToViewThread = new Thread(() -> {
             try {
                 managerToView.run();

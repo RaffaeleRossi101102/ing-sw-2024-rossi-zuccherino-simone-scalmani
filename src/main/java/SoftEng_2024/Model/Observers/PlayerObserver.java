@@ -52,7 +52,8 @@ public class PlayerObserver {
         notifyServer(new UpdatedColorMessage(receiverID,"",playerColor,callerNickname));
     }
     public void updatedPlayerState(GameState playerState,String callerNickname) {
-        notifyServer(new UpdatedPlayerStateMessage(receiverID,"",playerState,callerNickname));
+        if(callerNickname.equals(observedNickname))
+            notifyServer(new UpdatedPlayerStateMessage(receiverID,"",playerState,callerNickname));
     }
     public void updatedNickname(String nickname){
         notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname));
