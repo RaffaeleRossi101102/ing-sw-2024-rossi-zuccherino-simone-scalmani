@@ -32,7 +32,6 @@ public class ConnectionState extends ViewState {
                     join();
                     break;
                 case "rejoin":
-
                     nextState=new RejoinState(view,client,ID);
                     commandChosen = true;
                     reJoin();

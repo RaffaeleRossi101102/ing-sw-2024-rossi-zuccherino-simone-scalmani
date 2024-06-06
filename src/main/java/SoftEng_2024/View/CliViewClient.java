@@ -23,6 +23,7 @@ public class CliViewClient implements View {
 
     public void run(){
         //TODO logo CLIArt
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         System.out.println("WELCOME TO CODEX NATURALIS BY CRANIO CREATIONS");
         Thread clientQueueExecutor = new Thread(()->
         {
