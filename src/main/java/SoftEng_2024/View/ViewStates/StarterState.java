@@ -20,34 +20,41 @@ public class StarterState extends ViewState{
         //TODO: prints player's starter card
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type  Play Starter Card, Chat or Quit");
+        startTimer(entryTimer);
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
-            switch(command.trim().toLowerCase()) {
+            switch(command.trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "playstartercard":
                     if(view.getLocalModel().getStarterCard()==null){
                         System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
                     }
                     else {
-                        playStarterCard();
+                        resetTimer(playStarterTimer);
                         commandChosen=true;
+                        playStarterCard();
                     }
                     break;
                 case "chat":
+                    resetTimer(chatTimer);
                     writeInChat();
                     break;
                 case "quit":
+                    resetTimer(quitTimer);
                     quit();
                     break;
                 default:
+                    resetTimer(entryTimer);
                     System.err.println("Command not available... retry");
                     break;
             }
             if(commandChosen)
                 break;
+            resetTimer(entryTimer);
             System.out.println("Type  Play starter card  or chat");
             command=scanner.nextLine();
         }
+        timer.cancel();
         waitingState.setPreviousState(this);
         waitingState.setNextState(new SetColorState(view,client,ID));
 
@@ -60,12 +67,13 @@ public class StarterState extends ViewState{
         boolean flipped;
         //TODO: Print delle starterCard
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel");
-        answer = input.nextLine().trim().toLowerCase();
+        answer = input.nextLine().trim().replaceAll("\\s+", "").toLowerCase();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
+            resetTimer(playStarterTimer);
             System.out.println("Wrong input... retry!\nType the side of the card (front or back), or type 'exit' to cancel");
             answer = input.nextLine();
         }
-
+        resetTimer(playStarterTimer);
         if(answer.equals("exit")){
             commandChosen=false;
             return;

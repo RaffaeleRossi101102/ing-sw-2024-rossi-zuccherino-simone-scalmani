@@ -184,7 +184,7 @@ public class GameController {
         //if no one has already created the game, the number of maxPlayers is set and a new player is created
         if (clientPlayers.isEmpty()){
             this.maxPlayers=maxPlayers;
-            gameInit();
+            System.out.println(nickname + " has created a game with " + maxPlayers + " players");
             joinGame(nickname, ID);
         }
         else{
@@ -198,16 +198,19 @@ public class GameController {
     public synchronized void joinGame(String nickname, double ID) throws RemoteException {
 
         if (!game.getGameState().equals(GameState.CONNECTION)){
+            System.err.println(nickname + " attempted to join an already started game");
             //TODO: manda messaggio only reconnect
             return;
         }
 
         if(clientPlayers.isEmpty()) {
+            System.out.println(nickname + " has joined the game");
             addPlayer(nickname, ID);
         }
         else if(clientPlayers.size()<maxPlayers){
             for(Player player: clientPlayers){
                 if(player.getNickname().equals(nickname)){
+                    System.err.println(nickname + " tried to join the game with a nickname already used by someone");
                     //TODO show "NickAlreadyChosenError + return
                 }
             }

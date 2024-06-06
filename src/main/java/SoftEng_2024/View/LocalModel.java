@@ -6,8 +6,10 @@ import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
 
@@ -24,6 +26,7 @@ public class LocalModel {
     private boolean ackSuccessful;
     private List<String> playersNickname;
     private List<String> errorLog;
+    private ConcurrentLinkedDeque<String> chat = new ConcurrentLinkedDeque<>();
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
 
@@ -64,6 +67,21 @@ public class LocalModel {
     }
 
     public List<String> getErrorLog() {return errorLog;};
+
+    public Queue<String> getChat() {return chat;}
+
+    public List<String> getLastNMessages(int n){
+        List<String> subQueue = new CopyOnWriteArrayList<>();
+        Iterator<String> it = chat.descendingIterator();
+
+        int count = 0;
+        while(it.hasNext() && count < n){
+            subQueue.add(it.next());
+            count++;
+        }
+
+        return subQueue;
+    }
 
     //SETTERS******************************************************************
 
@@ -106,5 +124,7 @@ public class LocalModel {
     public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
 
     public void setErrorLog(List<String> errorLog) {this.errorLog = errorLog;}
+
+    public void addToChat(String msg) {this.chat.add(msg);}
 
 }

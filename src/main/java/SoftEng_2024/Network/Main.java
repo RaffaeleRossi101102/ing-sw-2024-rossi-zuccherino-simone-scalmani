@@ -12,6 +12,7 @@ import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
 
 public class Main {
     //method that creates
@@ -37,10 +38,35 @@ public class Main {
 
 
 
-        engineRMI.run();
-        serverSocket.startServer(serverSocket);
-        managerToModel.run();
-        managerToView.run();
+
+        Thread RMIThread = new Thread(() -> {
+            try {
+                engineRMI.run();
+            } catch (RemoteException | AlreadyBoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        Thread socketThread = new Thread(() -> {
+            try {
+                serverSocket.startServer(serverSocket);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        Thread managerToModelThread = new Thread(managerToModel::run);
+        Thread managerToViewThread = new Thread(() -> {
+            try {
+                managerToView.run();
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        RMIThread.start();
+        socketThread.start();
+        managerToModelThread.start();
+        managerToViewThread.start();
+
 
 
     }
