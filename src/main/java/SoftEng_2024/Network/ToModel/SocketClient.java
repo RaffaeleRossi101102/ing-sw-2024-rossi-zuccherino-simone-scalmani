@@ -111,6 +111,11 @@ public class SocketClient implements ClientInterface {
         this.view = view;
     }
 
+    @Override
+    public void pong() throws RemoteException {
+
+    }
+
     private void pollThreaded() throws RemoteException {
         Thread t = new Thread(() -> {
             try {

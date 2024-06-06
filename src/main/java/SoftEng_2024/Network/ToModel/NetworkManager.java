@@ -20,6 +20,7 @@ public class NetworkManager {
 
     public void run(){
         System.out.println("Executing messages from the queue");
+        controller.gameInit();
         controller.getGame().setGameState(GameState.CONNECTION);
         while(controller.getGame().getGameState()==GameState.CONNECTION){
             pollThreaded();

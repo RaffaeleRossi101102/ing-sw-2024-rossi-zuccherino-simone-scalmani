@@ -3,14 +3,9 @@ package SoftEng_2024.View.ViewStates;
 
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
-import SoftEng_2024.View.ViewMessages.CreateGameMessage;
-import SoftEng_2024.View.ViewMessages.JoinGameMessage;
-import SoftEng_2024.View.ViewMessages.ReJoin;
-import SoftEng_2024.View.ViewMessages.ViewMessage;
-
+import SoftEng_2024.View.ViewMessages.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConnectionState extends ViewState {
@@ -23,23 +18,24 @@ public class ConnectionState extends ViewState {
     public void display() {
         ViewState nextState=new StarterState(view,client,ID);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type  CreateGame, Join or ReJoin to play!");
+        System.out.println("Type  Create Game, Join or ReJoin to play!");
         String command = scanner.nextLine();
         //Stays in the while loop until a different command from "chat" gets chosen
         while (!commandChosen) {
-            switch (command.trim().toLowerCase()) {
+            switch (command.trim().toLowerCase().replaceAll("\\s+", "")) {
                 case "creategame":
-                    createGame();
                     commandChosen = true;
+                    createGame();
                     break;
                 case "join":
-                    join();
                     commandChosen = true;
+                    join();
                     break;
                 case "rejoin":
-                    reJoin();
+
                     nextState=new RejoinState(view,client,ID);
                     commandChosen = true;
+                    reJoin();
                     break;
                 case "quit":
                     quit();
@@ -50,7 +46,7 @@ public class ConnectionState extends ViewState {
             }
             if(commandChosen)
                 break;
-            System.out.println("Type  CreateGame, Join or ReJoin to play!");
+            System.out.println("Type  Create Game, Join or ReJoin to play!");
             command=scanner.nextLine();
         }
         //once the user chose a command he will have to wait for the model's response
@@ -62,7 +58,7 @@ public class ConnectionState extends ViewState {
 
     }
     private void createGame() {
-        System.out.println("Inside join command...");
+        System.out.println("Inside create game command...");
 
         Scanner input = new Scanner(System.in);
 
@@ -74,9 +70,9 @@ public class ConnectionState extends ViewState {
             return;
         }
 
-        System.out.println("Insert how many players the game will have, or type 'exit' to cancel");
         int maxPlayers = askMaxPlayers(input);
         if(maxPlayers==-1){
+            commandChosen = false;
             return;
         }
 
@@ -94,7 +90,7 @@ public class ConnectionState extends ViewState {
 
     private int askMaxPlayers(Scanner input) {
         System.out.println("Insert how many players the game will have, or type 'exit' to cancel");
-        String maxPlayers = input.nextLine().toLowerCase().trim();
+        String maxPlayers = input.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
 
         while(!maxPlayers.equals("2") && !maxPlayers.equals("3") && !maxPlayers.equals("4") && !maxPlayers.equals("exit")){
             System.err.println("The maximum number of players has to be between 2 and 4, or you can type 'exit' to cancel");
