@@ -236,6 +236,7 @@ public class GameController {
     }
 
     public void quit(double ID) throws IOException {
+        System.out.println(playerIdMap.get(ID).getNickname() + " is about to be disconnected!");
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (game.getGameState().equals(GameState.CONNECTION)){
@@ -253,6 +254,7 @@ public class GameController {
             }
 
         }
+
 
 
     }
