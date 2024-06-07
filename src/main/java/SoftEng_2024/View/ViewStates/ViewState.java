@@ -25,9 +25,8 @@ public abstract class ViewState {
     protected boolean commandChosen;
     protected WaitingState waitingState;
     protected String defaultCommand;
-    protected Timer timer;
-    protected Timer lastTimer;
     protected final long entryTimer;
+    protected final long ultimatumTimer;
     protected final long chatTimer;
     protected final long writingMessageTimer;
     protected final long quitTimer;
@@ -36,7 +35,7 @@ public abstract class ViewState {
     protected final long goalTimer;
     protected final long playTimer;
     protected final long drawTimer;
-
+    protected boolean answerReceived;
 
 
     public ViewState(CliViewClient view,ClientInterface client, double ID){
@@ -46,7 +45,8 @@ public abstract class ViewState {
         this.commandChosen=false;
         this.model= view.getLocalModel();
         waitingState = new WaitingState(model);
-        entryTimer = 30;
+        entryTimer = 10;
+        ultimatumTimer = 5;
         chatTimer = 25;
         writingMessageTimer = 100;
         quitTimer = 20;
@@ -55,6 +55,7 @@ public abstract class ViewState {
         goalTimer = 20;
         playTimer = 60;
         drawTimer = 30;
+
     }
     public abstract void display();
 
@@ -66,41 +67,41 @@ public abstract class ViewState {
         }
     }
     protected void startTimer(long delay){
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                promptUser();
+
+        answerReceived=false;
+
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(delay*1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-        }, delay*1000);
-    }
 
-    protected void resetTimer(long delay) {
-        if (timer != null) {
-            timer.cancel();
-        }
-        startTimer(delay*1000);
-    }
+            System.out.println("Are you still online? Write a command or something or you'll be disconnected in "+ultimatumTimer+" seconds");
 
+            try {
+                Thread.sleep((delay*1000)+(ultimatumTimer*1000));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-    protected void promptUser() {
-        System.out.println("Are you still online? Type something to continue.");
-        Scanner scanner = new Scanner(System.in);
-        startUltimatum(this.ID);
-        String response = scanner.nextLine().trim().replaceAll("\\s+", "").toLowerCase();
-        if (!response.isEmpty()) {
-            lastTimer.cancel();
-        }
-    }
-
-    protected void startUltimatum(double ID){
-        lastTimer = new Timer();
-        lastTimer.schedule(new TimerTask() {
-            public void run() {
+            if(!answerReceived){
                 ViewMessage msg = new QuitMessage(ID);
                 updateClient(msg);
+                System.exit(0);
             }
-        }, 7000);
+
+
+        });
+        t.start();
+
     }
+
+
+    protected void resetTimer() {
+        answerReceived=true;
+    }
+
 
     protected void defaultCommand(GameState gameState) {
         if(view.getLocalModel().getState().equals(gameState)) {
@@ -126,35 +127,34 @@ public abstract class ViewState {
                         break;
                 }
             }
+
         }
     }
 
     protected void listenDefaultCommand(){
-        Thread t = new Thread(() -> {
-            System.out.println("Type 'chat', 'quit' or 'exit' to use the chat, to quit the game or to cancel");
+        Thread defaultCommandThread = new Thread(() -> {
+            System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
             Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
-            if (command.equals("exit")) {
-                setDefaultCommand("");
-            } else{
-                setDefaultCommand(command);
-            }
+            setDefaultCommand(command);
+
         });
-        t.start();
+        defaultCommandThread.start();
+
     }
 
     protected void writeInChat(){
         System.out.println("Inside write in chat command...");
         System.out.println("Do you want to whisper or to broadcast your message? Type 'whisper' , 'broadcast' or 'exit' to cancel");
-        Scanner scanner= new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         String choice= scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
         while(!choice.equals("whisper") & !choice.equals("broadcast") & !choice.equals("exit")){
-            resetTimer(chatTimer);
+            resetTimer();
             System.out.println("Wrong input, please write 'whisper' , 'broadcast' or 'exit' to cancel");
             choice=scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
             if(choice.equals("exit")) return;
         }
-        resetTimer(chatTimer);
+        resetTimer();
         if(choice.equals("whisper"))
             whisper();
         else
@@ -167,14 +167,14 @@ public abstract class ViewState {
         Scanner scanner= new Scanner(System.in);
         String nickname= scanner.nextLine();
         while(!view.getLocalModel().getPlayersNickname().contains(nickname)){
-            resetTimer(chatTimer);
+            resetTimer();
             System.out.println("There isn't a player with that nickname! Retry or type 'exit' to cancel...");
             nickname= scanner.nextLine();
             if(nickname.equals("exit")) return;
         }
-        resetTimer(chatTimer);
+        resetTimer();
         String msg = typeMessage();
-        resetTimer(chatTimer);
+        resetTimer();
         if (!msg.equals("exit")) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -185,9 +185,9 @@ public abstract class ViewState {
 
     protected void broadcast(){
         System.out.println("Inside broadcast command...");
-        resetTimer(chatTimer);
+        resetTimer();
         String msg = typeMessage();
-        resetTimer(chatTimer);
+        resetTimer();
         if (!msg.equals("exit")) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -198,12 +198,12 @@ public abstract class ViewState {
     }
 
     protected String typeMessage(){
-        resetTimer(writingMessageTimer);
+        resetTimer();
         System.out.println("Type your message [max 128 char] or type 'exit' to cancel");
         Scanner scanner= new Scanner(System.in);
         String message= scanner.nextLine().trim();
         while(message.length()>128){
-            resetTimer(writingMessageTimer);
+            resetTimer();
             System.out.println("Error, message too long, please make it shorter than 128 characters");
             message= scanner.nextLine();
         }
@@ -216,12 +216,11 @@ public abstract class ViewState {
         System.out.println("Are you sure you want to quit? y/n");
         answer = input.nextLine().trim().toLowerCase();
         while (!answer.equals("y") && !answer.equals("n")) {
-            resetTimer(quitTimer);
+            resetTimer();
             System.err.println("Wrong input, type y/n");
             answer = input.nextLine();
         }
         if (answer.equals("y")) {
-            timer.cancel();
             ViewMessage msg = new QuitMessage(this.ID);
             updateClient(msg);
             System.exit(0);
