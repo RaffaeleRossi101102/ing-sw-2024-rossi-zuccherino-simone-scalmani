@@ -27,6 +27,7 @@ public class SocketServer{
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();
+                    socket.setSoTimeout(7000);
                     Thread t = new SocketClientHandler(server, socket, manager);
                     t.start();
 
@@ -81,7 +82,7 @@ public class SocketServer{
                 out.flush();
                 out.reset();
             } catch (IOException e) {
-                System.out.println("ERROR WRITING OBJECT...");
+                System.out.println("ERROR WRITING OBJECT 1...");
             }
         }
     }
