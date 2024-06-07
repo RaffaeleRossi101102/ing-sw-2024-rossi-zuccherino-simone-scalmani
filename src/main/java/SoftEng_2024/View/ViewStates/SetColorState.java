@@ -29,29 +29,28 @@ public class SetColorState extends ViewState{
             switch(command.trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "setcolor":
                     commandChosen=true;
-                    resetTimer(setColorTimer);
+                    resetTimer();
                     setColor();
                     break;
                 case "chat":
-                    resetTimer(chatTimer);
+                    resetTimer();
                     writeInChat();
                     break;
                 case "quit":
-                    resetTimer(quitTimer);
+                    resetTimer();
                     quit();
                     break;
                 default:
-                    resetTimer(entryTimer);
+                    resetTimer();
                     System.err.println("Command not available... retry");
                     break;
             }
             if(commandChosen)
                 break;
-            resetTimer(entryTimer);
+            resetTimer();
             System.out.println("Type  Set color, chat or quit");
             command=scanner.nextLine();
         }
-        timer.cancel();
         waitingState.setPreviousState(this);
         waitingState.setNextState(new ChooseGoalState(view,client,ID));
 
@@ -69,13 +68,13 @@ public class SetColorState extends ViewState{
                 System.out.print(availableColor+ " ");
             }
         }
-        resetTimer(setColorTimer);
+        resetTimer();
         System.out.println("Type the color you want for your pawn, or type 'exit' to cancel");
         answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
         boolean correctColor = false;
         while (!correctColor) {
             if(answer.equals("EXIT")){
-                resetTimer(setColorTimer);
+                resetTimer();
                 commandChosen=false;
                 return;
             }
@@ -83,15 +82,15 @@ public class SetColorState extends ViewState{
                 correctColor = true;
             }else if(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
                 System.err.println("Wrong input, please choose between the colors: Red , Blue, Green, Yellow");
-                resetTimer(setColorTimer);
+                resetTimer();
                 answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
             } else if (colorMap.containsValue(Color.valueOf(answer))){
                 System.err.println("Type a correct color, but it has been already chosen by someone else... retry");
-                resetTimer(setColorTimer);
+                resetTimer();
                 answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
             }
         }
-        resetTimer(setColorTimer);
+        resetTimer();
         color = Color.valueOf(answer);
         ViewMessage msg = new SetColorMessage(color, this.ID);
         updateClient(msg);
