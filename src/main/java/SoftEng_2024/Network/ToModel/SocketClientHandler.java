@@ -51,6 +51,7 @@ public class SocketClientHandler extends Thread {
                 message = (ViewMessage) in.readObject();
                 timer.cancel();
                 if (message.getClass() != Pong.class) {
+                    System.out.println(message);
                     addToQueue(message);
                     System.out.println("MESSAGE ADDED TO QUEUE");
                 }else{
@@ -72,6 +73,7 @@ public class SocketClientHandler extends Thread {
     }
 
     private void addToQueue(ViewMessage msg) {
+        System.out.println("ADDING TO QUEUE");
         manager.addViewMessages(msg);
     }
 

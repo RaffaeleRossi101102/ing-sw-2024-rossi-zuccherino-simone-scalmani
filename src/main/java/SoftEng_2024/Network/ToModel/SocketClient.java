@@ -37,6 +37,7 @@ public class SocketClient implements ClientInterface {
             //STARTING CONNECTION
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
+            DataInputStream myin = new DataInputStream(socket.getInputStream());
             out.writeDouble(ID);
             out.flush();
             //THREAD CHE STA IN ASCOLTO DEI MESSAGGI CHE ARRIVANO DAL SERVER
@@ -64,10 +65,11 @@ public class SocketClient implements ClientInterface {
     }
 
 
-    public void update(ViewMessage msg) {
+    public synchronized void update(ViewMessage msg) {
         try {
             out.writeObject(msg);
             out.flush();
+            out.reset();
         } catch (IOException e) {
             System.out.println("ERROR WRITING OBJECT...");
         }
@@ -93,14 +95,15 @@ public class SocketClient implements ClientInterface {
         this.modelQueue.add(msg);
     }
     @Override
-    public void run() throws RemoteException{
-        startClient();
-        while(true){
+    public void run() throws RemoteException {
+        while (true) {
             pollThreaded();
         }
     }
+
     //CREA IL SOCKET E AGGIUNGE L'ID NELLA MAPPA DEL SERVER
     public void registerToServer(double ID, ClientInterface client) throws RemoteException{
+        System.out.println("REGISTERING TO SERVER...");
         if(!socketCreated){
             startClient();
             socketCreated = true;
