@@ -27,7 +27,7 @@ public class ChooseGoalState extends ViewState {
             switch (command.trim().toLowerCase()) {
                 case "chooseprivategoal":
                     if (view.getLocalModel().getAvailableGoals().isEmpty()){
-                        resetTimer(goalTimer);
+                        resetTimer();
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
                     }else{
                         commandChosen = true;
@@ -35,25 +35,24 @@ public class ChooseGoalState extends ViewState {
                     }
                     break;
                 case "chat":
-                    resetTimer(chatTimer);
+                    resetTimer();
                     writeInChat();
                     break;
                 case "quit":
-                    resetTimer(quitTimer);
+                    resetTimer();
                     quit();
                     break;
                 default:
-                    resetTimer(entryTimer);
+                    resetTimer();
                     System.err.println("Command not available... retry");
                     break;
             }
             if(commandChosen)
                 break;
-            resetTimer(entryTimer);
+            resetTimer();
             System.out.println("Type Choose Private Goal, Chat or Quit");
             command = scanner.nextLine();
         }
-        timer.cancel();
         waitingState.setPreviousState(this);
         waitingState.setNextState(new ReadyToStartState(view,client, ID));
 
@@ -70,11 +69,11 @@ public class ChooseGoalState extends ViewState {
         System.out.println("Type 1 or 2 to choose your private goal, or type exit to cancel");
         answer = scanner.nextLine();
         while (!answer.equals("1") && !answer.equals("2") && !answer.equals("exit")) {
-            resetTimer(goalTimer);
+            resetTimer();
             System.err.println("Wrong input, type [1] or [2] to choose your private goal");
             answer = scanner.nextLine();
         }
-        resetTimer(goalTimer);
+        resetTimer();
         if (answer.equals("exit")) {
             commandChosen = false;
             return;
@@ -83,6 +82,6 @@ public class ChooseGoalState extends ViewState {
         System.out.println("Got it, keep it a secret!");
         ViewMessage msg= new ChoosePrivateGoalMessage(choice,ID);
         updateClient(msg);
-        resetTimer(goalTimer);
+        resetTimer();
     }
 }

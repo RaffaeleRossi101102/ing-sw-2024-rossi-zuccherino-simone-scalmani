@@ -35,30 +35,30 @@ public class DrawState extends ViewState{
                 switch (command.trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "drawfromdeck":
                         commandChosen = true;
-                        resetTimer(drawTimer);
+                        resetTimer();
                         drawFromTheDeck();
                         break;
                     case "drawpubliccard":
                         commandChosen = true;
-                        resetTimer(drawTimer);
+                        resetTimer();
                         drawPublicCard();
                         break;
                     case "chat":
-                        resetTimer(chatTimer);
+                        resetTimer();
                         writeInChat();
                         break;
                     case "quit":
-                        resetTimer(quitTimer);
+                        resetTimer();
                         quit();
                         break;
                     default:
-                        resetTimer(entryTimer);
+                        resetTimer();
                         System.err.println("Command not available... retry");
                         break;
                 }
                 if (commandChosen)
                     break;
-                resetTimer(entryTimer);
+                resetTimer();
                 System.out.println("Type Play Card, Chat or Quit");
                 command = scanner.nextLine();
             }
@@ -83,12 +83,12 @@ public class DrawState extends ViewState{
         System.out.println("Type which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
         deck = input.nextLine();
         while(!deck.equals("gold") && !deck.equals("resources") && !deck.equals("exit")){
-            resetTimer(drawTimer);
+            resetTimer();
             System.err.println("Wrong input... retry!!\nType which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
             deck = input.nextLine();
 
         }
-        resetTimer(drawTimer);
+        resetTimer();
         if(deck.equals("exit")){
             commandChosen = false;
             return;
@@ -109,11 +109,11 @@ public class DrawState extends ViewState{
         answer = input.nextLine();
 
         while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("4") && !answer.equals("exit")){
-            resetTimer(drawTimer);
+            resetTimer();
             System.out.println("Wrong Input!\nType which card you want to draw: [1,2] for resource cards [3,4] for gold cards, or type 'exit' to cancel ");
             answer = input.nextLine();
         }
-        resetTimer(drawTimer);
+        resetTimer();
         if(answer.equals("exit")){
             commandChosen = false;
             return;

@@ -20,42 +20,40 @@ public class StarterState extends ViewState{
         //TODO: prints player's starter card
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type  Play Starter Card, Chat or Quit");
-        //startTimer(entryTimer);
+        startTimer(entryTimer);
         String command = scanner.nextLine();
-        //String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
             switch(command.trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "playstartercard":
                     if(view.getLocalModel().getStarterCard()==null){
+                        resetTimer();
                         System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
                     }
                     else {
-                        //resetTimer(playStarterTimer);
+                        resetTimer();
                         commandChosen=true;
                         playStarterCard();
                     }
                     break;
                 case "chat":
-                    resetTimer(chatTimer);
+                    resetTimer();
                     writeInChat();
                     break;
                 case "quit":
-                    resetTimer(quitTimer);
+                    resetTimer();
                     quit();
                     break;
                 default:
-                    //resetTimer(entryTimer);
+                    resetTimer();
                     System.err.println("Command not available... retry");
                     break;
             }
             if(commandChosen)
                 break;
-            //resetTimer(entryTimer);
-            System.out.println("Type  Play starter card  or chat");
+            System.out.println("Type  Play Starter Card, Chat or Quit");
             command=scanner.nextLine();
         }
-        //timer.cancel();
         waitingState.setPreviousState(this);
         waitingState.setNextState(new SetColorState(view,client,ID));
 
@@ -70,11 +68,11 @@ public class StarterState extends ViewState{
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel");
         answer = input.nextLine().trim().replaceAll("\\s+", "").toLowerCase();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
-            //resetTimer(playStarterTimer);
+            resetTimer();
             System.out.println("Wrong input... retry!\nType the side of the card (front or back), or type 'exit' to cancel");
             answer = input.nextLine();
         }
-        //resetTimer(playStarterTimer);
+        resetTimer();
         if(answer.equals("exit")){
             commandChosen=false;
             return;
