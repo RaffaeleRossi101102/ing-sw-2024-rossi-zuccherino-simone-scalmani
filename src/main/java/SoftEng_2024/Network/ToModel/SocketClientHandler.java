@@ -54,8 +54,6 @@ public class SocketClientHandler extends Thread {
                     System.out.println(message);
                     addToQueue(message);
                     System.out.println("MESSAGE ADDED TO QUEUE");
-                }else{
-                    System.out.println("pong");
                 }
             }
         } catch (IOException e) {
@@ -73,7 +71,6 @@ public class SocketClientHandler extends Thread {
     }
 
     private void addToQueue(ViewMessage msg) {
-        System.out.println("ADDING TO QUEUE");
         manager.addViewMessages(msg);
     }
 

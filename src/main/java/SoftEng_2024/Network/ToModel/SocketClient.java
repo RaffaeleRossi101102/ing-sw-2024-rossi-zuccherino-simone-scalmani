@@ -103,7 +103,6 @@ public class SocketClient implements ClientInterface {
 
     //CREA IL SOCKET E AGGIUNGE L'ID NELLA MAPPA DEL SERVER
     public void registerToServer(double ID, ClientInterface client) throws RemoteException{
-        System.out.println("REGISTERING TO SERVER...");
         if(!socketCreated){
             startClient();
             socketCreated = true;
