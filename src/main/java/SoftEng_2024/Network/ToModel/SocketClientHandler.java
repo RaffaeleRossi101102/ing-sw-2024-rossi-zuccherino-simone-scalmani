@@ -1,13 +1,11 @@
 package SoftEng_2024.Network.ToModel;
 
-import SoftEng_2024.Model.ModelMessages.ModelMessage;
 import SoftEng_2024.View.ViewMessages.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
+import java.net.SocketTimeoutException;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class SocketClientHandler extends Thread {
     private Socket socket;
@@ -26,20 +24,26 @@ public class SocketClientHandler extends Thread {
     public void run(){
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
-        DataInputStream dis = null;
         try {
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            dis = new DataInputStream(socket.getInputStream());
             //RECEIVING THE CLIENT-ID
-            id = dis.readDouble();
+            id = in.readDouble();
+            System.out.println("ID: " + id);
             server.setClientsConnected(id, this.socket);
             server.setClientsOut(id, out);
             while(true) {
-                    //RECEIVING MESSAGES FROM THE CLIENT AND ADDING THEM TO NETWORK MANAGER QUEUE
+                try {
                     message = (ViewMessage) in.readObject();
+                }catch (SocketTimeoutException e) {
+                    System.out.println("CLIENT CRASHED...(because i dont received message)");
+                }
+                if (message.getClass() != Pong.class) {
                     addToQueue(message);
                     System.out.println("MESSAGE ADDED TO QUEUE");
+                }else{
+                    System.out.println("PONG");
+                }
             }
         } catch (IOException e) {
             System.out.println("IO EXCEPTION...");
@@ -49,7 +53,6 @@ public class SocketClientHandler extends Thread {
             try {
                 Objects.requireNonNull(in).close();
                 Objects.requireNonNull(out).close();
-                Objects.requireNonNull(dis).close();
             } catch (IOException e) {
                 System.out.println("ERROR CLOSING OUTPUT/INPUT STREAM...");
             }
