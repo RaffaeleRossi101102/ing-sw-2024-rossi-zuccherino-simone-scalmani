@@ -29,10 +29,8 @@ public class SocketServer{
                     Socket socket = serverSocket.accept();
                     Thread t = new SocketClientHandler(server, socket, manager);
                     t.start();
-
-                } catch (IOException e) {
+                }catch (IOException e) {
                     System.err.println("Error accepting client connection... ");
-                    break;
                 }
             }
         }catch (IOException e){
@@ -44,6 +42,10 @@ public class SocketServer{
 
     public void setClientsConnected(double id, Socket socket) {
         this.clientsConnected.put(id, socket);
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
     public void setClientsOut(double id, ObjectOutputStream out) {

@@ -16,9 +16,9 @@ public class SocketClient implements ClientInterface {
     private int port;
     private Socket socket;
     private  double ID;
+    private Pong pong;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private DataOutputStream dos;
     private boolean socketCreated;
     private LinkedBlockingQueue<ModelMessage> modelQueue;
 
@@ -28,6 +28,7 @@ public class SocketClient implements ClientInterface {
         this.ID = ID;
         socketCreated = false;
         modelQueue = new LinkedBlockingQueue<>();
+        pong = new Pong(ID, 1.0);
     }
 
 
@@ -36,8 +37,8 @@ public class SocketClient implements ClientInterface {
             //STARTING CONNECTION
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeDouble(ID);
+            out.writeDouble(ID);
+            out.flush();
             //THREAD CHE STA IN ASCOLTO DEI MESSAGGI CHE ARRIVANO DAL SERVER
             Thread t = new Thread(() -> {
                 try {
@@ -47,7 +48,8 @@ public class SocketClient implements ClientInterface {
                         ModelMessage message= (ModelMessage) in.readObject();
                         addToViewQueue(message);
                     } catch (ClassNotFoundException | IOException e) {
-                        System.out.println("ERROR READING OBJECT...");
+                        System.out.println("ERROR READING OBJECT 1...");
+
                     }
                 }
                 } catch (IOException e) {
@@ -55,6 +57,7 @@ public class SocketClient implements ClientInterface {
                 }
             });
             t.start();
+            pong();
         }catch (IOException e) {
             System.out.println("ERROR CONNECTING CLIENT TO SERVER...");
         }
@@ -65,7 +68,7 @@ public class SocketClient implements ClientInterface {
         try {
             out.writeObject(msg);
             out.flush();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
             System.out.println("ERROR WRITING OBJECT...");
         }
     }
@@ -77,7 +80,6 @@ public class SocketClient implements ClientInterface {
         //DEVO CHIUDERE IL THREAD???
         try {
             this.out.close();
-            this.dos.close();
             this.in.close();
             this.socket.close();
         }catch (IOException e){
@@ -113,7 +115,17 @@ public class SocketClient implements ClientInterface {
 
     @Override
     public void pong() throws RemoteException {
-
+        Thread t1 = new Thread(() -> {
+            while(true){
+                update(pong);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        t1.start();
     }
 
     private void pollThreaded() throws RemoteException {
@@ -124,9 +136,7 @@ public class SocketClient implements ClientInterface {
                 System.err.println("SOMETHING WENT WRONG WHILE EXECUTING MESSAGE");
 
             }
-
         });
         t.start();
     }
-    //public void pong() throws RemoteException{}
 }

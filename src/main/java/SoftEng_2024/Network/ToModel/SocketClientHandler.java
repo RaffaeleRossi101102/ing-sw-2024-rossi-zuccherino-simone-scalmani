@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SocketClientHandler extends Thread {
     private Socket socket;
@@ -13,11 +15,15 @@ public class SocketClientHandler extends Thread {
     private ViewMessage message;
     private double id;
     private SocketServer server;
+    private boolean received;
+    private boolean firstTime;
 
     public SocketClientHandler(SocketServer server, Socket socket, NetworkManager manager) {
         this.server = server;
         this.socket = socket;
         this.manager = manager;
+        this.received = false;
+        this.firstTime = true;
     }
 
 
@@ -29,20 +35,26 @@ public class SocketClientHandler extends Thread {
             out = new ObjectOutputStream(socket.getOutputStream());
             //RECEIVING THE CLIENT-ID
             id = in.readDouble();
-            System.out.println("ID: " + id);
             server.setClientsConnected(id, this.socket);
             server.setClientsOut(id, out);
-            while(true) {
-                try {
-                    message = (ViewMessage) in.readObject();
-                }catch (SocketTimeoutException e) {
-                    System.out.println("CLIENT CRASHED...(because i dont received message)");
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+
+                @Override
+                public void run() {
+                        System.out.println("CLIENT CRASHED...");
+                        //rimuovo il client
                 }
+            };
+            timer.schedule(timerTask,1000, 5000);
+            while(true) {
+                message = (ViewMessage) in.readObject();
+                timer.cancel();
                 if (message.getClass() != Pong.class) {
                     addToQueue(message);
                     System.out.println("MESSAGE ADDED TO QUEUE");
                 }else{
-                    System.out.println("PONG");
+                    System.out.println("pong");
                 }
             }
         } catch (IOException e) {
