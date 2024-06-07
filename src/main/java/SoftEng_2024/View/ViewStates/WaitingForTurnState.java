@@ -9,6 +9,7 @@ public class WaitingForTurnState extends ViewState{
     private ViewState nextState;
 
     public WaitingForTurnState(CliViewClient view, ClientInterface client, double ID) {
+
         super(view, client, ID);
     }
 

@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private View view;
     private ServerInterface server;
-    private LinkedBlockingQueue<ModelMessage> modelQueue;
+    private volatile LinkedBlockingQueue<ModelMessage> modelQueue;
     double ID;
 
     public ClientRMI(double ID) throws RemoteException {
@@ -22,8 +22,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         this.ID = ID;
     }
 
-    public void run(){
+    public synchronized void run() throws InterruptedException {
         while(true){
+            if(modelQueue.isEmpty()){
+                wait();
+            }
             pollThreaded();
         }
     }
@@ -38,8 +41,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void addToViewQueue(ModelMessage msg) throws RemoteException {
+    public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
         modelQueue.add(msg);
+        notifyAll();
     }
 
     public void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException {
@@ -52,6 +56,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private void pollThreaded()  {
         Thread t = new Thread(() -> {
             try {
+                //System.out.println("sto per eseguire il messaggio diocane" + modelQueue.take());
                 modelQueue.take().executeMessage(this.view);
             } catch (InterruptedException e) {
                 System.err.println("Something went wrong while executing the messages");

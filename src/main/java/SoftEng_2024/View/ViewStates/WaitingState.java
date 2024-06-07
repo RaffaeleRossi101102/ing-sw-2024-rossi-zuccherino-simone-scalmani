@@ -21,16 +21,18 @@ public class WaitingState {
         Thread newStateDisplayThread;
         System.out.println("Waiting for model's acknowledgement...");
         while(!model.isAckReceived());
+        System.out.println(model.isAckReceived());
         model.setAckReceived(false);
+        System.out.println(model.isAckReceived());
+        System.out.println(model.isAckSuccessful());
         if (!model.isAckSuccessful()) {
             //display last error log
-            System.out.println(model.getErrorLog().get(model.getErrorLog().size() - 1));
+            while (model.getErrorLog().isEmpty());
+            System.err.println(model.getErrorLog().get(model.getErrorLog().size() - 1));
             newStateDisplayThread = new Thread(previousState::display);
         } else {
-
             model.setAckSuccessful(false);
             newStateDisplayThread = new Thread(nextState::display);
-
         }
         newStateDisplayThread.start();
     }

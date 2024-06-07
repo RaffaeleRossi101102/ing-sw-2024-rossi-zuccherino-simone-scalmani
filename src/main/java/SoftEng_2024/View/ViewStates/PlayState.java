@@ -25,26 +25,32 @@ public class PlayState extends ViewState{
         if(view.getLocalModel().getPersonalHand().size() == 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type Play Card, Chat or Quit");
+            startTimer(entryTimer);
             String command = scanner.nextLine();
             //loops until the player chooses a command different from writeInChat
             while (!commandChosen) {
                 switch (command.trim().toLowerCase()) {
                     case "playcard":
-                        playCard();
                         commandChosen = true;
+                        resetTimer(playTimer);
+                        playCard();
                         break;
                     case "chat":
+                        resetTimer(chatTimer);
                         writeInChat();
                         break;
                     case "quit":
+                        resetTimer(quitTimer);
                         quit();
                         break;
                     default:
+                        resetTimer(entryTimer);
                         System.err.println("Command not available... retry");
                         break;
                 }
                 if(commandChosen)
                     break;
+                resetTimer(entryTimer);
                 System.out.println("Type Play Card, Chat or Quit");
                 command = scanner.nextLine();
             }
@@ -74,10 +80,12 @@ public class PlayState extends ViewState{
         System.out.println("Type the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel ");
         answer = input.nextLine();
         while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("exit")){
+            resetTimer(playTimer);
             System.err.println("Wrong input... retry!!\nType the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel");
             answer = input.nextLine();
 
         }
+        resetTimer(playTimer);
         if(answer.equals("exit")){
             commandChosen = false;
             return;
@@ -101,10 +109,10 @@ public class PlayState extends ViewState{
                 commandChosen = false;
                 return;
             }
-            System.err.println("Wrong input, type an integer!");
         }
         while(row<0 | row>84 | column<0 | column>84){
-            System.err.println("Wrong input, type a integer between '0' and '84' either for the row and the column");
+            resetTimer(playTimer);
+            System.err.println("Wrong input, type an integer between '0' and '84' either for the row and the column, or type 'exit' to cancel");
             try {
                 row = input.nextInt();
                 column = input.nextInt();
@@ -116,14 +124,16 @@ public class PlayState extends ViewState{
                     commandChosen = false;
                     return;
                 }
-                System.err.println("Wrong input, type an integer!");
             }
         }
+
+        resetTimer(playTimer);
 
         boolean flipped;
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel ");
         answer = input.nextLine();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
+            resetTimer(playTimer);
             System.err.println("Wrong input... retry!! \nType the side of the card (front or back), or type 'exit' to cancel");
             answer = input.nextLine();
         }

@@ -13,7 +13,7 @@ public interface ClientInterface extends Remote {
     void update(ViewMessage msg) throws RemoteException;
     void quit(ViewMessage msg) throws IOException;
     void addToViewQueue(ModelMessage msg) throws RemoteException;
-    void run() throws RemoteException;
+    void run() throws RemoteException, InterruptedException;
     void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException;
     void setView(View view) throws RemoteException;
     void pong() throws RemoteException;

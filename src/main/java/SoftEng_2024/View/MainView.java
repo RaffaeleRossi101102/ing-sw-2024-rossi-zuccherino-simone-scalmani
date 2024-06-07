@@ -16,27 +16,27 @@ public class MainView {
         System.out.println("Choose your type of connection, type: 'RMI' or 'Socket' ");
         Scanner scan= new Scanner(System.in);
         String connectionType;
-        connectionType= scan.nextLine();
-        while(!connectionType.equals("RMI") && !connectionType.equals("Socket")){
+        connectionType= scan.nextLine().trim().toLowerCase().replaceAll("\\s+", "");
+        while(!connectionType.equals("rmi") && !connectionType.equals("socket")){
             System.err.println("Wrong input! Type: 'RMI' or 'Socket' ");
-            connectionType= scan.nextLine();
+            connectionType= scan.nextLine().trim().toLowerCase();
         }
         System.out.println("Got it :)");
 
         //Ask user which type of view he wants to use
         String viewType;
         System.out.println("Choose your type of view, type CLI or GUI");
-        viewType= scan.nextLine();
-        while(!viewType.equals("CLI") && !viewType.equals("GUI")){
+        viewType= scan.nextLine().trim().toLowerCase().replaceAll("\\s+", "");
+        while(!viewType.equals("cli") && !viewType.equals("gui")){
             System.err.println("Wrong input! Type: 'CLI' or 'GUI' ");
-            viewType= scan.nextLine();
+            viewType= scan.nextLine().trim().toLowerCase();
         }
         System.out.println("Got it :)");
 
 
         ClientInterface client;
 
-        if(connectionType.equals("RMI")){
+        if(connectionType.equals("rmi")){
 
             try {
                  client = new ClientRMI(ID);
@@ -46,7 +46,7 @@ public class MainView {
         } else {
             client = new SocketClient("localhost",4567, ID);
         }
-        if(viewType.equals("CLI")) {
+        if(viewType.equals("cli")) {
             CliViewClient cliView = new CliViewClient(ID, client);
             client.setView(cliView);
             cliView.run();

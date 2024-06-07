@@ -16,23 +16,29 @@ public class ObServerManager {
     public ObServerManager(ServerInterface serverRMI, SocketServer socketServer){
         this.serverRMI = serverRMI;
         this.socketServer = socketServer;
+        modelMessages = new LinkedBlockingQueue<>();
 
     }
 
 
-    public void run() throws IOException {
+    public synchronized void run() throws IOException, InterruptedException {
     ModelMessage msg;
-        while(true){
-            try {
-                msg=modelMessages.take();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        while(true) {
+            if (modelMessages.isEmpty()) {
+                wait();
+            }else{
+                try {
+                    msg = modelMessages.take();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                serverRMI.addToClientQueue(msg);
+                socketServer.addToClientQueue(msg);
             }
-            serverRMI.addToClientQueue(msg);
-            socketServer.addToClientQueue(msg);
         }
     }
-    public void addModelMessageToQueue(ModelMessage msg){
+    public synchronized void addModelMessageToQueue(ModelMessage msg){
         modelMessages.add(msg);
+        notifyAll();
     }
 }

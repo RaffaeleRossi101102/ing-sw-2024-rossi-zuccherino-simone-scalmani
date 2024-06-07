@@ -3,7 +3,7 @@ package SoftEng_2024.Model.Player_and_Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.AngleIndexes;
 import SoftEng_2024.Model.Enums.Angles;
-import SoftEng_2024.Model.Observers.ModelObserver;
+import SoftEng_2024.Model.Observers.BoardObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Board {
     private ArrayList<Cell> cardList;
     private int[] anglesCounter;
     private int score;
-    private List<ModelObserver> boardObservers;
+    private BoardObserver boardObserver;
 
     //CONSTRUCTOR AND METHODS
     public Board(){
@@ -27,6 +27,10 @@ public class Board {
         this.anglesCounter = new int[7];
         this.score = 0;
         this.cardBoard[42][42].setPlaceable(true);
+    }
+    //OBSERVER METHODS
+    public void setObserver(BoardObserver o){
+        boardObserver=o;
     }
 
     //Metodo che setta le celle nelle 4 direzioni come placeable, nel caso in cui la carta giocata
@@ -221,9 +225,7 @@ public class Board {
                 }
                 //aggiungi la carta piazzata alla lista
                 this.cardList.add(cardBoard[r][c]);
-//                for(ModelObserver observer:boardObservers){
-//                    observer.notifyClient();
-//                }
+                boardObserver.updatedBoard(this);
                 //aggiungo alla lista la nuova cella con la nuova carta.
             } else  throw new necessaryResourcesNotAvailableException();
 

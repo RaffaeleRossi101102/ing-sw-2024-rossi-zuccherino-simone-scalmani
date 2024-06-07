@@ -4,6 +4,8 @@ import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.ScoreTypes;
 
+import java.util.Arrays;
+
 abstract public class Front {
     private final Angles[] frontAngles;
     private boolean[] covered;
@@ -38,4 +40,7 @@ abstract public class Front {
     abstract public ScoreTypes getScoreTypes();
 
     public abstract Angles[] getRequiredResources();
+    public void hideFrontAngles(){
+        Arrays.fill(frontAngles, Angles.EMPTY);
+    }
 }

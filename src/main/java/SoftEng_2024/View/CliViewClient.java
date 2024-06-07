@@ -2,6 +2,7 @@ package SoftEng_2024.View;
 
 
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.ViewStates.ConnectionState;
 import SoftEng_2024.View.ViewStates.ViewState;
@@ -22,16 +23,19 @@ public class CliViewClient implements View {
 
     public void run(){
         //TODO logo CLIArt
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         System.out.println("WELCOME TO CODEX NATURALIS BY CRANIO CREATIONS");
         Thread clientQueueExecutor = new Thread(()->
         {
             try {
                 this.client.run();
-            } catch (RemoteException e) {
+            } catch (RemoteException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
         clientQueueExecutor.start();
+        localModel.setPlayerState(GameState.CONNECTION);
+        localModel.setGameState(GameState.CONNECTION);
         //First display to join, rejoin or quit
         ViewState state = new ConnectionState(this,client, ID);
         Thread newStateDisplayThread = new Thread(state::display);
