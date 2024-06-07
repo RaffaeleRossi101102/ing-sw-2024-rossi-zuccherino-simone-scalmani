@@ -7,6 +7,7 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
+import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
 import SoftEng_2024.Network.ToView.ObServerManager;
@@ -28,6 +29,7 @@ public class GameController {
     private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
     private List<PlayerObserver> playerObservers=new ArrayList<>();
     private ObServerManager toViewManager;
+    private NetworkManager networkManager;
     //private List<Player>
 
     //METHODS**********************************************************************
@@ -61,8 +63,8 @@ public class GameController {
         //costruisco i 16 goal, inserisco in una lista, faccio shuffle, aggiungo alla coda
         Queue<GoalCard> goalCardDeck = goalInit();
 
-        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck,new GameObserver(toViewManager,game));
-
+        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck);
+        this.game.setGameObserver(new GameObserver(this.toViewManager,game,this.networkManager));
         //Draw from the decks the cards visible on the table
         for (int i = 0; i < 2; i++) {
             game.getPublicCards().add(game.getResourceDeck().poll());
@@ -513,6 +515,7 @@ public class GameController {
         this.clientPlayers = clientPlayers;
     }
 
-
-
+    public void setNetworkManager(NetworkManager networkManager) {
+        this.networkManager = networkManager;
+    }
 }

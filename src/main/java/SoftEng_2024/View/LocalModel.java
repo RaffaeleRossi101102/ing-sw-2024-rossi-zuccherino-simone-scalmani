@@ -18,7 +18,7 @@ public class LocalModel {
     private String currentTurnPlayerNickname;
     private List<Card> personalHand;
     private HashMap<String,Color> playersColor;
-    private StarterCard starterCard;
+    private volatile StarterCard starterCard;
     private GameState gameState;
     private GameState playerState;
     private List<GoalCard> availableGoals;
@@ -26,6 +26,7 @@ public class LocalModel {
     private volatile boolean ackReceived;
     private volatile boolean ackSuccessful;
     private List<String> playersNickname;
+    private List<Card> publicCards;
     private volatile List<String> errorLog= new ArrayList<>();
     private ConcurrentLinkedDeque<String> chat = new ConcurrentLinkedDeque<>();
     //GETTERS******************************************************************
@@ -35,8 +36,9 @@ public class LocalModel {
         return otherPlayershand;
     }
 
-    public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
-        this.otherPlayershand.replace(playerNickname,otherPlayersHand);
+
+    public List<Card> getPublicCards() {
+        return publicCards;
     }
 
     public GameState getPlayerState(){
@@ -93,6 +95,13 @@ public class LocalModel {
     }
 
     //SETTERS******************************************************************
+    public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
+        this.otherPlayershand.replace(playerNickname,otherPlayersHand);
+    }
+
+    public void setPublicCards(List<Card> publicCards) {
+        this.publicCards = publicCards;
+    }
 
     public void setPersonalHand(List<Card> personalHand) {
         this.personalHand = personalHand;
@@ -108,12 +117,12 @@ public class LocalModel {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        System.out.println("camestatttteeeeeee");
+        //System.out.println("camestatttteeeeeee");
     }
 
     public void setPlayerState(GameState playerState) {
         this.playerState = playerState;
-        System.out.println("settando il player state a "+playerState);
+        //System.out.println("settando il player state a "+playerState);
     }
 
     public void setStarterCard(StarterCard starterCard) {

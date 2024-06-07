@@ -10,6 +10,7 @@ abstract public class Front {
     private final Angles[] frontAngles;
     private boolean[] covered;
     private final int points;
+    private boolean hidden;
 
     //METHODS
 
@@ -18,6 +19,7 @@ abstract public class Front {
         this.frontAngles=frontAngles;
         this.points=points;
         this.covered=covered;
+        this.hidden=false;
     }
     //checking requirements for resource cards (always playable)
     abstract public boolean checkRequiredResources(int[] resources, Card played);
@@ -42,5 +44,9 @@ abstract public class Front {
     public abstract Angles[] getRequiredResources();
     public void hideFrontAngles(){
         Arrays.fill(frontAngles, Angles.EMPTY);
+        this.hidden=true;
+    }
+    public boolean getHidden(){
+        return this.hidden;
     }
 }

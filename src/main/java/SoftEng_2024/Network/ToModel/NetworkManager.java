@@ -14,18 +14,18 @@ public class NetworkManager {
     public NetworkManager(GameController controller){
         this.controller = controller;
         this.viewMessages = new LinkedBlockingQueue<>();
-
     }
 
 
     public synchronized void run() throws InterruptedException {
         System.out.println("Executing messages from the queue");
+        controller.setNetworkManager(this);
         controller.gameInit();
         while(controller.getGame().getGameState()==GameState.CONNECTION){
             pollThreaded();
         }
         //exiting the loop only after every player has connected
-
+        System.err.println("sono uscito, asgarra");
         //vengono pescate le carte risorsa e oro e messe nel centro
         controller.getGame().updatePublicCards();
         //viene data a ciascun player la carta iniziale
@@ -84,6 +84,8 @@ public class NetworkManager {
         viewMessages.add(msg);
         notifyAll();
     }
-
+    public synchronized void wakeUpManager(){
+        notifyAll();
+    }
 
 }

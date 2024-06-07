@@ -5,6 +5,7 @@ import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Game;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
+import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 public class GameObserver {
     ObServerManager obServerManager;
     Game game;
-    public GameObserver(ObServerManager o,Game game){
+    NetworkManager networkManager;
+    public GameObserver(ObServerManager o,Game game,NetworkManager networkManager){
         obServerManager=o;
         this.game=game;
+        this.networkManager=networkManager;
     }
     public void updatedDeck(String nickname, Card topCard, int whichDeck){
         //only sends the back resource
@@ -24,6 +27,10 @@ public class GameObserver {
             notifyServer(new UpdatedGoldDeckMessage("",topCard.getResources()[4]));
     }
     public void updatedPublicCards(String nickname, int whichDeck){
+        if(whichDeck==3){
+            notifyServer(new UpdatedPublicCardsMessage("",game.getPublicCards()));
+            return;
+        }
         String message=nickname+" has drawn from the public cards";
         if(whichDeck/2==0){
             if(game.getResourceDeck().isEmpty()){
@@ -54,6 +61,7 @@ public class GameObserver {
         notifyServer(new UpdatedCurrentPlayerMessage(currentPlayerNick+" is your turn to play!",currentPlayerNick));
     }
     public void updatedGameState(GameState gameState){
+        networkManager.wakeUpManager();
         notifyServer(new UpdatedGameStateMessage(" we have entered a new state",gameState));
     }
     public void updatedAck(boolean ack,double receiverID){

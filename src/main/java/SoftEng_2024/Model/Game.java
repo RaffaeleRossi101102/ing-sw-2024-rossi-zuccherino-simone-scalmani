@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
-    GameState gameState;
+    private volatile GameState gameState;
     private List<Player> players;
     private int playerIndex = 0;
     private Player currentPlayer;
@@ -27,7 +27,7 @@ public class Game {
     private boolean gameEnd;
     private boolean firstTurn= true;
     private static int maxScore=0;
-    private final GameObserver gameObserver;
+    private GameObserver gameObserver;
     private ConcurrentHashMap<Double,Boolean> AckIdBindingMap;
     private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
     //TODO: notificare il cambiamento di:
@@ -38,14 +38,14 @@ public class Game {
     //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
     //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
-    public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck,GameObserver o){
+    public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
         this.players = players;
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
         this.starterDeck = starterDeck;
         this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
-        gameObserver=o;
+
         this.AckIdBindingMap=new ConcurrentHashMap<>();
         this.ErrorMessageBindingMap=new ConcurrentHashMap<>();
         this.gameState=GameState.CONNECTION;
@@ -228,7 +228,7 @@ public class Game {
         publicCards.add(resourceDeck.poll());
         publicCards.add(goldDeck.poll());
         publicCards.add(goldDeck.poll());
-        //notify
+        gameObserver.updatedPublicCards("",3);
     }
     //metodo che aggiorna il current player,
     public GoalCard[] getPublicGoals() {
@@ -307,6 +307,10 @@ public class Game {
 
     public ConcurrentHashMap<Double, String> getErrorMessageBindingMap() {
         return ErrorMessageBindingMap;
+    }
+
+    public void setGameObserver(GameObserver gameObserver) {
+        this.gameObserver = gameObserver;
     }
 }
 

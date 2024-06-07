@@ -14,6 +14,6 @@ public class UpdatedPublicCardsMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-
+        view.getLocalModel().setPublicCards(publicCards);
     }
 }

@@ -21,10 +21,10 @@ public class WaitingState {
         Thread newStateDisplayThread;
         System.out.println("Waiting for model's acknowledgement...");
         while(!model.isAckReceived());
-        System.out.println(model.isAckReceived());
+       // System.out.println(model.isAckReceived());
         model.setAckReceived(false);
-        System.out.println(model.isAckReceived());
-        System.out.println(model.isAckSuccessful());
+        //System.out.println(model.isAckReceived());
+        //System.out.println(model.isAckSuccessful());
         if (!model.isAckSuccessful()) {
             //display last error log
             while (model.getErrorLog().isEmpty());
