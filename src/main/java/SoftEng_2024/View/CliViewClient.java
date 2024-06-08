@@ -6,13 +6,18 @@ import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.ViewStates.ConnectionState;
 import SoftEng_2024.View.ViewStates.ViewState;
+import SoftEng_2024.View.ViewStates.WaitingState;
+
 import java.rmi.RemoteException;
 
 import static java.lang.Thread.sleep;
 
 public class CliViewClient implements View {
-    ClientInterface client;
+    public Thread clientQueueExecutor;
+     public ClientInterface client;
     double ID;
+    ViewState viewState;
+    WaitingState waitingState;
     private final LocalModel localModel;
 
     public CliViewClient(double ID,ClientInterface client){
@@ -33,7 +38,7 @@ public class CliViewClient implements View {
                 " ╚════╝  ╚════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝  ╚═╝  ╚══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═════╝ ");
 
         System.out.println("Welcome to CODEX NATURALIS!\n");
-        Thread clientQueueExecutor = new Thread(()->
+        clientQueueExecutor = new Thread(()->
         {
             try {
                 this.client.run();
@@ -44,12 +49,17 @@ public class CliViewClient implements View {
         clientQueueExecutor.start();
         localModel.setPlayerState(GameState.CONNECTION);
         localModel.setGameState(GameState.CONNECTION);
-        //First display to join, rejoin or quit
-        ViewState state = new ConnectionState(this,client, ID);
-        Thread newStateDisplayThread = new Thread(state::display);
-        newStateDisplayThread.start();
 
+        //First display to join, rejoin or quit
+        this.viewState = new ConnectionState(this,client, ID);
+        this.waitingState=new WaitingState(localModel,this);
+        while(true)
+        {
+            this.viewState.display();//-->setta this.waitingstate con il giusto previous e il giusto next
+            this.waitingState.display();// -->se ack successful--> view.setState(nextState) else previous
+        }
     }
+
     @Override
     public double getID() {
         return ID;
@@ -59,4 +69,11 @@ public class CliViewClient implements View {
         return localModel;
     }
 
+    public void setViewState(ViewState viewState){
+        this.viewState = viewState;
+    }
+
+    public WaitingState getWaitingState() {
+        return waitingState;
+    }
 }

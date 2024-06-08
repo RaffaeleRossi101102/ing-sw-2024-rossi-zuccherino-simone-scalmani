@@ -13,7 +13,6 @@ public class UpdatedAckMessage extends ModelMessage{
     public void executeMessage(View view) {
         view.getLocalModel().setAckSuccessful(ack);
         view.getLocalModel().setAckReceived(true);
-        System.out.println("sto eseguendo il messaggio con ack=" + ack);
 
     }
 }

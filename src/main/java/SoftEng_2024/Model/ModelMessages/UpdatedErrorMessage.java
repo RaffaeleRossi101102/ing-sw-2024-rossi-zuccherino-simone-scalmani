@@ -10,7 +10,7 @@ public class UpdatedErrorMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
+       // System.err.println(message);
         view.getLocalModel().setErrorLog(message);
-        //System.err.println(message);
     }
 }

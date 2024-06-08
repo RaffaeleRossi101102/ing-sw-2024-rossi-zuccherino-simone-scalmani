@@ -24,7 +24,7 @@ public class ReadyToStartState extends ViewState{
         playState.setNextState(drawState);
         drawState.setNextState(waitingForTurnStateState);
 
-        Thread newStateDisplayThread;
+        //se è il mio turno
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
             newStateDisplayThread = new Thread(playState::display);
         }else{

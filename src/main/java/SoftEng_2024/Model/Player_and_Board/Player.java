@@ -39,10 +39,10 @@ public class Player {
     public void removeObserver(PlayerObserver o){playerObservers.remove(o);}
 
     //SETTERS
-    public void setNickname(String nickname) {
+    public void setNickname(String nickname,double ID) {
         this.nickname = nickname;
         for(PlayerObserver o:playerObservers)
-            o.updatedNickname(nickname);
+            o.updatedNickname(nickname,ID);
     }
     public void setColor(Color color) {
         this.color.add(color);

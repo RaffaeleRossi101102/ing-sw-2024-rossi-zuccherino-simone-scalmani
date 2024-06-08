@@ -247,6 +247,7 @@ public class GameController {
     }
 
     public void quit(double ID) throws IOException {
+        System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (game.getGameState().equals(GameState.CONNECTION)){
@@ -273,7 +274,6 @@ public class GameController {
         Player newPlayer = new Player(new ArrayList<>(), board);
         //lo aggiungo alla lista di player del controller
         this.clientPlayers.add(newPlayer);
-        newPlayer.setNickname(nickname);
         //creo i nuovi observer
         PlayerObserver newPlayerObserver=new PlayerObserver(toViewManager,ID,nickname);
         BoardObserver newBoardObserver=new BoardObserver(nickname,toViewManager);
@@ -291,6 +291,7 @@ public class GameController {
         //add the player to the binding HashMap to link players to their viewID
         playerIdMap.put(ID,newPlayer);
         //e lo aggiungo al game
+        newPlayer.setNickname(nickname,ID);
         game.getPlayers().add(newPlayer);
         game.setAckIdBindingMap(ID,true);
     }
@@ -455,12 +456,11 @@ public class GameController {
         }
     }
     private void sendErrorMessage(double ID,String ErrorMessage){
-        game.setAckIdBindingMap(ID,false);
         game.setErrorMessageBindingMap(ID,ErrorMessage);
+        game.setAckIdBindingMap(ID,false);
     }
 
     private void checkIfNextState(){
-        Thread checkIfNextState = new Thread(()->{
             boolean found=false;
             //per ogni player
             for(Player player: clientPlayers){
@@ -479,10 +479,6 @@ public class GameController {
                 GameState nextState= game.getGameState().nextState();
                 game.setGameState(nextState);
             }
-            System.out.println(found);
-
-        });
-        checkIfNextState.start();
     }
     //GETTERS AND SETTERS*********************************************
 

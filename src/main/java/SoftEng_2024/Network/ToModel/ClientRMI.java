@@ -9,12 +9,13 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private View view;
     private ServerInterface server;
-    private volatile LinkedBlockingQueue<ModelMessage> modelQueue;
+    public volatile LinkedBlockingQueue<ModelMessage> modelQueue;
     double ID;
 
     public ClientRMI(double ID) throws RemoteException {
@@ -24,15 +25,20 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     public synchronized void run() throws InterruptedException {
         while(true){
+            //se andasse in wait anche se non ha la coda vuota???
             if(modelQueue.isEmpty()){
-                wait();
+              wait();
+            }else {
+                System.out.println("the message executing is: "+modelQueue.peek());
+                modelQueue.take().executeMessage(this.view);
+                System.out.println("executed Message:");
             }
-            pollThreaded();
         }
     }
     @Override
-    public void update(ViewMessage msg) throws RemoteException {
+    public  void update(ViewMessage msg) throws RemoteException {
         server.addToNetworkManager(msg);
+
     }
 
     @Override
@@ -42,6 +48,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
+        System.err.println("sto aggiungendo il messaggio: "+msg);
         modelQueue.add(msg);
         notifyAll();
     }
@@ -53,22 +60,27 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         server.registerClient(ID, client);
     }
 
-    private void pollThreaded()  {
-        Thread t = new Thread(() -> {
-            try {
-                //System.out.println("sto per eseguire il messaggio diocane" + modelQueue.take());
-                modelQueue.take().executeMessage(this.view);
-            } catch (InterruptedException e) {
-                System.err.println("Something went wrong while executing the messages");
-                throw new RuntimeException(e);
-            }
-        });
-        t.start();
-    }
+//    private void pollThreaded()  {
+//        Thread t = new Thread(() -> {
+//            try {
+//                System.out.println(modelQueue.peek());
+//                //System.out.println("sto per eseguire il messaggio diocane" + modelQueue.take());
+//
+//                System.out.println("Ho eseguito il messaggio");
+//            } catch (InterruptedException e) {
+//                System.err.println("Something went wrong while executing the messages");
+//                throw new RuntimeException(e);
+//            }
+//        });
+//        t.start();
+//    }
 
     @Override
     public void pong() throws RemoteException{
     }
+
+
+
 
     public void setView(View view) {
         this.view = view;

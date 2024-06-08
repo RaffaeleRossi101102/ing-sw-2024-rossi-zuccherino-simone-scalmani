@@ -17,7 +17,7 @@ public class LocalModel {
     private String nickname;
     private String currentTurnPlayerNickname;
     private List<Card> personalHand;
-    private HashMap<String,Color> playersColor;
+    private ConcurrentHashMap<String,Color> playersColor;
     private volatile StarterCard starterCard;
     private GameState gameState;
     private GameState playerState;
@@ -53,7 +53,7 @@ public class LocalModel {
         return starterCard;
     }
 
-    public HashMap<String, Color> getPlayersColor() {
+    public ConcurrentHashMap<String, Color> getPlayersColor() {
         return playersColor;
     }
 
@@ -101,8 +101,17 @@ public class LocalModel {
 
     public void setPublicCards(List<Card> publicCards) {
         this.publicCards = publicCards;
+        System.out.println("Got some public cards which are: ");
+        for (Card card:this.publicCards){
+            System.out.println(card);
+        }
     }
-
+    public void testMessage(List<Integer> test){
+        System.out.println("Lista arrivata");
+        for(Integer i:test){
+            System.out.print(i+" ");
+        }
+    }
     public void setPersonalHand(List<Card> personalHand) {
         this.personalHand = personalHand;
     }
@@ -111,21 +120,22 @@ public class LocalModel {
         this.availableGoals = availableGoals;
     }
 
-    public void setPlayersColor(HashMap<String, Color> playersColor) {
-        this.playersColor = playersColor;
+    public void setPlayersColor(String nickname,Color color) {
+        this.playersColor.put(nickname,color);
     }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        //System.out.println("camestatttteeeeeee");
+        System.out.println("Settando il gameState a:" + this.gameState);
     }
 
     public void setPlayerState(GameState playerState) {
         this.playerState = playerState;
-        //System.out.println("settando il player state a "+playerState);
+        System.out.println("settando il player state a "+playerState);
     }
 
     public void setStarterCard(StarterCard starterCard) {
+        System.out.println("sto settando la starter ooooo "+ this.starterCard);
         this.starterCard = starterCard;
     }
 
@@ -133,9 +143,17 @@ public class LocalModel {
         this.currentTurnPlayerNickname = currentTurnPlayerNickname;
     }
 
-    public void setNickname(String nickname) {this.nickname = nickname;}
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+        System.out.println("set my nick");
+    }
 
-    public void setPlayersNickname(List<String> playersNickname) {this.playersNickname = playersNickname;}
+    public void setPlayersNickname(String playersNickname) {
+        System.out.println("set other's nick");
+        this.playersNickname.add(playersNickname);
+        otherPlayershand.put(nickname,new ArrayList<>());
+        playersColor.put(nickname,null);
+    }
 
     public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
 

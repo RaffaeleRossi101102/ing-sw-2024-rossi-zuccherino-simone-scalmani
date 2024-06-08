@@ -4,9 +4,10 @@ import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.ScoreTypes;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-abstract public class Front {
+abstract public class Front implements Serializable {
     private final Angles[] frontAngles;
     private boolean[] covered;
     private final int points;

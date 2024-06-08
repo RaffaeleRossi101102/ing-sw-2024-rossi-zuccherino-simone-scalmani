@@ -13,6 +13,6 @@ public class BroadcastMessage implements ViewMessage{
     }
     @Override
     public void executeMessage(GameController controller) {
-
+        System.out.println(message);
     }
 }

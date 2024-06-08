@@ -3,7 +3,9 @@ package SoftEng_2024.Model.Cards;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 
-public class StarterCard extends Card {
+import java.io.Serializable;
+
+public class StarterCard extends Card implements Serializable {
 
     //private ResourceFront front;
 

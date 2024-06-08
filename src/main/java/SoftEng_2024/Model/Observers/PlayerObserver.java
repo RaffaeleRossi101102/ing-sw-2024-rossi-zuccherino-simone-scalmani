@@ -8,12 +8,12 @@ import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlayerObserver {
     protected double receiverID;
     private final String observedNickname;
-
     protected ObServerManager obServerManager;
     public PlayerObserver(ObServerManager o,double ID,String observedNickname){
         obServerManager=o;
@@ -25,7 +25,11 @@ public class PlayerObserver {
     public void updatedHand(List<Card> playerHand,String callerNickname){
         //if the updated hand doesn't belong to the player connected with this observer, hide
         //the cards
-        List<Card> updatedHand=new ArrayList<>(playerHand);
+        List<Card> updatedHand=new ArrayList<>();
+        for(int i=0;i< playerHand.size();i++){
+            updatedHand.add(playerHand.get(0));
+        }
+        Collections.copy(updatedHand,playerHand);
         if(!callerNickname.equals(observedNickname)){
             for(Card c:updatedHand){
                 c.getFront().hideFrontAngles();
@@ -55,8 +59,14 @@ public class PlayerObserver {
         if(callerNickname.equals(observedNickname))
             notifyServer(new UpdatedPlayerStateMessage(receiverID,"",playerState,callerNickname));
     }
-    public void updatedNickname(String nickname){
-        notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname));
+    public void updatedNickname(String nickname,double callerID){
+        //if the nickname that is being set belongs to the observed player, send it to the player
+        if(receiverID==callerID)
+            notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname,true));
+        else
+            //else, it means that the observed player needs to get the caller nickname
+            //and that the
+            notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname,false));
     }
     public void updatedAvailableGoals(List<GoalCard> availableGoals,String callerNickname){
         //manda il messaggio solo al client che ha eseguito l'operazione

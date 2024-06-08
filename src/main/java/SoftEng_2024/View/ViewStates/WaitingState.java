@@ -29,7 +29,7 @@ public class WaitingState {
             //display last error log
             while (model.getErrorLog().isEmpty());
             System.err.println(model.getErrorLog().get(model.getErrorLog().size() - 1));
-            newStateDisplayThread = new Thread(previousState::display);
+            view.setViewState(previousState);
         } else {
             model.setAckSuccessful(false);
             newStateDisplayThread = new Thread(nextState::display);

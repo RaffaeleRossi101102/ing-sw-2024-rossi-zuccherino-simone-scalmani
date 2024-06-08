@@ -3,7 +3,9 @@ package SoftEng_2024.Model.Cards;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card implements Serializable {
     private Front front;
     private boolean flipped;
     private Angles[] resource;

@@ -33,6 +33,8 @@ public class ConnectionState extends ViewState {
                     break;
                 case "rejoin":
                     nextState=new RejoinState(view,client,ID);
+//                    nextState.display();
+//                    return;
                     commandChosen = true;
                     reJoin();
                     break;
@@ -49,12 +51,8 @@ public class ConnectionState extends ViewState {
             command=scanner.nextLine();
         }
         //once the user chose a command he will have to wait for the model's response
-        waitingState.setPreviousState(new ConnectionState(this.view,this.client,this.ID));
-        waitingState.setNextState(nextState);
-
-        Thread newStateDisplayThread = new Thread(waitingState::display);
-        newStateDisplayThread.start();
-
+        view.getWaitingState().setPreviousState(new ConnectionState(this.view,this.client,this.ID));
+        view.getWaitingState().setNextState(nextState);
     }
     private void createGame() {
         System.out.println("Inside create game command...");

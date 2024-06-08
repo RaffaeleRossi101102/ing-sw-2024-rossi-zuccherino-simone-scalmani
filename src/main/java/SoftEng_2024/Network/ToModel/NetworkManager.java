@@ -25,13 +25,12 @@ public class NetworkManager {
             pollThreaded();
         }
         //exiting the loop only after every player has connected
-        System.err.println("sono uscito, asgarra");
         //vengono pescate le carte risorsa e oro e messe nel centro
         controller.getGame().updatePublicCards();
+
         //viene data a ciascun player la carta iniziale
 
         controller.handOutStarterCards();
-
 
         //Each player plays their starter card and choose the color of his pawn
         while(controller.getGame().getGameState()==GameState.STARTER | controller.getGame().getGameState()==GameState.SETCOLOR){

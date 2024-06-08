@@ -15,6 +15,6 @@ public class WhisperMessage implements ViewMessage{
     }
     @Override
     public void executeMessage(GameController controller) {
-
+        System.err.println("Im executing a chat message");
     }
 }

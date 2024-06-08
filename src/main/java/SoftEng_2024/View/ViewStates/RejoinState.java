@@ -12,8 +12,6 @@ public class RejoinState extends ViewState{
     public void display() {
         Thread newStateDisplayThread;
         ViewState nextState;
-
-
         switch(view.getLocalModel().getPlayerState()){
             case STARTER:
                 nextState = new StarterState(view, client, ID);
@@ -27,9 +25,8 @@ public class RejoinState extends ViewState{
                 nextState = new ConnectionState(view, client, ID);
 
         }
+        nextState.display();
 
-        newStateDisplayThread = new Thread(nextState::display);
-        newStateDisplayThread.start();
     }
 
 }

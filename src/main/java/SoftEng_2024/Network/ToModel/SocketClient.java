@@ -116,6 +116,8 @@ public class SocketClient implements ClientInterface {
 
     }
 
+
+
     private void pollThreaded() throws RemoteException {
         Thread t = new Thread(() -> {
             try {

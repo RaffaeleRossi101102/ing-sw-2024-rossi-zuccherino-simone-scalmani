@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public interface ClientInterface extends Remote {
     void update(ViewMessage msg) throws RemoteException;
@@ -17,4 +18,5 @@ public interface ClientInterface extends Remote {
     void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException;
     void setView(View view) throws RemoteException;
     void pong() throws RemoteException;
+
 }

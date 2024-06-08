@@ -34,11 +34,6 @@ public class Main {
         controller.setServerSocket(serverSocket);
         controller.setToViewManager(managerToView);
 
-
-
-
-
-
         Thread RMIThread = new Thread(() -> {
             try {
                 engineRMI.run();
