@@ -10,7 +10,7 @@ public class RejoinState extends ViewState{
 
     @Override
     public void display() {
-        Thread newStateDisplayThread;
+
         ViewState nextState;
         switch(view.getLocalModel().getPlayerState()){
             case STARTER:

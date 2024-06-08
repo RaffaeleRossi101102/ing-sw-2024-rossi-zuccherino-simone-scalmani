@@ -33,8 +33,6 @@ public abstract class ViewState {
     protected final long goalTimer;
     protected final long playTimer;
     protected final long drawTimer;
-    protected boolean answerReceived;
-
 
     public ViewState(CliViewClient view,ClientInterface client, double ID){
         this.view=view;
@@ -42,7 +40,6 @@ public abstract class ViewState {
         this.ID=ID;
         this.commandChosen=false;
         this.model= view.getLocalModel();
-        waitingState = new WaitingState(model);
         entryTimer = 10;
         ultimatumTimer = 5;
         chatTimer = 25;
@@ -63,41 +60,6 @@ public abstract class ViewState {
         } catch (RemoteException e) {
             System.err.println("Something went wrong, retry!");
         }
-    }
-    protected void startTimer(long delay){
-
-        answerReceived=false;
-
-        Thread t = new Thread(() -> {
-            try {
-                Thread.sleep(delay*1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            System.out.println("Are you still online? Write a command or something or you'll be disconnected in "+ultimatumTimer+" seconds");
-
-            try {
-                Thread.sleep((delay*1000)+(ultimatumTimer*1000));
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            if(!answerReceived){
-                ViewMessage msg = new QuitMessage(ID);
-                updateClient(msg);
-                System.exit(0);
-            }
-
-
-        });
-        t.start();
-
-    }
-
-
-    protected void resetTimer() {
-        answerReceived=true;
     }
 
 
@@ -126,6 +88,9 @@ public abstract class ViewState {
                         break;
                 }
             }
+
+            System.out.println("fuori dal while di default command");
+
 
         }
     }

@@ -1,9 +1,9 @@
 package SoftEng_2024.View.ViewStates;
 
 
+import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.LocalModel;
 
-import java.util.Timer;
 
 
 public class WaitingState {
@@ -11,14 +11,17 @@ public class WaitingState {
     private ViewState nextState;
     private final LocalModel model;
 
+    private CliViewClient view;
 
 
-    public WaitingState(LocalModel model){
+
+    public WaitingState(LocalModel model, CliViewClient view){
         this.model = model;
+        this.view = view;
     }
 
     public void display() {
-        Thread newStateDisplayThread;
+
         System.out.println("Waiting for model's acknowledgement...");
         while(!model.isAckReceived());
        // System.out.println(model.isAckReceived());
@@ -27,14 +30,14 @@ public class WaitingState {
         //System.out.println(model.isAckSuccessful());
         if (!model.isAckSuccessful()) {
             //display last error log
-            while (model.getErrorLog().isEmpty());
+            //while (model.getErrorLog().isEmpty());
             System.err.println(model.getErrorLog().get(model.getErrorLog().size() - 1));
             view.setViewState(previousState);
         } else {
             model.setAckSuccessful(false);
-            newStateDisplayThread = new Thread(nextState::display);
+            view.setViewState(nextState);
         }
-        newStateDisplayThread.start();
+
     }
 
 

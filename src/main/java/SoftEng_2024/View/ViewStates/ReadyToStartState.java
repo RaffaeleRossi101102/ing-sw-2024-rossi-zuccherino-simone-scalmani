@@ -26,11 +26,11 @@ public class ReadyToStartState extends ViewState{
 
         //se è il mio turno
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
-            newStateDisplayThread = new Thread(playState::display);
+            playState.display();
         }else{
-            newStateDisplayThread = new Thread(waitingForTurnStateState::display);
+            waitingForTurnStateState.display();
         }
-        newStateDisplayThread.start();
+
 
 
     }

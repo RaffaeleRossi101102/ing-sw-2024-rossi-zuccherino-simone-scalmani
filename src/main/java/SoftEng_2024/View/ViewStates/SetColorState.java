@@ -23,7 +23,7 @@ public class SetColorState extends ViewState{
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type  Set Color, Chat or Quit");
-        startTimer(entryTimer);
+
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){

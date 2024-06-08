@@ -32,11 +32,12 @@ public class ConnectionState extends ViewState {
                     join();
                     break;
                 case "rejoin":
+                    reJoin();
                     nextState=new RejoinState(view,client,ID);
 //                    nextState.display();
 //                    return;
                     commandChosen = true;
-                    reJoin();
+
                     break;
                 case "quit":
                     quit();
