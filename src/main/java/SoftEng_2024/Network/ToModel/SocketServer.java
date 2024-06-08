@@ -29,10 +29,8 @@ public class SocketServer{
                     Socket socket = serverSocket.accept();
                     Thread t = new SocketClientHandler(server, socket, manager);
                     t.start();
-
-                } catch (IOException e) {
+                }catch (IOException e) {
                     System.err.println("Error accepting client connection... ");
-                    break;
                 }
             }
         }catch (IOException e){
@@ -44,6 +42,10 @@ public class SocketServer{
 
     public void setClientsConnected(double id, Socket socket) {
         this.clientsConnected.put(id, socket);
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
     public void setClientsOut(double id, ObjectOutputStream out) {
@@ -75,19 +77,32 @@ public class SocketServer{
 
     //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
     public void addToClientQueue(ModelMessage msg) {
-        for(double ID : clientsOut.keySet()) {
-            try {
-                //se l'ID contenuto nel messaggio è lo stesso di uno dei client collegati con
-                //socket, lo manda. Atrimenti significa che il client di destinazione è di tipo RMI
-                if(ID== msg.getReceiverID()){
-                   ObjectOutputStream out=clientsOut.get(ID);
-                   out.writeObject(msg);
-                   out.flush();
-                   out.reset();
+        if(msg.getReceiverID() == 0.0){
+            for(double id : clientsOut.keySet()){
+                ObjectOutputStream out = clientsOut.get(id);
+                try {
+                    out.writeObject(msg);
+                    out.flush();
+                    out.reset();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                //TODO: lancia l'eccezione o no?
-                System.out.println("ERROR WRITING OBJECT...");
+            }
+        }else {
+            for (double ID : clientsOut.keySet()) {
+                try {
+                    //se l'ID contenuto nel messaggio è lo stesso di uno dei client collegati con
+                    //socket, lo manda. Atrimenti significa che il client di destinazione è di tipo RMI
+                    if (ID == msg.getReceiverID()) {
+                        ObjectOutputStream out = clientsOut.get(ID);
+                        out.writeObject(msg);
+                        out.flush();
+                        out.reset();
+                    }
+                } catch (IOException e) {
+                    //TODO: lancia l'eccezione o no?
+                    System.out.println("ERROR WRITING OBJECT...");
+                }
             }
         }
     }
