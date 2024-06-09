@@ -117,7 +117,7 @@ public class LocalModel {
 
     //SETTERS******************************************************************
     public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
-        System.out.println("in set other players hand"+playerNickname);
+        //System.out.println("in set other players hand"+playerNickname);
         if(this.otherPlayersHand.containsKey(playerNickname))
             this.otherPlayersHand.replace(playerNickname,otherPlayersHand);
         else
@@ -132,7 +132,7 @@ public class LocalModel {
 //        }
     }
     public void testMessage(List<Integer> test){
-        System.out.println("Lista arrivata");
+        //System.out.println("Lista arrivata");
         for(Integer i:test){
             System.out.print(i+" ");
         }
@@ -153,12 +153,12 @@ public class LocalModel {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        System.out.println("Settando il gameState a:" + this.gameState);
+        //System.out.println("Settando il gameState a:" + this.gameState);
     }
 
     public void setPlayerState(GameState playerState) {
         this.playerState = playerState;
-        System.out.println("settando il player state a "+playerState);
+        //System.out.println("settando il player state a "+playerState);
     }
 
     public void setStarterCard(StarterCard starterCard) {
@@ -168,7 +168,7 @@ public class LocalModel {
 
     public void setCurrentTurnPlayerNickname(String currentTurnPlayerNickname) {
         if(this.currentTurnPlayerNickname==null){
-            System.out.println("the current player is " +currentTurnPlayerNickname);
+           // System.out.println("the current player is " +currentTurnPlayerNickname);
             this.currentTurnPlayerNickname = currentTurnPlayerNickname;
             currentPlayerNotNull=true;
         }
@@ -195,7 +195,7 @@ public class LocalModel {
         }
     }
     public void setLocalBoard(String nickname, Cell[][] board,ArrayList<Cell> cardList,int points,int[] anglesCounter){
-        System.out.println("setting local board");
+        //System.out.println("setting local board");
         if(!playersBoards.containsKey(nickname)){
             LocalBoard localBoard= new LocalBoard();
             playersBoards.put(nickname,localBoard);

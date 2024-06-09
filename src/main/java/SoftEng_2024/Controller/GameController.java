@@ -379,12 +379,7 @@ public class GameController {
         player.setAvailableGoals(privateGoal);
         game.setAckIdBindingMap(ID,true);
         //if the player will be the first one, set their state to PLAYING
-        if(playerIdMap.get(ID).equals(game.getPlayers().get(0))){
-            player.setPlayerState(GameState.PLAY);
-        }//else, set NOT PLAYING
-        else{
-            player.setPlayerState(GameState.NOTPLAYING);
-        }
+        player.setPlayerState(GameState.NOTPLAYING);
         //checks if all the players had already chosen their private goal
         checkIfNextState();
     }
