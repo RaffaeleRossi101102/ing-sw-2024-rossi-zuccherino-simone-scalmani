@@ -8,6 +8,7 @@ import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
 import SoftEng_2024.Model.GoalCard.GoalCard;
+import SoftEng_2024.Model.GoalCard.ResourceGoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToView.ObServerManager;
 

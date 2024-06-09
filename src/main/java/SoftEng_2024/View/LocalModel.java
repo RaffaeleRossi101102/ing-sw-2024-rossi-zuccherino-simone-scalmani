@@ -10,7 +10,6 @@ import SoftEng_2024.Model.Player_and_Board.Cell;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
@@ -28,13 +27,34 @@ public class LocalModel {
     private volatile boolean ackSuccessful;
     private List<String> playersNickname;
     private List<Card> publicCards;
-    private volatile List<String> errorLog= new ArrayList<>();
-    private ConcurrentLinkedDeque<String> chat = new ConcurrentLinkedDeque<>();
+    private volatile List<String> errorLog;
+    private ConcurrentLinkedDeque<String> chat;
+    private ConcurrentHashMap<String,LocalBoard> playersBoards;
+    private volatile boolean allCardsArrived;
+    private volatile boolean currentPlayerNotNull;
+    private boolean isFirstPlayer;
+
+    public LocalModel() {
+        otherPlayersHand =new ConcurrentHashMap<>();
+        personalHand= new ArrayList<>();
+        playersColor= new ConcurrentHashMap<>();
+        availableGoals=new ArrayList<>();
+        winnersNickname= new ArrayList<>();
+        playersNickname= new ArrayList<>();
+        publicCards= new ArrayList<>();
+        errorLog= new ArrayList<>();
+        chat = new ConcurrentLinkedDeque<>();
+        playersBoards=new ConcurrentHashMap<>();
+        this.allCardsArrived=false;
+        this.currentPlayerNotNull=false;
+        this.isFirstPlayer=false;
+    }
+
     //GETTERS******************************************************************
     public GameState getState(){return gameState;}
 
-    public ConcurrentHashMap<String, List<Card>> getOtherPlayershand() {
-        return otherPlayershand;
+    public ConcurrentHashMap<String, List<Card>> getOtherPlayersHand() {
+        return otherPlayersHand;
     }
 
 
@@ -97,7 +117,11 @@ public class LocalModel {
 
     //SETTERS******************************************************************
     public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
-        this.otherPlayershand.replace(playerNickname,otherPlayersHand);
+        System.out.println("in set other players hand"+playerNickname);
+        if(this.otherPlayersHand.containsKey(playerNickname))
+            this.otherPlayersHand.replace(playerNickname,otherPlayersHand);
+        else
+            this.otherPlayersHand.put(playerNickname,otherPlayersHand);
     }
 
     public void setPublicCards(List<Card> publicCards) {
@@ -162,8 +186,13 @@ public class LocalModel {
     public void setPlayersNickname(String playersNickname) {
         System.out.println(playersNickname);
         this.playersNickname.add(playersNickname);
-        otherPlayershand.put(nickname,new ArrayList<>());
-        playersColor.put(nickname,null);
+        if(!otherPlayersHand.containsKey(playersNickname))
+            otherPlayersHand.put(nickname,new ArrayList<>());
+        if(!playersColor.containsKey(playersNickname))
+            playersColor.put(nickname, Color.EMPTY);
+        if(!playersBoards.containsKey(playersNickname)){
+            playersBoards.put(playersNickname,new LocalBoard());
+        }
     }
     public void setLocalBoard(String nickname, Cell[][] board,ArrayList<Cell> cardList,int points,int[] anglesCounter){
         System.out.println("setting local board");

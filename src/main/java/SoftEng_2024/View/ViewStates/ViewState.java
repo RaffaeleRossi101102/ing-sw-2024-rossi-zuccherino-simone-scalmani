@@ -34,6 +34,7 @@ public abstract class ViewState {
     protected final long playTimer;
     protected final long drawTimer;
 
+
     public ViewState(CliViewClient view,ClientInterface client, double ID){
         this.view=view;
         this.client=client;
@@ -50,7 +51,6 @@ public abstract class ViewState {
         goalTimer = 20;
         playTimer = 60;
         drawTimer = 30;
-
     }
     public abstract void display();
 
@@ -97,7 +97,6 @@ public abstract class ViewState {
             Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
             setDefaultCommand(command);
-
         });
         defaultCommandThread.start();
     }

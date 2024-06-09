@@ -1,7 +1,7 @@
 package SoftEng_2024.Model;
 
 import SoftEng_2024.Controller.GameController;
-
+import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.ResourceFront;
@@ -60,7 +60,9 @@ class GoalCardTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
+
 
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
@@ -92,7 +94,8 @@ class GoalCardTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
 
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
@@ -128,7 +131,8 @@ class GoalCardTest {
         Board testBoard = new Board();
         ResourceCard testCard;
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
 
         ResourceFront testFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});

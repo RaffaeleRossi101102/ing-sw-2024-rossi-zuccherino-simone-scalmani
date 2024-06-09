@@ -16,7 +16,8 @@ class GameTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
         testGameInit.getGame().turnStart();
 
@@ -60,7 +61,8 @@ class GameTest {
         Board testBoard = new Board();
         int playCode;
 
-        Player player1 = new Player(new ArrayList<>(), testBoard, "paolo");
+        Player player1 = new Player(new ArrayList<>(), testBoard);
+        player1.setNickname("paolo",0);
         testGameInit.getGame().getPlayers().add(player1);
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
 
@@ -131,7 +133,8 @@ class GameTest {
         Board testBoard = new Board();
         int actual;
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
         testGameInit.getGame().turnStart();
 
