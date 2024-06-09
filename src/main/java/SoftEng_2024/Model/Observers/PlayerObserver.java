@@ -1,8 +1,12 @@
 package SoftEng_2024.Model.Observers;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Cards.ResourceCard;
+import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.Model.Fronts.Front;
+import SoftEng_2024.Model.Fronts.ResourceFront;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToView.ObServerManager;
@@ -26,15 +30,14 @@ public class PlayerObserver {
         //if the updated hand doesn't belong to the player connected with this observer, hide
         //the cards
         List<Card> updatedHand=new ArrayList<>();
-        for(int i=0;i< playerHand.size();i++){
-            updatedHand.add(playerHand.get(0));
-        }
-        Collections.copy(updatedHand,playerHand);
         if(!callerNickname.equals(observedNickname)){
-            for(Card c:updatedHand){
-                c.getFront().hideFrontAngles();
+            for(Card card:playerHand){
+                updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1],0,new boolean[1]),true,card.cloneBackResources()));
             }
+            updatedHand.get(0).getFront().setHidden(true);
         }
+        else
+            updatedHand.addAll(playerHand);
         //if the player has less than 3 cards, it means that he has played a card, so send
         //with the message a string that says so
         if(playerHand.size()<3)
@@ -53,7 +56,8 @@ public class PlayerObserver {
                     observedNickname+" left the game", false,callerNickname));
     }
     public void updatedPlayerColor(Color playerColor,String callerNickname) {
-        notifyServer(new UpdatedColorMessage(receiverID,"",playerColor,callerNickname));
+        if(callerNickname.equals(observedNickname))
+            notifyServer(new UpdatedColorMessage("",playerColor,callerNickname));
     }
     public void updatedPlayerState(GameState playerState,String callerNickname) {
         if(callerNickname.equals(observedNickname))
@@ -63,10 +67,12 @@ public class PlayerObserver {
         //if the nickname that is being set belongs to the observed player, send it to the player
         if(receiverID==callerID)
             notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname,true));
-        else
+        else {
             //else, it means that the observed player needs to get the caller nickname
             //and that the
-            notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname,false));
+            notifyServer(new UpdatedNicknameMessage(receiverID, "", nickname, false));
+            notifyServer(new UpdatedNicknameMessage(callerID,"",observedNickname,false));
+        }
     }
     public void updatedAvailableGoals(List<GoalCard> availableGoals,String callerNickname){
         //manda il messaggio solo al client che ha eseguito l'operazione

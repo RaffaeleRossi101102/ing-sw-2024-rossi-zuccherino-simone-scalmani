@@ -21,7 +21,6 @@ public class DrawState extends ViewState{
     @Override
     public void display() {
 
-        Thread newStateDisplayThread;
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
             new EndGameState(view, client, ID).display();
         }else {
@@ -65,7 +64,6 @@ public class DrawState extends ViewState{
             this.view.getWaitingState().setPreviousState(this);
             this.view.getWaitingState().setNextState(nextState);
         }
-
     }
 
     public void setNextState(ViewState nextState) {

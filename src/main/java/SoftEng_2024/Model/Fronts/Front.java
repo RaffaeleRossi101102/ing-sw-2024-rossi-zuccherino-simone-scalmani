@@ -50,4 +50,8 @@ abstract public class Front implements Serializable {
     public boolean getHidden(){
         return this.hidden;
     }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 }

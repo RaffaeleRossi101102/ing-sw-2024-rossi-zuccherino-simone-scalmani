@@ -5,6 +5,7 @@ import SoftEng_2024.Model.Cards.*;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.GoalCard.GoalCard;
+import SoftEng_2024.Model.Player_and_Board.Cell;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,9 +14,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
-    private ConcurrentHashMap<String,List<Card>> otherPlayershand=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,List<Card>> otherPlayersHand;
     private String nickname;
-    private String currentTurnPlayerNickname;
+    private volatile String currentTurnPlayerNickname;
     private List<Card> personalHand;
     private ConcurrentHashMap<String,Color> playersColor;
     private volatile StarterCard starterCard;
@@ -101,10 +102,10 @@ public class LocalModel {
 
     public void setPublicCards(List<Card> publicCards) {
         this.publicCards = publicCards;
-        System.out.println("Got some public cards which are: ");
-        for (Card card:this.publicCards){
-            System.out.println(card);
-        }
+//        System.out.println("Got some public cards which are: ");
+//        for (Card card:this.publicCards){
+//            System.out.println(card);
+//        }
     }
     public void testMessage(List<Integer> test){
         System.out.println("Lista arrivata");
@@ -114,6 +115,8 @@ public class LocalModel {
     }
     public void setPersonalHand(List<Card> personalHand) {
         this.personalHand = personalHand;
+        if(this.personalHand.size()==3)
+            this.allCardsArrived=true;
     }
 
     public void setAvailableGoals(List<GoalCard> availableGoals) {
@@ -135,24 +138,44 @@ public class LocalModel {
     }
 
     public void setStarterCard(StarterCard starterCard) {
-        System.out.println("sto settando la starter ooooo "+ this.starterCard);
+//        System.out.println("sto settando la starter ooooo "+ starterCard);
         this.starterCard = starterCard;
     }
 
     public void setCurrentTurnPlayerNickname(String currentTurnPlayerNickname) {
-        this.currentTurnPlayerNickname = currentTurnPlayerNickname;
+        if(this.currentTurnPlayerNickname==null){
+            System.out.println("the current player is " +currentTurnPlayerNickname);
+            this.currentTurnPlayerNickname = currentTurnPlayerNickname;
+            currentPlayerNotNull=true;
+        }
+        else{
+            this.currentTurnPlayerNickname=currentTurnPlayerNickname;
+        }
+
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-        System.out.println("set my nick");
+        System.out.println(nickname);
     }
 
     public void setPlayersNickname(String playersNickname) {
-        System.out.println("set other's nick");
+        System.out.println(playersNickname);
         this.playersNickname.add(playersNickname);
         otherPlayershand.put(nickname,new ArrayList<>());
         playersColor.put(nickname,null);
+    }
+    public void setLocalBoard(String nickname, Cell[][] board,ArrayList<Cell> cardList,int points,int[] anglesCounter){
+        System.out.println("setting local board");
+        if(!playersBoards.containsKey(nickname)){
+            LocalBoard localBoard= new LocalBoard();
+            playersBoards.put(nickname,localBoard);
+        }
+        LocalBoard localBoard= playersBoards.get(nickname);
+        localBoard.setCardBoard(board);
+        localBoard.setCardList(cardList);
+        localBoard.setScore(points);
+        localBoard.setAnglesCounter(anglesCounter);
     }
 
     public void setWinnersNickname(List<String> winnersNickname) {this.winnersNickname = winnersNickname;}
@@ -165,5 +188,14 @@ public class LocalModel {
     public synchronized void setErrorLog(String error) {this.errorLog.add(error);}
 
     public void addToChat(String msg) {this.chat.add(msg);}
+    public boolean getAllCardsArrived(){
+        return this.allCardsArrived;
+    }
+    public boolean getCurrentPlayerArrived(){
+        return this.currentPlayerNotNull;
+    }
 
+    public void setFirstPlayer(boolean firstPlayer) {
+        isFirstPlayer = firstPlayer;
+    }
 }

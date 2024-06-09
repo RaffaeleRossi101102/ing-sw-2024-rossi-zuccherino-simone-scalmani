@@ -11,6 +11,7 @@ public abstract class ModelMessage implements Serializable {
     public ModelMessage(double ID, String message,String senderNickname) {
         this.receiverID = ID;
         this.message = message;
+        this.senderNickname=senderNickname;
     }
 
     public String getSenderNickname() {

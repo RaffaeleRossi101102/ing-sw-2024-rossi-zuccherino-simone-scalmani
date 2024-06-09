@@ -29,7 +29,6 @@ public class GameObserver {
     public void updatedPublicCards(String nickname, int whichDeck){
 
         if(whichDeck==3){
-            System.err.println("Sto notificando le carte pubbliche ");
             notifyServer(new UpdatedPublicCardsMessage("",game.getPublicCards()));
             return;
         }

@@ -54,8 +54,9 @@ public class Player {
         for(PlayerObserver o:playerObservers)
             o.updatedIsPlayerOnline(isOnline,nickname);
     }
-    public void setHand(Card card) {
+    public synchronized void setHand(Card card) {
         this.hand.add(card);
+
         for(PlayerObserver o:playerObservers)
             o.updatedHand(hand,nickname);
     }

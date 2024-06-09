@@ -228,14 +228,21 @@ public class Game {
         publicCards.add(resourceDeck.poll());
         publicCards.add(goldDeck.poll());
         publicCards.add(goldDeck.poll());
+        System.out.println();
         gameObserver.updatedPublicCards("",3);
     }
     //metodo che aggiorna il current player,
     public GoalCard[] getPublicGoals() {
         return publicGoals;
     }
+
     public synchronized void setAckIdBindingMap(double ID, boolean ack) {
-        AckIdBindingMap.put(ID,ack);
+        //se non è stato inserito l'Id in precedenza, lo setto ora
+        if(!AckIdBindingMap.containsKey(ID))
+            AckIdBindingMap.put(ID,ack);
+        else
+            //altrimenti lo rimpiazzo con il nuovo ack
+            AckIdBindingMap.replace(ID,ack);
         gameObserver.updatedAck(ack,ID);
     }
 

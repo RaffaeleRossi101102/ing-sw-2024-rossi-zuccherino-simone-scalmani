@@ -73,4 +73,11 @@ public abstract class Card implements Serializable {
     }
 
     abstract public String getPrintableCardString( boolean flipped);
+    public Angles[] cloneBackResources(){
+        Angles[] clone= new Angles[resource.length];
+        System.arraycopy(resource, 0, clone, 0, resource.length);
+        return clone;
+    }
+    public abstract String[] printCard();
+
 }

@@ -66,7 +66,7 @@ public abstract class ViewState {
     protected void defaultCommand(GameState gameState) {
         if(view.getLocalModel().getState().equals(gameState)) {
             setDefaultCommand("");
-            listenDefaultCommand();
+//            listenDefaultCommand();
             while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
                 //System.out.println("Lo stato di ora è:" +view.getLocalModel().getState());
                 switch (defaultCommand.trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -88,10 +88,6 @@ public abstract class ViewState {
                         break;
                 }
             }
-
-            System.out.println("fuori dal while di default command");
-
-
         }
     }
 

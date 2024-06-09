@@ -33,4 +33,15 @@ public class ResourceCard extends Card{
         }
         return printableCardString;
     }
+
+    @Override
+    public String[] printCard() {
+        return new String[]{
+            " _______ ",
+String.format("|%s     %s|",this.getFront().getFrontAngles()[0],this.getFront().getFrontAngles()[1]),
+            String.format("|       |"),
+String.format("|%s     %s|",this.getFront().getFrontAngles()[2],this.getFront().getFrontAngles()[3]),
+            " _______ "
+        };
+    }
 }

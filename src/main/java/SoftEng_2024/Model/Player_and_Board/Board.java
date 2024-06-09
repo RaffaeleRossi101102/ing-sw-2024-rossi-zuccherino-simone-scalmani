@@ -5,6 +5,7 @@ import SoftEng_2024.Model.Enums.AngleIndexes;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Observers.BoardObserver;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -271,7 +272,7 @@ public class Board {
         return cardBoard;
     }
 
-    public List<Cell> getCardList() {
+    public ArrayList<Cell> getCardList() {
         return cardList;
     }
 

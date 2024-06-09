@@ -13,6 +13,6 @@ public class UpdatedAvailableGoalsMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-
+        view.getLocalModel().setAvailableGoals(availableGoals);
     }
 }

@@ -14,7 +14,7 @@ public class ReadyToStartState extends ViewState{
         System.out.println("Waiting for all the players to choose their private goal...");
         defaultCommand(GameState.CHOOSEGOAL);
         System.out.println("Now it's time to Play!");
-
+        //TODO: MODIFICARE DEFAULT COMMAND IN MODO TALE CHE NON TERMINI SUBITO APPENA UNO SIA IN PLAY
         PlayState playState = new PlayState(view, client, ID);
         DrawState drawState = new DrawState(view, client, ID);
         WaitingForTurnState waitingForTurnStateState = new WaitingForTurnState(view, client, ID);
@@ -23,9 +23,11 @@ public class ReadyToStartState extends ViewState{
         waitingForTurnStateState.setNextState(playState);
         playState.setNextState(drawState);
         drawState.setNextState(waitingForTurnStateState);
-
-        //se è il mio turno
+        //aspetto che mi arrivino tutte le carte e che venga settato il current player
+        while(view.getLocalModel().getCurrentTurnPlayerNickname()==null & !view.getLocalModel().getAllCardsArrived());
+        //se è il mio turno e sono il primo, "aggiungo il colore nero tra i colori" e parto col turno
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
+            view.getLocalModel().setFirstPlayer(true);
             playState.display();
         }else{
             waitingForTurnStateState.display();

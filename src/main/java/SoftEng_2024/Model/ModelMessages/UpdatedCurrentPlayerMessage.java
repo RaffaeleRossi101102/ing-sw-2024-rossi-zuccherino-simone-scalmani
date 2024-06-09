@@ -11,6 +11,6 @@ public class UpdatedCurrentPlayerMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-
+        view.getLocalModel().setCurrentTurnPlayerNickname(currentPlayerNickname);
     }
 }

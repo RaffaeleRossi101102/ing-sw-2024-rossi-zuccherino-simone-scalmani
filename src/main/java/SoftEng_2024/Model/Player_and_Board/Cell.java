@@ -2,7 +2,9 @@ package SoftEng_2024.Model.Player_and_Board;
 
 import SoftEng_2024.Model.Cards.Card;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
     private Card card;
     private boolean placeable;
     private int row;

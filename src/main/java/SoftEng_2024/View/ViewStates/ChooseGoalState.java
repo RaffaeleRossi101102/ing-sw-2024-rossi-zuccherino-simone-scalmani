@@ -24,10 +24,9 @@ public class ChooseGoalState extends ViewState {
         String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
-            switch (command.trim().toLowerCase()) {
+            switch (command.trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "chooseprivategoal":
                     if (view.getLocalModel().getAvailableGoals().isEmpty()){
-                         
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
                     }else{
                         commandChosen = true;

@@ -13,7 +13,7 @@ public class BoardObserver {
         obServerManager=o;
     }
     public void updatedBoard(Board board){
-        notifyServer(new UpdatedBoardMessage(0,"",callerNickname));
+        notifyServer(new UpdatedBoardMessage(0,"",callerNickname, board.getCardBoard(),board.getCardList(),board.getAnglesCounter(),board.getScore() ));
     }
 //    public void setID(double ID) {
 //        this.ID = ID;

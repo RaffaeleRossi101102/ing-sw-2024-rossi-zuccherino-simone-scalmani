@@ -20,10 +20,12 @@ public class StarterState extends ViewState{
         defaultCommand(GameState.CONNECTION);
         System.out.println("Now it's time to play your starter card:");
         //TODO: prints player's starter card
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type  Play Starter Card, Chat or Quit");
+        String command= scanner.nextLine();
 
-        String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
             switch(command.trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -33,28 +35,25 @@ public class StarterState extends ViewState{
                         System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
                     }
                     else {
-                         
+                        System.out.println("This is your starter card:");
+                        System.out.println(view.getLocalModel().getStarterCard().getPrintableCardString(true));
+                        System.out.println(view.getLocalModel().getStarterCard().getPrintableCardString(false));
                         commandChosen=true;
                         playStarterCard();
                     }
                     break;
                 case "chat":
-                     
                     writeInChat();
                     break;
                 case "quit":
-                     
                     quit();
                     break;
                 default:
-                     
                     System.err.println("Command not available... retry");
                     break;
             }
             if(commandChosen)
                 break;
-            System.out.println("Type  Play Starter Card, Chat or Quit");
-            System.out.println("Il thread del client è in: "+view.clientQueueExecutor.getState());
             command=scanner.nextLine();
         }
         this.view.getWaitingState().setPreviousState(this);

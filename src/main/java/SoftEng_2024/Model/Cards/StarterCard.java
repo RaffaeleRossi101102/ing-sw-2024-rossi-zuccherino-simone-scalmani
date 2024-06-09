@@ -75,4 +75,9 @@ public class StarterCard extends Card implements Serializable {
 
         return printableCardString;
     }
+
+    @Override
+    public String[] printCard() {
+        return new String[0];
+    }
 }

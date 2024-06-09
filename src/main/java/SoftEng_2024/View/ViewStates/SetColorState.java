@@ -63,11 +63,10 @@ public class SetColorState extends ViewState{
         ConcurrentHashMap<String, Color> colorMap = view.getLocalModel().getPlayersColor();
         System.out.println("The available colors are: ");
         for(Color availableColor : Color.values()) {
-            if(!colorMap.containsValue(availableColor)){
+            if(!colorMap.containsValue(availableColor) && !availableColor.equals(Color.BLACK)){
                 System.out.print(availableColor+ " ");
             }
         }
-         
         System.out.println("Type the color you want for your pawn, or type 'exit' to cancel");
         answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
         boolean correctColor = false;

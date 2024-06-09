@@ -37,7 +37,6 @@ public class SocketClient implements ClientInterface {
             //STARTING CONNECTION
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
-            DataInputStream myin = new DataInputStream(socket.getInputStream());
             out.writeDouble(ID);
             out.flush();
             //THREAD CHE STA IN ASCOLTO DEI MESSAGGI CHE ARRIVANO DAL SERVER
@@ -91,11 +90,12 @@ public class SocketClient implements ClientInterface {
 
     //METODO CHE RICEVE I MESSAGI DAL SERVER E LI AGGIUNGE ALLA QUEUE DEL CLIENT
     @Override
-    public void addToViewQueue(ModelMessage msg) throws RemoteException {
+    public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
         this.modelQueue.add(msg);
+        notifyAll();
     }
     @Override
-    public void run() throws RemoteException {
+    public void run() throws RemoteException, InterruptedException {
         while (true) {
             pollThreaded();
         }
@@ -132,15 +132,19 @@ public class SocketClient implements ClientInterface {
 
 
 
-    private void pollThreaded() throws RemoteException {
-        Thread t = new Thread(() -> {
-            try {
-                this.modelQueue.take().executeMessage(this.view);
-            } catch (InterruptedException e) {
-                System.err.println("SOMETHING WENT WRONG WHILE EXECUTING MESSAGE");
+    private synchronized void pollThreaded() throws RemoteException, InterruptedException {
+        if (modelQueue.isEmpty()) {
+            wait();
+        } else {
+            Thread t = new Thread(() -> {
+                try {
+                    this.modelQueue.take().executeMessage(this.view);
+                } catch (InterruptedException e) {
+                    System.err.println("SOMETHING WENT WRONG WHILE EXECUTING MESSAGE");
 
-            }
-        });
-        t.start();
+                }
+            });
+            t.start();
+        }
     }
 }

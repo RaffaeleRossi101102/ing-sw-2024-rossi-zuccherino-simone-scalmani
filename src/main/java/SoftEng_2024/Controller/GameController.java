@@ -65,13 +65,7 @@ public class GameController {
 
         this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck);
         this.game.setGameObserver(new GameObserver(this.toViewManager,game,this.networkManager));
-        //Draw from the decks the cards visible on the table
-        for (int i = 0; i < 2; i++) {
-            game.getPublicCards().add(game.getResourceDeck().poll());
-        }
-        for (int i = 0; i < 2; i++) {
-            game.getPublicCards().add(game.getGoldDeck().poll());
-        }
+
     }
     //Method that creates all the goalCards
     private Queue<GoalCard> goalInit() {
@@ -326,36 +320,29 @@ public class GameController {
             player.getHand().get(0).setFlipped(flipped);
             player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
             player.setPlayerState(GameState.SETCOLOR);
+            game.setAckIdBindingMap(ID,true);
         }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
             e.printStackTrace();
-            throw new RuntimeException("Something went very wrong");
+            throw new RuntimeException("Something went really wrong");
         }
-
         //se ogni player ha piazzato la carta, cambio lo stato
         checkIfNextState();
         //notify observer for all public info and hand observer for ID player
     }
 
     public synchronized void setColor(Color color, double ID){
-        int counter=0;
-        boolean found = false;
         //controlla se il player ha scelto un colore non ancora preso
         for(Player player: clientPlayers){
-            if(color.equals(player.getColor().get(0))){
-                //ERROR, CLIENT HAS TO CHOOSE ANOTHER COLOR, SEND MESSAGE
-                found = true;
+            if(!player.getColor().isEmpty()) {
+                if (color.equals(player.getColor().get(0))) {
+                    sendErrorMessage(ID, color + " already taken, please insert a different one");
+                    return;
+                }
             }
-            if(!player.getColor().isEmpty()){
-                counter++;
-            }
-        }
-        if(found | counter==maxPlayers){
-            //notify dell'errore
-            return;
         }
         playerIdMap.get(ID).setColor(color);
         playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
-
+        game.setAckIdBindingMap(ID,true);
         //se ogni player ha scelto il colore cambio lo stato
         checkIfNextState();
         //notify observers
@@ -390,6 +377,7 @@ public class GameController {
         List<GoalCard> privateGoal=new ArrayList<>(player.getAvailableGoals());
         privateGoal.remove(2-choice);
         player.setAvailableGoals(privateGoal);
+        game.setAckIdBindingMap(ID,true);
         //if the player will be the first one, set their state to PLAYING
         if(playerIdMap.get(ID).equals(game.getPlayers().get(0))){
             player.setPlayerState(GameState.PLAY);
@@ -403,18 +391,67 @@ public class GameController {
     public void playCard(int card, int row, int column, boolean flipped,double ID){
         Player player=playerIdMap.get(ID);
         player.getHand().get(card).setFlipped(flipped);
-        game.playCard(player.getHand().get(card), player,row,column);
+        int result= game.playCard(player.getHand().get(card), player,row,column);
+        switch(result){
+            case 1:
+                game.setAckIdBindingMap(ID,true);
+                break;
+            case -1:
+                sendErrorMessage(ID,"You tried to place a card where you couldn't! Please try placing it in a different place.");
+                break;
+            case 0:
+                sendErrorMessage(ID,"You don't have enough resources to play this card! Please choose a different one.");
+                break;
+            case -3:
+                sendErrorMessage(ID,"You tried to place a card during another player's turn! Please wait for your turn to place a card.");
+                break;
+            case -2:
+                sendErrorMessage(ID,"You've already placed a card this turn! You can only draw a card.");
+                break;
+
+        }
         //notify : in base a quello che ritorna il metodo playCard, notifico gli observer.
     }
     public void drawFromTheDeck(int deck,double ID){
         Player player=playerIdMap.get(ID);
-        game.drawFromTheDeck(player,deck);
+        int result=game.drawFromTheDeck(player,deck);
+        switch (result){
+            case 1:
+                game.setAckIdBindingMap(ID,true);
+                playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
+                break;
+            case -1:
+                sendErrorMessage(ID,"You tried to draw a card during another player's turn! Please wait for your turn.");
+                break;
+            case -2:
+                sendErrorMessage(ID,"You tried to draw from the resource deck but the deck is empty! Try drawing from the public cards or from the gold deck.");
+                break;
+            case -3:
+                sendErrorMessage(ID,"You tried to draw from the gold deck but the deck is empty! Try drawing from the public cards or from the resource deck.");
+                break;
+            case 0:
+                sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
+                break;
+        }
         checkingIfGameEnds(game.turnEnd());
         //notify the right observers
     }
     public void drawFromPublicCards(int card,double ID){
         Player player=playerIdMap.get(ID);
-        game.drawPublicCards(player,card);
+        int result=game.drawPublicCards(player,card);
+        switch (result){
+            case 1:
+                game.setAckIdBindingMap(ID,true);
+                break;
+            case -1:
+                sendErrorMessage(ID,"You tried to draw a card from the public cards but there are no more cards left!");
+                break;
+            case -2:
+                sendErrorMessage(ID,"You tried to draw a card during another player's turn! Please wait for your turn.");
+                break;
+            case 0:
+                sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
+        }
         checkingIfGameEnds(game.turnEnd());
 
         //notify the right observers

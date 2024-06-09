@@ -38,7 +38,8 @@ class GameTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        Player player1 = new Player(new ArrayList<>(), testBoard, "paolo");
+        Player player1 = new Player(new ArrayList<>(), testBoard);
+        player1.setNickname("paolo",0);
         testGameInit.getGame().getPlayers().add(player1);
         assertFalse(testGameInit.getGame().turnEnd());
 
@@ -88,7 +89,8 @@ class GameTest {
         int actual;
         int i;
 
-        Player player1 = new Player(new ArrayList<>(), testBoard, "paolo");
+        Player player1 = new Player(new ArrayList<>(), testBoard);
+        player1.setNickname("paolo",0);
         testGameInit.getGame().getPlayers().add(player1);
 
         actual = testGameInit.getGame().drawPublicCards(testGameInit.getGame().getPlayers().get(0), 0);
@@ -160,10 +162,14 @@ class GameTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "raffo"));
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "fra"));
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "giuse"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("raffo",0);
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("fra",0);
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("giuse",0);
 
         testGameInit.getGame().shufflePlayers();
         assertEquals(4, testGameInit.getGame().getPlayers().size());

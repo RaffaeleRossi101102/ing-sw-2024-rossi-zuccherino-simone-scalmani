@@ -29,9 +29,9 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
             if(modelQueue.isEmpty()){
               wait();
             }else {
-                System.out.println("the message executing is: "+modelQueue.peek());
+                //System.out.println("the message executing is: "+modelQueue.peek());
                 modelQueue.take().executeMessage(this.view);
-                System.out.println("executed Message:");
+                //System.out.println("executed Message:");
             }
         }
     }
@@ -48,7 +48,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
-        System.err.println("sto aggiungendo il messaggio: "+msg);
+        //System.err.println("sto aggiungendo il messaggio: "+msg);
         modelQueue.add(msg);
         notifyAll();
     }
