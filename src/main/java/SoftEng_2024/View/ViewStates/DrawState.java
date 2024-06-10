@@ -20,11 +20,10 @@ public class DrawState extends ViewState{
 
     @Override
     public void display() {
-
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
             new EndGameState(view, client, ID).display();
         }else {
-            System.out.println("Now you have to draw a card from the 4 public cards or from one of the decks!");
+            System.out.println("Now, you have to draw a card from the 4 public cards or from one of the decks!");
             Scanner scanner = new Scanner(System.in);
             System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
             
@@ -57,7 +56,6 @@ public class DrawState extends ViewState{
                 }
                 if (commandChosen)
                     break;
-                 
                 System.out.println("Type Play Card, Chat or Quit");
                 command = scanner.nextLine();
             }
@@ -77,10 +75,8 @@ public class DrawState extends ViewState{
         System.out.println("Type which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
         deck = input.nextLine();
         while(!deck.equals("gold") && !deck.equals("resources") && !deck.equals("exit")){
-             
             System.err.println("Wrong input... retry!!\nType which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
             deck = input.nextLine();
-
         }
          
         if(deck.equals("exit")){

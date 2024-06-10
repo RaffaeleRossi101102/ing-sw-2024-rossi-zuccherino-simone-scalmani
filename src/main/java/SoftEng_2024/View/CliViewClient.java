@@ -15,6 +15,7 @@ import static java.lang.Thread.sleep;
 public class CliViewClient implements View {
     public Thread clientQueueExecutor;
      public ClientInterface client;
+    private String command="";
     double ID;
     ViewState viewState;
     WaitingState waitingState;
@@ -75,5 +76,12 @@ public class CliViewClient implements View {
 
     public WaitingState getWaitingState() {
         return waitingState;
+    }
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public String getCommand() {
+        return command;
     }
 }

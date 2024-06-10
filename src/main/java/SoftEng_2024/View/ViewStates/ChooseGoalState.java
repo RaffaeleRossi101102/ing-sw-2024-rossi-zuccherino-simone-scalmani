@@ -15,46 +15,49 @@ public class ChooseGoalState extends ViewState {
 
     @Override
     public void display() {
-        System.out.println("Waiting for all the players to choose their color...");
-        defaultCommand(GameState.SETCOLOR);
+        listenDefaultCommand();
+        defaultCommand(GameState.SETCOLOR,"Waiting for all the players to choose a color");
         System.out.println("Now it's time to choose your private goal!");
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Type Choose Private Goal, Chat or Quit");
-
-        String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
-            switch (command.trim().replaceAll("\\s+", "").toLowerCase()) {
+            switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "chooseprivategoal":
                     if (view.getLocalModel().getAvailableGoals().isEmpty()){
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
+                        view.setCommand("");
+                        listenDefaultCommand();
                     }else{
                         commandChosen = true;
                         choosePrivateGoal();
+                        view.setCommand("");
                     }
                     break;
                 case "chat":
-                     
                     writeInChat();
+                    System.out.println("Type Choose Private Goal, Chat or Quit");
+                    view.setCommand("");
+                    listenDefaultCommand();
                     break;
                 case "quit":
-                     
                     quit();
+                    view.setCommand("");
+                    listenDefaultCommand();
+                    break;
+                case "":
                     break;
                 default:
-                     
                     System.err.println("Command not available... retry");
+                    System.out.println("Type Choose Private Goal, Chat or Quit");
+                    view.setCommand("");
+                    listenDefaultCommand();
                     break;
             }
             if(commandChosen)
                 break;
-             
-            System.out.println("Type Choose Private Goal, Chat or Quit");
-            command = scanner.nextLine();
         }
         this.view.getWaitingState().setPreviousState(this);
         this.view.getWaitingState().setNextState(new ReadyToStartState(view,client, ID));
-
     }
 
     private void choosePrivateGoal() {
@@ -79,6 +82,5 @@ public class ChooseGoalState extends ViewState {
         System.out.println("Got it, keep it a secret!");
         ViewMessage msg= new ChoosePrivateGoalMessage(choice,ID);
         updateClient(msg);
-         
     }
 }

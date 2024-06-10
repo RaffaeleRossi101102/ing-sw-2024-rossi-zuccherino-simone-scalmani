@@ -18,39 +18,40 @@ public class SetColorState extends ViewState{
 
     @Override
     public void display() {
-        System.out.println("Waiting for all the players to play their starter card...");
-        defaultCommand(GameState.STARTER);
+        listenDefaultCommand();
+        defaultCommand(GameState.STARTER,"Waiting for all the players to connect");
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Type  Set Color, Chat or Quit");
 
-        String command = scanner.nextLine();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
-            switch(command.trim().replaceAll("\\s+", "").toLowerCase()) {
+            switch(view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "setcolor":
                     commandChosen=true;
-                     
                     setColor();
+                    view.setCommand("");
                     break;
                 case "chat":
-                     
                     writeInChat();
+                    System.out.println("Type  Set color, chat or quit");
+                    view.setCommand("");
+                    listenDefaultCommand();
                     break;
                 case "quit":
-                     
                     quit();
                     break;
+                case "":
+                    break;
                 default:
-                     
                     System.err.println("Command not available... retry");
+                    System.out.println("Type  Set color, chat or quit");
+                    view.setCommand("");
+                    listenDefaultCommand();
                     break;
             }
             if(commandChosen)
                 break;
-             
-            System.out.println("Type  Set color, chat or quit");
-            command=scanner.nextLine();
+
         }
         this.view.getWaitingState().setPreviousState(this);
         this.view.getWaitingState().setNextState(new ChooseGoalState(view,client,ID));

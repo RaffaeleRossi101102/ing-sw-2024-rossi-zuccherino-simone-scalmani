@@ -20,45 +20,51 @@ public class PlayState extends ViewState{
 
     @Override
     public void display() {
-        System.out.println("Now it's your turn!");
+        System.out.println("It's your turn!");
         if(view.getLocalModel().getPersonalHand().size() == 3) {
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             System.out.println("Type Play Card, Chat or Quit");
-            String command = scanner.nextLine();
+//            String command = scanner.nextLine();
             //loops until the player chooses a command different from writeInChat
             while (!commandChosen) {
-                switch (command.trim().toLowerCase()) {
+                switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "playcard":
                         commandChosen = true;
                         playCard();
+                        view.setCommand("");
                         break;
                     case "chat":
                         writeInChat();
+                        System.out.println("Type Play Card, Chat or Quit");
+                        view.setCommand("");
+                        listenDefaultCommand();
                         break;
                     case "quit":
                         quit();
                         break;
+                    case"":
+                        break;
                     default:
-                        
                         System.err.println("Command not available... retry");
+                        System.out.println("Type Play Card, Chat or Quit");
+                        view.setCommand("");
+                        listenDefaultCommand();
                         break;
                 }
-                if(commandChosen)
+                if(commandChosen){
+                    commandChosen=false;
                     break;
-                 
-                System.out.println("Type Play Card, Chat or Quit");
-                command = scanner.nextLine();
+                }
+
             }
             this.view.getWaitingState().setPreviousState(this);
             this.view.getWaitingState().setNextState(nextState);
         } else {
             System.out.println("When you logged off last time, you played a card but didn't draw another one. " +
                                "Now, you'll need to finish your turn by drawing a card without playing...");
-
             nextState.display();
 
-        };
-
+        }
     }
 
     public void setNextState(ViewState nextState) {
@@ -72,12 +78,10 @@ public class PlayState extends ViewState{
         System.out.println("Type the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel ");
         answer = input.nextLine();
         while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("exit")){
-             
             System.err.println("Wrong input... retry!!\nType the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel");
             answer = input.nextLine();
 
         }
-         
         if(answer.equals("exit")){
             commandChosen = false;
             return;
@@ -89,7 +93,7 @@ public class PlayState extends ViewState{
         int row;
         int column;
 
-        System.out.println("Type the row and the column (0 <= r,c <= 84) of the cell, or type 'exit' to cancel ");
+        System.out.println("Type the row and the column (0 <= r & c <= 84) of the cell, or type 'exit' to cancel ");
         try {
             row = input.nextInt();
             column = input.nextInt();
@@ -103,7 +107,6 @@ public class PlayState extends ViewState{
             }
         }
         while(row<0 | row>84 | column<0 | column>84){
-             
             System.err.println("Wrong input, type an integer between '0' and '84' either for the row and the column, or type 'exit' to cancel");
             try {
                 row = input.nextInt();
@@ -118,9 +121,6 @@ public class PlayState extends ViewState{
                 }
             }
         }
-
-         
-
         boolean flipped;
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel ");
         answer = input.nextLine();
@@ -138,8 +138,5 @@ public class PlayState extends ViewState{
 
         ViewMessage msg = new PlayCardMessage(card, row, column, flipped, this.ID);
         updateClient(msg);
-
     }
-
-
 }

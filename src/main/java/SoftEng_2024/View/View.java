@@ -6,5 +6,7 @@ public interface View {
     void run();
     double getID();
     LocalModel getLocalModel();
+    void setCommand(String command);
+    String getCommand();
 
 }

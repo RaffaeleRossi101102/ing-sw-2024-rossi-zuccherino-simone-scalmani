@@ -21,6 +21,7 @@ public abstract class ViewState {
     protected ClientInterface client;
     protected LocalModel model;
     protected double ID;
+    protected Scanner scanner;
     protected boolean commandChosen;
     protected String defaultCommand;
     protected final long entryTimer;
@@ -51,6 +52,8 @@ public abstract class ViewState {
         goalTimer = 20;
         playTimer = 60;
         drawTimer = 30;
+        scanner=new Scanner(System.in);
+        this.defaultCommand="";
     }
     public abstract void display();
 
@@ -63,28 +66,30 @@ public abstract class ViewState {
     }
 
 
-    protected void defaultCommand(GameState gameState) {
+    protected void defaultCommand(GameState gameState,String waitMessage) {
         if(view.getLocalModel().getState().equals(gameState)) {
-            setDefaultCommand("");
+            System.out.println(waitMessage);
+            System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
 //            listenDefaultCommand();
             while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
-                //System.out.println("Lo stato di ora è:" +view.getLocalModel().getState());
-                switch (defaultCommand.trim().replaceAll("\\s+", "").toLowerCase()) {
+                switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "chat":
                         writeInChat();
                         listenDefaultCommand();
-                        setDefaultCommand("");
+                        view.setCommand("");
+                        System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
                         break;
                     case "quit":
                         quit();
                         listenDefaultCommand();
-                        setDefaultCommand("");
+                        view.setCommand("");
                     case "":
                         break;
                     default:
                         System.err.println("Command not available... retry");
                         listenDefaultCommand();
-                        setDefaultCommand("");
+                        view.setCommand("");
+                        System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
                         break;
                 }
             }
@@ -93,10 +98,10 @@ public abstract class ViewState {
 
     protected void listenDefaultCommand(){
         Thread defaultCommandThread = new Thread(() -> {
-            System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
-            Scanner scanner = new Scanner(System.in);
+            //System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
+            //Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
-            setDefaultCommand(command);
+            view.setCommand(command);
         });
         defaultCommandThread.start();
     }

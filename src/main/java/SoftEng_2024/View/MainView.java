@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class MainView {
 
+
     public static void main(String[] args) throws RemoteException {
         //creating a random ID based on currentTimeMillis() method
         double ID = System.currentTimeMillis();
@@ -55,4 +56,6 @@ public class MainView {
             System.out.println("La gui nun ce sta per ora, paolo incoming :)");
         }
     }
+
+
 }
