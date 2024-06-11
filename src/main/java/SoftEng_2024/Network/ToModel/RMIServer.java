@@ -97,7 +97,7 @@ public class RMIServer implements ServerInterface{
 
     @Override
     public void addToClientQueue(ModelMessage msg) throws RemoteException {
-        System.out.println("trying to send "+msg);
+       // System.out.println("trying to send "+msg);
         try {
             //if the ID==0 it means that the messge has to be sent to everyone
             if (msg.getReceiverID() == 0) {
@@ -111,7 +111,7 @@ public class RMIServer implements ServerInterface{
                     //if the message is destined to a client connected to the RMI server, send it
                     if(msg.getReceiverID()==ID) {
                         IdClientBindingMap.get(ID).addToViewQueue(msg);
-                        System.out.println("Mandato oggetto "+msg);
+                        //System.out.println("Mandato oggetto "+msg);
                     }
                 }
             }

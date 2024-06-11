@@ -19,7 +19,7 @@ public class SetColorState extends ViewState{
     @Override
     public void display() {
         listenDefaultCommand();
-        defaultCommand(GameState.STARTER,"Waiting for all the players to connect");
+        defaultCommand(GameState.STARTER,"Waiting for all the players play their starter card...");
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
         System.out.println("Type  Set Color, Chat or Quit");
 

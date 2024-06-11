@@ -346,9 +346,9 @@ public class GameController {
             Player player = playerIdMap.get(ID);
             player.getHand().get(0).setFlipped(flipped);
             player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
-            if(player.getPlayerState().equals(game.getGameState()) & !player.getIsOnline())
-                player.setOnline(true);
             player.setPlayerState(GameState.SETCOLOR);
+            if(player.getPlayerState().ordinal()>=game.getGameState().ordinal() & !player.getIsOnline())
+                player.setOnline(true);
             game.setAckIdBindingMap(ID,true);
         }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
             e.printStackTrace();
@@ -372,10 +372,10 @@ public class GameController {
         }
         currentPLayer.setColor(color);
         //se il player è offline e ha recuperato, mettilo online!
-        if(currentPLayer.getPlayerState().equals(game.getGameState()) & !currentPLayer.getIsOnline()) {
+        playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
+        if(currentPLayer.getPlayerState().ordinal()>= game.getGameState().ordinal() & !currentPLayer.getIsOnline()) {
             currentPLayer.setOnline(true);
         }
-        playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
         game.setAckIdBindingMap(ID,true);
         //se ogni player ha scelto il colore cambio lo stato
         checkIfNextState();
