@@ -2,12 +2,12 @@ package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
-public class ReJoin implements ViewMessage {
+public class ReJoinMessage implements ViewMessage {
 
     double ID;
     String nickname;
 
-    public ReJoin(double ID, String nickname) {
+    public ReJoinMessage(double ID, String nickname) {
         this.ID = ID;
         this.nickname = nickname;
     }

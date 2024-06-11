@@ -32,6 +32,7 @@ public class PlayState extends ViewState{
                         commandChosen = true;
                         playCard();
                         view.setCommand("");
+                        listenDefaultCommand();
                         break;
                     case "chat":
                         writeInChat();
@@ -55,7 +56,6 @@ public class PlayState extends ViewState{
                     commandChosen=false;
                     break;
                 }
-
             }
             this.view.getWaitingState().setPreviousState(this);
             this.view.getWaitingState().setNextState(nextState);
@@ -123,7 +123,8 @@ public class PlayState extends ViewState{
         }
         boolean flipped;
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel ");
-        answer = input.nextLine();
+        input.nextLine();
+        answer=input.nextLine();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){
              
             System.err.println("Wrong input... retry!! \nType the side of the card (front or back), or type 'exit' to cancel");

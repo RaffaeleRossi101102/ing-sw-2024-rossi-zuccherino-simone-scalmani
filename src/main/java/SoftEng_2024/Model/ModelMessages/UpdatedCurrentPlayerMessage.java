@@ -11,6 +11,9 @@ public class UpdatedCurrentPlayerMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setCurrentTurnPlayerNickname(currentPlayerNickname);
+        if(!rejoining)
+            view.getLocalModel().setCurrentTurnPlayerNickname(currentPlayerNickname);
+        else if (view.getLocalModel().getCurrentTurnPlayerNickname().isEmpty()) {
+            view.getLocalModel().setCurrentTurnPlayerNickname(currentPlayerNickname);        }
     }
 }

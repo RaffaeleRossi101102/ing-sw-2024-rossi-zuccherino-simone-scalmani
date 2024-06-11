@@ -62,7 +62,6 @@ public class RMIServer implements ServerInterface{
 
         });
         pingThread.start();
-
     }
 
     private void ping() {

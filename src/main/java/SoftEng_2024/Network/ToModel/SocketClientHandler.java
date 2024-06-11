@@ -43,7 +43,7 @@ public class SocketClientHandler extends Thread {
                 @Override
                 public void run() {
                         System.out.println("CLIENT CRASHED...");
-                        //rimuovo il client
+                        addToQueue(new QuitMessage(id));
                 }
             };
             timer.schedule(timerTask,1000, 5000);
@@ -58,8 +58,10 @@ public class SocketClientHandler extends Thread {
             }
         } catch (IOException e) {
             System.out.println("IO EXCEPTION...");
+            addToQueue(new QuitMessage(id));
         } catch (ClassNotFoundException e) {
             System.out.println("ERROR READING OBJECT...");
+            addToQueue(new QuitMessage(id));
         }finally {
             try {
                 Objects.requireNonNull(in).close();

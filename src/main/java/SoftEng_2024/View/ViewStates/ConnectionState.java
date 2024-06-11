@@ -139,20 +139,17 @@ public class ConnectionState extends ViewState {
     }
     private void reJoin(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Type the nickname you chose on first connection (max 20 char), or type 'exit' to cancel");
+        System.out.println("Type the nickname you chose when you first connected (max 20 char), or type 'exit' to cancel");
         String nickname = scanner.nextLine();
         while(nickname.length()>20){
             System.err.println("There are not nicknames this long in game, retry...");
             nickname = scanner.nextLine();
-
         }
-
         if(nickname.equals("exit")){
             commandChosen = false;
             return;
         }
-
-        ViewMessage msg = new ReJoin(this.ID, nickname);
+        ViewMessage msg = new ReJoinMessage(this.ID, nickname);
         updateClient(msg);
     }
 

@@ -78,7 +78,13 @@ public class Player {
 
     }
     //GETTERS
-
+    public PlayerObserver getPlayerObserver(){
+        for(PlayerObserver o:playerObservers){
+            if(o.getObservedNickname().equals(nickname))
+                return o;
+        }
+        return null;
+    }
     public String getNickname() {
         return nickname;
     }

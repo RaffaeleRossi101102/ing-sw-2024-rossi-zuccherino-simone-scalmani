@@ -1,6 +1,7 @@
 package SoftEng_2024.Model.Observers;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Game;
 import SoftEng_2024.Model.GoalCard.GoalCard;
@@ -19,16 +20,29 @@ public class GameObserver {
         this.game=game;
         this.networkManager=networkManager;
     }
-    public void updatedDeck(String nickname, Card topCard, int whichDeck){
+    public void updatedDeck(String nickname, Card topCard, int whichDeck) {
         //only sends the back resource
-        if(whichDeck==0)
-            notifyServer(new UpdatedResourceDeckMessage("",topCard.getResources()[4]));
-        else if(whichDeck==1)
-            notifyServer(new UpdatedGoldDeckMessage("",topCard.getResources()[4]));
-    }
-    public void updatedPublicCards(String nickname, int whichDeck){
+        if (topCard != null) {
+            if (whichDeck == 0)
+                notifyServer(new UpdatedResourceDeckMessage("", topCard.getResources()[4]));
+            else if (whichDeck == 1)
+                notifyServer(new UpdatedGoldDeckMessage("", topCard.getResources()[4]));
+        }
+        else{
+            if(whichDeck==0)
+                notifyServer(new UpdatedResourceDeckMessage("", Angles.EMPTY));
+            else if (whichDeck==1)
+                notifyServer(new UpdatedGoldDeckMessage("",Angles.EMPTY));
 
+        }
+
+    }
+    //notifies all the clients that someone drew from the public cards.
+    //the messages will contain both the new public cards and the resource of the new top card
+    public void updatedPublicCards(String nickname, int whichDeck){
         if(whichDeck==3){
+            notifyServer(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getResources()[4]));
+            notifyServer(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getResources()[4]));
             notifyServer(new UpdatedPublicCardsMessage("",game.getPublicCards()));
             return;
         }
@@ -40,7 +54,7 @@ public class GameObserver {
             }
             else{
                 //sending everyone the new top card of the resource deck
-                notifyServer(new UpdatedGoldDeckMessage(message,game.getResourceDeck().peek().getResources()[4]));
+                notifyServer(new UpdatedResourceDeckMessage(message,game.getResourceDeck().peek().getResources()[4]));
             }
         }
         else{
@@ -70,6 +84,15 @@ public class GameObserver {
     }
     public void updatedError(double receiverID,String errorMessage){
         notifyServer(new UpdatedErrorMessage(receiverID,errorMessage));
+    }
+    public void gameIsEnding(){
+        if(game.getGoldDeck().isEmpty() && game.getResourceDeck().isEmpty() && game.getPublicCards().isEmpty())
+            notifyServer(new GameIsEndingMessage("BOTH THE DECKS AND THE PUBLIC CARDS ARE EMPTY... THE GAME IS ENDING..."));
+        else
+            notifyServer(new GameIsEndingMessage("SOMEONE HAS REACHED 20 POINTS... THE GAME IS ENDING..."));
+    }
+    public void updatedWinners(List<String> winnersNickname){
+
     }
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);

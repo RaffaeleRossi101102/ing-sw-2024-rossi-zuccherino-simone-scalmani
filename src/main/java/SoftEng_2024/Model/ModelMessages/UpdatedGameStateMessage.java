@@ -12,6 +12,10 @@ public class UpdatedGameStateMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setGameState(gameState);
+        if(!rejoining)
+            view.getLocalModel().setGameState(gameState);
+        else if (view.getLocalModel().getGameState()==null) {
+            view.getLocalModel().setGameState(gameState);
+        }
     }
 }

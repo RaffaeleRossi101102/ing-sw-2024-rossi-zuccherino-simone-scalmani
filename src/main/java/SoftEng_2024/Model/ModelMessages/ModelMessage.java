@@ -8,10 +8,12 @@ public abstract class ModelMessage implements Serializable {
     double receiverID;
     String message;
     String senderNickname;
+    boolean rejoining;
     public ModelMessage(double ID, String message,String senderNickname) {
         this.receiverID = ID;
         this.message = message;
         this.senderNickname=senderNickname;
+        rejoining=false;
     }
 
     public String getSenderNickname() {
@@ -23,6 +25,9 @@ public abstract class ModelMessage implements Serializable {
     }
 
     public abstract void executeMessage(View view);
-    //TODO: set ack!!!!
+
+    public void setRejoining(boolean rejoining){
+        this.rejoining=rejoining;
+    }
 
 }

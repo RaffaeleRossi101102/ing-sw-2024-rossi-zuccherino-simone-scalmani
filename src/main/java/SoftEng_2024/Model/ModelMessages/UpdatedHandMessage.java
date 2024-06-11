@@ -15,7 +15,6 @@ public class UpdatedHandMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        //System.out.println("sono il messaggio riferito a"+ receiverID+" e il nickname di quello che ha cambiato le carte è: "+senderNickname);
         //se la mano non è la mia, quindi almeno una carta è nascosta, setto i valori nella mano degli altri
         if(playerHand.get(0).getFront().getHidden())
             view.getLocalModel().setOtherPlayersHand(senderNickname,playerHand);

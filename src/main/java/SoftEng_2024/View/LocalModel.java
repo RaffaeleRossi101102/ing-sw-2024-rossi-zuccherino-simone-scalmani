@@ -2,6 +2,7 @@ package SoftEng_2024.View;
 
 
 import SoftEng_2024.Model.Cards.*;
+import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.GoalCard.GoalCard;
@@ -14,6 +15,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
     private ConcurrentHashMap<String,List<Card>> otherPlayersHand;
+    private Angles topResourceCard;
+    private Angles topGoldCard;
     private String nickname;
     private volatile String currentTurnPlayerNickname;
     private List<Card> personalHand;
@@ -25,7 +28,7 @@ public class LocalModel {
     private List<String> winnersNickname;
     private volatile boolean ackReceived;
     private volatile boolean ackSuccessful;
-    private List<String> playersNickname;
+    private ConcurrentHashMap<String,Boolean> playersNickname;
     private List<Card> publicCards;
     private volatile List<String> errorLog;
     private ConcurrentLinkedDeque<String> chat;
@@ -40,7 +43,7 @@ public class LocalModel {
         playersColor= new ConcurrentHashMap<>();
         availableGoals=new ArrayList<>();
         winnersNickname= new ArrayList<>();
-        playersNickname= new ArrayList<>();
+        playersNickname= new ConcurrentHashMap<>();
         publicCards= new ArrayList<>();
         errorLog= new ArrayList<>();
         chat = new ConcurrentLinkedDeque<>();
@@ -88,7 +91,7 @@ public class LocalModel {
 
     public String getNickname() {return nickname;}
 
-    public List<String> getPlayersNickname() {return playersNickname;}
+    public ConcurrentHashMap<String,Boolean> getPlayersNickname() {return playersNickname;}
 
     public List<String> getWinnersNickname() {return winnersNickname;}
 
@@ -185,7 +188,7 @@ public class LocalModel {
 
     public void setPlayersNickname(String playersNickname) {
         System.out.println(playersNickname);
-        this.playersNickname.add(playersNickname);
+        this.playersNickname.put(playersNickname,true);
         if(!otherPlayersHand.containsKey(playersNickname))
             otherPlayersHand.put(nickname,new ArrayList<>());
         if(!playersColor.containsKey(playersNickname))
@@ -193,6 +196,9 @@ public class LocalModel {
         if(!playersBoards.containsKey(playersNickname)){
             playersBoards.put(playersNickname,new LocalBoard());
         }
+    }
+    public void setIfPlayerOnline(String nickname,Boolean isOnline){
+        this.playersNickname.replace(nickname,isOnline);
     }
     public void setLocalBoard(String nickname, Cell[][] board,ArrayList<Cell> cardList,int points,int[] anglesCounter){
         //System.out.println("setting local board");
@@ -216,6 +222,10 @@ public class LocalModel {
 
     public synchronized void setErrorLog(String error) {this.errorLog.add(error);}
 
+    public ConcurrentHashMap<String, LocalBoard> getPlayersBoards() {
+        return playersBoards;
+    }
+
     public void addToChat(String msg) {this.chat.add(msg);}
     public boolean getAllCardsArrived(){
         return this.allCardsArrived;
@@ -226,5 +236,27 @@ public class LocalModel {
 
     public void setFirstPlayer(boolean firstPlayer) {
         isFirstPlayer = firstPlayer;
+    }
+
+    public void setTopResourceCard(Angles topResourceCard) {
+        System.out.println("setting resource");
+        this.topResourceCard = topResourceCard;
+    }
+
+    public void setTopGoldCard(Angles topGoldCard) {
+        System.out.println("setting gold");
+        this.topGoldCard = topGoldCard;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public Angles getTopGoldCard() {
+        return topGoldCard;
+    }
+
+    public Angles getTopResourceCard() {
+        return topResourceCard;
     }
 }

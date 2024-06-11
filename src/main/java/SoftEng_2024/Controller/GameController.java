@@ -7,6 +7,7 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
+import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
@@ -245,19 +246,39 @@ public class GameController {
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (game.getGameState().equals(GameState.CONNECTION)){
+            if(clientPlayers.size()==1)
+                maxPlayers=0;
             Player removedPlayer = playerIdMap.remove(ID);
             clientPlayers.remove(removedPlayer);
             game.getPlayers().remove(removedPlayer);
-
+            game.getAckIdBindingMap().remove(ID);
+            game.getErrorMessageBindingMap().remove(ID);
+            playerObservers.remove(removedPlayer.getPlayerObserver());
+            //l'observer legato a quel player verrà raccolto dal garbage collector
         }else{
+            //if the game isn't in the connection state, the player will be set offline
             playerIdMap.get(ID).setOnline(false);
+            //if the game is in play state and the player disconnected during their turn, set them to not playing and make
+            //another player start their turn
             if (game.getGameState().equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
+                game.getAckIdBindingMap().remove(ID);
+                game.getErrorMessageBindingMap().remove(ID);
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
-                game.turnStart();
+                game.turnEnd(playerIdMap.get(ID).getNickname());
+                //TODO: SE è ARRIVATO A 20 PUNTI E POI QUITTA?
+            //and if the game isn't already in the play state, it will check if all the other players already did their move
             }else if(game.getGameState().ordinal()<GameState.PLAY.ordinal()){
+                game.getAckIdBindingMap().remove(ID);
+                game.getErrorMessageBindingMap().remove(ID);
                 checkIfNextState();
             }
-
+            int onlinePlayersCounter=0;
+            for(Player c:clientPlayers){
+                if(c.getIsOnline())
+                    onlinePlayersCounter++;
+            }
+            if(onlinePlayersCounter==1)
+                System.out.println("INIZIO COUNTER PER TERMINAZIONE DEL GIOCO");
         }
     }
 
@@ -291,21 +312,27 @@ public class GameController {
     }
 
     public void reJoinGame(String nickname, double ID){
-
         if (game.getGameState().equals(GameState.CONNECTION)){
-            //TODO: manda messaggio only connect
+            if(maxPlayers==0)
+                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
+            else
+                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
             return;
         }
-
         //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
         for (Double playerId : playerIdMap.keySet()) {
-
             if(nickname.equals(playerIdMap.get(playerId).getNickname())){
                 Player player = playerIdMap.remove(playerId);
                 playerIdMap.put(ID, player);
+                game.getAckIdBindingMap().put(ID,true);
+                game.getErrorMessageBindingMap().put(ID,"");
+
                 //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
                 System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
-                //notify reJoin Observer
+                PlayerObserver o=player.getPlayerObserver();
+                o.setReceiverID(ID);
+                o.
+                game.setAckIdBindingMap(ID,true);
                 return;
             }
         }
@@ -390,6 +417,8 @@ public class GameController {
         switch(result){
             case 1:
                 game.setAckIdBindingMap(ID,true);
+                //checks if the player reached 20 points, if that is true and everyone played their last turn, the game ends
+                game.checkIfIsLastTurn();
                 break;
             case -1:
                 sendErrorMessage(ID,"You tried to place a card where you couldn't! Please try placing it in a different place.");
@@ -414,6 +443,7 @@ public class GameController {
             case 1:
                 game.setAckIdBindingMap(ID,true);
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
+                game.turnEnd(player.getNickname());
                 break;
             case -1:
                 sendErrorMessage(ID,"You tried to draw a card during another player's turn! Please wait for your turn.");
@@ -428,7 +458,6 @@ public class GameController {
                 sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
                 break;
         }
-        checkingIfGameEnds(game.turnEnd());
         //notify the right observers
     }
     public void drawFromPublicCards(int card,double ID){
@@ -437,6 +466,9 @@ public class GameController {
         switch (result){
             case 1:
                 game.setAckIdBindingMap(ID,true);
+                playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
+                game.turnEnd(player.getNickname());
+
                 break;
             case -1:
                 sendErrorMessage(ID,"You tried to draw a card from the public cards but there are no more cards left!");
@@ -502,7 +534,7 @@ public class GameController {
                     //quindi, se ha svolto o meno l'operazione dello stato
                     if(player.getPlayerState().ordinal()<= game.getGameState().ordinal()){
                         found=true;
-                        System.out.println(player.getNickname()+player.getPlayerState()+ " il numero degli stati è P:"+ player.getPlayerState().ordinal() +" e G"+ game.getGameState().ordinal());
+                        //System.out.println(player.getNickname()+player.getPlayerState()+ " il numero degli stati è P:"+ player.getPlayerState().ordinal() +" e G"+ game.getGameState().ordinal());
                     }
                 }
             }

@@ -15,7 +15,7 @@ public class ChooseGoalState extends ViewState {
 
     @Override
     public void display() {
-        listenDefaultCommand();
+       // listenDefaultCommand();
         defaultCommand(GameState.SETCOLOR,"Waiting for all the players to choose a color");
         System.out.println("Now it's time to choose your private goal!");
         System.out.println("Type Choose Private Goal, Chat or Quit");

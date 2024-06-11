@@ -30,6 +30,7 @@ public class SetColorState extends ViewState{
                     commandChosen=true;
                     setColor();
                     view.setCommand("");
+                    listenDefaultCommand();
                     break;
                 case "chat":
                     writeInChat();

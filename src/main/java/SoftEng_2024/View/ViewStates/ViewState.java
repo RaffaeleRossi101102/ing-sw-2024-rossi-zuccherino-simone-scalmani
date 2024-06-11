@@ -187,7 +187,7 @@ public abstract class ViewState {
         }
         if (answer.equals("y")) {
             ViewMessage msg = new QuitMessage(this.ID);
-            updateClient(msg);
+            //updateClient(msg);
             System.exit(0);
         }
 

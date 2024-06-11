@@ -3,6 +3,7 @@ package SoftEng_2024.Model;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.GoalCard.GoalCard;
+import SoftEng_2024.Model.ModelMessages.GameIsEndingMessage;
 import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
@@ -121,18 +122,20 @@ public class Game {
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori
     //else, passa il turno al prossimo ritornando a turn start
-    public boolean turnEnd(){
-        gameEnd= false;
-        if((maxScore >= 20 && playerIndex == players.size() - 1) | (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
-            gameEnd = true;
+    public synchronized void turnEnd(String nickname){
+        if(nickname.equals(currentPlayer.getNickname())) {
+            checkIfIsLastTurn();
+            //questo è l'ultimo turno del current player
+            if (!checkIfGameEnd()) {
+//            currentPlayer.setPlayerState(GameState.NOTPLAYING);
+                if (playerIndex == players.size() - 1) {
+                    playerIndex = 0;
+                } else {
+                    playerIndex++;
+                }
+                turnStart();
+            }
         }
-        currentPlayer.setPlayerState(GameState.NOTPLAYING);
-        if(playerIndex == players.size()-1){
-            playerIndex = 0;
-        }else{
-            playerIndex++;
-        }
-        return gameEnd;
     }
     //metodo che aggiorna il model in base alla carta scelta dal client
     //ESISTE IL MODO PER ASCOLTARE SOLTANTO UN PLAYER?
@@ -288,6 +291,10 @@ public class Game {
 
     public Queue<Card> getResourceDeck() {
         return resourceDeck;
+    }
+
+    public GameObserver getGameObserver() {
+        return gameObserver;
     }
 
     public Queue<Card> getStarterDeck() {

@@ -24,40 +24,49 @@ public class DrawState extends ViewState{
             new EndGameState(view, client, ID).display();
         }else {
             System.out.println("Now, you have to draw a card from the 4 public cards or from one of the decks!");
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
             
-            String command = scanner.nextLine();
+//            String command = scanner.nextLine();
 
             while (!commandChosen) {
-                switch (command.trim().replaceAll("\\s+", "").toLowerCase()) {
+                switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "drawfromdeck":
                         commandChosen = true;
-                         
                         drawFromTheDeck();
+                        view.setCommand("");
+                        listenDefaultCommand();
                         break;
                     case "drawpubliccard":
                         commandChosen = true;
-                         
                         drawPublicCard();
+                        view.setCommand("");
+                        listenDefaultCommand();
                         break;
                     case "chat":
-                         
                         writeInChat();
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
                         break;
                     case "quit":
-                         
                         quit();
                         break;
+                    case "":
+                        break;
                     default:
-                         
                         System.err.println("Command not available... retry");
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Draw From Deck, Draw Public Card, Chat or Quit");
                         break;
                 }
-                if (commandChosen)
+                if (commandChosen) {
+                    view.getLocalModel().setPlayerState(GameState.NOTPLAYING);
+                    commandChosen=false;
                     break;
-                System.out.println("Type Play Card, Chat or Quit");
-                command = scanner.nextLine();
+                }
+//                System.out.println("Type Play Card, Chat or Quit");
             }
             this.view.getWaitingState().setPreviousState(this);
             this.view.getWaitingState().setNextState(nextState);

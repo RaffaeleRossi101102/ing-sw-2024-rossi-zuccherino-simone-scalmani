@@ -7,9 +7,11 @@ import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
+import SoftEng_2024.Model.Game;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.GoalCard.ResourceGoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
+import SoftEng_2024.Model.Player_and_Board.Player;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.util.ArrayList;
@@ -84,6 +86,45 @@ public class PlayerObserver {
 
     public void setReceiverID(double receiverID) {
         this.receiverID = receiverID;
+    }
+
+    public String getObservedNickname() {
+        return observedNickname;
+    }
+    //according to the game state, the player will be notified with the current situation
+    public void playerRejoining(Game game){
+        //loops until it gets the right player
+        for(Player p:game.getPlayers()){
+            if(p.getNickname().equals(observedNickname)){
+                //notifies the rejoining player with all the hands
+                notifyServer(new UpdatedHandMessage(receiverID,"",p.getHand(),observedNickname));
+                for(Player player: game.getPlayers()) {
+                    if (!player.getNickname().equals(observedNickname)) {
+                        List<Card> updatedHand = new ArrayList<>();
+                        for (Card card : player.getHand()) {
+                            updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources()));
+                        }
+                        updatedHand.get(0).getFront().setHidden(true);
+                        notifyServer(new UpdatedHandMessage(receiverID, "", player.getHand(), player.getNickname()));
+                        notifyServer(new UpdatedNicknameMessage(receiverID,"", player.getNickname(), false));
+                    }
+                }
+                game.getGameObserver().updatedPublicCards("",3);
+                if(game.getGameState().ordinal()>=GameState.SETCOLOR.ordinal()){
+
+                }
+
+
+
+                if(game.getGameState().ordinal()>GameState.STARTER.ordinal())
+
+                notifyServer(new UpdatedGameStateMessage("",game.getGameState()));
+                notifyServer(new UpdatedGameStateMessage("",game.getGameState()));
+
+               // notifyServer(new );
+
+            }
+        }
     }
 
     public void notifyServer(ModelMessage msg){
