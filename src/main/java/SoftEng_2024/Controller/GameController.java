@@ -479,7 +479,7 @@ public class GameController {
             case 0:
                 sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
         }
-        checkingIfGameEnds(game.turnEnd());
+
 
         //notify the right observers
     }

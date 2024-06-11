@@ -53,7 +53,7 @@ public class Game {
 
     }
 
-    public List<String> gameEnd() {
+    public void gameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
         List<String> nicknameWinners= new ArrayList<>();
@@ -107,17 +107,54 @@ public class Game {
                 nicknameWinners.add(players.get(i).getNickname());
             }
         }
-        return nicknameWinners;
+        gameObserver.updatedWinners(nicknameWinners);
+
     }
     //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
-    public void turnStart(){
-        while(!players.get(playerIndex).getIsOnline()){
-            playerIndex=(playerIndex+1)%players.size();
+    public synchronized void turnStart(){
+        if(!checkIfGameEnd()){
+            int onlinePlayersCounter = 0;
+            for (Player c : players) {
+                if (c.getIsOnline())
+                    onlinePlayersCounter++;
+            }
+            if (onlinePlayersCounter != 1) {
+                while (!players.get(playerIndex).getIsOnline()) {
+                    playerIndex = (playerIndex + 1) % players.size();
+                }
+                currentPlayer = players.get(playerIndex);
+                currentPlayer.setPlayerState(GameState.PLAY);
+                play = true;
+                gameObserver.updatedCurrentPlayer(currentPlayer.getNickname());
+            }
+
         }
-        currentPlayer = players.get(playerIndex);
-        currentPlayer.setPlayerState(GameState.PLAY);
-        play = true;
-        gameObserver.updatedCurrentPlayer(currentPlayer.getNickname());
+
+
+    }
+
+    private boolean checkIfGameEnd(){
+        boolean gameEnd = true;
+        for(Player p:players){
+            if(!p.getPlayerState().equals(GameState.ENDGAME) && p.getIsOnline()) {
+                gameEnd = false;
+                break;
+            }
+        }
+        if(gameEnd){
+            gameState=GameState.ENDGAME;
+            gameObserver.gameIsEnding();
+        }
+        return gameEnd;
+    }
+
+    public void checkIfIsLastTurn(){
+        if(maxScore>=20 | (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
+            for(int i=0; i<=playerIndex; i++){
+                if(!players.get(i).getPlayerState().equals(GameState.ENDGAME))
+                    players.get(i).setPlayerState(GameState.ENDGAME);
+            }
+        }
     }
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori

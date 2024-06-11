@@ -12,7 +12,6 @@ public class EndGameState extends ViewState {
 
     @Override
     public void display() {
-        System.out.println("Someone has reached 20 points!");
         System.out.println("Now the final scores will be calculated and we will declare the winner...");
         if (view.getLocalModel().getWinnersNickname().size()==1){
             System.out.println("CONGRATULATIONS "+view.getLocalModel().getWinnersNickname().get(0)+", YOU WON!!!!");
