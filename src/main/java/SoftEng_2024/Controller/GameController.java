@@ -311,34 +311,34 @@ public class GameController {
         game.setAckIdBindingMap(ID,true);
     }
 
-    public void reJoinGame(String nickname, double ID){
-        if (game.getGameState().equals(GameState.CONNECTION)){
-            if(maxPlayers==0)
-                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
-            else
-                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
-            return;
-        }
-        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
-        for (Double playerId : playerIdMap.keySet()) {
-            if(nickname.equals(playerIdMap.get(playerId).getNickname())){
-                Player player = playerIdMap.remove(playerId);
-                playerIdMap.put(ID, player);
-                game.getAckIdBindingMap().put(ID,true);
-                game.getErrorMessageBindingMap().put(ID,"");
-
-                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
-                System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
-                PlayerObserver o=player.getPlayerObserver();
-                o.setReceiverID(ID);
-                o.
-                game.setAckIdBindingMap(ID,true);
-                return;
-            }
-        }
-        System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-        //TODO notify observer for a failed reJoin by "nickname"
-    }
+//    public void reJoinGame(String nickname, double ID){
+//        if (game.getGameState().equals(GameState.CONNECTION)){
+//            if(maxPlayers==0)
+//                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
+//            else
+//                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
+//            return;
+//        }
+//        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
+//        for (Double playerId : playerIdMap.keySet()) {
+//            if(nickname.equals(playerIdMap.get(playerId).getNickname())){
+//                Player player = playerIdMap.remove(playerId);
+//                playerIdMap.put(ID, player);
+//                game.getAckIdBindingMap().put(ID,true);
+//                game.getErrorMessageBindingMap().put(ID,"");
+//
+//                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
+//                System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
+//                PlayerObserver o=player.getPlayerObserver();
+//                o.setReceiverID(ID);
+//                o.
+//                game.setAckIdBindingMap(ID,true);
+//                return;
+//            }
+//        }
+//        System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
+//        //TODO notify observer for a failed reJoin by "nickname"
+//    }
 
     public void playStarterCard(boolean flipped, double ID) {
         //piazza la carta starter del client che chiama il metodo
