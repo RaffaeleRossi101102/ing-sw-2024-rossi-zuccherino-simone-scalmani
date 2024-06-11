@@ -70,7 +70,7 @@ public class GameObserver {
         notifyServer(new UpdatedPublicCardsMessage(message,game.getPublicCards()));
     }
     public void updatedPublicGoals(GoalCard[] publicGoals){
-        notifyServer(new UpdatedPublicGoals("The public goals have been chosen",publicGoals));
+        notifyServer(new UpdatedPublicGoalsMessage("The public goals have been chosen",publicGoals));
     }
     public void updatedCurrentPlayer(String currentPlayerNick){
         notifyServer(new UpdatedCurrentPlayerMessage(currentPlayerNick+" is your turn to play!",currentPlayerNick));

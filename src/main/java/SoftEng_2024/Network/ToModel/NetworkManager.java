@@ -36,7 +36,7 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.STARTER | controller.getGame().getGameState()==GameState.SETCOLOR){
             pollThreaded();
         }
-
+        controller.updatePublicGoals();
         //I goal privati vengono aggiunti al player già nella addPlayer, da valutare se serve il metodo
         //oppure se tenerlo lì
         controller.handOutPrivateGoals();

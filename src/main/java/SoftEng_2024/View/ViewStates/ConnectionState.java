@@ -149,6 +149,11 @@ public class ConnectionState extends ViewState {
             commandChosen = false;
             return;
         }
+        try {
+            client.registerToServer(ID,client);
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
         ViewMessage msg = new ReJoinMessage(this.ID, nickname);
         updateClient(msg);
     }

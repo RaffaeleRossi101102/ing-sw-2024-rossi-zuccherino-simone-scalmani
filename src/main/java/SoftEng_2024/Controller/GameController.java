@@ -311,34 +311,34 @@ public class GameController {
         game.setAckIdBindingMap(ID,true);
     }
 
-//    public void reJoinGame(String nickname, double ID){
-//        if (game.getGameState().equals(GameState.CONNECTION)){
-//            if(maxPlayers==0)
-//                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
-//            else
-//                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
-//            return;
-//        }
-//        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
-//        for (Double playerId : playerIdMap.keySet()) {
-//            if(nickname.equals(playerIdMap.get(playerId).getNickname())){
-//                Player player = playerIdMap.remove(playerId);
-//                playerIdMap.put(ID, player);
-//                game.getAckIdBindingMap().put(ID,true);
-//                game.getErrorMessageBindingMap().put(ID,"");
-//
-//                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
-//                System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
-//                PlayerObserver o=player.getPlayerObserver();
-//                o.setReceiverID(ID);
-//                o.
-//                game.setAckIdBindingMap(ID,true);
-//                return;
-//            }
-//        }
-//        System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-//        //TODO notify observer for a failed reJoin by "nickname"
-//    }
+    public void reJoinGame(String nickname, double ID){
+        if (game.getGameState().equals(GameState.CONNECTION)){
+            if(maxPlayers==0)
+                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
+            else
+                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
+            return;
+        }
+        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
+        for (Double playerId : playerIdMap.keySet()) {
+            if(nickname.equals(playerIdMap.get(playerId).getNickname())){
+                Player player = playerIdMap.remove(playerId);
+                playerIdMap.put(ID, player);
+                game.getAckIdBindingMap().put(ID,true);
+                game.getErrorMessageBindingMap().put(ID,"");
+
+                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
+                System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
+                PlayerObserver o=player.getPlayerObserver();
+                o.setReceiverID(ID);
+                o.playerRejoining(game);
+                game.setAckIdBindingMap(ID,true);
+                return;
+            }
+        }
+        System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
+        //TODO notify observer for a failed reJoin by "nickname"
+    }
 
     public void playStarterCard(boolean flipped, double ID) {
         //piazza la carta starter del client che chiama il metodo
@@ -346,6 +346,8 @@ public class GameController {
             Player player = playerIdMap.get(ID);
             player.getHand().get(0).setFlipped(flipped);
             player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
+            if(player.getPlayerState().equals(game.getGameState()) & !player.getIsOnline())
+                player.setOnline(true);
             player.setPlayerState(GameState.SETCOLOR);
             game.setAckIdBindingMap(ID,true);
         }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
@@ -358,6 +360,7 @@ public class GameController {
     }
 
     public synchronized void setColor(Color color, double ID){
+        Player currentPLayer=playerIdMap.get(ID);
         //controlla se il player ha scelto un colore non ancora preso
         for(Player player: clientPlayers){
             if(!player.getColor().isEmpty()) {
@@ -367,7 +370,11 @@ public class GameController {
                 }
             }
         }
-        playerIdMap.get(ID).setColor(color);
+        currentPLayer.setColor(color);
+        //se il player è offline e ha recuperato, mettilo online!
+        if(currentPLayer.getPlayerState().equals(game.getGameState()) & !currentPLayer.getIsOnline()) {
+            currentPLayer.setOnline(true);
+        }
         playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
         game.setAckIdBindingMap(ID,true);
         //se ogni player ha scelto il colore cambio lo stato
@@ -391,7 +398,7 @@ public class GameController {
         //notify each client view for their own hand
     }
 
-    private void updatePublicGoals() {
+    public void updatePublicGoals() {
         GoalCard[] goalCards = new GoalCard[2];
         goalCards[0] = game.getGoalCardDeck().poll();
         goalCards[1] = game.getGoalCardDeck().poll();
@@ -405,8 +412,9 @@ public class GameController {
         privateGoal.remove(2-choice);
         player.setAvailableGoals(privateGoal);
         game.setAckIdBindingMap(ID,true);
-        //if the player will be the first one, set their state to PLAYING
         player.setPlayerState(GameState.NOTPLAYING);
+        if(!player.getIsOnline())
+            player.setOnline(true);
         //checks if all the players had already chosen their private goal
         checkIfNextState();
     }
@@ -537,6 +545,8 @@ public class GameController {
                         //System.out.println(player.getNickname()+player.getPlayerState()+ " il numero degli stati è P:"+ player.getPlayerState().ordinal() +" e G"+ game.getGameState().ordinal());
                     }
                 }
+                else
+                    System.err.println(player.getNickname());
             }
             if(!found){
                 //se i player online hanno fatto tutti l'operazione, chiamo un nuovo stato

@@ -13,6 +13,7 @@ public class UpdatedResourceDeckMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setTopResourceCard(topResource);
+        if(!rejoining | (rejoining & view.getLocalModel().getTopResourceCard()==null))
+            view.getLocalModel().setTopResourceCard(topResource);
     }
 }

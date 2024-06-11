@@ -11,7 +11,9 @@ public class UpdatedIsOnlineMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setIfPlayerOnline(senderNickname,isPlayerOnline);
-        System.err.println(message);
+        if (!rejoining | (rejoining & view.getLocalModel().getPlayersNickname().get(senderNickname) == null)) {
+            view.getLocalModel().setIfPlayerOnline(senderNickname, isPlayerOnline);
+            System.err.println(message);
+        }
     }
 }

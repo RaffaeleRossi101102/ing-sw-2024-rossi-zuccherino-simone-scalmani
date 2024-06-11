@@ -14,6 +14,7 @@ public class UpdatedPublicCardsMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        view.getLocalModel().setPublicCards(publicCards);
+        if(!rejoining | (rejoining & view.getLocalModel().getPublicCards().isEmpty()))
+         view.getLocalModel().setPublicCards(publicCards);
     }
 }

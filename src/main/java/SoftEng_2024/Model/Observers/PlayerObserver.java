@@ -5,17 +5,15 @@ import SoftEng_2024.Model.Cards.ResourceCard;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.Enums.GameState;
-import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
 import SoftEng_2024.Model.Game;
 import SoftEng_2024.Model.GoalCard.GoalCard;
-import SoftEng_2024.Model.GoalCard.ResourceGoalCard;
 import SoftEng_2024.Model.ModelMessages.*;
+import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PlayerObserver {
@@ -93,13 +91,16 @@ public class PlayerObserver {
     }
     //according to the game state, the player will be notified with the current situation
     public void playerRejoining(Game game){
+
         //loops until it gets the right player
         for(Player p:game.getPlayers()){
             if(p.getNickname().equals(observedNickname)){
-                //notifies the rejoining player with all the hands
-                notifyServer(new UpdatedHandMessage(receiverID,"",p.getHand(),observedNickname));
+                notifyServer(new UpdatedPlayerStateMessage(receiverID,"",p.getPlayerState(),p.getNickname()));
+                //notifies the rejoining player with all the hands only if the hand isn't null
+                if(p.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY))
+                    notifyServer(new UpdatedHandMessage(receiverID,"",p.getHand(),observedNickname));
                 for(Player player: game.getPlayers()) {
-                    if (!player.getNickname().equals(observedNickname)) {
+                    if (!player.getNickname().equals(observedNickname) & (player.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY))) {
                         List<Card> updatedHand = new ArrayList<>();
                         for (Card card : player.getHand()) {
                             updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources()));
@@ -111,18 +112,22 @@ public class PlayerObserver {
                 }
                 game.getGameObserver().updatedPublicCards("",3);
                 if(game.getGameState().ordinal()>=GameState.SETCOLOR.ordinal()){
-
+                    for(Player player: game.getPlayers()){
+                        if(!player.getColor().isEmpty())
+                            notifyServer(new UpdatedColorMessage("",player.getColor().get(0), player.getNickname() ));
+                    }
                 }
-
-
-
-                if(game.getGameState().ordinal()>GameState.STARTER.ordinal())
-
+                if(game.getGameState().ordinal()>=GameState.CHOOSEGOAL.ordinal()){
+                    notifyServer(new UpdatedPublicGoalsMessage("",game.getPublicGoals()));
+                }
+                if(game.getGameState().ordinal()>=GameState.PLAY.ordinal()){
+                    for(Player player:game.getPlayers()){
+                        Board board=player.getPlayerBoard();
+                        notifyServer(new UpdatedBoardMessage(receiverID,"", player.getNickname(), board.getCardBoard(),
+                                board.getCardList(), board.getAnglesCounter(), board.getScore()));
+                    }
+                }
                 notifyServer(new UpdatedGameStateMessage("",game.getGameState()));
-                notifyServer(new UpdatedGameStateMessage("",game.getGameState()));
-
-               // notifyServer(new );
-
             }
         }
     }

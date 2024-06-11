@@ -36,6 +36,7 @@ public class LocalModel {
     private volatile boolean allCardsArrived;
     private volatile boolean currentPlayerNotNull;
     private boolean isFirstPlayer;
+    private List<GoalCard> publicGoals;
 
     public LocalModel() {
         otherPlayersHand =new ConcurrentHashMap<>();
@@ -51,6 +52,7 @@ public class LocalModel {
         this.allCardsArrived=false;
         this.currentPlayerNotNull=false;
         this.isFirstPlayer=false;
+        this.publicGoals=new ArrayList<>();
     }
 
     //GETTERS******************************************************************
@@ -258,5 +260,14 @@ public class LocalModel {
 
     public Angles getTopResourceCard() {
         return topResourceCard;
+    }
+
+    public List<GoalCard> getPublicGoals() {
+        return publicGoals;
+    }
+
+    public void setPublicGoals(GoalCard[] publicGoals) {
+        this.publicGoals.add(publicGoals[0]);
+        this.publicGoals.add(publicGoals[1]);
     }
 }
