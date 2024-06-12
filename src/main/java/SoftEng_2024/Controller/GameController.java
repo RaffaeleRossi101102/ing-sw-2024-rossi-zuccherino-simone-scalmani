@@ -311,7 +311,7 @@ public class GameController {
         game.setAckIdBindingMap(ID,true);
     }
 
-    public void reJoinGame(String nickname, double ID){
+    public synchronized void reJoinGame(String nickname, double ID){
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(maxPlayers==0)
                 sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
@@ -337,7 +337,8 @@ public class GameController {
             }
         }
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-        //TODO notify observer for a failed reJoin by "nickname"
+        sendErrorMessage(ID,"The nickname you chose doesn't belong to anyone! Please insert the nickname you had before disconnecting...");
+        
     }
 
     public void playStarterCard(boolean flipped, double ID) {
@@ -532,7 +533,7 @@ public class GameController {
         game.setAckIdBindingMap(ID,false);
     }
 
-    private void checkIfNextState(){
+    private synchronized void checkIfNextState(){
             boolean found=false;
             //per ogni player
             for(Player player: clientPlayers){

@@ -188,16 +188,17 @@ public class LocalModel {
         System.out.println(nickname);
     }
 
-    public void setPlayersNickname(String playersNickname) {
-        System.out.println(playersNickname);
+    public synchronized void setPlayersNickname(String playersNickname) {
+
         this.playersNickname.put(playersNickname,true);
         if(!otherPlayersHand.containsKey(playersNickname))
-            otherPlayersHand.put(nickname,new ArrayList<>());
-        if(!playersColor.containsKey(playersNickname))
-            playersColor.put(nickname, Color.EMPTY);
+            otherPlayersHand.put(playersNickname,new ArrayList<>());
+//        if(!playersColor.containsKey(playersNickname))
+//            playersColor.put(playersNickname, Color.EMPTY);
         if(!playersBoards.containsKey(playersNickname)){
             playersBoards.put(playersNickname,new LocalBoard());
         }
+        System.out.println(playersNickname);
     }
     public void setIfPlayerOnline(String nickname,Boolean isOnline){
         this.playersNickname.replace(nickname,isOnline);

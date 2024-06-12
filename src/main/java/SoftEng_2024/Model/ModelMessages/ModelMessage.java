@@ -29,5 +29,11 @@ public abstract class ModelMessage implements Serializable {
     public void setRejoining(boolean rejoining){
         this.rejoining=rejoining;
     }
+    public boolean getRejoining(){
+        return this.rejoining;
+    }
 
+    public void setReceiverID(double receiverID) {
+        this.receiverID = receiverID;
+    }
 }

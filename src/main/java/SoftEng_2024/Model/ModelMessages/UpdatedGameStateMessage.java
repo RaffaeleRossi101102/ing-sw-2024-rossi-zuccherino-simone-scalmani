@@ -12,7 +12,7 @@ public class UpdatedGameStateMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        if(!rejoining | (rejoining & view.getLocalModel().getGameState()==null))
+        if(!rejoining | (rejoining & view.getLocalModel().getGameState().equals(GameState.CONNECTION)))
             view.getLocalModel().setGameState(gameState);
     }
 }

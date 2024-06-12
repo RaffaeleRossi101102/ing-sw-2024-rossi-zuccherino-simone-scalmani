@@ -14,14 +14,16 @@ public class RejoinState extends ViewState{
         System.out.println("lo stato è "+view.getLocalModel().getPlayerState());
             ViewState nextState;
             switch(view.getLocalModel().getPlayerState()){
+                case CONNECTION:
                 case STARTER:
-                    nextState = new StarterState(view, client, ID);
+                    nextState= new StarterState(view,client,ID);
                     break;
                 case SETCOLOR:
                     nextState = new SetColorState(view, client, ID);
                     break;
                 case CHOOSEGOAL:
                     nextState = new ChooseGoalState(view, client, ID);
+                    listenDefaultCommand();
                     break;
                 case NOTPLAYING:
                     nextState = new ReadyToStartState(view, client, ID);
