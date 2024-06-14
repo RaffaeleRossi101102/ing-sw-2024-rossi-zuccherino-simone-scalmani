@@ -42,7 +42,7 @@ class CardsPackageTesting {
     void ResourcePrintableCardStringFlipped() {
         boolean flipped = true;
         ResourceFront printableFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0, new boolean[]{false, false, false, false});
-        ResourceCard printableCard = new ResourceCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS});
+        ResourceCard printableCard = new ResourceCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
         String printableCardString = printableCard.getPrintableCardString(flipped);
         assertEquals(String.format("%s resource card on its back with empty visible angles and a visible %s in the center", printableCard.getResources()[4], printableCard.getResources()[4]), printableCardString);
     }
@@ -51,7 +51,7 @@ class CardsPackageTesting {
     void ResourcePrintableCardStringNotFlipped() {
         boolean flipped = false;
         ResourceFront printableFront = new ResourceFront(new Angles[]{Angles.FUNGI, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0, new boolean[]{false, false, false, false});
-        ResourceCard printableCard = new ResourceCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS});
+        ResourceCard printableCard = new ResourceCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
         String printableCardString = printableCard.getPrintableCardString(flipped);
         assertEquals(String.format("%s resource card on its front with these type of angles: %s %s %s %s\n" +
                 "and nothing in the center", printableCard.getResources()[4], printableCard.getFront().getFrontAngles()[0], printableCard.getFront().getFrontAngles()[1], printableCard.getFront().getFrontAngles()[2], printableCard.getFront().getFrontAngles()[3]), printableCardString);
@@ -61,7 +61,7 @@ class CardsPackageTesting {
     void StarterPrintableCardStringFlipped() {
         boolean flipped = true;
         ResourceFront printableFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
-        StarterCard printableCard = new StarterCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY});
+        StarterCard printableCard = new StarterCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0);
         String printableCardString = printableCard.getPrintableCardString(flipped);
         assertEquals(String.format("starter card on its back with these type of angles:\n" +
                 "%s %s %s %s \n" +
@@ -72,7 +72,7 @@ class CardsPackageTesting {
     void StarterPrintableCardStringNotFlipped() {
         boolean flipped = false;
         ResourceFront printableFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
-        StarterCard printableCard = new StarterCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY});
+        StarterCard printableCard = new StarterCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0);
         String printableCardString = printableCard.getPrintableCardString(flipped);
         assertEquals(String.format("starter card on its front with these type of angles:%s %s %s %s\n" +
                 "and these resources in the center:\n" +
@@ -83,7 +83,7 @@ class CardsPackageTesting {
     void GoldPrintableCardStringFlipped() {
         boolean flipped = true;
         GoldFront printableFront = new GoldFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false}, ScoreTypes.STATIC, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY});
-        GoldCard printableCard = new GoldCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY});
+        GoldCard printableCard = new GoldCard(printableFront, flipped, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0);
         String printableCardString = printableCard.getPrintableCardString(flipped);
         assertEquals(String.format("%s gold card on its back with empty visible angles, no required resources to place and a visible %s in the center",
                 printableCard.getResources()[4], printableCard.getResources()[4]), printableCardString);

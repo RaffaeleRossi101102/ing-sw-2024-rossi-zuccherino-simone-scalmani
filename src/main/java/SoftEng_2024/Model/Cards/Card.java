@@ -9,14 +9,19 @@ public abstract class Card implements Serializable {
     private Front front;
     private boolean flipped;
     private Angles[] resource;
+    private int cardID;
 
     //METHODS
-    public Card(Front front, boolean flipped, Angles[] resource){
-        this.front=front;
-        this.flipped=flipped;
-        this.resource=resource;
+    public Card(Front front, boolean flipped, Angles[] resource, int cardID) {
+        this.front = front;
+        this.flipped = flipped;
+        this.resource = resource;
+        this.cardID = cardID;
     }
     //GETTERS
+    public int getCardID(){
+        return cardID;
+    }
 
     public boolean getFlipped() {
         return flipped;
@@ -79,5 +84,4 @@ public abstract class Card implements Serializable {
         return clone;
     }
     public abstract String[] printCard();
-
 }

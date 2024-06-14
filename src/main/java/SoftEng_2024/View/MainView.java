@@ -3,6 +3,8 @@ package SoftEng_2024.View;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ClientRMI;
 import SoftEng_2024.Network.ToModel.SocketClient;
+import javafx.application.Application;
+
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -10,12 +12,19 @@ public class MainView {
 
 
     public static void main(String[] args) throws RemoteException {
+        System.out.println("\n" +
+                " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
+                "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
+                "██║     ██║   ██║██║  ██║█████╗   ╚███╔╝     ██╔██╗ ██║███████║   ██║   ██║   ██║██████╔╝███████║██║     ██║███████╗\n" +
+                "██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗     ██║╚██╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║╚════██║\n" +
+                "╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗    ██║ ╚████║██║  ██║   ██║   ╚██████╔╝██║  ██║██║  ██║███████╗██║███████║\n" +
+                " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n");
         //creating a random ID based on currentTimeMillis() method
         double ID = System.currentTimeMillis();
         System.out.println("Welcome to CODEX NATURALIS!");
         //Ask user which type of connection he wants to use
         System.out.println("Choose your type of connection, type: 'RMI' or 'Socket' ");
-        Scanner scan= new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         String connectionType;
         connectionType= scan.nextLine().trim().toLowerCase().replaceAll("\\s+", "");
         while(!connectionType.equals("rmi") && !connectionType.equals("socket")){
@@ -53,7 +62,12 @@ public class MainView {
             cliView.run();
         }
         else {
-            System.out.println("La gui nun ce sta per ora, paolo incoming :)");
+            GUIMain guiView = new GUIMain();
+            client.setView(guiView);
+            GUIMain.setID(ID);
+            GUIMain.setClient(client);
+            GUIMain.setLocalModel(new LocalModel());
+            guiView.run();
         }
     }
 

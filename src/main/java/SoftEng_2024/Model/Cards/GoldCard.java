@@ -5,8 +5,8 @@ import SoftEng_2024.Model.Fronts.Front;
 
 public class GoldCard extends ResourceCard{
     //CONSTRUCTORS
-    public GoldCard(Front front, Boolean flipped, Angles[] resource){
-        super(front,flipped,resource);
+    public GoldCard(Front front, Boolean flipped, Angles[] resource, int cardID) {
+        super(front, flipped, resource, cardID);
     }
     //overriding superclass' method
     @Override

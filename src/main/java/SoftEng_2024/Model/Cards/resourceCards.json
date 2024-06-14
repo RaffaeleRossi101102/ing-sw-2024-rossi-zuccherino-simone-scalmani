@@ -7,7 +7,8 @@
       "INVISIBLE"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 1
   },
   {
     "angles": [
@@ -17,7 +18,8 @@
       "EMPTY"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 2
   },
   {
     "angles": [
@@ -27,7 +29,8 @@
       "FUNGI"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 3
   },
   {
     "angles": [
@@ -37,7 +40,8 @@
       "FUNGI"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 4
   },
   {
     "angles": [
@@ -47,7 +51,8 @@
       "FUNGI"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 5
   },
   {
     "angles": [
@@ -57,7 +62,8 @@
       "ANIMALS"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 6
   },
   {
     "angles": [
@@ -67,7 +73,8 @@
       "EMPTY"
     ],
     "backResource": "FUNGI",
-    "points": 0
+    "points": 0,
+    "cardID": 7
   },
   {
     "angles": [
@@ -77,7 +84,8 @@
       "INVISIBLE"
     ],
     "backResource": "FUNGI",
-    "points": 1
+    "points": 1,
+    "cardID": 8
   },
   {
     "angles": [
@@ -87,7 +95,8 @@
       "EMPTY"
     ],
     "backResource": "FUNGI",
-    "points": 1
+    "points": 1,
+    "cardID": 9
   },
   {
     "angles": [
@@ -97,7 +106,8 @@
       "EMPTY"
     ],
     "backResource": "FUNGI",
-    "points": 1
+    "points": 1,
+    "cardID": 10
   },
   {
     "angles": [
@@ -107,7 +117,8 @@
       "INVISIBLE"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 11
   },
   {
     "angles": [
@@ -117,7 +128,8 @@
       "EMPTY"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 12
   },
   {
     "angles": [
@@ -127,7 +139,8 @@
       "PLANTS"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 13
   },
   {
     "angles": [
@@ -137,7 +150,8 @@
       "PLANTS"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 14
   },
   {
     "angles": [
@@ -147,7 +161,8 @@
       "PLANTS"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 15
   },
   {
     "angles": [
@@ -157,7 +172,8 @@
       "INK"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 16
   },
   {
     "angles": [
@@ -167,7 +183,8 @@
       "ANIMALS"
     ],
     "backResource": "PLANTS",
-    "points": 0
+    "points": 0,
+    "cardID": 17
   },
   {
     "angles": [
@@ -177,7 +194,8 @@
       "INVISIBLE"
     ],
     "backResource": "PLANTS",
-    "points": 1
+    "points": 1,
+    "cardID": 18
   },
   {
     "angles": [
@@ -187,7 +205,8 @@
       "PLANTS"
     ],
     "backResource": "PLANTS",
-    "points": 1
+    "points": 1,
+    "cardID": 19
   },
   {
     "angles": [
@@ -197,7 +216,8 @@
       "EMPTY"
     ],
     "backResource": "PLANTS",
-    "points": 1
+    "points": 1,
+    "cardID": 20
   },
   {
     "angles": [
@@ -207,7 +227,8 @@
       "INVISIBLE"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 21
   },
   {
     "angles": [
@@ -217,7 +238,8 @@
       "ANIMALS"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 22
   },
   {
     "angles": [
@@ -227,7 +249,8 @@
       "EMPTY"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 23
   },
   {
     "angles": [
@@ -237,7 +260,8 @@
       "ANIMALS"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 24
   },
   {
     "angles": [
@@ -247,7 +271,8 @@
       "ANIMALS"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 25
   },
   {
     "angles": [
@@ -257,7 +282,8 @@
       "SCROLL"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 26
   },
   {
     "angles": [
@@ -267,7 +293,8 @@
       "FUNGI"
     ],
     "backResource": "ANIMALS",
-    "points": 0
+    "points": 0,
+    "cardID": 27
   },
   {
     "angles": [
@@ -277,7 +304,8 @@
       "EMPTY"
     ],
     "backResource": "ANIMALS",
-    "points": 1
+    "points": 1,
+    "cardID": 28
   },
   {
     "angles": [
@@ -287,7 +315,8 @@
       "ANIMALS"
     ],
     "backResource": "ANIMALS",
-    "points": 1
+    "points": 1,
+    "cardID": 29
   },
   {
     "angles": [
@@ -297,7 +326,8 @@
       "INVISIBLE"
     ],
     "backResource": "ANIMALS",
-    "points": 1
+    "points": 1,
+    "cardID": 30
   },
   {
     "angles": [
@@ -307,7 +337,8 @@
       "INVISIBLE"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 31
   },
   {
     "angles": [
@@ -317,7 +348,8 @@
       "INSECTS"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 32
   },
   {
     "angles": [
@@ -327,7 +359,8 @@
       "EMPTY"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 33
   },
   {
     "angles": [
@@ -337,7 +370,8 @@
       "INSECTS"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 34
   },
   {
     "angles": [
@@ -347,7 +381,8 @@
       "INSECTS"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 35
   },
   {
     "angles": [
@@ -357,7 +392,8 @@
       "FUNGI"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 36
   },
   {
     "angles": [
@@ -367,7 +403,8 @@
       "INVISIBLE"
     ],
     "backResource": "INSECTS",
-    "points": 0
+    "points": 0,
+    "cardID": 37
   },
   {
     "angles": [
@@ -377,7 +414,8 @@
       "EMPTY"
     ],
     "backResource": "INSECTS",
-    "points": 1
+    "points": 1,
+    "cardID": 38
   },
   {
     "angles": [
@@ -387,7 +425,8 @@
       "INSECTS"
     ],
     "backResource": "INSECTS",
-    "points": 1
+    "points": 1,
+    "cardID": 39
   },
   {
     "angles": [
@@ -397,6 +436,7 @@
       "EMPTY"
     ],
     "backResource": "INSECTS",
-    "points": 1
+    "points": 1,
+    "cardID": 40
   }
 ]

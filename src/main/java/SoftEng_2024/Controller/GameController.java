@@ -85,60 +85,60 @@ public class GameController {
         points = 2;
 
         objects = new Angles[]{Angles.FEATHER, Angles.FEATHER};
-        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of feathers on the board", points));
+        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of feathers on the board", points), 102);
         goalCardArrayList.add(goal);
 
 
         objects = new Angles[]{Angles.SCROLL, Angles.SCROLL};
-        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of scrolls on the board", points));
+        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of scrolls on the board", points), 100);
         goalCardArrayList.add(goal);
 
         objects = new Angles[]{Angles.INK, Angles.INK};
-        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of inks on the board", points));
+        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each pair of inks on the board", points), 101);
         goalCardArrayList.add(goal);
 
         points = 3;
         objects = new Angles[]{Angles.FEATHER, Angles.INK, Angles.SCROLL};
-        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each triplet of different objects on the board", points));
+        goal = new ObjectsGoalCard(objects, points, String.format("Get %s points for each triplet of different objects on the board", points), 99);
         goalCardArrayList.add(goal);
 
         //ResourceGoal
         points = 2;
         resource = Angles.FUNGI;
-        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of mushrooms on the board", points));
+        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of mushrooms on the board", points), 95);
         goalCardArrayList.add(goal);
 
         resource = Angles.PLANTS;
-        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of plants on the board", points));
+        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of plants on the board", points), 96);
         goalCardArrayList.add(goal);
 
         resource = Angles.INSECTS;
-        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of insects on the board", points));
+        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of insects on the board", points), 97);
         goalCardArrayList.add(goal);
 
         resource = Angles.ANIMALS;
-        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of animals on the board", points));
+        goal = new ResourceGoalCard(resource, points, String.format("Get %s points for each triplet of animals on the board", points), 98);
         goalCardArrayList.add(goal);
 
         //DiagonalGoal
         resource = Angles.FUNGI;
         tiltedForward = true;
-        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each ascending diagonal pattern of mushroom cards on the board", points));
+        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each ascending diagonal pattern of mushroom cards on the board", points), 87);
         goalCardArrayList.add(goal);
 
         resource = Angles.PLANTS;
         tiltedForward = false;
-        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each descending diagonal pattern of plant cards on the board", points));
+        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each descending diagonal pattern of plant cards on the board", points), 88);
         goalCardArrayList.add(goal);
 
         resource = Angles.ANIMALS;
         tiltedForward = true;
-        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each ascending diagonal pattern of animal cards on the board", points));
+        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each ascending diagonal pattern of animal cards on the board", points), 89);
         goalCardArrayList.add(goal);
 
         resource = Angles.INSECTS;
         tiltedForward = false;
-        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each descending diagonal pattern of insect cards on the board", points));
+        goal = new DiagonalGoalCard(resource, points, tiltedForward, String.format("Get %s points for each descending diagonal pattern of insect cards on the board", points), 90);
         goalCardArrayList.add(goal);
 
         //StepGoalCard
@@ -147,28 +147,28 @@ public class GameController {
         sideResource = Angles.FUNGI;
         baseTop = false;
         sideLeft = true;
-        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource));
+        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 91);
         goalCardArrayList.add(goal);
 
         baseResource = Angles.INSECTS;
         sideResource = Angles.PLANTS;
         baseTop = false;
         sideLeft = false;
-        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the side on the right: ┘) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource));
+        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the side on the right: ┘) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 92);
         goalCardArrayList.add(goal);
 
         baseResource = Angles.FUNGI;
         sideResource = Angles.ANIMALS;
         baseTop = true;
         sideLeft = true;
-        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the base on top: ┌) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource));
+        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the base on top: ┌) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 93);
         goalCardArrayList.add(goal);
 
         baseResource = Angles.ANIMALS;
         sideResource = Angles.INSECTS;
         baseTop = true;
         sideLeft = false;
-        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the base on top and side on the right: ┐) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource));
+        goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the base on top and side on the right: ┐) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 94);
         goalCardArrayList.add(goal);
 
 

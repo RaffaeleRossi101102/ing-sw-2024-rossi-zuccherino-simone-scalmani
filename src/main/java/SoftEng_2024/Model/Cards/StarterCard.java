@@ -10,8 +10,8 @@ public class StarterCard extends Card implements Serializable {
     //private ResourceFront front;
 
     //CONSTRUCTOR
-    public StarterCard(Front front, Boolean flipped, Angles[] resource){
-        super(front,flipped,resource);
+    public StarterCard(Front front, Boolean flipped, Angles[] resource, int cardID) {
+        super(front, flipped, resource,cardID);
     }
 
     //overriding superclass' method

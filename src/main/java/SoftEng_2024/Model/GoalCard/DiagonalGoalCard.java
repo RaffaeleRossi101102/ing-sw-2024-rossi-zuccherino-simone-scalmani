@@ -13,8 +13,8 @@ public class DiagonalGoalCard extends GoalCard {
     private final Angles resource;
     private boolean tiltedForward;
 
-    public DiagonalGoalCard(Angles resource, int points, boolean tiltedForward, String goaltype) {
-        super(points, goaltype);
+    public DiagonalGoalCard(Angles resource, int points, boolean tiltedForward, String goaltype, int cardID) {
+        super(points, goaltype, cardID);
         this.resource=resource;
         this.tiltedForward = tiltedForward;
     }

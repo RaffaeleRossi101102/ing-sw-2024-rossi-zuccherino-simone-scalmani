@@ -72,7 +72,7 @@ public class CardDeserializer {
                 }
                 resourcesTemp[4] = Angles.valueOf(card.backResource);
                 Front resourceFront = new ResourceFront(frontAnglesTemp, card.points, covered);
-                Card resourceCard = new ResourceCard(resourceFront, flipped, resourcesTemp);
+                Card resourceCard = new ResourceCard(resourceFront, flipped, resourcesTemp, card.cardID);
                 resourceDeck.add(resourceCard);
             }
         } catch (IOException e) {
@@ -107,7 +107,7 @@ public class CardDeserializer {
                 String scoreTypeTemp = card.scoreType;
                 resourcesTemp[4] = Angles.valueOf(card.backResource);
                 Front goldFront = new GoldFront(frontAnglesTemp, card.points, covered, ScoreTypes.valueOf(scoreTypeTemp), requiredResourcesTemp);
-                Card goldCard = new GoldCard(goldFront, flipped, resourcesTemp);
+                Card goldCard = new GoldCard(goldFront, flipped, resourcesTemp, card.cardID);
                 goldDeck.add(goldCard);
             }
         } catch (IOException e) {
@@ -138,7 +138,7 @@ public class CardDeserializer {
                     startingBackResourcesTemp[j] = Angles.valueOf(card.startingBackResources[j]);
                 }
                 Front starterFront = new ResourceFront(startingResourcesTemp, points, covered);
-                Card starterCard = new StarterCard(starterFront, flipped, startingBackResourcesTemp);
+                Card starterCard = new StarterCard(starterFront, flipped, startingBackResourcesTemp, card.cardID);
                 starterDeck.add(starterCard);
             }
         } catch (IOException e) {

@@ -1,0 +1,83 @@
+.button_generic {
+    -fx-background-color: #432918;
+    -fx-background-radius: 30 30 30 30;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 30px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 100 70;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button_generic:hover {
+    -fx-background-color: #5e3a22;
+    -fx-background-radius: 30 30 30 30;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 30px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 100 70;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button_generic:pressed {
+    -fx-background-color: #5e3a22;
+    -fx-background-radius: 30 30 30 30;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 30px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 120 70;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-scale-x: 0.99;
+    -fx-scale-y: 0.99;
+}
+
+.button_smaller {
+    -fx-background-color: #5e3a22;
+    -fx-background-radius: 0 0 10 10;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 11px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 40 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button_smaller_2 {
+    -fx-background-color: #432918;
+    -fx-background-radius: 10 10 10 10;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 40 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button_smaller_2:hover {
+    -fx-background-color: #5e3a22;
+    -fx-background-radius: 10 10 10 10;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 40 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.button_smaller_2:pressed {
+    -fx-background-color: #5e3a22;
+    -fx-background-radius: 10 10 10 10;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 40 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-scale-x: 0.99;
+    -fx-scale-y: 0.99;
+}
+
+.button_smaller-alert {
+    -fx-background-color: #ff0000;
+    -fx-background-radius: 0 0 10 10;
+    -fx-font-family: "LT Cushion Black";
+    -fx-font-size: 11px;
+    -fx-text-fill: #ffffff;
+    -fx-background-size: 40 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}

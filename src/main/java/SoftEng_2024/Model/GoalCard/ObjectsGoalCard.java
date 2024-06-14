@@ -8,8 +8,8 @@ public class ObjectsGoalCard extends GoalCard {
     // Array di oggetti nel Goal
     private final Angles[] objects;
     // Costruttore
-    public ObjectsGoalCard(Angles[] objects, int points, String goaltype){
-        super(points, goaltype);
+    public ObjectsGoalCard(Angles[] objects, int points, String goaltype, int cardID){
+        super(points, goaltype, cardID);
         this.objects=objects;
     }
 

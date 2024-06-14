@@ -14,14 +14,14 @@ import static java.lang.Thread.sleep;
 
 public class CliViewClient implements View {
     public Thread clientQueueExecutor;
-     public ClientInterface client;
+    public ClientInterface client;
     private String command="";
     double ID;
     ViewState viewState;
     WaitingState waitingState;
     private final LocalModel localModel;
 
-    public CliViewClient(double ID,ClientInterface client){
+    public CliViewClient(double ID, ClientInterface client){
         this.ID=ID;
         this.client=client;
         localModel = new LocalModel();

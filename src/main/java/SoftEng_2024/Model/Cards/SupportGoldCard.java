@@ -6,4 +6,5 @@ public class SupportGoldCard {
     int points;
     String scoreType;
     String[] requiredResources;
+    int cardID;
 }

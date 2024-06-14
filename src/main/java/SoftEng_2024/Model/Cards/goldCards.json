@@ -15,9 +15,9 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
-  }
-,
+    ],
+    "cardID": 41
+  },
   {
     "angles": [
       "EMPTY",
@@ -34,14 +34,16 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 42
   },
-  { "angles": [
-    "SCROLL",
-    "EMPTY",
-    "EMPTY",
-    "INVISIBLE"
-  ],
+  {
+    "angles": [
+      "SCROLL",
+      "EMPTY",
+      "EMPTY",
+      "INVISIBLE"
+    ],
     "backResource": "FUNGI",
     "points": 1,
     "scoreType": "SCROLL",
@@ -51,7 +53,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 43
   },
   {
     "angles": [
@@ -69,7 +72,8 @@
       "FUNGI",
       "ANIMALS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 44
   },
   {
     "angles": [
@@ -87,7 +91,8 @@
       "FUNGI",
       "PLANTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 45
   },
   {
     "angles": [
@@ -105,7 +110,8 @@
       "FUNGI",
       "INSECTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 46
   },
   {
     "angles": [
@@ -123,7 +129,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 47
   },
   {
     "angles": [
@@ -141,7 +148,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 48
   },
   {
     "angles": [
@@ -159,7 +167,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 49
   },
   {
     "angles": [
@@ -177,7 +186,8 @@
       "FUNGI",
       "FUNGI",
       "FUNGI"
-    ]
+    ],
+    "cardID": 50
   },
   {
     "angles": [
@@ -195,7 +205,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 51
   },
   {
     "angles": [
@@ -213,7 +224,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 52
   },
   {
     "angles": [
@@ -231,7 +243,8 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 53
   },
   {
     "angles": [
@@ -249,7 +262,8 @@
       "PLANTS",
       "INSECTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 54
   },
   {
     "angles": [
@@ -267,7 +281,8 @@
       "PLANTS",
       "ANIMALS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 55
   },
   {
     "angles": [
@@ -285,7 +300,8 @@
       "PLANTS",
       "FUNGI",
       "EMPTY"
-    ]
+    ],
+    "cardID": 56
   },
   {
     "angles": [
@@ -303,7 +319,8 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 57
   },
   {
     "angles": [
@@ -321,7 +338,8 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 58
   },
   {
     "angles": [
@@ -339,7 +357,8 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 59
   },
   {
     "angles": [
@@ -357,7 +376,8 @@
       "PLANTS",
       "PLANTS",
       "PLANTS"
-    ]
+    ],
+    "cardID": 60
   },
   {
     "angles": [
@@ -375,7 +395,8 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 61
   },
   {
     "angles": [
@@ -393,7 +414,8 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 62
   },
   {
     "angles": [
@@ -411,7 +433,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 63
   },
   {
     "angles": [
@@ -429,7 +452,8 @@
       "INSECTS",
       "ANIMALS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 64
   },
   {
     "angles": [
@@ -447,7 +471,8 @@
       "INSECTS",
       "PLANTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 65
   },
   {
     "angles": [
@@ -465,7 +490,8 @@
       "INSECTS",
       "FUNGI",
       "EMPTY"
-    ]
+    ],
+    "cardID": 66
   },
   {
     "angles": [
@@ -483,7 +509,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 67
   },
   {
     "angles": [
@@ -501,7 +528,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 68
   },
   {
     "angles": [
@@ -519,7 +547,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 69
   },
   {
     "angles": [
@@ -537,7 +566,8 @@
       "INSECTS",
       "INSECTS",
       "INSECTS"
-    ]
+    ],
+    "cardID": 70
   },
   {
     "angles": [
@@ -555,7 +585,8 @@
       "INSECTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 71
   },
   {
     "angles": [
@@ -573,7 +604,8 @@
       "PLANTS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 72
   },
   {
     "angles": [
@@ -591,7 +623,8 @@
       "FUNGI",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 73
   },
   {
     "angles": [
@@ -609,7 +642,8 @@
       "ANIMALS",
       "INSECTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 74
   },
   {
     "angles": [
@@ -627,7 +661,8 @@
       "ANIMALS",
       "FUNGI",
       "EMPTY"
-    ]
+    ],
+    "cardID": 75
   },
   {
     "angles": [
@@ -645,7 +680,8 @@
       "ANIMALS",
       "PLANTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 76
   },
   {
     "angles": [
@@ -663,7 +699,8 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 77
   },
   {
     "angles": [
@@ -681,7 +718,8 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 78
   },
   {
     "angles": [
@@ -699,7 +737,8 @@
       "ANIMALS",
       "EMPTY",
       "EMPTY"
-    ]
+    ],
+    "cardID": 79
   },
   {
     "angles": [
@@ -717,6 +756,7 @@
       "ANIMALS",
       "ANIMALS",
       "ANIMALS"
-    ]
+    ],
+    "cardID": 80
   }
 ]

@@ -6,8 +6,8 @@ import SoftEng_2024.Model.Fronts.Front;
 public class ResourceCard extends Card{
     //CONSTRUCTOR
     //The front in input has to actually be
-    public ResourceCard(Front front, Boolean flipped, Angles[] resource){
-        super(front,flipped,resource);
+    public ResourceCard(Front front, Boolean flipped, Angles[] resource, int cardID){
+        super(front,flipped,resource, cardID);
     }
     //inheriting the superclass method
 

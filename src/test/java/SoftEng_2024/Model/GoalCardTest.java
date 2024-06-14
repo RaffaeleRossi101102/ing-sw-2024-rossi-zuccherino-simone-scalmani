@@ -20,7 +20,7 @@ class GoalCardTest {
 
         // TEST USING PLANTS AS RESOURCE FOR THE CALCULATION
 
-        ResourceGoalCard testGoal = new ResourceGoalCard(Angles.PLANTS, 2, String.format("Get %s points for each triplet of mushrooms on the board", 2));
+        ResourceGoalCard testGoal = new ResourceGoalCard(Angles.PLANTS, 2, String.format("Get %s points for each triplet of mushrooms on the board", 2), 0);
 
         GameController testGameInit = new GameController();
         testGameInit.gameInit();
@@ -54,7 +54,7 @@ class GoalCardTest {
 
         // TEST USING INK AS RESOURCE FOR THE CALCULATION
 
-        ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.INK, Angles.INK}, 2, String.format("Get %s points for each pair of feathers on the board", 2));
+        ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.INK, Angles.INK}, 2, String.format("Get %s points for each pair of feathers on the board", 2), 0);
 
         GameController testGameInit = new GameController();
         testGameInit.gameInit();
@@ -88,7 +88,7 @@ class GoalCardTest {
 
     @Test
     void TripleObjectsCalcScore() {
-        ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.FEATHER, Angles.INK, Angles.SCROLL}, 3, String.format("Get %s points for each triplet of different objects on the board", 3));
+        ObjectsGoalCard testGoal = new ObjectsGoalCard(new Angles[]{Angles.FEATHER, Angles.INK, Angles.SCROLL}, 3, String.format("Get %s points for each triplet of different objects on the board", 3), 0);
 
         GameController testGameInit = new GameController();
         testGameInit.gameInit();
@@ -124,8 +124,8 @@ class GoalCardTest {
 
     @Test
     void StepCalcScore() {
-        StepGoalCard testGoal = new StepGoalCard(Angles.INSECTS, Angles.PLANTS, false, false, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.INSECTS, Angles.PLANTS));
-        StepGoalCard testGoal2 = new StepGoalCard(Angles.FUNGI, Angles.ANIMALS, true, true, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.FUNGI, Angles.ANIMALS));
+        StepGoalCard testGoal = new StepGoalCard(Angles.INSECTS, Angles.PLANTS, false, false, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.INSECTS, Angles.PLANTS), 0);
+        StepGoalCard testGoal2 = new StepGoalCard(Angles.FUNGI, Angles.ANIMALS, true, true, 3, String.format("Get %s points for each regular L-shaped (L) pattern with an %s card at the base and a %s card on the side", 3, Angles.FUNGI, Angles.ANIMALS), 0);
         GameController testGameInit = new GameController();
         testGameInit.gameInit();
         Board testBoard = new Board();
@@ -136,17 +136,17 @@ class GoalCardTest {
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
 
         ResourceFront testFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.INSECTS});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.INSECTS}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
 
         try {
@@ -171,8 +171,9 @@ class GoalCardTest {
 
     @Test
     void DiagonalCalcScore() {
-        DiagonalGoalCard testGoal = new DiagonalGoalCard(Angles.FUNGI, 2, true, String.format("Get %s points for each ascending diagonal pattern of mushroom cards on the board", 2));
+        DiagonalGoalCard testGoal = new DiagonalGoalCard(Angles.FUNGI, 2, true, String.format("Get %s points for each ascending diagonal pattern of mushroom cards on the board", 2), 0);
         GameController testGameInit = new GameController();
+        int cardID = 0;
         testGameInit.gameInit();
         Board testBoard = new Board();
 
@@ -181,11 +182,11 @@ class GoalCardTest {
 
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         ResourceFront testFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
-        ResourceCard testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI});
+        ResourceCard testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
-        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI});
+        testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
         testGameInit.getGame().getPlayers().get(0).setHand(testCard);
 
         try {

@@ -39,7 +39,7 @@ class BoardTest {
         Board testBoard = new Board();
 
         try {
-            testGameInit.getGame().getPlayers().add(new Player(new ArrayList<Card>(), testBoard,"paolo"));
+            testGameInit.getGame().getPlayers().add(new Player(new ArrayList<Card>(), testBoard));
 
             testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
             testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());

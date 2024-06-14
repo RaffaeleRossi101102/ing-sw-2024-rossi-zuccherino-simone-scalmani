@@ -15,7 +15,8 @@
       "INSECTS",
       "ANIMALS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 81
   },
   {
     "angles": [
@@ -33,7 +34,8 @@
       "FUNGI",
       "INSECTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 82
   },
   {
     "angles": [
@@ -51,7 +53,8 @@
       "FUNGI",
       "PLANTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 83
   },
   {
     "angles": [
@@ -69,7 +72,8 @@
       "ANIMALS",
       "FUNGI",
       "EMPTY"
-    ]
+    ],
+    "cardID": 84
   },
   {
     "angles": [
@@ -87,7 +91,8 @@
       "PLANTS",
       "ANIMALS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 85
   },
   {
     "angles": [
@@ -105,6 +110,7 @@
       "PLANTS",
       "INSECTS",
       "EMPTY"
-    ]
+    ],
+    "cardID": 86
   }
 ]
