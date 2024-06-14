@@ -15,5 +15,7 @@ public class UpdatedResourceDeckMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & view.getLocalModel().getTopResourceCard()==null))
             view.getLocalModel().setTopResourceCard(topResource);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

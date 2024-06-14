@@ -14,5 +14,7 @@ public class UpdatedGameStateMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & view.getLocalModel().getGameState().equals(GameState.CONNECTION)))
             view.getLocalModel().setGameState(gameState);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

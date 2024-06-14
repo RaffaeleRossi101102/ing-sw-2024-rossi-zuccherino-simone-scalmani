@@ -31,6 +31,8 @@ public class UpdatedHandMessage extends ModelMessage{
             } else if (view.getLocalModel().getPersonalHand().isEmpty()) {
                 view.getLocalModel().setPersonalHand(playerHand);
             }
+            view.getLocalModel().increaseArrivedMessages();
         }
+
     }
 }

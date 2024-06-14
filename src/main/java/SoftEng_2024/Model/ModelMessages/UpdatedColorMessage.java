@@ -15,5 +15,7 @@ public class UpdatedColorMessage extends ModelMessage{
     @Override
     public void executeMessage(View view) {
         view.getLocalModel().setPlayersColor(senderNickname,playerColor);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

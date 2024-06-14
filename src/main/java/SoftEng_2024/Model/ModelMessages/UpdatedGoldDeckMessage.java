@@ -14,5 +14,7 @@ public class UpdatedGoldDeckMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & view.getLocalModel().getTopGoldCard()==null))
             view.getLocalModel().setTopGoldCard(topGoldCard);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

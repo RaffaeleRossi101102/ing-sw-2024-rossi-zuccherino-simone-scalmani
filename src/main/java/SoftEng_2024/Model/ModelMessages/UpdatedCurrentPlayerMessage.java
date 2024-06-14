@@ -13,5 +13,7 @@ public class UpdatedCurrentPlayerMessage extends ModelMessage{
     public void executeMessage(View view) {
         if (!rejoining | (rejoining & view.getLocalModel().getCurrentTurnPlayerNickname()==null))
             view.getLocalModel().setCurrentTurnPlayerNickname(currentPlayerNickname);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

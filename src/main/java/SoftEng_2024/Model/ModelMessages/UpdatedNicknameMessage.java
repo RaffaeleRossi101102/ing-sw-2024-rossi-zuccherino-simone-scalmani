@@ -17,5 +17,7 @@ public class UpdatedNicknameMessage extends ModelMessage{
             view.getLocalModel().setNickname(nickname);
         else
             view.getLocalModel().setPlayersNickname(nickname);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

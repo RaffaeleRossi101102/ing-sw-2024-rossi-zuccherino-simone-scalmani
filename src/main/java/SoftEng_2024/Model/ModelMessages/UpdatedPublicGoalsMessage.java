@@ -14,5 +14,7 @@ public class UpdatedPublicGoalsMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & view.getLocalModel().getPublicGoals().isEmpty()))
             view.getLocalModel().setPublicGoals(publicGoals);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

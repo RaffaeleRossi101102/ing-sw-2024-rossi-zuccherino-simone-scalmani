@@ -14,5 +14,7 @@ public class UpdatedAvailableGoalsMessage extends ModelMessage{
     @Override
     public void executeMessage(View view) {
         view.getLocalModel().setAvailableGoals(availableGoals);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

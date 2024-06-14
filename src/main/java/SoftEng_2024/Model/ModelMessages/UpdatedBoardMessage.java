@@ -22,5 +22,7 @@ public class UpdatedBoardMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & !view.getLocalModel().getPlayersBoards().containsKey(senderNickname)))
             view.getLocalModel().setLocalBoard(senderNickname,cardBoard,cardList,score,anglesCounter);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

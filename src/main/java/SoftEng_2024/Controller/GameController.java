@@ -333,6 +333,8 @@ public class GameController {
                 o.setReceiverID(ID);
                 o.playerRejoining(game);
                 game.setAckIdBindingMap(ID,true);
+                if(game.getGameState().equals(GameState.STARTER))
+                    player.setOnline(true);
                 return;
             }
         }

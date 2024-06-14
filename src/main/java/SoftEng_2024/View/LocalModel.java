@@ -37,6 +37,8 @@ public class LocalModel {
     private volatile boolean currentPlayerNotNull;
     private boolean isFirstPlayer;
     private List<GoalCard> publicGoals;
+    private volatile int numberOfMessages;
+    private volatile int arrivedMessages;
 
     public LocalModel() {
         otherPlayersHand =new ConcurrentHashMap<>();
@@ -53,6 +55,8 @@ public class LocalModel {
         this.currentPlayerNotNull=false;
         this.isFirstPlayer=false;
         this.publicGoals=new ArrayList<>();
+        numberOfMessages=0;
+        arrivedMessages=0;
     }
 
     //GETTERS******************************************************************
@@ -270,5 +274,20 @@ public class LocalModel {
     public void setPublicGoals(GoalCard[] publicGoals) {
         this.publicGoals.add(publicGoals[0]);
         this.publicGoals.add(publicGoals[1]);
+    }
+
+    public void setNumberOfMessages(int numberOfMessages) {
+        this.numberOfMessages = numberOfMessages;
+    }
+
+    public int getNumberOfMessages() {
+        return numberOfMessages;
+    }
+
+    public int getArrivedMessages() {
+        return arrivedMessages;
+    }
+    public void increaseArrivedMessages(){
+        this.arrivedMessages++;
     }
 }

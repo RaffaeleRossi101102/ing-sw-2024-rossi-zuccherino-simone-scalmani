@@ -16,5 +16,7 @@ public class UpdatedWinnersMessage extends ModelMessage{
     public void executeMessage(View view) {
         view.getLocalModel().setWinnersNickname(winnersNickname);
         view.getLocalModel().setGameState(GameState.ENDGAME);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

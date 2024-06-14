@@ -20,6 +20,7 @@ public class PlayerObserver {
     protected double receiverID;
     private final String observedNickname;
     protected ObServerManager obServerManager;
+    private int numberOfMessages=0;
     public PlayerObserver(ObServerManager o,double ID,String observedNickname){
         obServerManager=o;
         receiverID=ID;
@@ -66,8 +67,9 @@ public class PlayerObserver {
     }
     public void updatedNickname(String nickname,double callerID){
         //if the nickname that is being set belongs to the observed player, send it to the player
-        if(receiverID==callerID)
-            notifyServer(new UpdatedNicknameMessage(receiverID,"",nickname,true));
+        if(receiverID==callerID) {
+            notifyServer(new UpdatedNicknameMessage(receiverID, "", nickname, true));
+        }
         else {
             //else, it means that the observed player needs to get the caller nickname
             //and that the
@@ -91,14 +93,14 @@ public class PlayerObserver {
     }
     //according to the game state, the player will be notified with the current situation
     public void playerRejoining(Game game){
-        ModelMessage msg;
         Player currentPlayer;
         List<Card> updatedHand;
+
         //loops until it gets the right player
         for(Player p:game.getPlayers()){
             if(p.getNickname().equals(observedNickname)){
                 currentPlayer=p;
-
+                notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"",p.getNickname(),true));
                 //notifies the rejoining player with all the hands only if the hand isn't null
                 if(p.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY)) {
                     notifyServerForRejoin(new UpdatedHandMessage(receiverID, "", p.getHand(), observedNickname));
@@ -150,6 +152,7 @@ public class PlayerObserver {
                     }
                 }
                 notifyServerForRejoin(new UpdatedGameStateMessage("",game.getGameState()));
+                notifyServerForRejoin(new NumberOfMessages(receiverID,"","",numberOfMessages));
                 System.out.println("sending game state as: "+game.getGameState());
             }
         }
@@ -161,6 +164,7 @@ public class PlayerObserver {
     private void notifyServerForRejoin(ModelMessage msg){
         msg.setRejoining(true);
         msg.setReceiverID(receiverID);
+        numberOfMessages++;
         notifyServer(msg);
     }
 

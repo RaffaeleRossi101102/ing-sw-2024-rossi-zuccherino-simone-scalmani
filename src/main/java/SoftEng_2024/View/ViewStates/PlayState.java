@@ -92,7 +92,7 @@ public class PlayState extends ViewState{
 
         int row;
         int column;
-
+        //TODO: verificare corretto funzionamento degli scanner e del trim
         System.out.println("Type the row and the column (0 <= r & c <= 84) of the cell, or type 'exit' to cancel ");
         try {
             row = input.nextInt();

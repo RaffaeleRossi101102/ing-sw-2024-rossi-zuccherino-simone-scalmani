@@ -16,5 +16,7 @@ public class UpdatedPublicCardsMessage extends ModelMessage{
     public void executeMessage(View view) {
         if(!rejoining | (rejoining & view.getLocalModel().getPublicCards().isEmpty()))
          view.getLocalModel().setPublicCards(publicCards);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

@@ -13,5 +13,7 @@ public class UpdatedPlayerStateMessage extends ModelMessage{
     @Override
     public void executeMessage(View view) {
         view.getLocalModel().setPlayerState(playerState);
+        if(rejoining)
+            view.getLocalModel().increaseArrivedMessages();
     }
 }

@@ -65,7 +65,7 @@ public class SetColorState extends ViewState{
         ConcurrentHashMap<String, Color> colorMap = view.getLocalModel().getPlayersColor();
         System.out.println("The available colors are: ");
         for(Color availableColor : Color.values()) {
-            if(!colorMap.containsValue(availableColor) && !availableColor.equals(Color.BLACK)){
+            if(!colorMap.containsValue(availableColor) && !availableColor.equals(Color.BLACK) & !availableColor.equals(Color.EMPTY)){
                 System.out.print(availableColor+ " ");
             }
         }
