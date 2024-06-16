@@ -1,5 +1,7 @@
 package SoftEng_2024.View.ViewStates;
 
+import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Cards.StarterCard;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
@@ -34,8 +36,6 @@ public class StarterState extends ViewState{
                     }
                     else {
                         System.out.println("This is your starter card:");
-                        System.out.println(view.getLocalModel().getStarterCard().getPrintableCardString(true));
-                        System.out.println(view.getLocalModel().getStarterCard().getPrintableCardString(false));
                         commandChosen=true;
                         playStarterCard();
                         view.setCommand("");
@@ -70,7 +70,22 @@ public class StarterState extends ViewState{
         Scanner input= new Scanner(System.in);
         String answer;
         boolean flipped;
-        //TODO: Print delle starterCard
+        System.out.println("This is your hand, the front is:");
+        StarterCard card=view.getLocalModel().getStarterCard();
+        String upperHand=card.displayGraphicCard()[0];
+        String midHand=card.displayGraphicCard()[1];
+        String downHand=card.displayGraphicCard()[2];
+        System.out.println(upperHand);
+        System.out.println(midHand);
+        System.out.println(downHand);
+        card.setFlipped(true);
+        System.out.println("The back is: ");
+        upperHand=card.displayGraphicCard()[0];
+        midHand=card.displayGraphicCard()[1];
+        downHand=card.displayGraphicCard()[2];
+        System.out.println(upperHand);
+        System.out.println(midHand);
+        System.out.println(downHand);
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel");
         answer = input.nextLine().trim().replaceAll("\\s+", "").toLowerCase();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){

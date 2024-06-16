@@ -12,7 +12,7 @@ import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
 import SoftEng_2024.Network.ToView.ObServerManager;
-
+import java.awt.color.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -60,6 +60,16 @@ public class GameController {
         Queue<Card> resourceDeck = new LinkedList<>(resourceDeckTemp);
         Queue<Card> goldDeck = new LinkedList<>(goldDeckTemp);
         Queue<Card> starterDeck = new LinkedList<>(starterDeckTemp);
+        String graphicBoardUp;
+        String graphicBoardMId;
+        String graphicBoardDown;
+        graphicBoardUp=starterDeck.peek().displayGraphicCard()[0]+starterDeck.peek().displayGraphicCard()[0]+starterDeck.peek().displayGraphicCard()[0];
+        graphicBoardMId=starterDeck.peek().displayGraphicCard()[1]+starterDeck.peek().displayGraphicCard()[1]+starterDeck.peek().displayGraphicCard()[1];
+        graphicBoardDown=starterDeck.peek().displayGraphicCard()[2]+starterDeck.peek().displayGraphicCard()[2]+starterDeck.peek().displayGraphicCard()[2];
+
+        System.out.println(graphicBoardUp);
+        System.out.println(graphicBoardMId);
+        System.out.println(graphicBoardDown);
 
         //costruisco i 16 goal, inserisco in una lista, faccio shuffle, aggiungo alla coda
         Queue<GoalCard> goalCardDeck = goalInit();

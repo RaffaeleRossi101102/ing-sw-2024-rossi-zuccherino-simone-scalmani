@@ -1,8 +1,11 @@
 package SoftEng_2024.View.ViewStates;
 
+import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
+import SoftEng_2024.View.LocalBoard;
 import SoftEng_2024.View.LocalModel;
 import SoftEng_2024.View.ViewMessages.BroadcastMessage;
 import SoftEng_2024.View.ViewMessages.QuitMessage;
@@ -69,15 +72,30 @@ public abstract class ViewState {
     protected void defaultCommand(GameState gameState,String waitMessage) {
         if(view.getLocalModel().getState().equals(gameState)) {
             System.out.println(waitMessage);
-            System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
+            System.out.println("Type Show Board, Show hand, chat, quit to see a player's board, to see your hand, to use the chat or to quit the game");
 //            listenDefaultCommand();
             while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
                 switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
+                    case "showboard":
+                        printPlayerBoard();
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        break;
+                    case "showhand":
+                        if(view.getLocalModel().getPersonalHand().isEmpty())
+                            System.err.println("The hand isn't available yet, please continue with the game");
+                        else
+                            showHand();
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        break;
                     case "chat":
                         writeInChat();
                         listenDefaultCommand();
                         view.setCommand("");
-                        System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
+                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
                         break;
                     case "quit":
                         quit();
@@ -89,7 +107,7 @@ public abstract class ViewState {
                         System.err.println("Command not available... retry");
                         listenDefaultCommand();
                         view.setCommand("");
-                        System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
+                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
                         break;
                 }
             }
@@ -193,7 +211,131 @@ public abstract class ViewState {
 
     }
 
+    protected void printPlayerBoard(){
+        List<String> players = new ArrayList<>();
+        players.add(view.getLocalModel().getNickname());
+        Scanner input= new Scanner(System.in);
+        System.out.println("Whose board do you want to display?");
+        int i=1;
+        System.out.print("[0]--> your board ~~ ");
+        for(String nickname: view.getLocalModel().getPlayersNickname().keySet()){
+            players.add(nickname);
+            System.out.print("["+i+"]--> "+ nickname+"'s board ~~");
+            i++;
+        }
+        int choice = -1;
+        try {
+            choice = input.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("Wrong input, please insert a number...");
+            input.nextLine();
+        }
+        while(choice<0 | choice > view.getLocalModel().getPlayersNickname().keySet().size()){
+            System.err.println("Wrong input, choose a number from the proposed ones");
+            choice = -1;
+            try {
+                choice = input.nextInt();
+            }catch(InputMismatchException e) {
+                System.err.println("Wrong input, please insert a number...");
+                input.nextLine();
+            }
+        }
+        System.out.println();
+        if(!view.getLocalModel().getPlayersBoards().containsKey(players.get(choice))) {
+            System.err.println("The board isn't already available, please wait...");
+            return;
+        }
+        LocalBoard boardToPrint=view.getLocalModel().getPlayersBoards().get(players.get(choice));
 
+        int minRow = 85;
+        int minColumn = 85;
+        int maxRow = 0;
+        int maxColumn = 0;
+        String upCard = "";
+        String midCard="";
+        String downCard="";
+
+        for(Cell cell:boardToPrint.getCardList()){
+            if(cell.getRow()<minRow)
+                minRow=cell.getRow();
+            if(cell.getRow()>maxRow)
+                maxRow=cell.getRow();
+            if(cell.getColumn()<minColumn)
+                minColumn=cell.getColumn();
+            if(cell.getColumn()>maxColumn)
+                maxColumn=cell.getColumn();
+        }
+        System.out.print("   ");
+        for(int c = minColumn-1; c<=maxColumn+1; c++){
+            if(c>=0 & c< 85) {
+                if(c<10)
+                    System.out.print("  " + c + "  ");
+                else
+                    System.out.print("  " + c + " ");
+            }
+        }
+//       |_____40___41___42_
+//        43_|░░░||P-A||░░░|
+//        _3_|░░░|| G ||░░░|
+//           |░░░||P-A||░░░|
+        System.out.println();
+        if(minRow==0)
+            minRow++;
+        if(maxRow==84)
+            maxRow--;
+        if(minColumn==0)
+            minColumn++;
+        if(maxColumn==84)
+            maxColumn--;
+        for(int r=minRow-1;r<=maxRow+1;r++){
+            upCard="   ";
+            midCard="";
+            downCard="   ";
+            if(r<10) {
+
+                midCard = midCard + " " + r + " ";
+            }
+            else
+                midCard=midCard+r + " ";
+            for(int c=minColumn-1;c<=maxColumn+1;c++){
+                //se la cella non è vuota, aggiungi alle stringhe la carta
+                if(boardToPrint.getCardBoard()[r][c].getCard()!=null){
+                    upCard=upCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[0];
+                    midCard=midCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[1];
+                    downCard=downCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[2];
+                }
+                else{
+                    upCard=upCard + "|‾‾‾|";
+                    midCard=midCard+ "|   |";
+                    downCard=downCard+"|___|";
+                }
+            }
+            System.out.println(upCard);
+            System.out.println(midCard);
+            System.out.println(downCard);
+        }
+    }
+    protected void showHand(){
+        String upperHand="";
+        String midHand="";
+        String downHand="";
+        int cardIndex=1;
+        System.out.println(" [1]     [2]     [3] ");
+        for(Card card: view.getLocalModel().getPersonalHand()){
+            upperHand=upperHand+ card.displayGraphicCard()[0]+"   ";
+            midHand= midHand+ card.displayGraphicCard()[1]+"   ";
+            downHand= downHand+ card.displayGraphicCard()[2]+"   ";
+//            System.out.println("["+cardIndex+"] "+card.getPrintableCardString());
+//            cardIndex++;
+        }
+        System.out.println(upperHand);
+        System.out.println(midHand);
+        System.out.println(downHand);
+        for(Card card: view.getLocalModel().getPersonalHand()){
+            System.out.println("["+cardIndex+"] "+card.getPrintableCardString());
+            cardIndex++;
+        }
+    }
     public void setDefaultCommand(String defaultCommand) {
         this.defaultCommand = defaultCommand;
     }

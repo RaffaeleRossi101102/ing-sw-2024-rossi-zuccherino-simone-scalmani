@@ -25,4 +25,38 @@ public enum Angles {
         }
         return 0;
     }
+    public static char getAngleSymbol(Angles angle) {
+        char symbol = 0;
+        switch (angle) {
+            case INSECTS:
+                symbol = 'I';
+                break;
+            case FUNGI:
+                symbol = 'F';
+                break;
+            case PLANTS:
+                symbol = 'P';
+                break;
+            case ANIMALS:
+                symbol = 'A';
+                break;
+            case INK:
+                symbol= 'K';
+                break;
+            case SCROLL:
+                symbol = 'S';
+                break;
+            case FEATHER:
+                symbol = 'H';
+                break;
+            case EMPTY:
+                symbol = 'Ø';
+                break;
+            case INVISIBLE:
+                symbol = '-';
+                break;
+
+        }
+        return symbol;
+    }
 }

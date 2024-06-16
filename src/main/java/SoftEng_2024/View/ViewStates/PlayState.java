@@ -23,7 +23,7 @@ public class PlayState extends ViewState{
         System.out.println("It's your turn!");
         if(view.getLocalModel().getPersonalHand().size() == 3) {
 //            Scanner scanner = new Scanner(System.in);
-            System.out.println("Type Play Card, Chat or Quit");
+            System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
 //            String command = scanner.nextLine();
             //loops until the player chooses a command different from writeInChat
             while (!commandChosen) {
@@ -36,7 +36,19 @@ public class PlayState extends ViewState{
                         break;
                     case "chat":
                         writeInChat();
-                        System.out.println("Type Play Card, Chat or Quit");
+                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        break;
+                    case "showboard":
+                        printPlayerBoard();
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        break;
+                    case "showhand":
+                        showHand();
+                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
                         view.setCommand("");
                         listenDefaultCommand();
                         break;
@@ -47,7 +59,7 @@ public class PlayState extends ViewState{
                         break;
                     default:
                         System.err.println("Command not available... retry");
-                        System.out.println("Type Play Card, Chat or Quit");
+                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
                         view.setCommand("");
                         listenDefaultCommand();
                         break;
@@ -75,6 +87,7 @@ public class PlayState extends ViewState{
         Scanner input = new Scanner(System.in);
         int card;
         String answer;
+        showHand();
         System.out.println("Type the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel ");
         answer = input.nextLine();
         while(!answer.equals("1") && !answer.equals("2") && !answer.equals("3") && !answer.equals("exit")){

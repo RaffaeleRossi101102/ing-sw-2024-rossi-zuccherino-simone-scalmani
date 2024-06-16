@@ -21,7 +21,7 @@ public class SetColorState extends ViewState{
         listenDefaultCommand();
         defaultCommand(GameState.STARTER,"Waiting for all the players play their starter card...");
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
-        System.out.println("Type  Set Color, Chat or Quit");
+        System.out.println("Type  Set Color, Show Board, Chat or Quit");
 
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
@@ -34,9 +34,15 @@ public class SetColorState extends ViewState{
                     break;
                 case "chat":
                     writeInChat();
-                    System.out.println("Type  Set color, chat or quit");
+                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
                     view.setCommand("");
                     listenDefaultCommand();
+                    break;
+                case "showboard":
+                    printPlayerBoard();
+                    view.setCommand("");
+                    listenDefaultCommand();
+                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
                     break;
                 case "quit":
                     quit();
@@ -45,7 +51,7 @@ public class SetColorState extends ViewState{
                     break;
                 default:
                     System.err.println("Command not available... retry");
-                    System.out.println("Type  Set color, chat or quit");
+                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
                     view.setCommand("");
                     listenDefaultCommand();
                     break;

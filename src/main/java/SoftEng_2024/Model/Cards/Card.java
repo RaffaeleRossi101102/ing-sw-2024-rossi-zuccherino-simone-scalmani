@@ -3,6 +3,7 @@ package SoftEng_2024.Model.Cards;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 
+
 import java.io.Serializable;
 
 public abstract class Card implements Serializable {
@@ -31,12 +32,12 @@ public abstract class Card implements Serializable {
         return front;
     }
 
-    public Angles[] getResources(){
+    public Angles[] getCardBackAnglesType(){
         return resource;
     }
     //Method that counts the number of resources or objects that are in the card's angles.
     // This specific implementation is for Resource and Object card. Starter cards will have to Override.
-    public int[] getResource(){
+    public int[] getSumResources(){
         //initializing the array with all 0 values, since it still has to begin counting.
         //Its dimension is 7 since we have 4 resources and 3 objects
         int[] res = {0,0,0,0,0,0,0};
@@ -77,11 +78,45 @@ public abstract class Card implements Serializable {
         this.flipped = flipped;
     }
 
-    abstract public String getPrintableCardString( boolean flipped);
+    abstract public String getPrintableCardString();
     public Angles[] cloneBackResources(){
         Angles[] clone= new Angles[resource.length];
         System.arraycopy(resource, 0, clone, 0, resource.length);
         return clone;
     }
-    public abstract String[] printCard();
+    public String[] displayGraphicCard(){
+        String[] graphicCard = new String[3];
+        char ULangle='█';
+        char URangle='█';
+        char DLangle='█';
+        char DRangle='█';
+        char Cangle= Angles.getAngleSymbol(this.getCardBackAnglesType()[4]);
+        if(!this.getFlipped()) {
+            if (!this.getFront().getCovered()[0])
+                ULangle = Angles.getAngleSymbol(this.getFront().getFrontAngles()[0]);
+            if (!this.getFront().getCovered()[1])
+                URangle = Angles.getAngleSymbol(this.getFront().getFrontAngles()[1]);
+            if (!this.getFront().getCovered()[2])
+                DLangle = Angles.getAngleSymbol(this.getFront().getFrontAngles()[2]);
+            if (!this.getFront().getCovered()[3])
+                DRangle = Angles.getAngleSymbol(this.getFront().getFrontAngles()[3]);
+        }
+        else{
+            if (!this.getFront().getCovered()[0])
+                ULangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[0]);
+            if (!this.getFront().getCovered()[1])
+                URangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[1]);
+            if (!this.getFront().getCovered()[2])
+                DLangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[2]);
+            if (!this.getFront().getCovered()[3])
+                DRangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[3]);
+        }
+
+        graphicCard[0] = String.format("|%c-%c|", ULangle, URangle);
+        graphicCard[1] = String.format("| %c |", Cangle);
+        graphicCard[2] = String.format("|%c-%c|", DLangle, DRangle);
+
+        return graphicCard;
+    }
+
 }

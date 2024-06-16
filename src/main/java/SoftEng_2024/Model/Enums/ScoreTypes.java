@@ -20,4 +20,19 @@ public enum ScoreTypes {
         }
         return -1;
     }
+    public static String getScoreType(ScoreTypes scoreTypes){
+        switch (scoreTypes){
+            case STATIC:
+                return "when placed";
+            case FEATHER:
+                return "for each feather in your board";
+            case SCROLL:
+                return "for each scroll in your board";
+            case INK:
+                return "for each ink in your board";
+            case ANGLES:
+                return "for each angle you'll cover with this card";
+        }
+        return "";
+    }
 }

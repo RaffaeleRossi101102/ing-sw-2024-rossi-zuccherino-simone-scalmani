@@ -54,4 +54,8 @@ abstract public class Front implements Serializable {
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
+
+    public void setCovered(int index,boolean covered) {
+        this.covered[index] = covered;
+    }
 }
