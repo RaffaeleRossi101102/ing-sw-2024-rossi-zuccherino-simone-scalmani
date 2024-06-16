@@ -12,7 +12,7 @@ public class RejoinState extends ViewState{
     @Override
     public void display() {
         System.out.println("lo stato è "+view.getLocalModel().getPlayerState());
-        while(view.getLocalModel().getNumberOfMessages()!=0 & view.getLocalModel().getNumberOfMessages()!=view.getLocalModel().getArrivedMessages());
+        while(view.getLocalModel().getNumberOfMessages()==0 | view.getLocalModel().getNumberOfMessages()!=view.getLocalModel().getArrivedMessages());
             ViewState nextState;
             switch(view.getLocalModel().getPlayerState()){
                 case CONNECTION:

@@ -93,78 +93,129 @@ public class PlayerObserver {
     }
     //according to the game state, the player will be notified with the current situation
     public void playerRejoining(Game game){
+        numberOfMessages=0;
         Player currentPlayer;
         List<Card> updatedHand;
-
-        //loops until it gets the right player
-        for(Player p:game.getPlayers()){
-            if(p.getNickname().equals(observedNickname)){
-                currentPlayer=p;
-                notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"",p.getNickname(),true));
-                //notifies the rejoining player with all the hands only if the hand isn't null
-                if(p.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY)) {
-                    notifyServerForRejoin(new UpdatedHandMessage(receiverID, "", p.getHand(), observedNickname));
-                }
-                for(Player player: game.getPlayers()) {
-                    if (!player.getNickname().equals(observedNickname) & (player.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY))) {
-                         updatedHand= new ArrayList<>();
-                        for (Card card : player.getHand()) {
-                            updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources(), card.getCardID()));
-                        }
-                        updatedHand.get(0).getFront().setHidden(true);
-                        notifyServerForRejoin(new UpdatedHandMessage(receiverID, "", player.getHand(), player.getNickname()));
-                        notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"", player.getNickname(), false));
-                    }
-                }
-
-                notifyServerForRejoin(new UpdatedPublicCardsMessage("",game.getPublicCards()));
-                if(game.getResourceDeck().peek()!=null)
-                    notifyServerForRejoin(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
-                if(game.getGoldDeck().peek()!=null)
-                    notifyServerForRejoin(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
-                if(game.getGameState().ordinal()>=GameState.SETCOLOR.ordinal()){
-                    for(Player player: game.getPlayers()){
-                        if(!player.getColor().isEmpty())
-                            notifyServerForRejoin(new UpdatedColorMessage("",player.getColor().get(0), player.getNickname() ));
-                    }
-                }
-                if(game.getGameState().ordinal()>=GameState.CHOOSEGOAL.ordinal()){
-                    notifyServerForRejoin(new UpdatedPublicGoalsMessage("",game.getPublicGoals()));
+        Board board;
+        for(Player player:game.getPlayers()){
+            //sending everyone's nick to the rejoining player
+            if(player.getNickname().equals(observedNickname)) {
+                currentPlayer = player;
+                updatedHand=currentPlayer.getHand();
+                notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"", currentPlayer.getNickname(),true));
+                //sending the player's available goals
+                if(!currentPlayer.getAvailableGoals().isEmpty())
                     notifyServerForRejoin(new UpdatedAvailableGoalsMessage(receiverID,"",currentPlayer.getAvailableGoals(), currentPlayer.getNickname()));
-                }
-                //if the game is in play state
-                if(game.getGameState().ordinal()>=GameState.PLAY.ordinal()){
-                    //for each player, send to the rejoining player the corresponding board and the corresponding hand
-                    for(Player player:game.getPlayers()){
-                        Board board=player.getPlayerBoard();
-                        notifyServerForRejoin(new UpdatedBoardMessage(receiverID,"", player.getNickname(), board.getCardBoard(),
-                                board.getCardList(), board.getAnglesCounter(), board.getScore()));
-                        //if the player in the loop isn't the rejoining one, send a hidden hand, else send the rejoining player their hand
-                            if (!player.getNickname().equals(observedNickname)) {
-                                updatedHand= new ArrayList<>();
-                                for (Card card : player.getHand()) {
-                                    updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources(), card.getCardID()));
-                                }
-                                updatedHand.get(0).getFront().setHidden(true);
-                            }
-                        notifyServerForRejoin(new UpdatedHandMessage(receiverID,"",player.getHand(), player.getNickname()));
-                        notifyServerForRejoin(new UpdatedCurrentPlayerMessage("",game.getCurrentPlayer().getNickname()));
-                    }
-                }
-                notifyServerForRejoin(new UpdatedGameStateMessage("",game.getGameState()));
-                notifyServerForRejoin(new NumberOfMessages(receiverID,"","",numberOfMessages));
-                System.out.println("sending game state as: "+game.getGameState());
+                //sending the player's current state
+                notifyServerForRejoin(new UpdatedPlayerStateMessage(receiverID,"",currentPlayer.getPlayerState(), currentPlayer.getNickname()));
             }
+            else {
+                notifyServerForRejoin(new UpdatedNicknameMessage(receiverID, "", player.getNickname(), false));
+                updatedHand= new ArrayList<>();
+                for (Card card : player.getHand()) {
+                    updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources(), card.getCardID()));
+                }
+                if(!updatedHand.isEmpty())
+                    updatedHand.get(0).getFront().setHidden(true);
+            }
+            //sending everyone's hand to the rejoining player
+            if(!updatedHand.isEmpty())
+                notifyServerForRejoin(new UpdatedHandMessage(receiverID,"",updatedHand, player.getNickname()));
+            if(!player.getColor().isEmpty())
+                notifyServerForRejoin(new UpdatedColorMessage("",player.getColor().get(0), player.getNickname()));
+            //sending everyone's board to the rejoining player
+            board=player.getPlayerBoard();
+            notifyServerForRejoin(new UpdatedBoardMessage(receiverID,"", player.getNickname(), board.getCardBoard(), board.getCardList(), board.getAnglesCounter(), board.getScore()));
+
         }
+        if(game.getCurrentPlayer()!=null)
+            notifyServerForRejoin(new UpdatedCurrentPlayerMessage("",game.getCurrentPlayer().getNickname()));
+        notifyServerForRejoin(new UpdatedPublicCardsMessage("",game.getPublicCards()));
+        if(game.getResourceDeck().peek()!=null)
+            notifyServerForRejoin(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
+        if(game.getGoldDeck().peek()!=null)
+            notifyServerForRejoin(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
+        if(game.getPublicGoals()!=null)
+            notifyServerForRejoin(new UpdatedPublicGoalsMessage("",game.getPublicGoals()));
+        notifyServerForRejoin(new UpdatedGameStateMessage("",game.getGameState()));
+        notifyServerForRejoin(new NumberOfMessages(receiverID,"","",numberOfMessages+1));
+        //loops until it gets the right player
+//        for(Player p:game.getPlayers()){
+//            if(p.getNickname().equals(observedNickname)){
+//                currentPlayer=p;
+//                notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"",p.getNickname(),true));
+//                //notifies the rejoining player with all the hands only if the hand isn't null
+//                if(p.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY)) {
+//                    notifyServerForRejoin(new UpdatedHandMessage(receiverID, "", p.getHand(), observedNickname));
+//                }
+//                for(Player player: game.getPlayers()) {
+//                    if (!player.getNickname().equals(observedNickname) & (player.getPlayerState().equals(GameState.STARTER) | game.getGameState().equals(GameState.PLAY))) {
+//                         updatedHand= new ArrayList<>();
+//                        for (Card card : player.getHand()) {
+//                            updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources(), card.getCardID()));
+//                        }
+//                        updatedHand.get(0).getFront().setHidden(true);
+//                        notifyServerForRejoin(new UpdatedHandMessage(receiverID, "", player.getHand(), player.getNickname()));
+//                        notifyServerForRejoin(new UpdatedNicknameMessage(receiverID,"", player.getNickname(), false));
+//                    }
+//                    if(player.getPlayerState().ordinal()>=GameState.SETCOLOR.ordinal()){
+//                        Board board=player.getPlayerBoard();
+//                        notifyServerForRejoin(new UpdatedBoardMessage(receiverID,"", player.getNickname(), board.getCardBoard(),
+//                                board.getCardList(), board.getAnglesCounter(), board.getScore()));
+//                    }
+//                }
+//
+//                notifyServerForRejoin(new UpdatedPublicCardsMessage("",game.getPublicCards()));
+//                if(game.getResourceDeck().peek()!=null)
+//                    notifyServerForRejoin(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
+//                if(game.getGoldDeck().peek()!=null)
+//                    notifyServerForRejoin(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
+//                if(game.getGameState().ordinal()>=GameState.SETCOLOR.ordinal()){
+//                    for(Player player: game.getPlayers()){
+//                        if(!player.getColor().isEmpty())
+//                            notifyServerForRejoin(new UpdatedColorMessage("",player.getColor().get(0), player.getNickname() ));
+//                    }
+//                }
+//                if(game.getGameState().ordinal()>=GameState.CHOOSEGOAL.ordinal()){
+//                    notifyServerForRejoin(new UpdatedPublicGoalsMessage("",game.getPublicGoals()));
+//                    notifyServerForRejoin(new UpdatedAvailableGoalsMessage(receiverID,"",currentPlayer.getAvailableGoals(), currentPlayer.getNickname()));
+//                }
+//                //if the game is in play state
+//                if(game.getGameState().ordinal()>=GameState.PLAY.ordinal()){
+//                    //for each player, send to the rejoining player the corresponding board and the corresponding hand
+//                    for(Player player:game.getPlayers()){
+//                        Board board=player.getPlayerBoard();
+//                        notifyServerForRejoin(new UpdatedBoardMessage(receiverID,"", player.getNickname(), board.getCardBoard(),
+//                                board.getCardList(), board.getAnglesCounter(), board.getScore()));
+//                        //if the player in the loop isn't the rejoining one, send a hidden hand, else send the rejoining player their hand
+//                            if (!player.getNickname().equals(observedNickname)) {
+//                                updatedHand= new ArrayList<>();
+//                                for (Card card : player.getHand()) {
+//                                    updatedHand.add(new ResourceCard(new ResourceFront(new Angles[1], 0, new boolean[1]), true, card.cloneBackResources(), card.getCardID()));
+//                                }
+//                                updatedHand.get(0).getFront().setHidden(true);
+//                            }
+//                        notifyServerForRejoin(new UpdatedHandMessage(receiverID,"",player.getHand(), player.getNickname()));
+//                        notifyServerForRejoin(new UpdatedCurrentPlayerMessage("",game.getCurrentPlayer().getNickname()));
+//                    }
+//                }
+//                notifyServerForRejoin(new UpdatedGameStateMessage("",game.getGameState()));
+//                notifyServerForRejoin(new UpdatedPlayerStateMessage(receiverID,"",currentPlayer.getPlayerState(), currentPlayer.getNickname()));
+//                notifyServerForRejoin(new NumberOfMessages(receiverID,"","",numberOfMessages+1));
+//                System.err.println("number of msg: "+numberOfMessages);
+//                System.out.println("sending game state as: "+game.getGameState());
+//            }
+//        }
     }
 
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);
     }
+
     private void notifyServerForRejoin(ModelMessage msg){
         msg.setRejoining(true);
         msg.setReceiverID(receiverID);
-        numberOfMessages++;
+        this.numberOfMessages++;
         notifyServer(msg);
     }
 

@@ -278,6 +278,7 @@ public class LocalModel {
 
     public void setNumberOfMessages(int numberOfMessages) {
         this.numberOfMessages = numberOfMessages;
+        System.err.println("HO SETTATO IL NUMBER OF MESSAGES AOOOO: "+this.numberOfMessages+" "+numberOfMessages);
     }
 
     public int getNumberOfMessages() {
@@ -289,5 +290,6 @@ public class LocalModel {
     }
     public void increaseArrivedMessages(){
         this.arrivedMessages++;
+        System.err.println("increasing "+arrivedMessages);
     }
 }

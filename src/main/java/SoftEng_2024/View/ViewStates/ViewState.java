@@ -118,7 +118,12 @@ public abstract class ViewState {
         Thread defaultCommandThread = new Thread(() -> {
             //System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
             //Scanner scanner = new Scanner(System.in);
-            String command = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
+            String command="";
+            while(command.isEmpty()) {
+                command = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
+                if(command.isEmpty())
+                    System.out.println("Please insert a command...");
+            }
             view.setCommand(command);
         });
         defaultCommandThread.start();
