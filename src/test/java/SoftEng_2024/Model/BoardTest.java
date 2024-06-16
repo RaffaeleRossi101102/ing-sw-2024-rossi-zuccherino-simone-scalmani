@@ -21,7 +21,8 @@ class BoardTest {
         Board testBoard = new Board();
 
         try {
-            testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard,"paolo"));
+            testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+
 
             testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
             testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
@@ -50,7 +51,8 @@ class BoardTest {
         testGameInit.gameInit();
         Board testBoard = new Board();
 
-        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard, "paolo"));
+        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
+        //TODO: SET NAME
 
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
