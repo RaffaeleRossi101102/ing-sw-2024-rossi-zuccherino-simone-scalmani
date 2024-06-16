@@ -27,7 +27,7 @@ public class StepGoalCard extends GoalCard {
         List<Cell> cellArrayList = playerBoard.getCardList();
 
         for (Cell cell : cellArrayList) {
-            if (!cell.getVisited() && cell.getCard().getResources()[4].equals(baseResource)) {
+            if (!cell.getVisited() && cell.getCard().getCardBackAnglesType()[4].equals(baseResource)) {
                 int counterSide = 0;
                 int counterPattern = 0;
 
@@ -84,10 +84,10 @@ public class StepGoalCard extends GoalCard {
                 && newSideRow >= 0 && newSideRow < localBoard.length
                 && newSideCol >= 0 && newSideCol < localBoard[0].length
                 && localBoard[newRow][starterCell.getColumn()].getCard() != null
-                && localBoard[newRow][starterCell.getColumn()].getCard().getResources()[4].equals(baseResource)
+                && localBoard[newRow][starterCell.getColumn()].getCard().getCardBackAnglesType()[4].equals(baseResource)
                 && !localBoard[newRow][starterCell.getColumn()].getVisited()
                 && localBoard[newSideRow][newSideCol].getCard() != null
-                && localBoard[newSideRow][newSideCol].getCard().getResources()[4].equals(sideResource)
+                && localBoard[newSideRow][newSideCol].getCard().getCardBackAnglesType()[4].equals(sideResource)
                 && !localBoard[newSideRow][newSideCol].getVisited();
     }
 
@@ -96,7 +96,7 @@ public class StepGoalCard extends GoalCard {
         int sideColIncrement = sideLeft ? -1 : 1;
 
         Cell sideCell = localBoard[starterCell.getRow() + sideRowIncrement][starterCell.getColumn() + sideColIncrement];
-        if (sideCell.getCard() != null && sideCell.getCard().getResources()[4].equals(sideResource) && !sideCell.getVisited()) {
+        if (sideCell.getCard() != null && sideCell.getCard().getCardBackAnglesType()[4].equals(sideResource) && !sideCell.getVisited()) {
             if (down) {
                 return isValidPattern(localBoard, sideCell, 2) ? 1 : 0;
             } else {
@@ -111,7 +111,7 @@ public class StepGoalCard extends GoalCard {
 
         return newRow >= 0 && newRow < localBoard.length
                 && localBoard[newRow][starterCell.getColumn()].getCard() != null
-                && localBoard[newRow][starterCell.getColumn()].getCard().getResources()[4].equals(sideResource)
+                && localBoard[newRow][starterCell.getColumn()].getCard().getCardBackAnglesType()[4].equals(sideResource)
                 && !localBoard[newRow][starterCell.getColumn()].getVisited();
     }
 

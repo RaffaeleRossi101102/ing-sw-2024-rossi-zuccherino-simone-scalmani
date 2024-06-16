@@ -5,9 +5,7 @@ import SoftEng_2024.Model.Enums.AngleIndexes;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Observers.BoardObserver;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
     private Cell[][] cardBoard;
@@ -121,7 +119,7 @@ public class Board {
                     //se la carta non è flippata
                 } else {
                     //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r - 1][c - 1].getCard().getResources()[AngleIndexes.getIndex(AngleIndexes.DOWNRIGHT)]);
+                    index = Angles.getIndex(cardBoard[r - 1][c - 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.DOWNRIGHT)]);
                     if (index < 7) {
                         counter[index] += 1;
                     }
@@ -141,7 +139,7 @@ public class Board {
                     }
                 } else {
                     //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r + 1][c - 1].getCard().getResources()[AngleIndexes.getIndex(AngleIndexes.UPRIGHT)]);
+                    index = Angles.getIndex(cardBoard[r + 1][c - 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.UPRIGHT)]);
                     if (index < 7) {
                         counter[index] += 1;
                     }
@@ -160,7 +158,7 @@ public class Board {
                     }
                 } else {
                     //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r - 1][c + 1].getCard().getResources()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)]);
+                    index = Angles.getIndex(cardBoard[r - 1][c + 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)]);
                     if (index < 7) {
                         counter[index] += 1;
                     }
@@ -179,7 +177,7 @@ public class Board {
                     }
                 } else {
                     //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r + 1][c + 1].getCard().getResources()[AngleIndexes.getIndex(AngleIndexes.UPLEFT)]);
+                    index = Angles.getIndex(cardBoard[r + 1][c + 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.UPLEFT)]);
                     if (index < 7) {
                         counter[index] += 1;
                     }
@@ -249,7 +247,7 @@ public class Board {
 
         }
         //salvo in count il numero di risorse nella carta
-        count=played.getResource();
+        count=played.getSumResources();
         //System.out.println("la lunghezza di count è: " + count.length);
 
         //sommo il numero di risorse/oggetti della carta al totale di risorse/oggetti nella board

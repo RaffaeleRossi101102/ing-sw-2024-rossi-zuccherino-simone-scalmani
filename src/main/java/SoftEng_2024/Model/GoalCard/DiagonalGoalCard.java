@@ -31,13 +31,13 @@ public class DiagonalGoalCard extends GoalCard {
         if (!tiltedForward) {
             //per ogni cella dentro la lista
             for (Cell cell : cellArrayList) {
-                if (!cell.getVisited() && cell.getCard().getResources()[4].equals(resource)){
+                if (!cell.getVisited() && cell.getCard().getCardBackAnglesType()[4].equals(resource)){
                     int count=1;
                     starterCell = cell;
                     starterCell.setVisited(true);
                     //dentro il while risalgo verso l'alto/sinistra finché non trovo la carta da cui inizia la diagonale
                     while (localBoard[starterCell.getRow()-1][starterCell.getColumn()-1].getCard()!= null &&
-                            (localBoard[starterCell.getRow()-1][starterCell.getColumn()-1].getCard().getResources()[4].equals(resource) && starterCell.getRow() >= 1 &&
+                            (localBoard[starterCell.getRow()-1][starterCell.getColumn()-1].getCard().getCardBackAnglesType()[4].equals(resource) && starterCell.getRow() >= 1 &&
                                     starterCell.getColumn() >= 1)) {
                         //sposto la cella di ricerca, la setto visitata e la aggiungo al counter di carte
                         starterCell = localBoard[starterCell.getRow()-1][starterCell.getColumn()-1];
@@ -48,7 +48,7 @@ public class DiagonalGoalCard extends GoalCard {
                     starterCell = cell;
                     //scendo in basso a destra e conto le carte che fanno parte della diagonale
                     while (localBoard[starterCell.getRow()+1][starterCell.getColumn()+1].getCard()!= null &&
-                            (localBoard[starterCell.getRow()+1][starterCell.getColumn()+1].getCard().getResources()[4].equals(resource) && starterCell.getRow() <= localBoard.length-2 &&
+                            (localBoard[starterCell.getRow()+1][starterCell.getColumn()+1].getCard().getCardBackAnglesType()[4].equals(resource) && starterCell.getRow() <= localBoard.length-2 &&
                                     starterCell.getColumn() <= localBoard[0].length-2)) {
 
                         starterCell = localBoard[starterCell.getRow()+1][starterCell.getColumn()+1];
@@ -64,13 +64,13 @@ public class DiagonalGoalCard extends GoalCard {
         //se la diagonale é ascendente
         } else {
             for (Cell cell : cellArrayList) {
-                if (!cell.getVisited() && cell.getCard().getResources()[4].equals(resource)){
+                if (!cell.getVisited() && cell.getCard().getCardBackAnglesType()[4].equals(resource)){
                     int count=1;
                     starterCell = cell;
                     starterCell.setVisited(true);
                     //dentro il while risalgo verso l'alto finché non trovo la carta da cui inizia la diagonale
                     while (localBoard[starterCell.getRow()-1][starterCell.getColumn()+1].getCard()!= null &&
-                            (localBoard[starterCell.getRow()-1][starterCell.getColumn()+1].getCard().getResources()[4].equals(resource) && starterCell.getRow() >= 1 &&
+                            (localBoard[starterCell.getRow()-1][starterCell.getColumn()+1].getCard().getCardBackAnglesType()[4].equals(resource) && starterCell.getRow() >= 1 &&
                                     starterCell.getColumn() <= localBoard[0].length-2)) {
 
                         starterCell = localBoard[starterCell.getRow()-1][starterCell.getColumn()+1];
@@ -79,7 +79,7 @@ public class DiagonalGoalCard extends GoalCard {
                     }
                     starterCell = cell;
                     while (localBoard[starterCell.getRow()+1][starterCell.getColumn()-1].getCard()!= null &&
-                            (localBoard[starterCell.getRow()+1][starterCell.getColumn()-1].getCard().getResources()[4].equals(resource) && starterCell.getRow() <= localBoard.length-2 &&
+                            (localBoard[starterCell.getRow()+1][starterCell.getColumn()-1].getCard().getCardBackAnglesType()[4].equals(resource) && starterCell.getRow() <= localBoard.length-2 &&
                                     starterCell.getColumn() >= 1)) {
 
                         starterCell = localBoard[starterCell.getRow()+1][starterCell.getColumn()-1];

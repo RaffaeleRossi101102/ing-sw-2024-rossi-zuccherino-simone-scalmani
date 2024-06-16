@@ -63,16 +63,16 @@ class BoardTest {
             testGameInit.getGame().getPlayers().get(0).getPlayerBoard().updateBoard(41, 43, testGameInit.getGame().getPlayers().get(0).getHand().get(2));
             testGameInit.getGame().getPlayers().get(0).getPlayerBoard().updateBoard(44, 44, testGameInit.getGame().getPlayers().get(0).getHand().get(3));
 
-            counters = testGameInit.getGame().getPlayers().get(0).getHand().get(0).getResource();
-            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(1).getResource();
+            counters = testGameInit.getGame().getPlayers().get(0).getHand().get(0).getSumResources();
+            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(1).getSumResources();
             for (int i=0; i<7; i++){
                 counters[i] = counters[i] + tempCounters[i];
             }
-            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(2).getResource();
+            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(2).getSumResources();
             for (int i=0; i<7; i++){
                 counters[i] = counters[i] + tempCounters[i];
             }
-            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(3).getResource();
+            tempCounters = testGameInit.getGame().getPlayers().get(0).getHand().get(3).getSumResources();
             for (int i=0; i<7; i++){
                 counters[i] = counters[i] + tempCounters[i];
             }

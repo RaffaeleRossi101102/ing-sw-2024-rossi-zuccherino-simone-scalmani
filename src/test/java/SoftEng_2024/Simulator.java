@@ -95,7 +95,7 @@ public class Simulator {
             System.out.println("]");
             System.out.print("Back: [");
             for (int j = 0; j < 4; j++) {
-                System.out.print( card.getResources()[j]+"-");
+                System.out.print( card.getCardBackAnglesType()[j]+"-");
             }
             System.out.println("]");
             n++;
@@ -121,7 +121,7 @@ public class Simulator {
                 // SHOWING THE PERSONAL CARD TO THE CURRENT PLAYER
                 for(int i=0; i<3; i++) {
                     Card currentCard = controller.getGame().getCurrentPlayer().getHand().get(i);
-                    System.out.print("TIPO: [" + currentCard.getResources()[4]+"]   ");
+                    System.out.print("TIPO: [" + currentCard.getCardBackAnglesType()[4]+"]   ");
                     System.out.print("PUNTI: [" + currentCard.getFront().getPoints()+"] ");
                     System.out.print("ANGOLI: [");
                     for (int j = 0; j < 4; j++) {
@@ -151,7 +151,7 @@ public class Simulator {
                 System.out.println("CARTE DA CUI PESCARE : ");
                 for(int i=0; i<4; i++){
                     Card card = controller.getGame().getPublicCards().get(i);
-                    System.out.print("TIPO: [" + card.getResources()[4]+"]  ");
+                    System.out.print("TIPO: [" + card.getCardBackAnglesType()[4]+"]  ");
                     System.out.print("PUNTI:[" + card.getFront().getPoints()+"]   ");
                     System.out.print("Angoli: [");
                     for (int j = 0; j < 4; j++) {

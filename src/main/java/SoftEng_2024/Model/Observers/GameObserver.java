@@ -24,9 +24,9 @@ public class GameObserver {
         //only sends the back resource
         if (topCard != null) {
             if (whichDeck == 0)
-                notifyServer(new UpdatedResourceDeckMessage("", topCard.getResources()[4]));
+                notifyServer(new UpdatedResourceDeckMessage("", topCard.getCardBackAnglesType()[4]));
             else if (whichDeck == 1)
-                notifyServer(new UpdatedGoldDeckMessage("", topCard.getResources()[4]));
+                notifyServer(new UpdatedGoldDeckMessage("", topCard.getCardBackAnglesType()[4]));
         }
         else{
             if(whichDeck==0)
@@ -41,8 +41,8 @@ public class GameObserver {
     //the messages will contain both the new public cards and the resource of the new top card
     public void updatedPublicCards(String nickname, int whichDeck){
         if(whichDeck==3){
-            notifyServer(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getResources()[4]));
-            notifyServer(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getResources()[4]));
+            notifyServer(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
+            notifyServer(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
             notifyServer(new UpdatedPublicCardsMessage("",game.getPublicCards()));
             return;
         }
@@ -54,7 +54,7 @@ public class GameObserver {
             }
             else{
                 //sending everyone the new top card of the resource deck
-                notifyServer(new UpdatedResourceDeckMessage(message,game.getResourceDeck().peek().getResources()[4]));
+                notifyServer(new UpdatedResourceDeckMessage(message,game.getResourceDeck().peek().getCardBackAnglesType()[4]));
             }
         }
         else{
@@ -64,7 +64,7 @@ public class GameObserver {
             }
             else{
                 //sending everyone the new top card of the resource deck
-                notifyServer(new UpdatedGoldDeckMessage(message,game.getGoldDeck().peek().getResources()[4]));
+                notifyServer(new UpdatedGoldDeckMessage(message,game.getGoldDeck().peek().getCardBackAnglesType()[4]));
             }
         }
         notifyServer(new UpdatedPublicCardsMessage(message,game.getPublicCards()));
