@@ -131,7 +131,7 @@ public class Board {
             //Ripete per tutte le direzioni
             if (cardBoard[r + 1][c - 1].getCard() != null) {
                 counter[7]++;
-                cardBoard[r - 1][c - 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.UPRIGHT),true);
+                cardBoard[r + 1][c - 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.UPRIGHT),true);
                 if (!cardBoard[r + 1][c - 1].getCard().getFlipped()) {
                     index = Angles.getIndex(cardBoard[r + 1][c - 1].getCard().getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.UPRIGHT)]);
                     if (index < 7) {
@@ -150,7 +150,7 @@ public class Board {
         if((r-1)>=0 && c+1<cardBoard[0].length){
             if (cardBoard[r - 1][c + 1].getCard() != null) {
                 counter[7]++;
-                cardBoard[r - 1][c - 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.DOWNLEFT),true);
+                cardBoard[r - 1][c + 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.DOWNLEFT),true);
                 if (!cardBoard[r - 1][c + 1].getCard().getFlipped()) {
                     index = Angles.getIndex(cardBoard[r - 1][c + 1].getCard().getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)]);
                     if (index < 7) {
@@ -169,7 +169,7 @@ public class Board {
         if((r+1)<cardBoard.length && (c+1)<cardBoard[0].length){
             if(cardBoard[r+1][c+1].getCard() != null) {
                 counter[7]++;
-                cardBoard[r - 1][c - 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.UPLEFT),true);
+                cardBoard[r + 1][c + 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.UPLEFT),true);
                 if (!cardBoard[r + 1][c + 1].getCard().getFlipped()) {
                     index = Angles.getIndex(cardBoard[r + 1][c + 1].getCard().getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.UPLEFT)]);
                     if (index < 7) {
