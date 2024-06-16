@@ -44,6 +44,8 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.CHOOSEGOAL){
             pollThreaded();
         }
+        //shuffle the players
+        controller.getGame().shufflePlayers();
         //vengono date le carte a tutti i giocatori
         controller.handOutCards();
         controller.getGame().turnStart();

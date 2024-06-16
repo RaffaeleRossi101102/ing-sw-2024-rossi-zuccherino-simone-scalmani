@@ -7,12 +7,10 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
-import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
 import SoftEng_2024.Network.ToView.ObServerManager;
-import java.awt.color.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -331,7 +329,7 @@ public class GameController {
         }
         //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
         for (Double playerId : playerIdMap.keySet()) {
-            if(nickname.equals(playerIdMap.get(playerId).getNickname())){
+            if(nickname.equals(playerIdMap.get(playerId).getNickname()) && !playerIdMap.get(playerId).getIsOnline()){
                 Player player = playerIdMap.remove(playerId);
                 playerIdMap.put(ID, player);
                 game.getAckIdBindingMap().put(ID,true);
@@ -349,7 +347,7 @@ public class GameController {
             }
         }
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-        sendErrorMessage(ID,"The nickname you chose doesn't belong to anyone! Please insert the nickname you had before disconnecting...");
+        sendErrorMessage(ID,"The nickname you chose doesn't belong to anyone that is offline! Please insert the nickname you had before disconnecting...");
         
     }
 

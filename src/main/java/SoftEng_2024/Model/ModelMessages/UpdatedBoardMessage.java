@@ -20,7 +20,7 @@ public class UpdatedBoardMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        if(!rejoining | (rejoining & !view.getLocalModel().getPlayersBoards().containsKey(senderNickname)))
+        if( !rejoining | (rejoining & !view.getLocalModel().getPlayersBoards().containsKey(senderNickname)) )
             view.getLocalModel().setLocalBoard(senderNickname,cardBoard,cardList,score,anglesCounter);
         else if(rejoining & view.getLocalModel().getPlayersBoards().get(senderNickname).getCardList().isEmpty())
             view.getLocalModel().setLocalBoard(senderNickname,cardBoard,cardList,score,anglesCounter);
