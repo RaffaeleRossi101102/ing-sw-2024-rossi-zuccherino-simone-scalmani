@@ -1,6 +1,7 @@
 package SoftEng_2024.View.ViewStates;
 
 
+import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.LocalModel;
 

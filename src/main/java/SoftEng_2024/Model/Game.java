@@ -27,7 +27,7 @@ public class Game {
     private boolean draw;
     private boolean gameEnd;
     private boolean firstTurn= true;
-    private static int maxScore=0;
+    private int maxScore=0;
     private GameObserver gameObserver;
     private ConcurrentHashMap<Double,Boolean> AckIdBindingMap;
     private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
@@ -133,7 +133,7 @@ public class Game {
 
     }
 
-    private boolean checkIfGameEnd(){
+    public synchronized boolean checkIfGameEnd(){
         boolean gameEnd = true;
         for(Player p:players){
             if(!p.getPlayerState().equals(GameState.ENDGAME) && p.getIsOnline()) {
@@ -363,5 +363,11 @@ public class Game {
     public void setGameObserver(GameObserver gameObserver) {
         this.gameObserver = gameObserver;
     }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public int getMaxScore(){return this.maxScore;}
 }
 

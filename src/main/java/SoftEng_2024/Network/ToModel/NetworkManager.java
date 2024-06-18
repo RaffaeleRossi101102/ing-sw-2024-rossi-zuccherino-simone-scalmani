@@ -57,7 +57,7 @@ public class NetworkManager {
         }
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat
         controller.getGame().gameEnd();
-        //TODO ritornare ad inizio run per la creazione di una nuova partita??
+
 
     }
 
