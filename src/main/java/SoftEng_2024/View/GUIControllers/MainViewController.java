@@ -51,7 +51,7 @@ public class MainViewController {
     @FXML
     private TextField textField, intField;
     @FXML
-    Label nickLabel, pcLabel;
+    Label nickLabel, pcLabel, playerScore, winnerLabel;
     @FXML
     ImageView backImage, frontImage, goalCardHand, goal1, goal2, hand1, hand2, hand3, deck1, deck2, public1, public2, public3, public4;
     @FXML
@@ -281,6 +281,25 @@ public class MainViewController {
     }
 
     public void switchToMainGame() throws IOException {
+        new Thread(() -> {
+            while (true) {
+                if (localModel.getPlayerState() == GameState.ENDGAME) {
+                    Platform.runLater(() -> {
+                        try {
+                            switchToPlayerEndGame();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
         flipped = false;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/MainGame.fxml")));
         scene = new Scene(root);
@@ -338,7 +357,51 @@ public class MainViewController {
                 }
             }
         }
+        playerScore = new Label();
+        playerScore.setText("0");
         // setAvailableCellsImg();
+    }
+
+    public void switchToPlayerEndGame() throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/PlayerEndGame.fxml")));
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+        new Thread(() -> {
+            while (true) {
+                if (localModel.getGameState() == GameState.ENDGAME) {
+                    Platform.runLater(() -> {
+                        try {
+                            switchToFinalScreen();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+    }
+
+    public void switchToFinalScreen() throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FinalScreen.fxml")));
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+        if (localModel.getWinnersNickname().size() == 2) {
+            winnerLabel = new Label();
+            winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATION TO: " + localModel.getWinnersNickname().get(0) + localModel.getWinnersNickname().get(0) + " \n YOU WON!!");
+        } else if (localModel.getWinnersNickname().size() == 1) {
+            winnerLabel = new Label();
+            winnerLabel.setText("CONGRATULATION" + localModel.getWinnersNickname().get(0) + "YOU WON!!");
+        }
     }
 
     public void confirmCreateGame(ActionEvent event) {
@@ -659,6 +722,7 @@ public class MainViewController {
             if (localModel.getPlayerState() == GameState.PLAY) {
                 deck = 0;
                 ViewMessage msg = new DrawFromTheDeckMessage(deck, ID);
+                playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                 try {
                     client.update(msg);
                 } catch (RemoteException e) {
@@ -682,6 +746,7 @@ public class MainViewController {
             if (localModel.getPlayerState() == GameState.PLAY) {
                 deck = 1;
                 ViewMessage msg = new DrawFromTheDeckMessage(deck, ID);
+                playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                 try {
                     client.update(msg);
                 } catch (RemoteException e) {
@@ -706,6 +771,7 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(0) != null) {
                     publicCard = 0;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
+                    playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -738,6 +804,7 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(1) != null) {
                     publicCard = 1;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
+                    playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -770,6 +837,7 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(2) != null) {
                     publicCard = 2;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
+                    playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -802,6 +870,7 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(3) != null) {
                     publicCard = 3;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
+                    playerScore.setText("" + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {

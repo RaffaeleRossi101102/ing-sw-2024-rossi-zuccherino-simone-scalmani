@@ -35,6 +35,8 @@ public class GameController {
     private List<PlayerObserver> playerObservers=new ArrayList<>();
     private ObServerManager toViewManager;
     private NetworkManager networkManager;
+    private Timer terminationTimer;
+    private TimerTask terminationTask;
     //private List<Player>
 
     //METHODS**********************************************************************
@@ -286,14 +288,49 @@ public class GameController {
                 game.getErrorMessageBindingMap().remove(ID);
                 checkIfNextState();
             }
-            int onlinePlayersCounter=0;
-            for(Player c:clientPlayers){
-                if(c.getIsOnline())
-                    onlinePlayersCounter++;
+
+            int onlinePlayers = getOnlinePlayersCount();
+
+            if(onlinePlayers==1){
+                //cancel the previous timer if it exists
+                if(terminationTimer!=null){
+                    terminationTimer.cancel();
+                    terminationTimer.purge();
+                }
+
+                //create a new timer
+                terminationTimer = new Timer();
+                terminationTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        //after 5 seconds, if the number of players hasn't changed, it will end the game and notify the player still online
+                        if (getOnlinePlayersCount() == 1){
+                            System.out.println("EXECUTING GAME TERMINATION ACTION, ONLY 1 PLAYER ONLINE");
+
+
+
+                        }
+                    }
+                };
+
+                //start the timer with a 5-seconds delay
+                terminationTimer.schedule(terminationTask, 5000);
+
+            }else if(onlinePlayers == 0){
+                System.err.println("NO MORE PLAYERS IN GAME... ENDING GAME TERMINATION ACTION");
+                game.setGameState(GameState.ENDGAME);
             }
-            if(onlinePlayersCounter==1)
-                System.out.println("INIZIO COUNTER PER TERMINAZIONE DEL GIOCO");
         }
+    }
+
+    private int getOnlinePlayersCount(){
+        int onlinePlayersCounter=0;
+        for(Player c:clientPlayers){
+            if(c.getIsOnline())
+                onlinePlayersCounter++;
+        }
+
+        return onlinePlayersCounter;
     }
 
     private void addPlayer(String nickname, double ID) {

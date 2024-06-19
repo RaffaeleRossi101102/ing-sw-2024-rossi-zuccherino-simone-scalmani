@@ -24,6 +24,6 @@ public class EndGameState extends ViewState {
             System.out.print("YOU ALL WON!!!");
         }
 
-        defaultCommand(GameState.ENDGAME,"The game is ended but you can still:");
+        //TODO ?? defaultCommand(GameState.ENDGAME,"The game is ended but you can still:");
     }
 }
