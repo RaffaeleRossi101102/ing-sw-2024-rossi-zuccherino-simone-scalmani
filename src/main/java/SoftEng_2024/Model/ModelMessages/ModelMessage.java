@@ -36,4 +36,8 @@ public abstract class ModelMessage implements Serializable {
     public void setReceiverID(double receiverID) {
         this.receiverID = receiverID;
     }
+
+    public void setSenderNickname(String senderNickname) {
+        this.senderNickname = senderNickname;
+    }
 }

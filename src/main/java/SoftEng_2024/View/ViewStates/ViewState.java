@@ -130,31 +130,44 @@ public abstract class ViewState {
     }
 
     protected void writeInChat(){
-        System.out.println("Inside write in chat command...");
-        System.out.println("Do you want to whisper or to broadcast your message? Type 'whisper' , 'broadcast' or 'exit' to cancel");
         Scanner scanner = new Scanner(System.in);
+        List<String> chatMessages=view.getLocalModel().getLastNMessages(15);
+        System.out.println("Inside write in chat command...");
+        for (String message:chatMessages)
+            System.out.println(message);
+        if(model.getChatError()!=null) {
+            System.out.println(model.getChatError());
+            model.setChatError(null);
+        }
+
+        System.out.println("Do you want to whisper or to broadcast your message? Type 'w' , 'b' or 'exit' ");
+
         String choice= scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
-        while(!choice.equals("whisper") & !choice.equals("broadcast") & !choice.equals("exit")){
+        while(!choice.equals("w") & !choice.equals("b") & !choice.equals("exit")){
             
-            System.out.println("Wrong input, please write 'whisper' , 'broadcast' or 'exit' to cancel");
+            System.out.println("Wrong input, please write 'w' , 'b' or 'exit' to cancel");
             choice=scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
             if(choice.equals("exit")) return;
         }
         
-        if(choice.equals("whisper"))
+        if(choice.equals("w"))
             whisper();
-        else
+        else if(choice.equals("b"))
             broadcast();
+        else
+            return;
     }
 
     protected void whisper(){
         System.out.println("Inside whisper command...");
-        System.out.println("Who do you want to whisper to? Type the player's nickname:");
+        System.out.println("Who do you want to whisper to? These are the nicknames, choose one of them: ");
+        for(String playersNick:view.getLocalModel().getPlayersNickname().keySet()){
+            System.out.print(playersNick+" ");
+        }
         Scanner scanner= new Scanner(System.in);
         String nickname= scanner.nextLine();
-        while(!view.getLocalModel().getPlayersNickname().contains(nickname)){
-            
-            System.out.println("There isn't a player with that nickname! Retry or type 'exit' to cancel...");
+        while(!view.getLocalModel().getPlayersNickname().containsKey(nickname)){
+            System.err.println("There isn't a player with that nickname! Retry or type 'exit' to cancel...");
             nickname= scanner.nextLine();
             if(nickname.equals("exit")) return;
         }
@@ -162,10 +175,8 @@ public abstract class ViewState {
         String msg = typeMessage();
         
         if (!msg.equals("exit")) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            updateClient(new WhisperMessage("[" + dtf.format(now) + "]" + " " +
-                    model.getNickname() + " " + "has whispered to you: " + msg, nickname, ID));
+
+            updateClient(new WhisperMessage( msg, nickname, ID));
         }
     }
 
@@ -341,7 +352,7 @@ public abstract class ViewState {
             cardIndex++;
         }
     }
-    public void setDefaultCommand(String defaultCommand) {
-        this.defaultCommand = defaultCommand;
-    }
+//    public void setDefaultCommand(String defaultCommand) {
+//        this.defaultCommand = defaultCommand;
+//    }
 }

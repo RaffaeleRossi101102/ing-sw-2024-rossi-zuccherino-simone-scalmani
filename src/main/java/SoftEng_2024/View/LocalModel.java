@@ -39,6 +39,7 @@ public class LocalModel {
     private List<GoalCard> publicGoals;
     private volatile int numberOfMessages;
     private volatile int arrivedMessages;
+    private String chatError;
 
     public LocalModel() {
         otherPlayersHand =new ConcurrentHashMap<>();
@@ -124,6 +125,10 @@ public class LocalModel {
         return subQueue;
     }
 
+    public String getChatError() {
+        return chatError;
+    }
+
     //SETTERS******************************************************************
     public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
         //System.out.println("in set other players hand"+playerNickname);
@@ -131,6 +136,10 @@ public class LocalModel {
             this.otherPlayersHand.replace(playerNickname,otherPlayersHand);
         else
             this.otherPlayersHand.put(playerNickname,otherPlayersHand);
+    }
+
+    public void setChatError(String chatError) {
+        this.chatError = chatError;
     }
 
     public void setPublicCards(List<Card> publicCards) {
@@ -227,13 +236,19 @@ public class LocalModel {
 
     public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
 
-    public synchronized void setErrorLog(String error) {this.errorLog.add(error);}
+    public synchronized void setErrorLog(String error) {
+        this.errorLog.add(error);
+
+    }
 
     public ConcurrentHashMap<String, LocalBoard> getPlayersBoards() {
         return playersBoards;
     }
 
-    public void addToChat(String msg) {this.chat.add(msg);}
+    public synchronized void addToChat(String msg) {
+        this.chat.add(msg);
+        //System.out.println("aggiunto messaggio "+msg);
+    }
     public boolean getAllCardsArrived(){
         return this.allCardsArrived;
     }

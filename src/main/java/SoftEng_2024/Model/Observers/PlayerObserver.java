@@ -212,6 +212,10 @@ public class PlayerObserver {
         obServerManager.addModelMessageToQueue(msg);
     }
 
+    public double getReceiverID() {
+        return receiverID;
+    }
+
     private void notifyServerForRejoin(ModelMessage msg){
         msg.setRejoining(true);
         msg.setReceiverID(receiverID);

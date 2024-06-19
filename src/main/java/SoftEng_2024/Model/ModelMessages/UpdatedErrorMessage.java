@@ -13,4 +13,5 @@ public class UpdatedErrorMessage extends ModelMessage{
        // System.err.println(message);
         view.getLocalModel().setErrorLog(message);
     }
+
 }

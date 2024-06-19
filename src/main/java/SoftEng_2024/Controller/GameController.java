@@ -1,5 +1,9 @@
 package SoftEng_2024.Controller;
 import SoftEng_2024.Model.Cards.*;
+import SoftEng_2024.Model.ModelMessages.BroadcastMessage;
+import SoftEng_2024.Model.ModelMessages.ChatErrorMessage;
+import SoftEng_2024.Model.ModelMessages.OwnWhisperMessage;
+import SoftEng_2024.Model.ModelMessages.WhisperMessage;
 import SoftEng_2024.Model.Observers.BoardObserver;
 import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Observers.PlayerObserver;
@@ -14,6 +18,8 @@ import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static SoftEng_2024.Model.Cards.CardDeserializer.*;
@@ -341,7 +347,8 @@ public class GameController {
                 o.setReceiverID(ID);
                 o.playerRejoining(game);
                 game.setAckIdBindingMap(ID,true);
-                if(game.getGameState().equals(GameState.STARTER))
+                //if the state of the game is the same as the state of the player set online as true
+                if(game.getGameState().ordinal() <= player.getPlayerState().ordinal() | (game.getGameState().equals(GameState.PLAY)) & player.getPlayerState().equals(GameState.NOTPLAYING))
                     player.setOnline(true);
                 return;
             }
@@ -498,10 +505,37 @@ public class GameController {
             case 0:
                 sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
         }
-
-
-        //notify the right observers
     }
+    //method that sends a chat message to a specified user
+    public void whisper(String receiver,String message,double ID){
+        boolean found=false;
+        for (Player player:clientPlayers){
+            if(player.getNickname().equals(receiver)){
+                found=true;
+                //if the receiver nickname is found
+                if(player.getIsOnline()) {
+                    double receiverID=player.getPlayerObserver().getReceiverID();
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    String time=dtf.format(now);
+                    //sends the message both to the receiver user and to the sender user
+                    toViewManager.addModelMessageToQueue(new WhisperMessage(receiverID,message,playerIdMap.get(ID).getNickname(),time));
+                    toViewManager.addModelMessageToQueue(new OwnWhisperMessage(ID,message,receiver,time));
+                }
+                else
+                    sendChatErrorMessage(ID,"The player you're trying to whisper to isn't online! You can only whisper to online players...");
+            }
+        }
+        if(!found)
+            sendChatErrorMessage(ID,"You tried whispering to a non existing player!");
+    }
+    //broadcasts a message to every player in the game
+    public void broadcast(String message, double ID){
+        for(double playerID:playerIdMap.keySet()){
+            toViewManager.addModelMessageToQueue(new BroadcastMessage(playerID,message));
+        }
+    }
+
     public void handOutStarterCards(){
         for(Player player: game.getPlayers()){
             //aggiungo una carta starter alla mano del player
@@ -598,5 +632,8 @@ public class GameController {
 
     public void setNetworkManager(NetworkManager networkManager) {
         this.networkManager = networkManager;
+    }
+    private void sendChatErrorMessage(double ID, String errorString){
+        toViewManager.addModelMessageToQueue(new ChatErrorMessage(ID,errorString));
     }
 }
