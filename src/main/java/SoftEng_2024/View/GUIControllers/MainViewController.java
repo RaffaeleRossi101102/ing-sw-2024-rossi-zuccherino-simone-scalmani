@@ -19,12 +19,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,18 +49,26 @@ public class MainViewController {
     private static final String IMAGE_PATH_BACK = "/Cards/CODEX_cards_gold_back-%d.jpg";
     private double scale = 1.0;
     int playerCount = 0, choice = 0, handIndex, cardID, deckTopID;
-    private static String nickname;
+    private static String nickname, destNickname;
+    private ArrayList<String> destNicknames;
     private static Color color;
+    private static ArrayDeque<String> chatMsg;
     @FXML
-    private TextField textField, intField;
+    private TextField textField, intField, messageField;
+    @FXML
+    private static TextArea chatArea;
+    @FXML
+    ChoiceBox<String> selectNick;
     @FXML
     Label nickLabel, pcLabel, playerScore, winnerLabel;
     @FXML
     ImageView backImage, frontImage, goalCardHand, goal1, goal2, hand1, hand2, hand3, deck1, deck2, public1, public2, public3, public4;
     @FXML
-    Button redBTN, ylwBTN, bluBTN, grnBTN, prvBTN;
+    Button redBTN, ylwBTN, bluBTN, grnBTN, prvBTN, chatBTN;
     @FXML
     GridPane cardPane;
+    @FXML
+    AnchorPane chatPane;
 
     public static void setID(double id) {
         MainViewController.ID = id;
@@ -86,6 +97,7 @@ public class MainViewController {
                 nickLabel.setText("Nickname: " + nickname);
                 textField.clear();
                 nickLabel.requestFocus();
+
             }
         });
     }
@@ -207,7 +219,6 @@ public class MainViewController {
         }
         cardPane.setScaleX(scale);
         cardPane.setScaleY(scale);
-
     }
 
     public void switchToWaitingScreen(ActionEvent event) throws IOException {
@@ -217,6 +228,12 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+        if (chatMsg == null) chatMsg = new ArrayDeque<>();
+        if (localModel.getState() == GameState.CONNECTION) {
+            chatBTN = (Button) scene.getRoot().lookup("#chatBTN");
+            chatBTN.setDisable(true);
+        }
+        chatInit();
     }
 
     public void switchToCreateSetup(ActionEvent event) throws IOException {
@@ -257,6 +274,31 @@ public class MainViewController {
         frontImage = (ImageView) scene.lookup("#frontImage");
         backImage.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getStarterCard().getCardID())))));
         frontImage.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getStarterCard().getCardID())))));
+
+        chatInit();
+
+        new Thread(() -> {
+            while (true) {
+                if (!localModel.getChat().isEmpty()) {
+                    Platform.runLater(() -> {
+                        chatMsg.add(localModel.getChat().element());
+                        chatArea.appendText(localModel.getChat().poll() + "\n");
+                    });
+                }
+                if (localModel.getChatError() != null) {
+                    chatMsg.add(localModel.getChatError());
+                    chatArea.appendText(localModel.getChatError() + "\n");
+                    localModel.setChatError(null);
+                }
+                System.out.println(chatMsg.size());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+
     }
 
     public void switchToColorChoice() throws IOException {
@@ -265,6 +307,13 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        chatPane = (AnchorPane) scene.lookup("#chatPane");
+        chatArea = (TextArea) scene.lookup("#chatArea");
+        selectNick = (ChoiceBox<String>) scene.getRoot().lookup("#selectNick");
+        chatPane.setVisible(false);
+
+        chatInit();
     }
 
     public void switchToGoalChoice() throws IOException {
@@ -273,6 +322,8 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        chatInit();
 
         goal1 = (ImageView) scene.lookup("#goal1");
         goal2 = (ImageView) scene.lookup("#goal2");
@@ -283,6 +334,21 @@ public class MainViewController {
     public void switchToMainGame() throws IOException {
         new Thread(() -> {
             while (true) {
+                Platform.runLater(() -> {
+                    deck1 = (ImageView) scene.lookup("#deck1");
+                    deck2 = (ImageView) scene.lookup("#deck2");
+                    deck1TopResource(localModel.getTopResourceCard());
+                    deck2TopResource(localModel.getTopGoldCard());
+
+                    public1 = (ImageView) scene.lookup("#public1");
+                    public2 = (ImageView) scene.lookup("#public2");
+                    public3 = (ImageView) scene.lookup("#public3");
+                    public4 = (ImageView) scene.lookup("#public4");
+                    public1.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(0).getCardID())))));
+                    public2.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(1).getCardID())))));
+                    public3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(2).getCardID())))));
+                    public4.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(3).getCardID())))));
+                });
                 if (localModel.getPlayerState() == GameState.ENDGAME) {
                     Platform.runLater(() -> {
                         try {
@@ -294,7 +360,7 @@ public class MainViewController {
                     break;
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -306,6 +372,7 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+        chatInit();
 
         goalCardHand = (ImageView) scene.lookup("#goalCardHand");
         goalCardHand.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, cardID)))));
@@ -316,20 +383,6 @@ public class MainViewController {
         hand1.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(0).getCardID())))));
         hand2.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(1).getCardID())))));
         hand3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(2).getCardID())))));
-
-        public1 = (ImageView) scene.lookup("#public1");
-        public2 = (ImageView) scene.lookup("#public2");
-        public3 = (ImageView) scene.lookup("#public3");
-        public4 = (ImageView) scene.lookup("#public4");
-        public1.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(0).getCardID())))));
-        public2.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(1).getCardID())))));
-        public3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(2).getCardID())))));
-        public4.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(3).getCardID())))));
-
-        deck1 = (ImageView) scene.lookup("#deck1");
-        deck2 = (ImageView) scene.lookup("#deck2");
-        deck1TopResource(localModel.getTopResourceCard());
-        deck2TopResource(localModel.getTopGoldCard());
 
         cardPane = (GridPane) scene.lookup("#cardPane");
         if (cardPane != null) {
@@ -357,7 +410,7 @@ public class MainViewController {
                 }
             }
         }
-        playerScore = new Label();
+        playerScore = (Label) scene.getRoot().lookup("#playerScore");
         playerScore.setText("0");
         // setAvailableCellsImg();
     }
@@ -368,6 +421,9 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        chatInit();
+
         new Thread(() -> {
             while (true) {
                 if (localModel.getGameState() == GameState.ENDGAME) {
@@ -395,6 +451,9 @@ public class MainViewController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        chatInit();
+
         if (localModel.getWinnersNickname().size() == 2) {
             winnerLabel = new Label();
             winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATION TO: " + localModel.getWinnersNickname().get(0) + localModel.getWinnersNickname().get(0) + " \n YOU WON!!");
@@ -404,19 +463,74 @@ public class MainViewController {
         }
     }
 
+    @FXML
+    private void sendMessage() {
+        String message = messageField.getText();
+        if (!message.isEmpty() && destNickname != null) {
+            messageField.clear();
+            if (destNickname == "broadcast") {
+                ViewMessage broadcastMsg = new BroadcastMessage(message, ID);
+                destNickname = null;
+                try {
+                    client.update(broadcastMsg);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                ViewMessage whisperMsg = new WhisperMessage(message, destNickname, ID);
+                destNickname = null;
+                try {
+                    client.update(whisperMsg);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("DESTINATION ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("NO DESTINATION SELECTED... SELECT ONE BEFORE SEND A MESSAGE...");
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void handleToggleButtonAction() {
+        boolean isVisible = chatPane.isVisible();
+        chatPane.setVisible(!isVisible);
+        chatPane.setManaged(!isVisible);
+    }
+
+    public void getDestNickname(ActionEvent event) {
+        destNickname = selectNick.getValue();
+    }
+
     public void confirmCreateGame(ActionEvent event) {
         try {
             assert client != null;
             client.registerToServer(ID, client);
             ViewMessage msg = new CreateGameMessage(nickname, playerCount, ID);
             client.update(msg);
-            switchToWaitingScreen(event);
-            inWaitingScreen(GameState.CONNECTION);
+            while (!localModel.isAckReceived()) ;
+            if (localModel.isAckSuccessful()) {
+                switchToWaitingScreen(event);
+                inWaitingScreen(GameState.CONNECTION);
+            } else {
+                localModel.setAckReceived(false);
+                localModel.setAckSuccessful(false);
+                switchToMainMenu(event);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("CREATING GAME ERROR");
+                alert.setHeaderText(null);
+                alert.setContentText("YOU ARE TRYING TO CREATE A GAME BUT ONE ALREADY EXISTS... IT'S TIME TO JOIN!!!");
+                alert.show();
+            }
         } catch (RemoteException | NotBoundException e) {
             serverWarningHandler();
             System.exit(1);
         } catch (IOException e) {
             IOWarningHandler();
+            e.printStackTrace();
             System.exit(1);
         }
     }
@@ -427,8 +541,20 @@ public class MainViewController {
             client.registerToServer(ID, client);
             ViewMessage msg = new JoinGameMessage(nickname, ID);
             client.update(msg);
-            switchToWaitingScreen(event);
-            inWaitingScreen(GameState.CONNECTION);
+            while (!localModel.isAckReceived()) ;
+            if (localModel.isAckSuccessful()) {
+                switchToWaitingScreen(event);
+                inWaitingScreen(GameState.CONNECTION);
+            } else {
+                localModel.setAckReceived(false);
+                localModel.setAckSuccessful(false);
+                switchToMainMenu(event);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("JOIN GAME ERROR");
+                alert.setHeaderText(null);
+                alert.setContentText("YOU ARE TRYING TO JOIN IN A GAME BUT THERE ISN'T ONE... IT'S TIME TO CREATE A GAME!!!");
+                alert.show();
+            }
         } catch (RemoteException | NotBoundException e) {
             serverWarningHandler();
             System.exit(1);
@@ -575,7 +701,7 @@ public class MainViewController {
         new Thread(() -> {
             while (!localModel.isAckReceived()) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -981,5 +1107,27 @@ public class MainViewController {
         alert.setHeaderText(null);
         alert.setContentText("MORE RESOURCES NEEDED... CHOSE ANOTHER CARD OR FLIP THIS ONE!!!!!");
         alert.show();
+    }
+
+    private void chatInit() {
+        chatPane = (AnchorPane) scene.lookup("#chatPane");
+        chatArea = (TextArea) scene.lookup("#chatArea");
+        selectNick = (ChoiceBox<String>) scene.getRoot().lookup("#selectNick");
+        chatPane.setVisible(false);
+        destNicknames = new ArrayList<>();
+        for (String nick : localModel.getPlayersNickname().keySet()) {
+            if (!nick.equals(nickname)) {
+                destNicknames.add(nick);
+            }
+        }
+        destNicknames.add("broadcast");
+        selectNick.getItems().addAll(destNicknames);
+        selectNick.setOnAction(this::getDestNickname);
+        if (chatMsg != null) {
+            for (String msg : chatMsg) {
+                chatArea.appendText(msg + "\n");
+            }
+            chatPane.setVisible(false);
+        }
     }
 }
