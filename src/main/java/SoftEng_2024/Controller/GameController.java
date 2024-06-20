@@ -258,7 +258,9 @@ public class GameController {
     }
 
     public void quit(double ID) throws IOException {
-        System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
+        //TODO: VALUTARE SE SERVE CONTROLLARE SE IL GIOCATORE SIA ISTATO AGGIUNTO ALLA LISTA DEI PLAYERS O MENO
+        // CHE LA STAMPA COMMENTATA DAVA PROBLEMI
+        //System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if (game.getGameState().equals(GameState.CONNECTION)){
@@ -568,8 +570,12 @@ public class GameController {
     }
     //broadcasts a message to every player in the game
     public void broadcast(String message, double ID){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time=dtf.format(now);
+        String completeMsg="["+time+"] "+ playerIdMap.get(ID).getNickname()+": "+message;
         for(double playerID:playerIdMap.keySet()){
-            toViewManager.addModelMessageToQueue(new BroadcastMessage(playerID,message));
+            toViewManager.addModelMessageToQueue(new BroadcastMessage(playerID,completeMsg));
         }
     }
 

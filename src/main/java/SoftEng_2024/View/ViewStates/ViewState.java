@@ -186,11 +186,10 @@ public abstract class ViewState {
         String msg = typeMessage();
         
         if (!msg.equals("exit")) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
+//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//            LocalDateTime now = LocalDateTime.now();
             System.out.println("sto per mandare il messaggio");
-            updateClient(new BroadcastMessage("[" + dtf.format(now) + "]" + " " +
-                    model.getNickname() + ": " + msg, ID));
+            updateClient(new BroadcastMessage( msg, ID));
             System.out.println("messaggio mandato");
         }
 
