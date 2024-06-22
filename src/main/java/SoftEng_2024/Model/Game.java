@@ -29,8 +29,10 @@ public class Game {
     private boolean firstTurn= true;
     private int maxScore=0;
     private GameObserver gameObserver;
+    private int onlinePlayersCounter;
     private ConcurrentHashMap<Double,Boolean> AckIdBindingMap;
     private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
+    private String winnerDueToForfeit;
     //TODO: notificare il cambiamento di:
     //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
     //TODO: LE PUBLIC CARDS--> vanno fatte vedere sempre aggiornate ---
@@ -46,7 +48,7 @@ public class Game {
         this.starterDeck = starterDeck;
         this.publicCards = new ArrayList<>();
         this.goalCardDeck = goalCardDeck;
-
+        this.onlinePlayersCounter = 0;
         this.AckIdBindingMap=new ConcurrentHashMap<>();
         this.ErrorMessageBindingMap=new ConcurrentHashMap<>();
         this.gameState=GameState.CONNECTION;
@@ -134,10 +136,7 @@ public class Game {
                 play = true;
                 gameObserver.updatedCurrentPlayer(currentPlayer.getNickname());
             }
-
         }
-
-
     }
 
     public synchronized boolean checkIfGameEnd(){
@@ -299,6 +298,13 @@ public class Game {
         //TODO: VALUTARE CASO CHAT!!! Fare una mappa a parte/controllare nella view/invece di una stringa mettere una
 
     }
+    public void setAckAndError(double ID,  String errorMessage) {
+        try {
+            gameObserver.unRegisterClient(errorMessage, ID);
+        } catch (IOException e) {
+            System.err.println("Something went terribly wrong! (at Game setAckAndError)");
+        }
+    }
 
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
@@ -311,6 +317,25 @@ public class Game {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         gameObserver.updatedGameState(gameState);
+    }
+
+    public void setOnlinePlayersCounter(int add) {
+
+        onlinePlayersCounter += add;
+
+        if(onlinePlayersCounter==1 & add<0) {
+            gameObserver.lastPlayerStanding(winnerDueToForfeit);
+            for(Player player : players){
+                if(player.getIsOnline()){
+                    this.winnerDueToForfeit = player.getNickname();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void triggerWinnerDueToForfeit() {
+        gameObserver.winnerDueToForfeit(winnerDueToForfeit);
     }
 
     public Queue<GoalCard> getGoalCardDeck() {
@@ -376,5 +401,9 @@ public class Game {
     }
 
     public int getMaxScore(){return this.maxScore;}
+
+    public int getOnlinePlayersCounter() {
+        return onlinePlayersCounter;
+    }
 }
 

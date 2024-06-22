@@ -30,10 +30,9 @@ public class WaitingState {
 
         if (!model.isAckSuccessful()) {
             //display last error log
-            //while (model.getErrorLog().isEmpty());
-            //TODO da ricontrollare sequenza messaggi, da valutare coda errorLog ed il take del messaggio per il while di attesa isEmpty sopra
-            String error = model.getErrorLog().get(model.getErrorLog().size() - 1);
-            System.err.println(error);
+            while (model.getErrorLog().isEmpty());
+            System.err.println(model.getErrorLog());
+            model.setErrorLog("");
             view.setViewState(previousState);
         } else {
             model.setAckSuccessful(false);

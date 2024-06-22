@@ -3,10 +3,13 @@ package SoftEng_2024.Network.ToModel;
 import SoftEng_2024.Model.ModelMessages.ModelMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
-import java.io.IOException;
+
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import java.util.Set;
+
 
 public interface ServerInterface extends Remote {
     void addToNetworkManager(ViewMessage msg) throws RemoteException;
@@ -15,5 +18,5 @@ public interface ServerInterface extends Remote {
     void registerClient(double ID, ClientInterface client) throws RemoteException;
     void unregisterClient(double ID) throws RemoteException;
     void addToClientQueue(ModelMessage msg) throws RemoteException;
-
+    Set<Double> getClients() throws RemoteException;
 }

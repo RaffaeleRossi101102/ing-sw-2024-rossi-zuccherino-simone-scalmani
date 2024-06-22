@@ -11,6 +11,7 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
+import SoftEng_2024.Network.Main;
 import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
@@ -31,7 +32,7 @@ public class GameController {
     private Game game;
     private List<Player> clientPlayers = new ArrayList<>();
     private int maxPlayers=0;
-    private HashMap<Double,Player> playerIdMap= new HashMap<Double, Player>();
+    private HashMap<Double,Player> playerIdMap= new HashMap<>();
     private List<PlayerObserver> playerObservers=new ArrayList<>();
     private ObServerManager toViewManager;
     private NetworkManager networkManager;
@@ -65,16 +66,6 @@ public class GameController {
         Queue<Card> resourceDeck = new LinkedList<>(resourceDeckTemp);
         Queue<Card> goldDeck = new LinkedList<>(goldDeckTemp);
         Queue<Card> starterDeck = new LinkedList<>(starterDeckTemp);
-        String graphicBoardUp;
-        String graphicBoardMId;
-        String graphicBoardDown;
-        graphicBoardUp=starterDeck.peek().displayGraphicCard()[0]+starterDeck.peek().displayGraphicCard()[0]+starterDeck.peek().displayGraphicCard()[0];
-        graphicBoardMId=starterDeck.peek().displayGraphicCard()[1]+starterDeck.peek().displayGraphicCard()[1]+starterDeck.peek().displayGraphicCard()[1];
-        graphicBoardDown=starterDeck.peek().displayGraphicCard()[2]+starterDeck.peek().displayGraphicCard()[2]+starterDeck.peek().displayGraphicCard()[2];
-
-        System.out.println(graphicBoardUp);
-        System.out.println(graphicBoardMId);
-        System.out.println(graphicBoardDown);
 
         //costruisco i 16 goal, inserisco in una lista, faccio shuffle, aggiungo alla coda
         Queue<GoalCard> goalCardDeck = goalInit();
@@ -248,7 +239,7 @@ public class GameController {
         else{
             System.err.println("Someone tried to join the game...");
             //TODO show error maxPlayerReached
-            sendErrorMessage(ID,"You tried to join a game that has already started, please wait for it to finish...Or for us to implement multiple games :)");
+            sendErrorMessageAndUnRegister(ID,"You tried to join a game that has already started, please wait for it to finish...Or for us to implement multiple games :)");
         }
     }
 
@@ -315,7 +306,7 @@ public class GameController {
                 };
 
                 //start the timer with a 5-seconds delay
-                terminationTimer.schedule(terminationTask, 5000);
+                terminationTimer.schedule(terminationTask, 15000);
 
             }else if(onlinePlayers == 0){
                 if(terminationTimer!=null){
@@ -365,6 +356,7 @@ public class GameController {
         newPlayer.setNickname(nickname,ID);
         game.getPlayers().add(newPlayer);
         game.setAckIdBindingMap(ID,true);
+        game.setOnlinePlayersCounter(1);
     }
 
     public synchronized void reJoinGame(String nickname, double ID){
@@ -390,7 +382,7 @@ public class GameController {
                 o.playerRejoining(game);
                 game.setAckIdBindingMap(ID,true);
                 //if the state of the game is the same as the state of the player set online as true
-                if(game.getGameState().ordinal() <= player.getPlayerState().ordinal() | (game.getGameState().equals(GameState.PLAY)) & player.getPlayerState().equals(GameState.NOTPLAYING))
+                if(game.getGameState().ordinal() <= player.getPlayerState().ordinal() | (game.getGameState().equals(GameState.PLAY)) & player.getPlayerState().equals(GameState.NOTPLAYING)) {
                     player.setOnline(true);
                     game.setOnlinePlayersCounter(1);
                 }
@@ -451,6 +443,7 @@ public class GameController {
             currentPLayer.setOnline(true);
             game.setOnlinePlayersCounter(1);
         }
+
         game.setAckIdBindingMap(ID,true);
         //se ogni player ha scelto il colore cambio lo stato
         checkIfNextState();
@@ -639,8 +632,15 @@ public class GameController {
         game.setErrorMessageBindingMap(ID,ErrorMessage);
         game.setAckIdBindingMap(ID,false);
     }
+    private void sendErrorMessageAndUnRegister(double ID,String ErrorMessage){
+        game.setAckAndError(ID,ErrorMessage);
+    }
 
     private synchronized void checkIfNextState(){
+            if(1 == game.getOnlinePlayersCounter()){
+                return;
+            }
+
             boolean found=false;
             //per ogni player
             for(Player player: clientPlayers){

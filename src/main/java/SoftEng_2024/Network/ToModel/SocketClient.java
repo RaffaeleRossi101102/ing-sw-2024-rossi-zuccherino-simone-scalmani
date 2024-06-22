@@ -21,6 +21,7 @@ public class SocketClient implements ClientInterface {
     private ObjectInputStream in;
     private boolean socketCreated;
     private LinkedBlockingQueue<ModelMessage> modelQueue;
+    private boolean clientRunning;
 
     public SocketClient(String ip, int port, double ID){
         this.ip =ip;
@@ -29,11 +30,13 @@ public class SocketClient implements ClientInterface {
         socketCreated = false;
         modelQueue = new LinkedBlockingQueue<>();
         pong = new Pong(ID, 1.0);
+        clientRunning = true;
     }
 
 
     public void startClient(){
         try {
+            clientRunning = true;
             //STARTING CONNECTION
             socket = new Socket(ip, port);
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -71,7 +74,7 @@ public class SocketClient implements ClientInterface {
             out.flush();
             out.reset();
         } catch (IOException e) {
-            System.out.println("ERROR WRITING OBJECT...");
+            System.out.println("ERROR WRITING OBJECT.......");
         }
     }
 
@@ -120,7 +123,7 @@ public class SocketClient implements ClientInterface {
     @Override
     public void pong() throws RemoteException {
         Thread t1 = new Thread(() -> {
-            while(true){
+            while(clientRunning){
                 update(pong);
                 try {
                     Thread.sleep(2000);

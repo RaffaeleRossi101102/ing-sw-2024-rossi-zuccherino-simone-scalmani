@@ -9,6 +9,8 @@ import SoftEng_2024.Model.ModelMessages.*;
 import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class GameObserver {
@@ -85,14 +87,30 @@ public class GameObserver {
     public void updatedError(double receiverID,String errorMessage){
         notifyServer(new UpdatedErrorMessage(receiverID,errorMessage));
     }
+    public void unRegisterClient(String message, double receiverID) throws IOException {
+
+        obServerManager.getSocketServer().addToClientQueue(new UpdatedErrorMessage(receiverID,message));
+        obServerManager.getSocketServer().addToClientQueue(new UpdatedAckMessage(receiverID,"",false));
+        obServerManager.getServerRMI().addToClientQueue(new UpdatedAckMessage(receiverID,"",false));
+        obServerManager.getServerRMI().addToClientQueue(new UpdatedErrorMessage(receiverID,message));
+        obServerManager.getServerRMI().unregisterClient(receiverID);
+        obServerManager.getSocketServer().unRegisterClient(receiverID);
+
+    }
     public void gameIsEnding(){
         if(game.getGoldDeck().isEmpty() && game.getResourceDeck().isEmpty() && game.getPublicCards().isEmpty())
             notifyServer(new GameIsEndingMessage("BOTH THE DECKS AND THE PUBLIC CARDS ARE EMPTY... THE GAME IS ENDING..."));
         else
             notifyServer(new GameIsEndingMessage("SOMEONE HAS REACHED 20 POINTS... THE GAME IS ENDING..."));
     }
+    public void lastPlayerStanding(String winnerNickname){
+        notifyServer(new LastPlayerStandingMessage("YOU'RE THE LAST PLAYER STILL ONLINE! IF NO ONE REJOINS THE GAME IN 10 SECONDS YOU'LL BE THE WINNER!"));
+    }
     public void updatedWinners(List<String> winnersNickname){
-
+        notifyServer(new UpdatedWinnersMessage("",winnersNickname));
+    }
+    public void winnerDueToForfeit(String winnerNickname){
+        notifyServer(new WinnerDueToForfeitMessage(winnerNickname));
     }
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);

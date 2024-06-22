@@ -10,13 +10,15 @@ public class UpdatedWinnersMessage extends ModelMessage{
     public UpdatedWinnersMessage( String message,List<String> winnersNickname) {
         super(0, message, "game");
         this.winnersNickname=winnersNickname;
+
     }
 
     @Override
     public void executeMessage(View view) {
         view.getLocalModel().setWinnersNickname(winnersNickname);
         view.getLocalModel().setGameState(GameState.ENDGAME);
-        if(rejoining)
+        if (rejoining)
             view.getLocalModel().increaseArrivedMessages();
     }
+
 }

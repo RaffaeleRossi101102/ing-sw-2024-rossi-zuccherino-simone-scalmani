@@ -24,6 +24,7 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.CONNECTION){
             pollThreaded();
         }
+
         //exiting the loop only after every player has connected
         //vengono pescate le carte risorsa e oro e messe nel centro
         controller.getGame().updatePublicCards();

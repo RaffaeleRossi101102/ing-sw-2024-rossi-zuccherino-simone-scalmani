@@ -133,8 +133,10 @@ public abstract class ViewState {
         Scanner scanner = new Scanner(System.in);
         List<String> chatMessages=view.getLocalModel().getLastNMessages(15);
         System.out.println("Inside write in chat command...");
-        for (String message:chatMessages)
-            System.out.println(message);
+        for (int i=chatMessages.size()-1;i>=0;i--) {
+            System.out.println(chatMessages.get(i));
+        }
+
         if(model.getChatError()!=null) {
             System.out.println(model.getChatError());
             model.setChatError(null);

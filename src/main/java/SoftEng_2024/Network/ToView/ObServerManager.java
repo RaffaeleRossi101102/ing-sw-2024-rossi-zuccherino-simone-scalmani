@@ -32,7 +32,9 @@ public class ObServerManager {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
                 serverRMI.addToClientQueue(msg);
+                
                 socketServer.addToClientQueue(msg);
             }
         }
@@ -40,5 +42,13 @@ public class ObServerManager {
     public synchronized void addModelMessageToQueue(ModelMessage msg){
         modelMessages.add(msg);
         notifyAll();
+    }
+
+    public ServerInterface getServerRMI() {
+        return serverRMI;
+    }
+
+    public SocketServer getSocketServer() {
+        return socketServer;
     }
 }
