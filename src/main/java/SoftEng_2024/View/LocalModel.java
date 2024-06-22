@@ -14,13 +14,13 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LocalModel {
-    private ConcurrentHashMap<String,List<Card>> otherPlayersHand;
+    private final ConcurrentHashMap<String,List<Card>> otherPlayersHand;
     private Angles topResourceCard;
     private Angles topGoldCard;
     private String nickname;
     private volatile String currentTurnPlayerNickname;
     private List<Card> personalHand;
-    private ConcurrentHashMap<String,Color> playersColor;
+    private final ConcurrentHashMap<String,Color> playersColor;
     private volatile StarterCard starterCard;
     private GameState gameState;
     private GameState playerState;
@@ -28,15 +28,15 @@ public class LocalModel {
     private List<String> winnersNickname;
     private volatile boolean ackReceived;
     private volatile boolean ackSuccessful;
-    private ConcurrentHashMap<String,Boolean> playersNickname;
+    private final ConcurrentHashMap<String,Boolean> playersNickname;
     private List<Card> publicCards;
-    private volatile List<String> errorLog;
-    private ConcurrentLinkedDeque<String> chat;
-    private ConcurrentHashMap<String,LocalBoard> playersBoards;
+    private volatile String errorLog;
+    private final ConcurrentLinkedDeque<String> chat;
+    private final ConcurrentHashMap<String,LocalBoard> playersBoards;
     private volatile boolean allCardsArrived;
     private volatile boolean currentPlayerNotNull;
     private boolean isFirstPlayer;
-    private List<GoalCard> publicGoals;
+    private final List<GoalCard> publicGoals;
     private volatile int numberOfMessages;
     private volatile int arrivedMessages;
     private String chatError;
@@ -49,7 +49,6 @@ public class LocalModel {
         winnersNickname= new ArrayList<>();
         playersNickname= new ConcurrentHashMap<>();
         publicCards= new ArrayList<>();
-        errorLog= new ArrayList<>();
         chat = new ConcurrentLinkedDeque<>();
         playersBoards=new ConcurrentHashMap<>();
         this.allCardsArrived=false;
@@ -108,7 +107,7 @@ public class LocalModel {
         return ackSuccessful;
     }
 
-    public List<String> getErrorLog() {return errorLog;};
+    public String getErrorLog() {return errorLog;}
 
     public Queue<String> getChat() {return chat;}
 
@@ -121,6 +120,7 @@ public class LocalModel {
             subQueue.add(it.next());
             count++;
         }
+
 
         return subQueue;
     }
@@ -237,7 +237,7 @@ public class LocalModel {
     public void setAckSuccessful(boolean ackSuccessful) {this.ackSuccessful = ackSuccessful;}
 
     public synchronized void setErrorLog(String error) {
-        this.errorLog.add(error);
+        this.errorLog = error;
 
     }
 

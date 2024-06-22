@@ -43,15 +43,16 @@ public class SocketClient implements ClientInterface {
             Thread t = new Thread(() -> {
                 try {
                     in = new ObjectInputStream(socket.getInputStream());
-                while(true){
-                    try {
-                        ModelMessage message= (ModelMessage) in.readObject();
-                        addToViewQueue(message);
-                    } catch (ClassNotFoundException | IOException e) {
-                        System.out.println("ERROR READING OBJECT 1...");
-
+                    while(true){
+                        try {
+                            ModelMessage message= (ModelMessage) in.readObject();
+                            addToViewQueue(message);
+                        } catch (ClassNotFoundException | IOException e) {
+                            //System.out.println("You're going to be disconnected, the game has started");
+                            clientRunning = false;
+                            break;
+                        }
                     }
-                }
                 } catch (IOException e) {
                     System.out.println("ERROR INITIALIZING INPUT STREAM...");
                 }
@@ -103,10 +104,11 @@ public class SocketClient implements ClientInterface {
 
     //CREA IL SOCKET E AGGIUNGE L'ID NELLA MAPPA DEL SERVER
     public void registerToServer(double ID, ClientInterface client) throws RemoteException{
-        if(!socketCreated){
-            startClient();
-            socketCreated = true;
-        }
+
+        //if(!socketCreated){
+        startClient();
+        //socketCreated = true;
+        //}
     }
 
     //METODO CHE VIENE CHIAMATO DALLA VIEW PER DARE IL RIFERIMENTO AL CLIENT

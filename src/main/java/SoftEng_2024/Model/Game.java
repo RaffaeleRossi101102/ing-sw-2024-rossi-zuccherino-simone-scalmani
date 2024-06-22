@@ -3,12 +3,12 @@ package SoftEng_2024.Model;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.GoalCard.GoalCard;
-import SoftEng_2024.Model.ModelMessages.GameIsEndingMessage;
 import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
 
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,7 +39,7 @@ public class Game {
     //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
     //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
-    public Game(List<Player> players,Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
+    public Game(List<Player> players, Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
         this.players = players;
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
@@ -107,17 +107,24 @@ public class Game {
                 nicknameWinners.add(players.get(i).getNickname());
             }
         }
-        gameObserver.updatedWinners(nicknameWinners);
+
+        setWinners(nicknameWinners);
 
     }
+
+    public void setWinners(List<String> winners){
+        gameObserver.updatedWinners(winners);
+    }
+
+
     //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
     public synchronized void turnStart(){
         if(!checkIfGameEnd()){
-            int onlinePlayersCounter = 0;
-            for (Player c : players) {
-                if (c.getIsOnline())
-                    onlinePlayersCounter++;
-            }
+//            int onlinePlayersCounter = 0;
+//            for (Player c : players) {
+//                if (c.getIsOnline())
+//                    onlinePlayersCounter++;
+//            }
             if (onlinePlayersCounter != 1) {
                 while (!players.get(playerIndex).getIsOnline()) {
                     playerIndex = (playerIndex + 1) % players.size();

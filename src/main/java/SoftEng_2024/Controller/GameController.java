@@ -36,7 +36,6 @@ public class GameController {
     private ObServerManager toViewManager;
     private NetworkManager networkManager;
     private Timer terminationTimer;
-    private TimerTask terminationTask;
     //private List<Player>
 
     //METHODS**********************************************************************
@@ -168,7 +167,7 @@ public class GameController {
 
         baseResource = Angles.INSECTS;
         sideResource = Angles.PLANTS;
-        baseTop = false;
+        //baseTop = false;
         sideLeft = false;
         goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the side on the right: ┘) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 92);
         goalCardArrayList.add(goal);
@@ -182,7 +181,7 @@ public class GameController {
 
         baseResource = Angles.ANIMALS;
         sideResource = Angles.INSECTS;
-        baseTop = true;
+        //baseTop = true;
         sideLeft = false;
         goal = new StepGoalCard(baseResource, sideResource, baseTop, sideLeft, points, String.format("Get %s points for each L-shaped (with the base on top and side on the right: ┐) pattern with an %s card at the base and a %s card on the side", points, baseResource, sideResource), 94);
         goalCardArrayList.add(goal);
@@ -203,11 +202,9 @@ public class GameController {
         else{
             //the method sends back a message saying that the game has already been created.
             System.err.println(nickname + " attempted to create a game");
-           // serverRMI.unregisterClient(ID);
             game.getErrorMessageBindingMap().put(ID,"");
-            sendErrorMessage(ID,"You tried to create a game when there's an already existing one! Please try joining the game instead of creating one!");
-            //serverSocket.unregisterClient(ID);
-            //notify to the correct viewID
+            sendErrorMessageAndUnRegister(ID,"You tried to create a game when there's an already existing one! Please try joining the game instead of creating one!");
+
         }
     }
     public synchronized void joinGame(String nickname, double ID) throws RemoteException {
@@ -219,12 +216,12 @@ public class GameController {
         if (!game.getGameState().equals(GameState.CONNECTION)){
             System.err.println(nickname + " attempted to join an already started game");
             //TODO: manda messaggio only reconnect
-            sendErrorMessage(ID,"The game has already started, you can only reconnect!!");
+            sendErrorMessageAndUnRegister(ID,"The game has already started, you can only reconnect!!");
             return;
         }
         if(maxPlayers==0){
             System.err.println(nickname+ " tried to join a game that hasn't been created yet...");
-            sendErrorMessage(ID,"You tried to join a non existing game! You need to create a game before joining one!");
+            sendErrorMessageAndUnRegister(ID,"You tried to join a non existing game! You need to create a game before joining one!");
             return;
         }
         if(clientPlayers.isEmpty()) {
@@ -237,7 +234,7 @@ public class GameController {
                 if(player.getNickname().equals(nickname)){
                     System.err.println(nickname + " tried to join the game with a nickname already used by someone");
                     //TODO show "NickAlreadyChosenError + return
-                    sendErrorMessage(ID,"You chose an aleady existing nickname, please insert a new one!");
+                    sendErrorMessageAndUnRegister(ID,"You chose an aleady existing nickname, please insert a new one!");
                     return;
                 }
             }
@@ -250,8 +247,6 @@ public class GameController {
         }
         else{
             System.err.println("Someone tried to join the game...");
-            serverRMI.unregisterClient(ID);
-            //serverSocket.unregisterClient(ID);
             //TODO show error maxPlayerReached
             sendErrorMessage(ID,"You tried to join a game that has already started, please wait for it to finish...Or for us to implement multiple games :)");
         }
@@ -263,6 +258,9 @@ public class GameController {
         //System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
+        if(!playerIdMap.containsKey(ID)){
+            return;
+        }
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(clientPlayers.size()==1)
                 maxPlayers=0;
@@ -276,6 +274,7 @@ public class GameController {
         }else{
             //if the game isn't in the connection state, the player will be set offline
             playerIdMap.get(ID).setOnline(false);
+            game.setOnlinePlayersCounter(-1);
             //if the game is in play state and the player disconnected during their turn, set them to not playing and make
             //another player start their turn
             if (game.getGameState().equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
@@ -291,7 +290,7 @@ public class GameController {
                 checkIfNextState();
             }
 
-            int onlinePlayers = getOnlinePlayersCount();
+            int onlinePlayers = game.getOnlinePlayersCounter();
 
             if(onlinePlayers==1){
                 //cancel the previous timer if it exists
@@ -302,14 +301,14 @@ public class GameController {
 
                 //create a new timer
                 terminationTimer = new Timer();
-                terminationTask = new TimerTask() {
+                //after 5 seconds, if the number of players hasn't changed, it will end the game and notify the player still online
+                TimerTask terminationTask = new TimerTask() {
                     @Override
                     public void run() {
                         //after 5 seconds, if the number of players hasn't changed, it will end the game and notify the player still online
-                        if (getOnlinePlayersCount() == 1){
+                        if (game.getOnlinePlayersCounter() == 1) {
                             System.out.println("EXECUTING GAME TERMINATION ACTION, ONLY 1 PLAYER ONLINE");
-
-
+                            game.triggerWinnerDueToForfeit();
 
                         }
                     }
@@ -319,21 +318,25 @@ public class GameController {
                 terminationTimer.schedule(terminationTask, 5000);
 
             }else if(onlinePlayers == 0){
+                if(terminationTimer!=null){
+                    terminationTimer.cancel();
+                    terminationTimer.purge();
+                }
                 System.err.println("NO MORE PLAYERS IN GAME... ENDING GAME TERMINATION ACTION");
-                game.setGameState(GameState.ENDGAME);
+                Main.quitAll();
             }
         }
     }
 
-    private int getOnlinePlayersCount(){
-        int onlinePlayersCounter=0;
-        for(Player c:clientPlayers){
-            if(c.getIsOnline())
-                onlinePlayersCounter++;
-        }
-
-        return onlinePlayersCounter;
-    }
+//    private int getOnlinePlayersCount(){
+//        int onlinePlayersCounter=0;
+//        for(Player c:clientPlayers){
+//            if(c.getIsOnline())
+//                onlinePlayersCounter++;
+//        }
+//
+//        return onlinePlayersCounter;
+//    }
 
     private void addPlayer(String nickname, double ID) {
         //istanzio la board
@@ -367,9 +370,9 @@ public class GameController {
     public synchronized void reJoinGame(String nickname, double ID){
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(maxPlayers==0)
-                sendErrorMessage(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
+                sendErrorMessageAndUnRegister(ID,"You tried to reconnect when the game hasn't been created. Try creating a game instead!");
             else
-                sendErrorMessage(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
+                sendErrorMessageAndUnRegister(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
             return;
         }
         //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
@@ -389,11 +392,23 @@ public class GameController {
                 //if the state of the game is the same as the state of the player set online as true
                 if(game.getGameState().ordinal() <= player.getPlayerState().ordinal() | (game.getGameState().equals(GameState.PLAY)) & player.getPlayerState().equals(GameState.NOTPLAYING))
                     player.setOnline(true);
+                    game.setOnlinePlayersCounter(1);
+                }
+                if(playerIdMap.get(ID).getPlayerState().equals(GameState.NOTPLAYING)){
+                    player.setOnline(true);
+                    game.setOnlinePlayersCounter(1);
+                }
+                if(game.getOnlinePlayersCounter()==2 & player.getPlayerState().ordinal()>game.getGameState().ordinal() & !player.getPlayerState().equals(GameState.NOTPLAYING)){
+                    checkIfNextState();
+                }
+                else if(game.getOnlinePlayersCounter()==2 & player.getPlayerState().equals(GameState.NOTPLAYING)){
+                    game.turnStart();
+                }
                 return;
             }
         }
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
-        sendErrorMessage(ID,"The nickname you chose doesn't belong to anyone that is offline! Please insert the nickname you had before disconnecting...");
+        sendErrorMessageAndUnRegister(ID,"The nickname you chose doesn't belong to anyone that is offline! Please insert the nickname you had before disconnecting...");
         
     }
 
@@ -404,8 +419,10 @@ public class GameController {
             player.getHand().get(0).setFlipped(flipped);
             player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
             player.setPlayerState(GameState.SETCOLOR);
-            if(player.getPlayerState().ordinal()>=game.getGameState().ordinal() & !player.getIsOnline())
+            if (player.getPlayerState().ordinal() >= game.getGameState().ordinal() & !player.getIsOnline()){
                 player.setOnline(true);
+                game.setOnlinePlayersCounter(1);
+            }
             game.setAckIdBindingMap(ID,true);
         }catch(Board.notAvailableCellException | Board.necessaryResourcesNotAvailableException e){
             e.printStackTrace();
@@ -432,6 +449,7 @@ public class GameController {
         playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
         if(currentPLayer.getPlayerState().ordinal()>= game.getGameState().ordinal() & !currentPLayer.getIsOnline()) {
             currentPLayer.setOnline(true);
+            game.setOnlinePlayersCounter(1);
         }
         game.setAckIdBindingMap(ID,true);
         //se ogni player ha scelto il colore cambio lo stato
@@ -470,8 +488,10 @@ public class GameController {
         player.setAvailableGoals(privateGoal);
         game.setAckIdBindingMap(ID,true);
         player.setPlayerState(GameState.NOTPLAYING);
-        if(!player.getIsOnline())
+        if(!player.getIsOnline()) {
             player.setOnline(true);
+            game.setOnlinePlayersCounter(1);
+        }
         //checks if all the players had already chosen their private goal
         checkIfNextState();
     }
@@ -642,6 +662,8 @@ public class GameController {
                 game.setGameState(nextState);
             }
     }
+
+
     //GETTERS AND SETTERS*********************************************
 
 

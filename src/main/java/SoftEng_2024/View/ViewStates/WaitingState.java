@@ -1,7 +1,6 @@
 package SoftEng_2024.View.ViewStates;
 
 
-import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.View.CliViewClient;
 import SoftEng_2024.View.LocalModel;
 
@@ -12,7 +11,7 @@ public class WaitingState {
     private ViewState nextState;
     private final LocalModel model;
 
-    private CliViewClient view;
+    private final CliViewClient view;
 
 
 
@@ -21,14 +20,14 @@ public class WaitingState {
         this.view = view;
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     public void display() {
 
         System.out.println("Waiting for model's acknowledgement...");
         while(!model.isAckReceived());
        // System.out.println(model.isAckReceived());
         model.setAckReceived(false);
-        //System.out.println(model.isAckReceived());
-        //System.out.println(model.isAckSuccessful());
+
         if (!model.isAckSuccessful()) {
             //display last error log
             //while (model.getErrorLog().isEmpty());

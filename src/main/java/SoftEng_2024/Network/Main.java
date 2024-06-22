@@ -21,7 +21,6 @@ public class Main {
         GameController controller= new GameController();
 
         NetworkManager managerToModel= new NetworkManager(controller);
-        managerToModel.setRunning(true);
 
         ServerInterface engineRMI = new RMIServer(managerToModel);
 
@@ -51,7 +50,7 @@ public class Main {
         Thread managerToModelThread = new Thread(() -> {
             try {
                 managerToModel.run();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -71,4 +70,9 @@ public class Main {
 
 
     }
+
+    public static void quitAll(){
+        System.exit(0);
+    }
+
 }

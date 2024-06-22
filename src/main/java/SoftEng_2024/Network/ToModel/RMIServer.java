@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Thread.sleep;
@@ -121,6 +123,10 @@ public class RMIServer implements ServerInterface{
         //pingThread is going to find it and send a quit message to model
         }
 
+    }
+
+    public Set<Double> getClients() throws RemoteException{
+        return IdClientBindingMap.keySet();
     }
 
 

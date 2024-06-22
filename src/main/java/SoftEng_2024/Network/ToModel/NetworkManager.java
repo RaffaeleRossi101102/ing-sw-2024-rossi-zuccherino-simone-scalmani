@@ -4,12 +4,12 @@ import SoftEng_2024.Controller.GameController;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
+import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NetworkManager {
-    GameController controller;
-    LinkedBlockingQueue<ViewMessage> viewMessages;
-    boolean running;
+    private final GameController controller;
+    private LinkedBlockingQueue<ViewMessage> viewMessages;
 
     public NetworkManager(GameController controller){
         this.controller = controller;
@@ -17,7 +17,7 @@ public class NetworkManager {
     }
 
 
-    public synchronized void run() throws InterruptedException {
+    public synchronized void run() throws InterruptedException, IOException {
         System.out.println("Executing messages from the queue");
         controller.setNetworkManager(this);
         controller.gameInit();
@@ -36,14 +36,20 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.STARTER | controller.getGame().getGameState()==GameState.SETCOLOR){
             pollThreaded();
         }
+
+
         controller.updatePublicGoals();
         //I goal privati vengono aggiunti al player già nella addPlayer, da valutare se serve il metodo
         //oppure se tenerlo lì
         controller.handOutPrivateGoals();
         //Each player choose his private goal
+
         while(controller.getGame().getGameState()==GameState.CHOOSEGOAL){
             pollThreaded();
         }
+
+
+
         //shuffle the players
         controller.getGame().shufflePlayers();
         //vengono date le carte a tutti i giocatori
@@ -55,6 +61,9 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.PLAY){
             pollThreaded();
         }
+
+
+
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat
         controller.getGame().gameEnd();
 
@@ -77,14 +86,11 @@ public class NetworkManager {
         }
     }
 
-    public void setRunning(boolean running){
-        this.running = running;
-    }
-
     public synchronized void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
         notifyAll();
     }
+
     public synchronized void wakeUpManager(){
         notifyAll();
     }
