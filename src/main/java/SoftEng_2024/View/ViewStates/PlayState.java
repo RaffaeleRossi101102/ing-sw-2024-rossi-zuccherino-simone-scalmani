@@ -21,9 +21,11 @@ public class PlayState extends ViewState{
     @Override
     public void display() {
         System.out.println("It's your turn!");
+
         if(view.getLocalModel().getPersonalHand().size() == 3) {
 //            Scanner scanner = new Scanner(System.in);
-            System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+            System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                    " decks, Chat or Quit");
 //            String command = scanner.nextLine();
             //loops until the player chooses a command different from writeInChat
             while (!commandChosen) {
@@ -36,21 +38,31 @@ public class PlayState extends ViewState{
                         break;
                     case "chat":
                         writeInChat();
-                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                                " decks, Chat or Quit");
                         view.setCommand("");
                         listenDefaultCommand();
                         break;
                     case "showboard":
-                        printPlayerBoard();
+                        printPlayerBoard(false);
                         view.setCommand("");
                         listenDefaultCommand();
-                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                                " decks, Chat or Quit");
                         break;
                     case "showhand":
                         showHand();
-                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                                " decks, Chat or Quit");
                         view.setCommand("");
                         listenDefaultCommand();
+                        break;
+                    case "showplayground":
+                        showDecksAndPublicCards();
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                                " decks, Chat or Quit");
                         break;
                     case "quit":
                         quit();
@@ -59,7 +71,8 @@ public class PlayState extends ViewState{
                         break;
                     default:
                         System.err.println("Command not available... retry");
-                        System.out.println("Type Play Card, Show Board, Show Hand, Chat or Quit");
+                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
+                                " decks, Chat or Quit");
                         view.setCommand("");
                         listenDefaultCommand();
                         break;
@@ -76,6 +89,7 @@ public class PlayState extends ViewState{
                                "Now, you'll need to finish your turn by drawing a card without playing...");
             nextState.display();
 
+
         }
     }
 
@@ -87,6 +101,7 @@ public class PlayState extends ViewState{
         Scanner input = new Scanner(System.in);
         int card;
         String answer;
+        printPlayerBoard(true);
         showHand();
         System.out.println("Type the index (1, 2 or 3) of the card you want to play, or type 'exit' to cancel ");
         answer = input.nextLine();

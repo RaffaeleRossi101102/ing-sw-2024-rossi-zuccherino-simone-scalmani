@@ -23,7 +23,7 @@ public class WaitingState {
     @SuppressWarnings("StatementWithEmptyBody")
     public void display() {
 
-        System.out.println("Waiting for model's acknowledgement...");
+//        System.out.println("Waiting for model's acknowledgement...");
         while(!model.isAckReceived());
        // System.out.println(model.isAckReceived());
         model.setAckReceived(false);

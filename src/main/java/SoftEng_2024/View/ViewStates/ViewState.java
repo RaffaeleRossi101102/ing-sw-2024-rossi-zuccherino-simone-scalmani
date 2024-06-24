@@ -1,6 +1,7 @@
 package SoftEng_2024.View.ViewStates;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Network.ToModel.ClientInterface;
@@ -70,17 +71,18 @@ public abstract class ViewState {
 
 
     protected void defaultCommand(GameState gameState,String waitMessage) {
+        String insertCommandString="Type Show Board to see a player's board, Player Score to see the scoreboard, Show hand to see your hand, Playground to see public cards and decks, Chat to show recent messages and chat, quit to quit the game";
         if(view.getLocalModel().getState().equals(gameState)) {
             System.out.println(waitMessage);
-            System.out.println("Type Show Board, Show hand, chat, quit to see a player's board, to see your hand, to use the chat or to quit the game");
+            System.out.println(insertCommandString);
 //            listenDefaultCommand();
             while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
                 switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "showboard":
-                        printPlayerBoard();
+                        printPlayerBoard(false);
                         view.setCommand("");
                         listenDefaultCommand();
-                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        System.out.println(insertCommandString);
                         break;
                     case "showhand":
                         if(view.getLocalModel().getPersonalHand().isEmpty())
@@ -89,13 +91,24 @@ public abstract class ViewState {
                             showHand();
                         view.setCommand("");
                         listenDefaultCommand();
-                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        System.out.println(insertCommandString);
+                        break;
+                    case "playground":
+                        if(!view.getLocalModel().getState().equals(GameState.PLAY)){
+                            System.out.println("Decks and drawable public cards are not available yet, retry later in game");
+                        }
+                        else{
+                            showDecksAndPublicCards();
+                        }
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println(insertCommandString);
                         break;
                     case "chat":
                         writeInChat();
                         listenDefaultCommand();
                         view.setCommand("");
-                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        System.out.println(insertCommandString);
                         break;
                     case "quit":
                         quit();
@@ -107,7 +120,7 @@ public abstract class ViewState {
                         System.err.println("Command not available... retry");
                         listenDefaultCommand();
                         view.setCommand("");
-                        System.out.println("Type Show Board, chat, quit to see a player's board, to use the chat or to quit the game");
+                        System.out.println(insertCommandString);
                         break;
                 }
             }
@@ -228,42 +241,47 @@ public abstract class ViewState {
 
     }
 
-    protected void printPlayerBoard(){
-        List<String> players = new ArrayList<>();
-        players.add(view.getLocalModel().getNickname());
-        Scanner input= new Scanner(System.in);
-        System.out.println("Whose board do you want to display?");
-        int i=1;
-        System.out.print("[0]--> your board ~~ ");
-        for(String nickname: view.getLocalModel().getPlayersNickname().keySet()){
-            players.add(nickname);
-            System.out.print("["+i+"]--> "+ nickname+"'s board ~~");
-            i++;
-        }
-        int choice = -1;
-        try {
-            choice = input.nextInt();
-        }catch(InputMismatchException e){
-            System.err.println("Wrong input, please insert a number...");
-            input.nextLine();
-        }
-        while(choice<0 | choice > view.getLocalModel().getPlayersNickname().keySet().size()){
-            System.err.println("Wrong input, choose a number from the proposed ones");
-            choice = -1;
+    protected void printPlayerBoard(boolean showPersonalBoard){
+        LocalBoard boardToPrint=null;
+        if(!showPersonalBoard) {
+            List<String> players = new ArrayList<>();
+            players.add(view.getLocalModel().getNickname());
+            Scanner input = new Scanner(System.in);
+            System.out.println("Whose board do you want to display?");
+            int i = 1;
+            System.out.print("[0]--> your board ~~ ");
+            for (String nickname : view.getLocalModel().getPlayersNickname().keySet()) {
+                players.add(nickname);
+                System.out.print("[" + i + "]--> " + nickname + "'s board ~~");
+                i++;
+            }
+            int choice = -1;
             try {
                 choice = input.nextInt();
-            }catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.err.println("Wrong input, please insert a number...");
                 input.nextLine();
             }
+            while (choice < 0 | choice > view.getLocalModel().getPlayersNickname().keySet().size()) {
+                System.err.println("Wrong input, choose a number from the proposed ones");
+                choice = -1;
+                try {
+                    choice = input.nextInt();
+                } catch (InputMismatchException e) {
+                    System.err.println("Wrong input, please insert a number...");
+                    input.nextLine();
+                }
+            }
+            System.out.println();
+            if (!view.getLocalModel().getPlayersBoards().containsKey(players.get(choice))) {
+                System.err.println("The board isn't already available, please wait...");
+                return;
+            }
+            boardToPrint = view.getLocalModel().getPlayersBoards().get(players.get(choice));
         }
-        System.out.println();
-        if(!view.getLocalModel().getPlayersBoards().containsKey(players.get(choice))) {
-            System.err.println("The board isn't already available, please wait...");
-            return;
+        else {
+            boardToPrint =view.getLocalModel().getPlayersBoards().get(view.getLocalModel().getNickname());
         }
-        LocalBoard boardToPrint=view.getLocalModel().getPlayersBoards().get(players.get(choice));
-
         int minRow = 85;
         int minColumn = 85;
         int maxRow = 0;
@@ -291,10 +309,7 @@ public abstract class ViewState {
                     System.out.print("  " + c + " ");
             }
         }
-//       |_____40___41___42_
-//        43_|░░░||P-A||░░░|
-//        _3_|░░░|| G ||░░░|
-//           |░░░||P-A||░░░|
+
         System.out.println();
         if(minRow==0)
             minRow++;
@@ -331,6 +346,11 @@ public abstract class ViewState {
             System.out.println(midCard);
             System.out.println(downCard);
         }
+        System.out.println("This board contains the following number of resources and objects:");
+        for(int i=0;i<7;i++){
+            System.out.print("[" + Angles.values()[i] + ": "+boardToPrint.getAnglesCounter()[i] + "] " );
+        }
+        System.out.println();
     }
     protected void showHand(){
         String upperHand="";
@@ -352,8 +372,45 @@ public abstract class ViewState {
             System.out.println("["+cardIndex+"] "+card.getPrintableCardString());
             cardIndex++;
         }
+        System.out.println(view.getLocalModel().getAvailableGoals().get(0).getGoalType());
     }
-//    public void setDefaultCommand(String defaultCommand) {
-//        this.defaultCommand = defaultCommand;
-//    }
+    protected void showDecksAndPublicCards(){
+        String upperCards;
+        String midCards;
+        String downCards;
+        Angles topCardAngle=view.getLocalModel().getTopGoldCard();
+        if(topCardAngle!=null)
+            System.out.println("The card on top of the gold deck has ["+Angles.getAngleSymbol(topCardAngle)+"] as the central symbol");
+        else
+            System.out.println("There are no cards left in the gold deck");
+        topCardAngle=view.getLocalModel().getTopResourceCard();
+        if(topCardAngle!=null)
+            System.out.println("The card on top of the resource deck has ["+Angles.getAngleSymbol(topCardAngle)+"] as the central symbol");
+        else
+            System.out.println("There are no cards left in the resource deck");
+
+        int i = 1;
+        for(Card publicCard:view.getLocalModel().getPublicCards()){
+            if(publicCard!=null){
+                System.out.println(" ["+i+"]--> " + publicCard.getPrintableCardString());
+                upperCards=publicCard.displayGraphicCard()[0];
+                midCards=publicCard.displayGraphicCard()[1];
+                downCards=publicCard.displayGraphicCard()[2];
+
+                System.out.println(upperCards);
+                System.out.println(midCards);
+                System.out.println(downCards);
+            }
+            else{
+                System.out.println(" ["+i+"]");
+                System.out.println("EMPTY");
+            }
+
+            i++;
+            System.out.println();
+        }
+
+
+    }
+
 }

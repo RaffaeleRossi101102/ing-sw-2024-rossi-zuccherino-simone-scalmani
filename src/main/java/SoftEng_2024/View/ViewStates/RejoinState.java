@@ -14,6 +14,7 @@ public class RejoinState extends ViewState{
         System.out.println("lo stato è "+view.getLocalModel().getPlayerState());
         while(view.getLocalModel().getNumberOfMessages()==0 | view.getLocalModel().getNumberOfMessages()!=view.getLocalModel().getArrivedMessages());
             ViewState nextState;
+        System.out.println("lo stato è "+view.getLocalModel().getPlayerState());
             switch(view.getLocalModel().getPlayerState()){
                 case CONNECTION:
                 case STARTER:
@@ -28,6 +29,10 @@ public class RejoinState extends ViewState{
                     break;
                 case NOTPLAYING:
                     nextState = new ReadyToStartState(view, client, ID);
+                    break;
+                case PLAY:
+                    nextState= new ReadyToStartState(view,client,ID);
+                    listenDefaultCommand();
                     break;
                 default:
                     nextState = new ConnectionState(view, client, ID);

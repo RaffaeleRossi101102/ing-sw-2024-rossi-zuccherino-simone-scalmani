@@ -45,7 +45,7 @@ class GameTest {
         //assertFalse(testGameInit.getGame().turnEnd());
 
         testGameInit.getGame().getPlayers().get(0).getPlayerBoard().setScore(20);
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
         testGameInit.getGame().turnStart();
         testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
@@ -64,7 +64,7 @@ class GameTest {
         Player player1 = new Player(new ArrayList<>(), testBoard);
         player1.setNickname("paolo",0);
         testGameInit.getGame().getPlayers().add(player1);
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
 
         playCode = testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 42, 42);
         assertEquals(-3, playCode);
@@ -76,7 +76,7 @@ class GameTest {
         assertEquals(1, playCode);
 
         testGameInit.getGame().turnStart();
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
         playCode = testGameInit.getGame().playCard(testGameInit.getGame().getPlayers().get(0).getHand().get(0), player1, 0, 0);
         assertEquals(-1, playCode);
 
@@ -98,7 +98,7 @@ class GameTest {
         actual = testGameInit.getGame().drawPublicCards(testGameInit.getGame().getPlayers().get(0), 0);
         assertEquals(-2, actual);
 
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
         testGameInit.getGame().getPlayers().get(0).setOnline(true);
         testGameInit.getGame().turnStart();
 

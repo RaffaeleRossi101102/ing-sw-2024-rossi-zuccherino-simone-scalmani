@@ -54,13 +54,18 @@ public class Player {
         for(PlayerObserver o:playerObservers)
             o.updatedIsPlayerOnline(isOnline,nickname);
     }
-    public synchronized void setHand(Card card) {
+    public synchronized void addCard(Card card) {
         this.hand.add(card);
 
         for(PlayerObserver o:playerObservers)
             o.updatedHand(hand,nickname);
     }
-    public void removeCard(Card playedCard){
+    public synchronized void setHand(List<Card> hand){
+        this.hand=hand;
+        for(PlayerObserver o:playerObservers)
+            o.updatedHand(this.hand,nickname);
+    }
+    public synchronized void removeCard(Card playedCard){
         this.hand.remove(playedCard);
         for(PlayerObserver o:playerObservers)
             o.updatedHand(hand,nickname);
@@ -91,7 +96,7 @@ public class Player {
     public Board getPlayerBoard() {
         return playerBoard;
     }
-    public List<Card> getHand() {
+    public synchronized List<Card> getHand() {
         return hand;
     }
     public List<Color> getColor() {

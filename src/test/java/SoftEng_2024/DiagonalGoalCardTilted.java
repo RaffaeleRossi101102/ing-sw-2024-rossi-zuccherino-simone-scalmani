@@ -131,5 +131,5 @@ public class DiagonalGoalCardTilted {
         System.out.println(tiltedCard.calcScore(board));
         */
 
-    }
-}
+//    }
+//}

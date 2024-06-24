@@ -1,6 +1,7 @@
 package SoftEng_2024.Network.ToModel;
 
 import SoftEng_2024.Model.ModelMessages.ModelMessage;
+import SoftEng_2024.View.MainView;
 import SoftEng_2024.View.View;
 import SoftEng_2024.View.ViewMessages.*;
 
@@ -74,7 +75,8 @@ public class SocketClient implements ClientInterface {
             out.flush();
             out.reset();
         } catch (IOException e) {
-            System.out.println("ERROR WRITING OBJECT.......");
+            System.err.println("Something went terribly wrong, shutting down");
+            System.exit(0);
         }
     }
 

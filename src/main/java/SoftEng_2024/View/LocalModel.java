@@ -57,6 +57,7 @@ public class LocalModel {
         this.publicGoals=new ArrayList<>();
         numberOfMessages=0;
         arrivedMessages=0;
+        errorLog="";
     }
 
     //GETTERS******************************************************************
@@ -157,8 +158,7 @@ public class LocalModel {
     }
     public void setPersonalHand(List<Card> personalHand) {
         this.personalHand = personalHand;
-        if(this.personalHand.size()==3)
-            this.allCardsArrived=true;
+//        System.out.println(personalHand.size());
     }
 
     public void setAvailableGoals(List<GoalCard> availableGoals) {
@@ -198,7 +198,7 @@ public class LocalModel {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-        System.out.println(nickname);
+//        System.out.println(nickname);
     }
 
     public synchronized void setPlayersNickname(String playersNickname) {
@@ -293,7 +293,7 @@ public class LocalModel {
 
     public void setNumberOfMessages(int numberOfMessages) {
         this.numberOfMessages = numberOfMessages;
-        System.err.println("HO SETTATO IL NUMBER OF MESSAGES AOOOO: "+this.numberOfMessages+" "+numberOfMessages);
+//        System.err.println("HO SETTATO IL NUMBER OF MESSAGES AOOOO: "+this.numberOfMessages+" "+numberOfMessages);
     }
 
     public int getNumberOfMessages() {
@@ -305,6 +305,6 @@ public class LocalModel {
     }
     public void increaseArrivedMessages(){
         this.arrivedMessages++;
-        System.err.println("increasing "+arrivedMessages);
+//        System.err.println("increasing "+arrivedMessages);
     }
 }

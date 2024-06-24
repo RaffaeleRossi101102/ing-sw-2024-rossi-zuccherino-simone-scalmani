@@ -32,9 +32,9 @@ public class GameObserver {
         }
         else{
             if(whichDeck==0)
-                notifyServer(new UpdatedResourceDeckMessage("", Angles.EMPTY));
+                notifyServer(new UpdatedResourceDeckMessage("", null));
             else if (whichDeck==1)
-                notifyServer(new UpdatedGoldDeckMessage("",Angles.EMPTY));
+                notifyServer(new UpdatedGoldDeckMessage("",null));
 
         }
 
@@ -43,8 +43,8 @@ public class GameObserver {
     //the messages will contain both the new public cards and the resource of the new top card
     public void updatedPublicCards(String nickname, int whichDeck){
         if(whichDeck==3){
-            notifyServer(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
-            notifyServer(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
+//            notifyServer(new UpdatedResourceDeckMessage("",game.getResourceDeck().peek().getCardBackAnglesType()[4]));
+//            notifyServer(new UpdatedGoldDeckMessage("",game.getGoldDeck().peek().getCardBackAnglesType()[4]));
             notifyServer(new UpdatedPublicCardsMessage("",game.getPublicCards()));
             return;
         }
@@ -104,7 +104,10 @@ public class GameObserver {
             notifyServer(new GameIsEndingMessage("SOMEONE HAS REACHED 20 POINTS... THE GAME IS ENDING..."));
     }
     public void lastPlayerStanding(String winnerNickname){
-        notifyServer(new LastPlayerStandingMessage("YOU'RE THE LAST PLAYER STILL ONLINE! IF NO ONE REJOINS THE GAME IN 10 SECONDS YOU'LL BE THE WINNER!"));
+        notifyServer(new LastPlayerStandingMessage("YOU'RE THE LAST PLAYER STILL ONLINE! IF NO ONE REJOINS THE GAME IN 30 SECONDS YOU'LL BE THE WINNER!"));
+    }
+    public void removedPlayer(String nickname){
+        notifyServer(new RemovedPlayerMessage("",nickname));
     }
     public void updatedWinners(List<String> winnersNickname){
         notifyServer(new UpdatedWinnersMessage("",winnersNickname));

@@ -2,6 +2,7 @@ package SoftEng_2024.View.ViewMessages;
 
 import SoftEng_2024.Controller.GameController;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class JoinGameMessage implements ViewMessage{
@@ -15,7 +16,7 @@ public class JoinGameMessage implements ViewMessage{
     public void executeMessage(GameController controller) {
         try {
             controller.joinGame(nickname,ID);
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Something went terribly wrong.");
         }
     }

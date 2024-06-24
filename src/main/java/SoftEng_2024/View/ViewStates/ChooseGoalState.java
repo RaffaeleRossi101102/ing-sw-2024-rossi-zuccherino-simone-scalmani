@@ -19,6 +19,7 @@ public class ChooseGoalState extends ViewState {
         defaultCommand(GameState.SETCOLOR,"Waiting for all the players to choose a color");
         System.out.println("Now it's time to choose your private goal!");
         System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+//        wait();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
             switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -45,7 +46,7 @@ public class ChooseGoalState extends ViewState {
                     listenDefaultCommand();
                     break;
                 case "showboard":
-                    printPlayerBoard();
+                    printPlayerBoard(false);
                     view.setCommand("");
                     listenDefaultCommand();
                     System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");

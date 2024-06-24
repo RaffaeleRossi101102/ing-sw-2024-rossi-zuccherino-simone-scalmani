@@ -19,32 +19,6 @@ public class CardDeserializer {
     // we have to temporarily convert the queues into lists in order to run a shuffle method and have our decks shuffled in a random order, and then re-convert the list
     // into a queue in order to get back the possibility to use the pop functionality
 
-/*
-    public static void main(String[] args) {
-        Queue<Card> resourceDeck = new LinkedList<>();
-        Queue<Card> goldDeck = new LinkedList<>();
-        Queue<Card> starterDeck = new LinkedList<>();
-        resourceCardDeserialize(resourceDeck);
-        goldCardDeserialize(goldDeck);
-        starterCardDeserialize(starterDeck);
-
-        List<Card> resourceDeckTemp = new ArrayList<>(resourceDeck);
-        List<Card> goldDeckTemp = new ArrayList<>(goldDeck);
-        List<Card> starterDeckTemp = new ArrayList<>(goldDeck);
-
-        Collections.shuffle(resourceDeckTemp);
-        Collections.shuffle(goldDeckTemp);
-        Collections.shuffle(starterDeckTemp);
-
-        resourceDeck.clear();
-        resourceDeck.addAll(resourceDeckTemp);
-        goldDeck.clear();
-        goldDeck.addAll(goldDeckTemp);
-        starterDeck.clear();
-        starterDeck.addAll(starterDeckTemp);
-
-        System.out.println("Test print");
-    } */
 
     // Method to deserialize the .json file containing the resource cards. Basically, parsing only the useful info
     // from the .json file (e.g. angles and the back resource), then, creating the card with the infos stored in the
@@ -60,10 +34,11 @@ public class CardDeserializer {
         try {
             Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/resourceCards.json"));
             SupportResourceCard[] resourceCardsInfoArray = gson.fromJson(reader, SupportResourceCard[].class);
-            boolean[] covered = new boolean[4];
-            Arrays.fill(covered, false);
+
             boolean flipped = false;
             for (SupportResourceCard card : resourceCardsInfoArray) {
+                boolean[] covered = new boolean[4];
+                Arrays.fill(covered, false);
                 Angles[] frontAnglesTemp = new Angles[4];
                 Angles[] resourcesTemp = new Angles[5];
                 Arrays.fill(resourcesTemp, Angles.EMPTY);
@@ -90,10 +65,11 @@ public class CardDeserializer {
         try {
             Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/goldCards.json"));
             SupportGoldCard[] goldCardsInfoArray = gson.fromJson(reader, SupportGoldCard[].class);
-            boolean[] covered = new boolean[4];
-            Arrays.fill(covered, false);
+
             boolean flipped = false;
             for (SupportGoldCard card : goldCardsInfoArray) {
+                boolean[] covered = new boolean[4];
+                Arrays.fill(covered, false);
                 Angles[] frontAnglesTemp = new Angles[4];
                 Angles[] resourcesTemp = new Angles[5];
                 Angles[] requiredResourcesTemp = new Angles[5];
@@ -125,10 +101,12 @@ public class CardDeserializer {
             Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/starterCards.json"));
             SupportStarterCard[] starterCardsInfoArray = gson.fromJson(reader, SupportStarterCard[].class);
             boolean flipped = false;
-            boolean[] covered = new boolean[4];
+
             int points = 0;
-            Arrays.fill(covered, false);
+
             for (SupportStarterCard card : starterCardsInfoArray) {
+                boolean[] covered = new boolean[4];
+                Arrays.fill(covered, false);
                 Angles[] startingResourcesTemp = new Angles[7];
                 Angles[] startingBackResourcesTemp = new Angles[5];
                 for (int j = 0; j < 7; j++) {

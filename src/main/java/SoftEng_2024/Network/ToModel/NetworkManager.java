@@ -27,7 +27,7 @@ public class NetworkManager {
 
         //exiting the loop only after every player has connected
         //vengono pescate le carte risorsa e oro e messe nel centro
-        controller.getGame().updatePublicCards();
+
 
         //viene data a ciascun player la carta iniziale
 
@@ -48,7 +48,7 @@ public class NetworkManager {
         while(controller.getGame().getGameState()==GameState.CHOOSEGOAL){
             pollThreaded();
         }
-
+        controller.getGame().updatePublicCards();
 
 
         //shuffle the players

@@ -21,4 +21,8 @@ public class BoardObserver {
     public void notifyServer(ModelMessage msg){
         obServerManager.addModelMessageToQueue(msg);
     }
+
+    public String getCallerNickname() {
+        return callerNickname;
+    }
 }

@@ -244,6 +244,7 @@ public class GameController {
     }
 
     public void quit(double ID) throws IOException {
+        Player removedPlayer;
         //TODO: VALUTARE SE SERVE CONTROLLARE SE IL GIOCATORE SIA ISTATO AGGIUNTO ALLA LISTA DEI PLAYERS O MENO
         // CHE LA STAMPA COMMENTATA DAVA PROBLEMI
         //System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
@@ -255,7 +256,7 @@ public class GameController {
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(clientPlayers.size()==1)
                 maxPlayers=0;
-            Player removedPlayer = playerIdMap.remove(ID);
+            removedPlayer = playerIdMap.remove(ID);
             clientPlayers.remove(removedPlayer);
             game.getPlayers().remove(removedPlayer);
             game.getAckIdBindingMap().remove(ID);
@@ -264,22 +265,25 @@ public class GameController {
             //l'observer legato a quel player verrà raccolto dal garbage collector
         }else{
             //if the game isn't in the connection state, the player will be set offline
-            playerIdMap.get(ID).setOnline(false);
+            removedPlayer=playerIdMap.get(ID);
+            removedPlayer.setOnline(false);
             game.setOnlinePlayersCounter(-1);
-            //if the game is in play state and the player disconnected during their turn, set them to not playing and make
+            game.getAckIdBindingMap().remove(ID);
+            game.getErrorMessageBindingMap().remove(ID);
+            //if the game is in play state and the player disconnected during their turn and there's at least two players still online, set them to not playing and make
             //another player start their turn
-            if (game.getGameState().equals(GameState.PLAY) && playerIdMap.get(ID).getPlayerState().equals(GameState.PLAY)){
-                game.getAckIdBindingMap().remove(ID);
-                game.getErrorMessageBindingMap().remove(ID);
+            if (game.getGameState().equals(GameState.PLAY) && removedPlayer.getPlayerState().equals(GameState.PLAY) & game.getOnlinePlayersCounter()!=1){
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
                 game.turnEnd(playerIdMap.get(ID).getNickname());
                 //TODO: SE è ARRIVATO A 20 PUNTI E POI QUITTA?
             //and if the game isn't already in the play state, it will check if all the other players already did their move
             }else if(game.getGameState().ordinal()<GameState.PLAY.ordinal()){
-                game.getAckIdBindingMap().remove(ID);
-                game.getErrorMessageBindingMap().remove(ID);
                 checkIfNextState();
             }
+            //and if the player disconnected during their turn but there's only 1 player still online, just set the removedPlayer state
+            //to NOTPLAYING
+            if(removedPlayer.getPlayerState().equals(GameState.PLAY))
+                removedPlayer.setPlayerState(GameState.NOTPLAYING);
 
             int onlinePlayers = game.getOnlinePlayersCounter();
 
@@ -306,7 +310,8 @@ public class GameController {
                 };
 
                 //start the timer with a 5-seconds delay
-                terminationTimer.schedule(terminationTask, 15000);
+                //TODO:CHANGE DELAY
+                terminationTimer.schedule(terminationTask, 30000);
 
             }else if(onlinePlayers == 0){
                 if(terminationTimer!=null){
@@ -318,47 +323,8 @@ public class GameController {
             }
         }
     }
-
-//    private int getOnlinePlayersCount(){
-//        int onlinePlayersCounter=0;
-//        for(Player c:clientPlayers){
-//            if(c.getIsOnline())
-//                onlinePlayersCounter++;
-//        }
-//
-//        return onlinePlayersCounter;
-//    }
-
-    private void addPlayer(String nickname, double ID) {
-        //istanzio la board
-        Board board = new Board();
-        //istanzio il player e gli assegno la board
-        Player newPlayer = new Player(new ArrayList<>(), board);
-        //lo aggiungo alla lista di player del controller
-        this.clientPlayers.add(newPlayer);
-        //creo i nuovi observer
-        PlayerObserver newPlayerObserver=new PlayerObserver(toViewManager,ID,nickname);
-        BoardObserver newBoardObserver=new BoardObserver(nickname,toViewManager);
-        board.setObserver(newBoardObserver);
-        //aggiungo a tutti i player il nuovo observer
-        for(Player p:clientPlayers){
-            p.addObserver(newPlayerObserver);
-        }
-        //aggiungo al nuovo player tutti gli observer degli altri player
-        for(PlayerObserver o:playerObservers){
-            newPlayer.addObserver(o);
-        }
-        //aggiungo solo alla fine il nuovo observer, così da evitare di aggiungerlo più volte
-        playerObservers.add(newPlayerObserver);
-        //add the player to the binding HashMap to link players to their viewID
-        playerIdMap.put(ID,newPlayer);
-        //e lo aggiungo al game
-        newPlayer.setNickname(nickname,ID);
-        game.getPlayers().add(newPlayer);
-        game.setAckIdBindingMap(ID,true);
-        game.setOnlinePlayersCounter(1);
-    }
-
+    //method that makes the user rejoin the game
+    //it checks whether the player can or can't reconnect
     public synchronized void reJoinGame(String nickname, double ID){
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(maxPlayers==0)
@@ -382,18 +348,16 @@ public class GameController {
                 o.playerRejoining(game);
                 game.setAckIdBindingMap(ID,true);
                 //if the state of the game is the same as the state of the player set online as true
-                if(game.getGameState().ordinal() <= player.getPlayerState().ordinal() | (game.getGameState().equals(GameState.PLAY)) & player.getPlayerState().equals(GameState.NOTPLAYING)) {
+                //this case includes the player being in not playing and the game being in play
+                if(game.getGameState().ordinal() <= player.getPlayerState().ordinal()) {
                     player.setOnline(true);
                     game.setOnlinePlayersCounter(1);
                 }
-                if(playerIdMap.get(ID).getPlayerState().equals(GameState.NOTPLAYING)){
-                    player.setOnline(true);
-                    game.setOnlinePlayersCounter(1);
-                }
-                if(game.getOnlinePlayersCounter()==2 & player.getPlayerState().ordinal()>game.getGameState().ordinal() & !player.getPlayerState().equals(GameState.NOTPLAYING)){
+
+                if(player.getIsOnline() & game.getOnlinePlayersCounter()==2 & player.getPlayerState().ordinal()>game.getGameState().ordinal() & !player.getPlayerState().equals(GameState.NOTPLAYING)){
                     checkIfNextState();
                 }
-                else if(game.getOnlinePlayersCounter()==2 & player.getPlayerState().equals(GameState.NOTPLAYING)){
+                else if( player.getIsOnline() & game.getOnlinePlayersCounter()==2 & player.getPlayerState().equals(GameState.NOTPLAYING) & game.getGameState().equals(GameState.PLAY)){
                     game.turnStart();
                 }
                 return;
@@ -401,9 +365,42 @@ public class GameController {
         }
         System.err.println(nickname+ " hasn't a mapped player, reJoin not available");
         sendErrorMessageAndUnRegister(ID,"The nickname you chose doesn't belong to anyone that is offline! Please insert the nickname you had before disconnecting...");
-        
+
+    }
+    //method that initializes the player object and adds it to all the data structures
+    //it also initializes the observer linked to the new player
+    private void addPlayer(String nickname, double ID) {
+
+        Board board = new Board();
+
+        Player newPlayer = new Player(new ArrayList<>(), board);
+
+        this.clientPlayers.add(newPlayer);
+
+        PlayerObserver newPlayerObserver=new PlayerObserver(toViewManager,ID,nickname);
+        BoardObserver newBoardObserver=new BoardObserver(nickname,toViewManager);
+        board.setObserver(newBoardObserver);
+
+        for(Player p:clientPlayers){
+            p.addObserver(newPlayerObserver);
+        }
+
+        for(PlayerObserver o:playerObservers){
+            newPlayer.addObserver(o);
+        }
+
+        playerObservers.add(newPlayerObserver);
+        //add the player to the binding HashMap to link players to their viewID
+        playerIdMap.put(ID,newPlayer);
+
+        newPlayer.setNickname(nickname,ID);
+        game.getPlayers().add(newPlayer);
+        game.setAckIdBindingMap(ID,true);
+        game.setOnlinePlayersCounter(1);
     }
 
+
+    //method that places the starter card at the center of the player's board. Directly calls the board methods
     public void playStarterCard(boolean flipped, double ID) {
         //piazza la carta starter del client che chiama il metodo
         try {
@@ -424,7 +421,7 @@ public class GameController {
         checkIfNextState();
         //notify observer for all public info and hand observer for ID player
     }
-
+    //method that sets the player color according to their choice
     public synchronized void setColor(Color color, double ID){
         Player currentPLayer=playerIdMap.get(ID);
         //controlla se il player ha scelto un colore non ancora preso
@@ -449,30 +446,14 @@ public class GameController {
         checkIfNextState();
         //notify observers
     }
-    private void updatePlayerHands() {
-
-        game.setFirstTurn(true);
-        //dà le carte a tutti i giocatori
-        for (Player player : game.getPlayers()) {
-
-            game.drawFromTheDeck(player, 0);
-
-            game.drawFromTheDeck(player, 0);
-
-            game.drawFromTheDeck(player, 1);
-
-        }
-        game.setFirstTurn(false);
-        //notify each client view for their own hand
-    }
-
+    //method that draws the 2 public goals
     public void updatePublicGoals() {
         GoalCard[] goalCards = new GoalCard[2];
         goalCards[0] = game.getGoalCardDeck().poll();
         goalCards[1] = game.getGoalCardDeck().poll();
         game.setPublicGoals(goalCards);
-        //notify all clients for public goals
     }
+    //method that sets the private goals chosen by the player
     public void choosePrivateGoals(int choice, double ID){
         //discards a private goal from the player attribute
         Player player=playerIdMap.get(ID);
@@ -488,6 +469,8 @@ public class GameController {
         //checks if all the players had already chosen their private goal
         checkIfNextState();
     }
+    //method that plays the card that the player chose to play. It calls the corresponding game method.
+    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
     public void playCard(int card, int row, int column, boolean flipped,double ID){
         Player player=playerIdMap.get(ID);
         player.getHand().get(card).setFlipped(flipped);
@@ -512,8 +495,9 @@ public class GameController {
                 break;
 
         }
-        //notify : in base a quello che ritorna il metodo playCard, notifico gli observer.
     }
+    //method that makes the player draw from the deck they chose to draw from. It calls the corresponding game method.
+    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
     public void drawFromTheDeck(int deck,double ID){
         Player player=playerIdMap.get(ID);
         int result=game.drawFromTheDeck(player,deck);
@@ -536,8 +520,10 @@ public class GameController {
                 sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
                 break;
         }
-        //notify the right observers
+
     }
+    //method that makes the player draw the public card they chose from. It calls the corresponding game method.
+    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
     public void drawFromPublicCards(int card,double ID){
         Player player=playerIdMap.get(ID);
         int result=game.drawPublicCards(player,card);
@@ -556,6 +542,9 @@ public class GameController {
                 break;
             case 0:
                 sendErrorMessage(ID,"You tried to draw a card but you've already drawn one! Please wait for your next turn to play and draw.");
+                break;
+            case -3:
+                sendErrorMessage(ID,"You tried to draw a card but there's no card in that position! Try inserting another index.");
         }
     }
     //method that sends a chat message to a specified user
@@ -591,30 +580,30 @@ public class GameController {
             toViewManager.addModelMessageToQueue(new BroadcastMessage(playerID,completeMsg));
         }
     }
+    //method called by the network manager object which gives out the starter cards to all the players.
 
     public void handOutStarterCards(){
         for(Player player: game.getPlayers()){
             //aggiungo una carta starter alla mano del player
-            player.setHand(game.getStarterDeck().poll());
+            player.addCard(game.getStarterDeck().poll());
         }
     }
-    //SONO AGGIUNTI ANCHE DENTRO ADD PLAYER, DA VEDERE SE HA SENSO QUESTO METODO O MENO
+    //method called by the network manager object which hands out the private goals to each player
     public void handOutPrivateGoals(){
         for(Player player: game.getPlayers()){
             List<GoalCard> availableGoals=new ArrayList<>();
             availableGoals.add(game.getGoalCardDeck().poll());
             availableGoals.add(game.getGoalCardDeck().poll());
-            //aggiungo due goals
             player.setAvailableGoals(availableGoals);
         }
     }
+    //method called by the network manager object which gives out the cards to all the players.
+    //calls the corresponding game method
     public void handOutCards(){
         for(Player player: game.getPlayers()){
-            //aggiungo due carte risorsa alla mano del player
-            player.setHand(game.getResourceDeck().poll());
-            player.setHand(game.getResourceDeck().poll());
-            //aggiungo una carta ora alla mano
-            player.setHand(game.getGoldDeck().poll());
+            //if i'm giving out the cards to the last player, send everyone a message containing the top angles of the deck
+            game.handOutCards(player, player.equals(game.getPlayers().get(maxPlayers - 1)));
+
         }
     }
     //method that checks if someone has arrived at 20 points by calling drawCard inside the game class
@@ -628,19 +617,24 @@ public class GameController {
             game.setGameState(GameState.ENDGAME);
         }
     }
+    //method that calls the setters of the game attributes which contain the last result of the player move.
+    //these setters will trigger the gameObserver which will notify the player
     private void sendErrorMessage(double ID,String ErrorMessage){
         game.setErrorMessageBindingMap(ID,ErrorMessage);
         game.setAckIdBindingMap(ID,false);
     }
+    //auxiliary method that assures that both the error and ack messages arrive before unregistering the client from the
+    //corresponding server
     private void sendErrorMessageAndUnRegister(double ID,String ErrorMessage){
         game.setAckAndError(ID,ErrorMessage);
     }
 
+    //method that checks whether every player has made their move before switching to the next game state
+    //it won't switch the game state if there's only one player still online
     private synchronized void checkIfNextState(){
             if(1 == game.getOnlinePlayersCounter()){
                 return;
             }
-
             boolean found=false;
             //per ogni player
             for(Player player: clientPlayers){

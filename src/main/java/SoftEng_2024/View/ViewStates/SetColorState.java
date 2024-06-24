@@ -39,7 +39,7 @@ public class SetColorState extends ViewState{
                     listenDefaultCommand();
                     break;
                 case "showboard":
-                    printPlayerBoard();
+                    printPlayerBoard(false);
                     view.setCommand("");
                     listenDefaultCommand();
                     System.out.println("Type  Set Color, Show Board, Chat or Quit");

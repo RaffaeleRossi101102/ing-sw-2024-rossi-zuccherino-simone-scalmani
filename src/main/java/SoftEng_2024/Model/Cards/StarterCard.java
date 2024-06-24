@@ -5,7 +5,7 @@ import SoftEng_2024.Model.Fronts.Front;
 
 import java.io.Serializable;
 
-public class StarterCard extends Card implements Serializable {
+public class StarterCard extends Card {
 
     //private ResourceFront front;
 

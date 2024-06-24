@@ -1,6 +1,7 @@
 package SoftEng_2024.View.GUIControllers;
 
 import SoftEng_2024.Model.Enums.Angles;
+import SoftEng_2024.Model.Enums.CellState;
 import SoftEng_2024.Model.Enums.Color;
 import SoftEng_2024.Model.Enums.GameState;
 import SoftEng_2024.Network.ToModel.ClientInterface;

@@ -23,6 +23,8 @@ public class DrawState extends ViewState{
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
             new EndGameState(view, client, ID).display();
         }else {
+            printPlayerBoard(true);
+            showDecksAndPublicCards();
             System.out.println("Now, you have to draw a card from the 4 public cards or from one of the decks!");
 //            Scanner scanner = new Scanner(System.in);
             System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
@@ -44,7 +46,7 @@ public class DrawState extends ViewState{
                         listenDefaultCommand();
                         break;
                     case "showboard":
-                        printPlayerBoard();
+                        printPlayerBoard(false);
                         view.setCommand("");
                         listenDefaultCommand();
                         System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");

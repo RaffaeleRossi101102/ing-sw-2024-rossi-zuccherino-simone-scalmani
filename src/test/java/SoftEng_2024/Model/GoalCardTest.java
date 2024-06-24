@@ -29,10 +29,10 @@ class GoalCardTest {
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
         testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
 
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getGoldDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getGoldDeck().poll());
 
         try {
             testGameInit.getGame().getPlayers().get(0).getPlayerBoard().updateBoard(42, 42, testGameInit.getGame().getPlayers().get(0).getHand().get(0));
@@ -64,11 +64,11 @@ class GoalCardTest {
         testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
 
 
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getGoldDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getGoldDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getGoldDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getGoldDeck().poll());
 
         try {
             testGameInit.getGame().getPlayers().get(0).getPlayerBoard().updateBoard(42, 42, testGameInit.getGame().getPlayers().get(0).getHand().get(0));
@@ -97,11 +97,11 @@ class GoalCardTest {
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
         testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
 
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getResourceDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getGoldDeck().poll());
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getGoldDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getGoldDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getGoldDeck().poll());
 
         try {
             testGameInit.getGame().getPlayers().get(0).getPlayerBoard().updateBoard(42, 42, testGameInit.getGame().getPlayers().get(0).getHand().get(0));
@@ -133,21 +133,21 @@ class GoalCardTest {
 
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
         testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
 
         ResourceFront testFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.ANIMALS}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.INSECTS}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.PLANTS}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
 
         try {
             testGameInit.getGame().getPlayers().get(0).getHand().get(0).setFlipped(true);
@@ -180,14 +180,14 @@ class GoalCardTest {
         testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
         testGameInit.getGame().getPlayers().get(testGameInit.getGame().getPlayers().size()).setNickname("paolo",0);
 
-        testGameInit.getGame().getPlayers().get(0).setHand(testGameInit.getGame().getStarterDeck().poll());
+        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
         ResourceFront testFront = new ResourceFront(new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY}, 0, new boolean[]{false, false, false, false});
         ResourceCard testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
         testCard = new ResourceCard(testFront, true, new Angles[]{Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI}, 0);
-        testGameInit.getGame().getPlayers().get(0).setHand(testCard);
+        testGameInit.getGame().getPlayers().get(0).addCard(testCard);
 
         try {
             testGameInit.getGame().getPlayers().get(0).getHand().get(0).setFlipped(true);

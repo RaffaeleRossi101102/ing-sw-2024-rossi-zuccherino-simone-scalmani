@@ -1,7 +1,12 @@
 package SoftEng_2024.Model;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Cards.GoldCard;
+import SoftEng_2024.Model.Cards.ResourceCard;
+import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.Model.Fronts.GoldFront;
+import SoftEng_2024.Model.Fronts.ResourceFront;
 import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
@@ -54,7 +59,7 @@ public class Game {
         this.gameState=GameState.CONNECTION;
 
     }
-
+    //method that calculates the points each player made by completing both private and public goals
     public void gameEnd() {
         //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
         int [] playerScore= new int[players.size()];
@@ -109,17 +114,17 @@ public class Game {
                 nicknameWinners.add(players.get(i).getNickname());
             }
         }
-
         setWinners(nicknameWinners);
-
     }
-
+    //method that triggers the observer to send the winners
     public void setWinners(List<String> winners){
         gameObserver.updatedWinners(winners);
     }
 
 
-    //prende dalla lista di player il current player e aggiorna i campi booleani draw e play
+    //method that starts a new turn
+    //If the game isn't ending, it will check if the player index points to an online player.
+    //If the check is true, that player will start their turn. Else, it will increase the index and make the same checks.
     public synchronized void turnStart(){
         if(!checkIfGameEnd()){
 //            int onlinePlayersCounter = 0;
@@ -138,7 +143,7 @@ public class Game {
             }
         }
     }
-
+    //method that checks
     public synchronized boolean checkIfGameEnd(){
         boolean gameEnd = true;
         for(Player p:players){
@@ -209,38 +214,83 @@ public class Game {
         return result;
     }
     //RICORDA L'ECCEZIONE PER PLAYER NON CORRETTO, GIà PESCATO/GIOCATO E CARTE FINITE
-    public int drawPublicCards(Player player, int index){
-        //draw =false
-        int result=0;
-        //se il giocatore non ha già pescato la carta ed è quello giusto,
-        if (player.equals(currentPlayer) && draw){
-            //aggiungi la carta pubblica alla sua mano
-            if(!publicCards.isEmpty()) {
-                player.setHand(publicCards.get(index));
-                draw = false;
-                //tutto liscio
-                result = 1;
-                //e rimpiazza il suo spazio con una carta
-                //se la carta pescata era risorsa:
-                if (!resourceDeck.isEmpty()) {
-                    if (index < 2) {
-                        publicCards.set(index, resourceDeck.poll());
-                    }
-                }
-                //se la carta pescata era oro:
-                if (!goldDeck.isEmpty()) {
-                    if (index >= 2) {
-                        publicCards.set(index, goldDeck.poll());
-                    }
-                }
-                gameObserver.updatedPublicCards(player.getNickname(),index);
-            }else {
-                result = -1;
-            }
+//    public int drawPublicCards(Player player, int index){
+//        //draw =false
+//        int result=0;
+//        //se il giocatore non ha già pescato la carta ed è quello giusto,
+//        if (player.equals(currentPlayer) && draw){
+//            //se le carte pubbliche non sono finite
+//            if(!publicCards.isEmpty()) {
+//                //e la carta che voglio pescare c'è
+//                if(publicCards.get(index)!=null) {
+//                    player.addCard(publicCards.get(index));
+//                    draw = false;
+//                    //tutto liscio
+//                    result = 1;
+//                    //rimpiazza lo spazio della carta pescata con una carta del deck se il deck non è vuoto
+//                    //risorsa
+//                    if(index<2){
+//                        if(!resourceDeck.isEmpty())
+//                            publicCards.set(index, resourceDeck.poll());
+//                        else
+//                            publicCards.set(index,null);
+//                    }
+//                    else{
+//                        if(!goldDeck.isEmpty())
+//                            publicCards.set(index, goldDeck.poll());
+//                        else
+//                            publicCards.set(index,null);
+//                    }
+//                    gameObserver.updatedPublicCards(player.getNickname(), index);
+//                }
+//                else{
+//                    result=-3;
+//                }
+//            }else {
+//                result = -1;
+//            }
+//        }
+//        if(!player.equals(currentPlayer)) result=-2;
+//        return result;
+//    }
+
+    public int drawPublicCards(Player player, int index) {
+        //checks if the player is allowed to draw a card
+        if (!player.equals(currentPlayer)) {
+            return -2;
         }
-        if(!player.equals(currentPlayer)) result=-2;
-        return result;
+        //checks if the player has already drawn a card
+        if (!draw) {
+            return 0;
+        }
+        //checks if the public cards are empty
+        if (publicCards.isEmpty()) {
+            return -1;
+        }
+        //checks if the index is out of bounds or if the value is null
+        if (index < 0 || index >= publicCards.size() || publicCards.get(index) == null) {
+            return -3;
+        }
+
+        //Draws the card
+        player.addCard(publicCards.get(index));
+        draw = false;
+
+        //Replaces the drawn card with a new one from the appropriate deck
+        if (index < 2) {
+            publicCards.set(index, !resourceDeck.isEmpty() ? resourceDeck.poll() : null);
+        } else {
+            publicCards.set(index, !goldDeck.isEmpty() ? goldDeck.poll() : null);
+        }
+
+        //Notify observers
+        gameObserver.updatedPublicCards(player.getNickname(), index);
+
+        return 1;
     }
+
+
+
     public int drawFromTheDeck(Player player, int whichDeck){
         int result=0;
         if((player.equals(currentPlayer) && draw) | firstTurn){
@@ -249,7 +299,7 @@ public class Game {
             //se è uguale a 0 prendo il deck risorsa se è =1 quello oro
             if(whichDeck==0) {
                 if(!resourceDeck.isEmpty()) {
-                    player.setHand(resourceDeck.poll());
+                    player.addCard(resourceDeck.poll());
                     draw=false;
                     result=1;
                     gameObserver.updatedDeck(player.getNickname(),resourceDeck.peek(),whichDeck);
@@ -258,7 +308,7 @@ public class Game {
             }
             if(whichDeck==1) {
                 if(!goldDeck.isEmpty()) {
-                    player.setHand(goldDeck.poll());
+                    player.addCard(goldDeck.poll());
                     draw=false;
                     result=1;
                     gameObserver.updatedDeck(player.getNickname(), goldDeck.peek(),whichDeck);
@@ -268,6 +318,22 @@ public class Game {
         }
         if(!player.equals(currentPlayer)) result=-1;
         return result;
+    }
+    //method that gives out the cards to the player and if necessary, notifies about the changes to the deck
+    public void handOutCards(Player player,boolean updateAboutTheDecks){
+        List<Card> newHand=new ArrayList<>();
+        newHand.add(resourceDeck.poll());
+        newHand.add(resourceDeck.poll());
+        newHand.add(goldDeck.poll());
+//        newHand.add(new ResourceCard(new ResourceFront(new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY}, 7, new boolean[4]), false, new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.ANIMALS}, 0));
+//        newHand.add(new ResourceCard(new ResourceFront(new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY}, 7, new boolean[4]), false, new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY, Angles.PLANTS}, 0));
+//        newHand.add(new ResourceCard(new ResourceFront(new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY}, 7, new boolean[4]), false, new Angles[]{Angles.EMPTY,Angles.EMPTY,Angles.EMPTY,Angles.EMPTY, Angles.FUNGI}, 0));
+
+        player.setHand(newHand);
+        if(updateAboutTheDecks) {
+            gameObserver.updatedDeck(player.getNickname(), resourceDeck.peek(), 0);
+            gameObserver.updatedDeck(player.getNickname(), goldDeck.peek(), 1);
+        }
     }
     public void updatePublicCards(){
         publicCards.add(resourceDeck.poll());
@@ -309,7 +375,12 @@ public class Game {
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
     }
-
+    public void removePlayerFromList(Player removedPlayer,double playerID){
+        players.remove(removedPlayer);
+        getAckIdBindingMap().remove(playerID);
+        ErrorMessageBindingMap.remove(playerID);
+        gameObserver.removedPlayer(removedPlayer.getNickname());
+    }
     public void setPublicGoals(GoalCard[] publicGoals) {
         this.publicGoals = publicGoals;
         gameObserver.updatedPublicGoals(this.publicGoals);
@@ -405,5 +476,6 @@ public class Game {
     public int getOnlinePlayersCounter() {
         return onlinePlayersCounter;
     }
+
 }
 

@@ -75,7 +75,7 @@ public class Simulator {
         controller.getGame().getPlayers().addAll(players);
         for(Player player: controller.getGame().getPlayers()){
             //ad ogni player viene aggiunta una carta dello starter deck
-            player.setHand(controller.getGame().getStarterDeck().poll());
+            player.addCard(controller.getGame().getStarterDeck().poll());
         }
 
         Scanner scan5= new Scanner(System.in);
