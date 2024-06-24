@@ -104,6 +104,17 @@ public abstract class ViewState {
                         listenDefaultCommand();
                         System.out.println(insertCommandString);
                         break;
+                    case "playerscore":
+                        if(!view.getLocalModel().getState().equals(GameState.PLAY)){
+                            System.out.println("The game is still in the player initialization phase, no scores are available yet!");
+                        }
+                        else{
+                            playersScore();
+                        }
+                        view.setCommand("");
+                        listenDefaultCommand();
+                        System.out.println(insertCommandString);
+                        break;
                     case "chat":
                         writeInChat();
                         listenDefaultCommand();
@@ -125,6 +136,15 @@ public abstract class ViewState {
                 }
             }
         }
+    }
+
+    protected void playersScore(){
+        
+        System.out.println("Here are the players' scores in the game so far:");
+        for(String player : view.getLocalModel().getPlayersBoards().keySet()){
+            System.out.println("["+player+"]" + " ----> " + view.getLocalModel().getPlayersBoards().get(player).getScore());
+        }
+        
     }
 
     protected void listenDefaultCommand(){

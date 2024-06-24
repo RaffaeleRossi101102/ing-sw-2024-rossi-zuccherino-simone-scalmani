@@ -732,7 +732,7 @@ public class MainViewController {
             ImageView imageView = (ImageView) event.getSource();
             columnIndex = GridPane.getColumnIndex(imageView);
             rowIndex = GridPane.getRowIndex(imageView);
-            if (!localModel.getPlayersBoards().get(nickname).getCardBoard()[rowIndex][columnIndex].getPlaceable()) {
+            if (!localModel.getPlayersBoards().get(nickname).getCardBoard()[rowIndex][columnIndex].getCellState().equals(CellState.PLACEABLE)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("PLACEABLE ERROR");
                 alert.setHeaderText(null);

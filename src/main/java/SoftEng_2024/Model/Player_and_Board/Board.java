@@ -3,15 +3,16 @@ package SoftEng_2024.Model.Player_and_Board;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.AngleIndexes;
 import SoftEng_2024.Model.Enums.Angles;
+import SoftEng_2024.Model.Enums.CellState;
 import SoftEng_2024.Model.Observers.BoardObserver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-    private Cell[][] cardBoard;
-    private ArrayList<Cell> cardList;
-    private int[] anglesCounter;
+    private final Cell[][] cardBoard;
+    private final ArrayList<Cell> cardList;
+    private final int[] anglesCounter;
     private int score;
     private BoardObserver boardObserver;
 
@@ -26,7 +27,7 @@ public class Board {
         this.cardList = new ArrayList<>();
         this.anglesCounter = new int[7];
         this.score = 0;
-        this.cardBoard[42][42].setPlaceable(true);
+        this.cardBoard[42][42].setCellState(CellState.PLACEABLE);
     }
     //OBSERVER METHODS
     public void setObserver(BoardObserver o){
@@ -35,33 +36,33 @@ public class Board {
 
     //Metodo che setta le celle nelle 4 direzioni come placeable, nel caso in cui la carta giocata
     //sia flipped (non controlla che l'angolo sia visible)
-    private void setAvailableCellsFlipped(int r, int c){
-        if((r-1)>=0 && (c-1)>=0) {
-            if (cardBoard[r - 1][c - 1].getCard() == null) {
-                cardBoard[r - 1][c - 1].setPlaceable(true);
-                System.out.println("LA CELLA " + (r-1) + " " + (c-1) + " è piazzabile");
-            }
-        }
-        if((r+1)<cardBoard.length && c-1>=0) {
-            if (cardBoard[r + 1][c - 1].getCard() == null) {
-                cardBoard[r + 1][c - 1].setPlaceable(true);
-                System.out.println("LA CELLA " + (r+1) + " " + (c-1) + " è piazzabile");
-            }
-        }
-        if((r-1)>=0 && c+1<cardBoard[0].length) {
-            if (cardBoard[r - 1][c + 1].getCard() == null) {
-                cardBoard[r - 1][c + 1].setPlaceable(true);
-                System.out.println("LA CELLA " + (r-1) + " " + (c+1) + " è piazzabile");
-            }
-        }
-        if((r+1)<cardBoard.length && (c+1)<cardBoard[0].length) {
-            if (cardBoard[r + 1][c + 1].getCard() == null) {
-                cardBoard[r + 1][c + 1].setPlaceable(true);
-                System.out.println("LA CELLA " + (r+1) + " " + (c+1) + " è piazzabile");
-            }
-        }
-
-    }
+//    private void setAvailableCellsFlipped(int r, int c){
+//        if((r-1)>=0 && (c-1)>=0) {
+//            if (cardBoard[r - 1][c - 1].getCellState().equals(CellState.NOTPLACEABLE)) {
+//                cardBoard[r - 1][c - 1].setCellState(CellState.PLACEABLE);
+//                System.out.println("LA CELLA " + (r-1) + " " + (c-1) + " è piazzabile");
+//            }
+//        }
+//        if((r+1)<cardBoard.length && c-1>=0) {
+//            if (cardBoard[r + 1][c - 1].getCellState().equals(CellState.NOTPLACEABLE)) {
+//                cardBoard[r + 1][c - 1].setCellState(CellState.PLACEABLE);
+//                System.out.println("LA CELLA " + (r+1) + " " + (c-1) + " è piazzabile");
+//            }
+//        }
+//        if((r-1)>=0 && c+1<cardBoard[0].length) {
+//            if (cardBoard[r - 1][c + 1].getCellState().equals(CellState.NOTPLACEABLE)) {
+//                cardBoard[r - 1][c + 1].setCellState(CellState.PLACEABLE);
+//                System.out.println("LA CELLA " + (r-1) + " " + (c+1) + " è piazzabile");
+//            }
+//        }
+//        if((r+1)<cardBoard.length && (c+1)<cardBoard[0].length) {
+//            if (cardBoard[r + 1][c + 1].getCellState().equals(CellState.NOTPLACEABLE)) {
+//                cardBoard[r + 1][c + 1].setCellState(CellState.PLACEABLE);
+//                System.out.println("LA CELLA " + (r+1) + " " + (c+1) + " è piazzabile");
+//            }
+//        }
+//
+//    }
     //metodo che setta le celle come available nel caso in cui la carta è giocata di front.
     //Fa dunque il controllo negli angoli: l'angolo della carta piazzata, nella direzione corrispondente
     //alla cella della matrice non deve essere invisibile
@@ -80,12 +81,9 @@ public class Board {
         if ((r - 1) >= 0 && (c - 1) >= 0) {
             checkIfPlaceable(r-1,c-1, played, AngleIndexes.UPLEFT);
         }
-        if((r+1)<cardBoard.length && c-1>=0) {
-            if (cardBoard[r + 1][c - 1].getCard() == null &&
-                    played.getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)] != Angles.INVISIBLE) {
-                cardBoard[r + 1][c - 1].setPlaceable(true);
-                System.out.println("LA CELLA " + (r+1) + " " + (c-1) + " è piazzabile");
-            }
+
+        if ((r + 1) < cardBoard.length && (c - 1) >= 0) {
+            checkIfPlaceable(r+1,c-1, played, AngleIndexes.DOWNLEFT);
         }
 
         if ((r - 1) >= 0 && (c + 1) < cardBoard[0].length) {
@@ -115,55 +113,27 @@ public class Board {
         return 1;
     }
     //conta il numero di risorse coperte dopo il piazzamento
-    private int[] coveredAnglesCounter(int r, int c) {
+    private int coveredAnglesCounter(int r, int c,Card playedCard) {
+        System.out.println(boardObserver.getCallerNickname()+" "+ Arrays.toString(playedCard.getFront().getCovered()));
         //counter ha nelle prime 7 posizioni il numero di risorse/oggetti. All'ottava c'è il numero di
         //angoli coperti
-        int[] counter = new int[8];
-        int index;
+        int counter = 0;
+        int [] count=playedCard.getSumResources();
         //se in alto a sinistra c'è una cella
         if((r - 1)>=0 && (c - 1) >= 0) {
             counter+=updateCounter(r-1,c-1,AngleIndexes.DOWNRIGHT);
         }
+        //se in basso a sinistra c'è una cella
         if((r+1)<cardBoard.length && c-1>=0) {
             counter+=updateCounter(r+1,c-1,AngleIndexes.UPRIGHT);
         }
+        //se in alto a destra c'è una cella
         if((r-1)>=0 && c+1<cardBoard[0].length){
-            if (cardBoard[r - 1][c + 1].getCard() != null) {
-                counter[7]++;
-                cardBoard[r - 1][c + 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.DOWNLEFT),true);
-                if (!cardBoard[r - 1][c + 1].getCard().getFlipped()) {
-                    index = Angles.getIndex(cardBoard[r - 1][c + 1].getCard().getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)]);
-                    if (index < 7) {
-                        counter[index] += 1;
-                    }
-                } else {
-                    //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r - 1][c + 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.DOWNLEFT)]);
-                    if (index < 7) {
-                        counter[index] += 1;
-                    }
-                }
-
-            }
+            counter+=updateCounter(r-1,c+1,AngleIndexes.DOWNLEFT);
         }
+        //se in basso a destra c'è una cella
         if((r+1)<cardBoard.length && (c+1)<cardBoard[0].length){
-            if(cardBoard[r+1][c+1].getCard() != null) {
-                counter[7]++;
-                cardBoard[r + 1][c + 1].getCard().getFront().setCovered(AngleIndexes.getIndex(AngleIndexes.UPLEFT),true);
-                if (!cardBoard[r + 1][c + 1].getCard().getFlipped()) {
-                    index = Angles.getIndex(cardBoard[r + 1][c + 1].getCard().getFront().getFrontAngles()[AngleIndexes.getIndex(AngleIndexes.UPLEFT)]);
-                    if (index < 7) {
-                        counter[index] += 1;
-                    }
-                } else {
-                    //index prende l'indice della risorsa in basso a destra
-                    index = Angles.getIndex(cardBoard[r + 1][c + 1].getCard().getCardBackAnglesType()[AngleIndexes.getIndex(AngleIndexes.UPLEFT)]);
-                    if (index < 7) {
-                        counter[index] += 1;
-                    }
-                }
-
-            }
+            counter+=updateCounter(r+1,c+1,AngleIndexes.UPLEFT);
         }
         //sommo il numero di risorse/oggetti della carta al totale di risorse/oggetti nella board
         for(int i=0;i<7;i++){

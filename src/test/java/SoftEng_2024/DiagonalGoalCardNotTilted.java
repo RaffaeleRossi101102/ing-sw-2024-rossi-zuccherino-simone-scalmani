@@ -75,7 +75,7 @@ public class DiagonalGoalCardNotTilted {
 
 
         //PLACING THE STARTER CARD
-        matrice[42][42].setPlaceable(true);
+        matrice[42][42].setCellState(true);
         board.updateBoard(42, 42, starterCard);
 
         //DIAGONAL WITH STARTER IN THE MIDDLE EXPECTED SCORE: 2

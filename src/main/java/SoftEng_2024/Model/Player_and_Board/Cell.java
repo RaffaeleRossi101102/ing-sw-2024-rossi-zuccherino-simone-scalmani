@@ -1,12 +1,13 @@
 package SoftEng_2024.Model.Player_and_Board;
 
 import SoftEng_2024.Model.Cards.Card;
+import SoftEng_2024.Model.Enums.CellState;
 
 import java.io.Serializable;
 
 public class Cell implements Serializable {
-    private Card card;
-    private boolean placeable;
+    private Card card=null;
+    private CellState cellState;
     private int row;
     private int column;
     private boolean visited;
@@ -14,7 +15,7 @@ public class Cell implements Serializable {
 
     //CONSTRUCTOR
     public Cell(){
-        this.placeable = false;
+        this.cellState = CellState.NOTPLACEABLE;
         this.visited=false;
     }
     //GETTERS
@@ -30,8 +31,8 @@ public class Cell implements Serializable {
         return row;
     }
 
-    public boolean getPlaceable(){
-        return placeable;
+    public CellState getCellState(){
+        return cellState;
     }
     //SETTERS
     public void setCard(Card card) {
@@ -42,8 +43,8 @@ public class Cell implements Serializable {
         this.column = column;
     }
 
-    public void setPlaceable(boolean placeable) {
-        this.placeable = placeable;
+    public void setCellState(CellState cellState) {
+        this.cellState = cellState;
     }
 
     public void setRow(int row) {

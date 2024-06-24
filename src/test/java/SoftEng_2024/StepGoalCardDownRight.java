@@ -75,7 +75,7 @@ public class StepGoalCardDownRight {
 
 
         //PLACING THE STARTER CARD
-        matrice[42][42].setPlaceable(true);
+        matrice[42][42].setCellState(true);
         board.updateBoard(42, 42, starterCard);
 
         // SINGLE STEP (WITH POSSIBLE BUG THAT CALCULATE 2 STEPS) EXPECTED POINTS: 1

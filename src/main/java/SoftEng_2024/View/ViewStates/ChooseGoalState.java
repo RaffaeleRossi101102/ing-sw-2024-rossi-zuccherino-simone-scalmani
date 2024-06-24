@@ -28,6 +28,7 @@ public class ChooseGoalState extends ViewState {
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
                         view.setCommand("");
                         listenDefaultCommand();
+//                        wait();-
                     }else{
                         commandChosen = true;
                         choosePrivateGoal();

@@ -1,14 +1,10 @@
 package SoftEng_2024;
 
 import SoftEng_2024.Model.Player_and_Board.Board;
-import SoftEng_2024.Model.Cards.Card;
-import SoftEng_2024.Model.Cards.ResourceCard;
-import SoftEng_2024.Model.Cards.StarterCard;
 import SoftEng_2024.Model.Player_and_Board.Cell;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Fronts.Front;
 import SoftEng_2024.Model.Fronts.ResourceFront;
-import StepGoalCard;
 
 public class StepGoalCardUpLeft {
     public static void main(String[] args) throws Board.notAvailableCellException, Board.necessaryResourcesNotAvailableException {
@@ -47,21 +43,21 @@ public class StepGoalCardUpLeft {
         Front resourceFront9 = (ResourceFront) new ResourceFront(frontAngles9, 1, covered);
 
         //CARD DECLARATION
-        Card resourceCard1 = (ResourceCard) new ResourceCard(resourceFront1, false, resources);
-        Card resourceCard2 = (ResourceCard) new ResourceCard(resourceFront2, false, resources2);
-        Card resourceCard3 = (ResourceCard) new ResourceCard(resourceFront3, false, resources3);
-        Card resourceCard4 = (ResourceCard) new ResourceCard(resourceFront4, true, resources4);
-        Card resourceCard5 = (ResourceCard) new ResourceCard(resourceFront5, false, resources5);
-        Card resourceCard6 = (ResourceCard) new ResourceCard(resourceFront6, true, resources6);
-        Card resourceCard7 = (ResourceCard) new ResourceCard(resourceFront7, false, resources7);
-        Card resourceCard8 = (ResourceCard) new ResourceCard(resourceFront8, false, resources8);
-        Card resourceCard9 = (ResourceCard) new ResourceCard(resourceFront9, false, resources9);
+//        Card resourceCard1 = (ResourceCard) new ResourceCard(resourceFront1, false, resources);
+//        Card resourceCard2 = (ResourceCard) new ResourceCard(resourceFront2, false, resources2);
+//        Card resourceCard3 = (ResourceCard) new ResourceCard(resourceFront3, false, resources3);
+//        Card resourceCard4 = (ResourceCard) new ResourceCard(resourceFront4, true, resources4);
+//        Card resourceCard5 = (ResourceCard) new ResourceCard(resourceFront5, false, resources5);
+//        Card resourceCard6 = (ResourceCard) new ResourceCard(resourceFront6, true, resources6);
+//        Card resourceCard7 = (ResourceCard) new ResourceCard(resourceFront7, false, resources7);
+//        Card resourceCard8 = (ResourceCard) new ResourceCard(resourceFront8, false, resources8);
+//        Card resourceCard9 = (ResourceCard) new ResourceCard(resourceFront9, false, resources9);
 
         //STARTER CARD
         Angles[] starterAngles = {Angles.ANIMALS, Angles.EMPTY, Angles.EMPTY, Angles.FUNGI, Angles.FUNGI, Angles.EMPTY, Angles.EMPTY};
         Angles[] starterResources = {Angles.PLANTS, Angles.ANIMALS, Angles.FUNGI, Angles.INSECTS, Angles.EMPTY};
         Front starterFront = (ResourceFront) new ResourceFront(starterAngles, 0, covered);
-        Card starterCard = (StarterCard) new StarterCard(starterFront, true, starterResources);
+//        Card starterCard = (StarterCard) new StarterCard(starterFront, true, starterResources);
 
         //GOAL CARD
         //GoalCard stepUpLeft = (StepGoalCard) new StepGoalCard(Angles.FUNGI,Angles.INSECTS,true,true,1 );
@@ -76,8 +72,8 @@ public class StepGoalCardUpLeft {
 
 
         //PLACING THE STARTER CARD
-        matrice[42][42].setPlaceable(true);
-        board.updateBoard(42, 42, starterCard);
+        matrice[42][42].setCellState(true);
+//        board.updateBoard(42, 42, starterCard);
 
         // SINGLE STEP (WITH POSSIBLE BUG THAT CALCULATE 2 STEPS) EXPECTED POINTS: 1
         /*

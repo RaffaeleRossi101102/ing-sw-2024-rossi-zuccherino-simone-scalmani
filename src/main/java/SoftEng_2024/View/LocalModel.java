@@ -211,7 +211,7 @@ public class LocalModel {
         if(!playersBoards.containsKey(playersNickname)){
             playersBoards.put(playersNickname,new LocalBoard());
         }
-        System.out.println(playersNickname);
+        System.out.println(playersNickname + "has joined the game!");
     }
     public void setIfPlayerOnline(String nickname,Boolean isOnline){
         this.playersNickname.replace(nickname,isOnline);
@@ -261,12 +261,10 @@ public class LocalModel {
     }
 
     public void setTopResourceCard(Angles topResourceCard) {
-        System.out.println("setting resource");
         this.topResourceCard = topResourceCard;
     }
 
     public void setTopGoldCard(Angles topGoldCard) {
-        System.out.println("setting gold");
         this.topGoldCard = topGoldCard;
     }
 
