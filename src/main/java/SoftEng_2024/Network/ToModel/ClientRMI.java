@@ -17,10 +17,14 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private ServerInterface server;
     public volatile LinkedBlockingQueue<ModelMessage> modelQueue;
     double ID;
+    private final String ip;
+    private final int port;
 
-    public ClientRMI(double ID) throws RemoteException {
+    public ClientRMI(double ID ,String ip, int port) throws RemoteException {
         this.modelQueue=new LinkedBlockingQueue<>();
         this.ID = ID;
+        this.ip=ip;
+        this.port=port;
     }
 
     public synchronized void run() throws InterruptedException {
@@ -55,8 +59,8 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
 
     public void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException {
         //lookup on the registry
-        Registry registry = LocateRegistry.getRegistry("localhost", 6969);
-        this.server = (ServerInterface) registry.lookup("localhost");
+        Registry registry = LocateRegistry.getRegistry(ip, port);
+        this.server = (ServerInterface) registry.lookup("RMI_server");
         server.registerClient(ID, client);
     }
 

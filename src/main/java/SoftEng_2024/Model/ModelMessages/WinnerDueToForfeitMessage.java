@@ -11,7 +11,7 @@ public class WinnerDueToForfeitMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        System.err.println(winnerDueToForfeit+ " YOU WON THE GAME!!!!!");
+        System.err.println("\n\n"+winnerDueToForfeit+ " YOU WON THE GAME!!!!!");
         System.exit(0);
     }
 }

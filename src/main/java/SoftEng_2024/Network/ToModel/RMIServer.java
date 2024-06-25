@@ -16,27 +16,28 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.lang.Thread.sleep;
 
 public class RMIServer implements ServerInterface{
-    private final NetworkManager manager;
+    private NetworkManager manager;
     private ConcurrentHashMap<Double, ClientInterface> IdClientBindingMap;
-    private ModelMessage msg;
+    private int port;
 
     //**************************************
     //METHODS
     //CONSTRUCTOR
-    public RMIServer(NetworkManager manager) throws RemoteException{
+    public RMIServer(NetworkManager manager,int port) throws RemoteException{
         this.manager = manager;
         IdClientBindingMap = new ConcurrentHashMap<>();
+        this.port = port;
     }
     @Override
     public void addToNetworkManager(ViewMessage msg) throws RemoteException {
         manager.addViewMessages(msg);
     }
     public void run() throws RemoteException, AlreadyBoundException {
-        String registryName = "localhost";
-        ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(this,0);
+        String registryName = "RMI_server";
+        ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(this,port);
         Registry registry;
         try {
-            registry = LocateRegistry.createRegistry(6969);
+            registry = LocateRegistry.createRegistry(port);
         } catch (RemoteException e) {
             throw new RuntimeException("Something went wrong, retry... ");
         }

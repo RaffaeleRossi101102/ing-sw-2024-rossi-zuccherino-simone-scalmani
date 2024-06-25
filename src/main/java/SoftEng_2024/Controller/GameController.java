@@ -11,14 +11,13 @@ import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Model.*;
 import SoftEng_2024.Model.GoalCard.*;
 import SoftEng_2024.Model.Enums.*;
-import SoftEng_2024.Network.Main;
+import SoftEng_2024.Network.ServerMain;
 import SoftEng_2024.Network.ToModel.NetworkManager;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.Network.ToModel.SocketServer;
 import SoftEng_2024.Network.ToView.ObServerManager;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -389,7 +388,7 @@ public class GameController {
                     terminationTimer.purge();
                 }
                 System.err.println("NO MORE PLAYERS IN GAME... ENDING GAME TERMINATION ACTION");
-                Main.quitAll();
+                ServerMain.quitAll();
             }
         }
     }

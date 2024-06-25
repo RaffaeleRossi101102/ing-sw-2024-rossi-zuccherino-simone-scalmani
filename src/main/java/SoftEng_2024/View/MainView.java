@@ -21,6 +21,8 @@ public class MainView {
                 " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n");
         //creating a random ID based on currentTimeMillis() method
         double ID = System.currentTimeMillis();
+        String ip;
+        int port = 0;
         System.out.println("Welcome to CODEX NATURALIS!");
         //Ask user which type of connection he wants to use
         System.out.println("Choose your type of connection, type: 'RMI' or 'Socket' ");
@@ -45,17 +47,27 @@ public class MainView {
 
 
         ClientInterface client;
+        ip=args[1];
 
         if(connectionType.equals("rmi")){
-
             try {
-                 client = new ClientRMI(ID);
+                if(args.length==3){
+                    port=Integer.parseInt(args[2]);
+                }
+                else
+                    port=9999;
+                 client = new ClientRMI(ID,ip,port);
             } catch (RemoteException e) {
                 throw new RuntimeException("Something went wrong while trying to create the client...");
             }
         } else {
-            client = new SocketClient("localhost",4567, ID);
+            if(args.length==3){
+               client=new SocketClient(ip,Integer.parseInt(args[2]),ID);
+            }
+            else
+                client=new SocketClient(ip,4567,ID);
         }
+        System.out.println(ip+port);
         if(viewType.equals("cli")) {
             CliViewClient cliView = new CliViewClient(ID, client);
             client.setView(cliView);

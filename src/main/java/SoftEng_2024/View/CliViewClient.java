@@ -16,7 +16,7 @@ public class CliViewClient implements View {
     public Thread clientQueueExecutor;
     public ClientInterface client;
     private String command="";
-    double ID;
+    private final double ID;
     ViewState viewState;
     WaitingState waitingState;
     private final LocalModel localModel;

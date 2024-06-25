@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
-public class Main {
+public class ServerMain {
     //method that creates
     public static void main(String[] args) throws AlreadyBoundException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException, IOException {
         //crea
@@ -23,11 +23,26 @@ public class Main {
         GameController controller= new GameController();
 
         NetworkManager managerToModel= new NetworkManager(controller);
+        ServerInterface engineRMI;
 
-        ServerInterface engineRMI = new RMIServer(managerToModel);
-
-
-        SocketServer serverSocket = new SocketServer(4567, managerToModel); //Attenzione alla porta da inserire
+        SocketServer serverSocket;
+        if(args.length==3){
+            engineRMI = new RMIServer(managerToModel,Integer.parseInt(args[2]));
+            serverSocket = new SocketServer(Integer.parseInt(args[1]), managerToModel);
+        }
+        else if(args.length==2) {
+            serverSocket = new SocketServer(Integer.parseInt(args[1]), managerToModel);
+            engineRMI= new RMIServer(managerToModel,9999);
+        }
+        else if(args.length==1) {
+            serverSocket = new SocketServer(4567, managerToModel);
+            engineRMI= new RMIServer(managerToModel,9999);
+        } else {
+            serverSocket = null;
+            engineRMI = null;
+        }
+        for(int i=0;i< args.length;i++)
+            System.out.println(args[i] + " ");
 
         ObServerManager managerToView = new ObServerManager(engineRMI, serverSocket);
 

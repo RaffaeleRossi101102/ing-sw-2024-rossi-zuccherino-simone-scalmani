@@ -9,6 +9,8 @@ public class GameIsEndingMessage extends ModelMessage{
 
     @Override
     public void executeMessage(View view) {
-        System.out.println(message);
+
+        System.out.println("\n\n" + message+"\n\n");
+
     }
 }
