@@ -27,7 +27,7 @@ public class CliViewClient implements View {
         localModel = new LocalModel();
     }
 
-    public void run(){
+    public void run() {
         clientQueueExecutor = new Thread(()->
         {
             try {
@@ -45,8 +45,12 @@ public class CliViewClient implements View {
         this.waitingState=new WaitingState(localModel,this);
         while(true)
         {
-            this.viewState.display();//-->setta this.waitingstate con il giusto previous e il giusto next
-            this.waitingState.display();// -->se ack successful--> view.setState(nextState) else previous
+            try {
+                this.viewState.display();//-->setta this.waitingstate con il giusto previous e il giusto next
+                this.waitingState.display();// -->se ack successful--> view.setState(nextState) else previous
+            }catch(InterruptedException e){
+
+            }
         }
     }
 
@@ -73,4 +77,9 @@ public class CliViewClient implements View {
     public String getCommand() {
         return command;
     }
+
+    public ViewState getViewState() {
+        return viewState;
+    }
+
 }

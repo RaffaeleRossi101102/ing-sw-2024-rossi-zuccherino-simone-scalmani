@@ -38,6 +38,7 @@ public abstract class ViewState {
     protected final long goalTimer;
     protected final long playTimer;
     protected final long drawTimer;
+    protected boolean defaultCommandChosen;
 
 
     public ViewState(CliViewClient view,ClientInterface client, double ID){
@@ -58,8 +59,9 @@ public abstract class ViewState {
         drawTimer = 30;
         scanner=new Scanner(System.in);
         this.defaultCommand="";
+        this.defaultCommandChosen=false;
     }
-    public abstract void display();
+    public abstract void display() throws InterruptedException;
 
     protected void updateClient(ViewMessage msg){
         try {
@@ -70,19 +72,20 @@ public abstract class ViewState {
     }
 
 
-    protected void defaultCommand(GameState gameState,String waitMessage) {
+    protected void defaultCommand(GameState gameState,String waitMessage)  {
         String insertCommandString="Type Show Board to see a player's board, Player Score to see the scoreboard, Show hand to see your hand, Playground to see public cards and decks, Chat to show recent messages and chat, quit to quit the game";
         if(view.getLocalModel().getState().equals(gameState)) {
             System.out.println(waitMessage);
             System.out.println(insertCommandString);
-//            listenDefaultCommand();
+
             while (view.getLocalModel().getState().equals(gameState) && !view.getLocalModel().getPlayerState().equals(GameState.PLAY)) {
                 switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "showboard":
                         printPlayerBoard(false);
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                     case "showhand":
                         if(view.getLocalModel().getPersonalHand().isEmpty())
@@ -90,8 +93,9 @@ public abstract class ViewState {
                         else
                             showHand();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                     case "playground":
                         if(!view.getLocalModel().getState().equals(GameState.PLAY)){
@@ -101,8 +105,9 @@ public abstract class ViewState {
                             showDecksAndPublicCards();
                         }
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                     case "playerscore":
                         if(!view.getLocalModel().getState().equals(GameState.PLAY)){
@@ -112,26 +117,28 @@ public abstract class ViewState {
                             playersScore();
                         }
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                     case "chat":
                         writeInChat();
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         view.setCommand("");
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                     case "quit":
                         quit();
-                        listenDefaultCommand();
-                        view.setCommand("");
+
                     case "":
                         break;
                     default:
                         System.err.println("Command not available... retry");
-                        listenDefaultCommand();
+                        listenDefaultCommand(false);
                         view.setCommand("");
                         System.out.println(insertCommandString);
+                        defaultCommandChosen=true;
                         break;
                 }
             }
@@ -147,7 +154,7 @@ public abstract class ViewState {
         
     }
 
-    protected void listenDefaultCommand(){
+    protected void listenDefaultCommand(boolean wakeUp){
         Thread defaultCommandThread = new Thread(() -> {
             //System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
             //Scanner scanner = new Scanner(System.in);
@@ -158,6 +165,11 @@ public abstract class ViewState {
                     System.out.println("Please insert a command...");
             }
             view.setCommand(command);
+            //se sono in ready to start, voglio essere sicuro di aver settato questo booleano a true
+            if(view.getViewState().getClass().equals(ReadyToStartState.class))
+                defaultCommandChosen=true;
+            if(wakeUp)
+                view.getViewState().wakeUpState();
         });
         defaultCommandThread.start();
     }
@@ -432,5 +444,11 @@ public abstract class ViewState {
 
 
     }
+    protected synchronized void wakeUpState(){
+        notifyAll();
+    }
 
+    protected void setDefaultCommandChosen(boolean defaultCommandChosen) {
+        this.defaultCommandChosen = defaultCommandChosen;
+    }
 }

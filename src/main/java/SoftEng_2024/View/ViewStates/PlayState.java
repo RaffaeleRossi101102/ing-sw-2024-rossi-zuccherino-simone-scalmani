@@ -19,13 +19,15 @@ public class PlayState extends ViewState{
     }
 
     @Override
-    public void display() {
+    public synchronized void display() throws InterruptedException {
         System.out.println("It's your turn!");
 
         if(view.getLocalModel().getPersonalHand().size() == 3) {
 //            Scanner scanner = new Scanner(System.in);
             System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                     " decks, Chat or Quit");
+            if(!defaultCommandChosen)
+                wait();
 //            String command = scanner.nextLine();
             //loops until the player chooses a command different from writeInChat
             while (!commandChosen) {
@@ -34,35 +36,39 @@ public class PlayState extends ViewState{
                         commandChosen = true;
                         playCard();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         break;
                     case "chat":
                         writeInChat();
                         System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                                 " decks, Chat or Quit");
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
+                        wait();
                         break;
                     case "showboard":
                         printPlayerBoard(false);
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                                 " decks, Chat or Quit");
+                        wait();
                         break;
                     case "showhand":
                         showHand();
                         System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                                 " decks, Chat or Quit");
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
+                        wait();
                         break;
                     case "showplayground":
                         showDecksAndPublicCards();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                                 " decks, Chat or Quit");
+                        wait();
                         break;
                     case "quit":
                         quit();
@@ -74,7 +80,8 @@ public class PlayState extends ViewState{
                         System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
                                 " decks, Chat or Quit");
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
+                        wait();
                         break;
                 }
                 if(commandChosen){
@@ -87,6 +94,7 @@ public class PlayState extends ViewState{
         } else {
             System.out.println("When you logged off last time, you played a card but didn't draw another one. " +
                                "Now, you'll need to finish your turn by drawing a card without playing...");
+            this.view.setViewState(nextState);
             nextState.display();
 
 

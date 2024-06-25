@@ -19,17 +19,18 @@ public class DrawState extends ViewState{
     }
 
     @Override
-    public void display() {
+    public synchronized void display() throws InterruptedException {
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
             new EndGameState(view, client, ID).display();
         }else {
             printPlayerBoard(true);
             showDecksAndPublicCards();
             System.out.println("Now, you have to draw a card from the 4 public cards or from one of the decks!");
-//            Scanner scanner = new Scanner(System.in);
+
             System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
+            wait();
             
-//            String command = scanner.nextLine();
+
 
             while (!commandChosen) {
                 switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -37,31 +38,33 @@ public class DrawState extends ViewState{
                         commandChosen = true;
                         drawFromTheDeck();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         break;
                     case "drawpubliccard":
                         commandChosen = true;
                         drawPublicCard();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         break;
                     case "showboard":
                         printPlayerBoard(false);
                         view.setCommand("");
-                        listenDefaultCommand();
-                        System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
+                        listenDefaultCommand(true);
+                        wait();
                         break;
                     case "showhand":
                         showHand();
                         System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
+                        wait();
                         break;
                     case "chat":
                         writeInChat();
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
+                        wait();
                         break;
                     case "quit":
                         quit();
@@ -71,15 +74,19 @@ public class DrawState extends ViewState{
                     default:
                         System.err.println("Command not available... retry");
                         view.setCommand("");
-                        listenDefaultCommand();
+                        listenDefaultCommand(true);
                         System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
+                        wait();
                         break;
                 }
                 if (commandChosen) {
                     view.getLocalModel().setPlayerState(GameState.NOTPLAYING);
                     commandChosen=false;
                     break;
+
                 }
+                System.out.println("Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit");
+                wait();
 //                System.out.println("Type Play Card, Chat or Quit");
             }
             this.view.getWaitingState().setPreviousState(this);

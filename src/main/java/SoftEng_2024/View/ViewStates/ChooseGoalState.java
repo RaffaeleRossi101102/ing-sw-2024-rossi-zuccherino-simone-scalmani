@@ -14,12 +14,12 @@ public class ChooseGoalState extends ViewState {
     }
 
     @Override
-    public void display() {
-       // listenDefaultCommand();
+    public synchronized void display() throws InterruptedException {
+
         defaultCommand(GameState.SETCOLOR,"Waiting for all the players to choose a color");
         System.out.println("Now it's time to choose your private goal!");
         System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
-//        wait();
+        wait();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
             switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -27,8 +27,10 @@ public class ChooseGoalState extends ViewState {
                     if (view.getLocalModel().getAvailableGoals().isEmpty()){
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
                         view.setCommand("");
-                        listenDefaultCommand();
-//                        wait();-
+                        listenDefaultCommand(true);
+                        System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                        wait();
+
                     }else{
                         commandChosen = true;
                         choosePrivateGoal();
@@ -37,32 +39,34 @@ public class ChooseGoalState extends ViewState {
                     break;
                 case "chat":
                     writeInChat();
-                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
+                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    wait();
                     break;
                 case "quit":
                     quit();
-                    view.setCommand("");
-                    listenDefaultCommand();
                     break;
                 case "showboard":
                     printPlayerBoard(false);
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
                     System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    wait();
                     break;
                 case "":
                     break;
                 default:
                     System.err.println("Command not available... retry");
-                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
+                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    wait();
                     break;
             }
             if(commandChosen)
                 break;
+
         }
         this.view.getWaitingState().setPreviousState(this);
         this.view.getWaitingState().setNextState(new ReadyToStartState(view,client, ID));

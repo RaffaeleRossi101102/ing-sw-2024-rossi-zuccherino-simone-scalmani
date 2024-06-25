@@ -14,11 +14,13 @@ public class WaitingForTurnState extends ViewState{
     }
 
     @Override
-    public void display() {
+    public void display() throws InterruptedException {
         defaultCommand(GameState.PLAY,"Wait for your turn to play, meanwhile...");
         if (view.getLocalModel().getState().equals(GameState.ENDGAME)) {
             nextState = new EndGameState(view, client, ID);
         }
+        if(defaultCommandChosen)
+            nextState.setDefaultCommandChosen(true);
         nextState.display();
     }
 

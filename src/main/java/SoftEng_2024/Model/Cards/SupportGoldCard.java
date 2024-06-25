@@ -1,10 +1,10 @@
 package SoftEng_2024.Model.Cards;
 
 public class SupportGoldCard {
-    String[] angles;
-    String backResource;
-    int points;
-    String scoreType;
-    String[] requiredResources;
-    int cardID;
+    public String[] angles;
+    public String backResource;
+    public int points;
+    public String scoreType;
+    public String[] requiredResources;
+    public int cardID;
 }

@@ -1,5 +1,7 @@
 package SoftEng_2024.View;
 
+import SoftEng_2024.View.ViewStates.ViewState;
+
 public interface View {
 
 
@@ -8,5 +10,7 @@ public interface View {
     LocalModel getLocalModel();
     void setCommand(String command);
     String getCommand();
+    ViewState getViewState();
+
 
 }

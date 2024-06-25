@@ -10,9 +10,9 @@ public class ReadyToStartState extends ViewState{
     }
 
     @Override
-    public void display() {
+    public void display() throws InterruptedException {
         //System.out.println("Waiting for all the players to choose their private goal...");
-        listenDefaultCommand();
+        listenDefaultCommand(true);
         defaultCommand(GameState.CHOOSEGOAL,"Waiting for all the players to choose their private goal...");
         System.out.println("Now it's time to Play!");
         //TODO: MODIFICARE DEFAULT COMMAND IN MODO TALE CHE NON TERMINI SUBITO APPENA UNO SIA IN PLAY
@@ -32,8 +32,12 @@ public class ReadyToStartState extends ViewState{
         //se è il mio turno e sono il primo, "aggiungo il colore nero tra i colori" e parto col turno
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
             view.getLocalModel().setFirstPlayer(true);
+            if(defaultCommandChosen)
+                playState.setDefaultCommandChosen(true);
+            view.setViewState(playState);
             playState.display();
         }else{
+            view.setViewState(playState);
             waitingForTurnState.display();
         }
 

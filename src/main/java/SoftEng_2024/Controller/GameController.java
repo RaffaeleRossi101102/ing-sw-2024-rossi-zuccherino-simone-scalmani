@@ -25,23 +25,68 @@ import java.util.*;
 
 import static SoftEng_2024.Model.Cards.CardDeserializer.*;
 
-public class GameController {
 
+/**
+ * Controller class of the game. It provides all the methods that modify the model.
+ * All the view messages call one of the GameController's methods.
+ */
+public class GameController {
+    /**
+     * the reference to the RMI server
+     */
     private ServerInterface serverRMI;
+
+    /**
+     * the reference to the socket server
+     */
     private SocketServer serverSocket;
+
+    /**
+     * the reference to the game class
+     */
     private Game game;
+
+    /**
+     * list containing all the Players
+     */
     private List<Player> clientPlayers = new ArrayList<>();
+
+    /**
+     * the number of players the game will have
+     */
     private int maxPlayers=0;
+
+    /**
+     * hashMap that links the clientID to the Player object
+     */
     private HashMap<Double,Player> playerIdMap= new HashMap<>();
+
+    /**
+     * list containing all the playerObservers
+     */
     private List<PlayerObserver> playerObservers=new ArrayList<>();
+
+    /**
+     * reference to the object that manages messages from the model to the view
+     */
     private ObServerManager toViewManager;
+
+    /**
+     * reference to the object that manages messages from the view to the model
+     */
     private NetworkManager networkManager;
+
+    /**
+     * timer that starts when there's only one player online
+     */
     private Timer terminationTimer;
-    //private List<Player>
 
     //METHODS**********************************************************************
 
-    //Method that creates the Game with all the cards.
+    /**
+     * Method that creates the Game with all the cards and the observer.
+     * It is called at the beginning of the run method of the NetworkManager
+     */
     public void gameInit() {
         // Instancing the decks as cards instead of queues, in order to shuffle them directly, then
         // converting them into queues
@@ -51,7 +96,7 @@ public class GameController {
         List<Card> goldDeckTemp = new LinkedList<>();
         List<Card> starterDeckTemp = new LinkedList<>();
 
-        // Calling the deserialization methods from the CardDeserializer class, which then generates every single
+        // Calling the deserialization methods from the SoftEng_2024.Model.Cards.CardDeserializer class, which then generates every single
         // card from the information stored in the .json files. Every card is then added to the corresponding deck
         resourceCardDeserialize(resourceDeckTemp);
         goldCardDeserialize(goldDeckTemp);
@@ -74,7 +119,11 @@ public class GameController {
         this.game.setGameObserver(new GameObserver(this.toViewManager,game,this.networkManager));
 
     }
-    //Method that creates all the goalCards
+
+    /**
+     * Method that creates all the goalCards
+     * @return the queue containing all the goal cards
+     */
     private Queue<GoalCard> goalInit() {
         List<GoalCard> goalCardArrayList = new ArrayList<>();
         GoalCard goal;
@@ -182,8 +231,15 @@ public class GameController {
 
         return new LinkedList<>(goalCardArrayList);
     }
-    //Method that creates the game
-    public synchronized void createGame(int maxPlayers, String nickname, double ID) throws RemoteException {
+
+    /**
+     * Method that creates the game
+     * The first player Object is created and the maxPlayers attribute is set
+     * @param maxPlayers the user's choice that defines how many players the game will have
+     * @param nickname the nickname that the user chose
+     * @param ID univocal ID for the client object
+     */
+    public synchronized void createGame(int maxPlayers, String nickname, double ID)  {
         //if no one has already created the game, the number of maxPlayers is set and a new player is created
         if (clientPlayers.isEmpty()){
             this.maxPlayers=maxPlayers;
@@ -198,8 +254,14 @@ public class GameController {
 
         }
     }
-    public synchronized void joinGame(String nickname, double ID) throws RemoteException {
-        //Il giocatore viene inserito in automatico nell'hashmap contenente gli ID e gli ack e quella contenente gli errori
+
+    /**
+     * method that makes a user join the game.
+     * @param nickname the nickname chosen by the user
+     * @param ID univocal ID for the client object
+     */
+    public synchronized void joinGame(String nickname, double ID)   {
+        //The player is automatically inserted into the hashmap containing the IDs and acks and the one containing the errors
         if(!game.getAckIdBindingMap().containsKey(ID))
             game.getAckIdBindingMap().put(ID,false);
         if(!game.getErrorMessageBindingMap().containsKey(ID))
@@ -229,7 +291,7 @@ public class GameController {
                     return;
                 }
             }
-            //se esco dal for, significa che il nickname scelto è originale
+            //if I exit the for loop, it means that the chosen nickname is original
             addPlayer(nickname,ID);
             playerIdMap.get(ID).setPlayerState(GameState.STARTER);
             System.out.println(nickname+ " has joined the game");
@@ -243,11 +305,19 @@ public class GameController {
         }
     }
 
+    /**
+     * if this method is called before the beginning of the game, it will remove the player object of the caller
+     * else, it will separate the client from the Player object.
+     * If only one player remains online after disconnecting the caller, this method will start a timer. if this timer
+     * expires, the remaining player will be declared as the winner and the program will end.
+     * @param ID univocal ID for the client
+     * @throws IOException if something goes wrong with the unRegisterClient method
+     */
     public void quit(double ID) throws IOException {
         Player removedPlayer;
         //TODO: VALUTARE SE SERVE CONTROLLARE SE IL GIOCATORE SIA ISTATO AGGIUNTO ALLA LISTA DEI PLAYERS O MENO
         // CHE LA STAMPA COMMENTATA DAVA PROBLEMI
-        //System.out.println(playerIdMap.get(ID).getNickname()+" has disconnected");
+
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
         if(!playerIdMap.containsKey(ID)){
@@ -262,7 +332,7 @@ public class GameController {
             game.getAckIdBindingMap().remove(ID);
             game.getErrorMessageBindingMap().remove(ID);
             playerObservers.remove(removedPlayer.getPlayerObserver());
-            //l'observer legato a quel player verrà raccolto dal garbage collector
+            //the observer linked to that player will be collected by the garbage collector
         }else{
             //if the game isn't in the connection state, the player will be set offline
             removedPlayer=playerIdMap.get(ID);
@@ -323,8 +393,13 @@ public class GameController {
             }
         }
     }
-    //method that makes the user rejoin the game
-    //it checks whether the player can or can't reconnect
+
+    /**
+     * method that makes the user rejoin the game
+     * it checks whether the player can or can't reconnect
+     * @param nickname is the nickname that the user had before crashing/quitting
+     * @param ID univocal ID for the client
+     */
     public synchronized void reJoinGame(String nickname, double ID){
         if (game.getGameState().equals(GameState.CONNECTION)){
             if(maxPlayers==0)
@@ -333,7 +408,7 @@ public class GameController {
                 sendErrorMessageAndUnRegister(ID,"You tried to reconnect when the game hasn't started. Try joining instead!");
             return;
         }
-        //associa nuovo id al player nell'hashmap rimuovendo il vecchio id
+        //associate new id with the player in the hashmap by removing the old id
         for (Double playerId : playerIdMap.keySet()) {
             if(nickname.equals(playerIdMap.get(playerId).getNickname()) && !playerIdMap.get(playerId).getIsOnline()){
                 Player player = playerIdMap.remove(playerId);
@@ -354,7 +429,7 @@ public class GameController {
                     game.setOnlinePlayersCounter(1);
                 }
 
-                if(player.getIsOnline() & game.getOnlinePlayersCounter()==2 & player.getPlayerState().ordinal()>game.getGameState().ordinal() & !player.getPlayerState().equals(GameState.NOTPLAYING)){
+                if(player.getIsOnline() & game.getOnlinePlayersCounter()==2 & player.getPlayerState().ordinal()>game.getGameState().ordinal() & !game.getGameState().equals(GameState.PLAY)){
                     checkIfNextState();
                 }
                 else if( player.getIsOnline() & game.getOnlinePlayersCounter()==2 & player.getPlayerState().equals(GameState.NOTPLAYING) & game.getGameState().equals(GameState.PLAY)){
@@ -367,8 +442,14 @@ public class GameController {
         sendErrorMessageAndUnRegister(ID,"The nickname you chose doesn't belong to anyone that is offline! Please insert the nickname you had before disconnecting...");
 
     }
-    //method that initializes the player object and adds it to all the data structures
-    //it also initializes the observer linked to the new player
+
+
+    /**
+     * method that initializes the player object and adds it to all the data structures
+     * it also initializes the observer linked to the new player
+     * @param nickname nickname chosen by the user
+     * @param ID univocal ID for the client
+     */
     private void addPlayer(String nickname, double ID) {
 
         Board board = new Board();
@@ -400,9 +481,15 @@ public class GameController {
     }
 
 
-    //method that places the starter card at the center of the player's board. Directly calls the board methods
+
+
+    /**
+     * method that places the starter card at the center of the player's board. Directly calls the board methods
+     * @param flipped the side on which the player chose to play the card
+     * @param ID univocal ID for the client
+     */
     public void playStarterCard(boolean flipped, double ID) {
-        //piazza la carta starter del client che chiama il metodo
+        //places the starter card of the client calling the method
         try {
             Player player = playerIdMap.get(ID);
             player.getHand().get(0).setFlipped(flipped);
@@ -417,14 +504,20 @@ public class GameController {
             e.printStackTrace();
             throw new RuntimeException("Something went really wrong");
         }
-        //se ogni player ha piazzato la carta, cambio lo stato
+        //if every player has placed the card, I change the status
         checkIfNextState();
-        //notify observer for all public info and hand observer for ID player
     }
-    //method that sets the player color according to their choice
+
+
+
+    /**
+     * method that sets the player color according to their choice
+     * @param color color chosen by the user
+     * @param ID univocal ID for the client
+     */
     public synchronized void setColor(Color color, double ID){
         Player currentPLayer=playerIdMap.get(ID);
-        //controlla se il player ha scelto un colore non ancora preso
+        //checks if the player has chosen a color not yet taken
         for(Player player: clientPlayers){
             if(!player.getColor().isEmpty()) {
                 if (color.equals(player.getColor().get(0))) {
@@ -434,7 +527,7 @@ public class GameController {
             }
         }
         currentPLayer.setColor(color);
-        //se il player è offline e ha recuperato, mettilo online!
+        //if the player is offline and has recovered, put it online and not yet taken
         playerIdMap.get(ID).setPlayerState(GameState.CHOOSEGOAL);
         if(currentPLayer.getPlayerState().ordinal()>= game.getGameState().ordinal() & !currentPLayer.getIsOnline()) {
             currentPLayer.setOnline(true);
@@ -442,18 +535,28 @@ public class GameController {
         }
 
         game.setAckIdBindingMap(ID,true);
-        //se ogni player ha scelto il colore cambio lo stato
+        //if each player has chosen the color I change the status
         checkIfNextState();
-        //notify observers
     }
-    //method that draws the 2 public goals
+
+
+
+    /**
+     * method that draws the 2 public goals
+     */
     public void updatePublicGoals() {
         GoalCard[] goalCards = new GoalCard[2];
         goalCards[0] = game.getGoalCardDeck().poll();
         goalCards[1] = game.getGoalCardDeck().poll();
         game.setPublicGoals(goalCards);
     }
-    //method that sets the private goals chosen by the player
+
+
+    /**
+     * method that sets the private goals chosen by the player
+     * @param choice integer corresponding to one of the two private goals proposed
+     * @param ID univocal ID for the client
+     */
     public void choosePrivateGoals(int choice, double ID){
         //discards a private goal from the player attribute
         Player player=playerIdMap.get(ID);
@@ -469,8 +572,16 @@ public class GameController {
         //checks if all the players had already chosen their private goal
         checkIfNextState();
     }
-    //method that plays the card that the player chose to play. It calls the corresponding game method.
-    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+
+    /**
+     * method that plays the card that the player chose to play. It calls the corresponding game method.
+     * If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+     * @param card card that the user wants to play
+     * @param row chosen row of the matrix
+     * @param column chosen column of the matrix
+     * @param flipped side on which to play the card
+     * @param ID univocal ID for the caller client
+     */
     public void playCard(int card, int row, int column, boolean flipped,double ID){
         Player player=playerIdMap.get(ID);
         player.getHand().get(card).setFlipped(flipped);
@@ -496,8 +607,13 @@ public class GameController {
 
         }
     }
-    //method that makes the player draw from the deck they chose to draw from. It calls the corresponding game method.
-    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+
+    /**
+     * method that makes the player draw from the deck they chose to draw from. It calls the corresponding game method.
+     * If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+     * @param deck deck to draw from
+     * @param ID univocal ID for the caller client
+     */
     public void drawFromTheDeck(int deck,double ID){
         Player player=playerIdMap.get(ID);
         int result=game.drawFromTheDeck(player,deck);
@@ -522,8 +638,13 @@ public class GameController {
         }
 
     }
-    //method that makes the player draw the public card they chose from. It calls the corresponding game method.
-    // If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+
+    /**
+     * method that makes the player draw the public card they chose from. It calls the corresponding game method.
+     * If something goes wrong, it will set the errorString linked to the player and the gameObserver will notify about it
+     * @param card integer corresponding to one of the 4 public cards
+     * @param ID univocal ID for the caller client
+     */
     public void drawFromPublicCards(int card,double ID){
         Player player=playerIdMap.get(ID);
         int result=game.drawPublicCards(player,card);
@@ -547,7 +668,14 @@ public class GameController {
                 sendErrorMessage(ID,"You tried to draw a card but there's no card in that position! Try inserting another index.");
         }
     }
-    //method that sends a chat message to a specified user
+
+
+    /**
+     * method that sends a chat message to a specified user
+     * @param receiver nickname of the receiver user
+     * @param message message to send
+     * @param ID univocal ID for the caller client
+     */
     public void whisper(String receiver,String message,double ID){
         boolean found=false;
         for (Player player:clientPlayers){
@@ -570,7 +698,12 @@ public class GameController {
         if(!found)
             sendChatErrorMessage(ID,"You tried whispering to a non existing player!");
     }
-    //broadcasts a message to every player in the game
+
+    /**
+     * broadcasts a message to every player in the game
+     * @param message message to send
+     * @param ID univocal ID for the caller client
+     */
     public void broadcast(String message, double ID){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -580,15 +713,20 @@ public class GameController {
             toViewManager.addModelMessageToQueue(new BroadcastMessage(playerID,completeMsg));
         }
     }
-    //method called by the network manager object which gives out the starter cards to all the players.
 
+    /**
+     * method called by the network manager object which gives out the starter cards to all the players.
+     */
     public void handOutStarterCards(){
         for(Player player: game.getPlayers()){
-            //aggiungo una carta starter alla mano del player
+            //adding a starter card to the player's hand
             player.addCard(game.getStarterDeck().poll());
         }
     }
-    //method called by the network manager object which hands out the private goals to each player
+
+    /**
+     * method called by the network manager object which hands out the private goals to each player
+     */
     public void handOutPrivateGoals(){
         for(Player player: game.getPlayers()){
             List<GoalCard> availableGoals=new ArrayList<>();
@@ -597,8 +735,11 @@ public class GameController {
             player.setAvailableGoals(availableGoals);
         }
     }
-    //method called by the network manager object which gives out the cards to all the players.
-    //calls the corresponding game method
+
+    /**
+     * method called by the network manager object which gives out the cards to all the players.
+     * calls the corresponding game method
+     */
     public void handOutCards(){
         for(Player player: game.getPlayers()){
             //if i'm giving out the cards to the last player, send everyone a message containing the top angles of the deck
@@ -606,52 +747,64 @@ public class GameController {
 
         }
     }
-    //method that checks if someone has arrived at 20 points by calling drawCard inside the game class
-    private void checkingIfGameEnds(boolean gameEnd){
-        //if no one arrived at 20 points, a new turn starts
-        if(!gameEnd){
-            game.turnStart();
-        }
-        //else, the game state changes and the network manager stops taking messages
-        else{
-            game.setGameState(GameState.ENDGAME);
-        }
-    }
-    //method that calls the setters of the game attributes which contain the last result of the player move.
-    //these setters will trigger the gameObserver which will notify the player
+
+
+//    private void checkingIfGameEnds(boolean gameEnd){
+//        //if no one arrived at 20 points, a new turn starts
+//        if(!gameEnd){
+//            game.turnStart();
+//        }
+//        //else, the game state changes and the network manager stops taking messages
+//        else{
+//            game.setGameState(GameState.ENDGAME);
+//        }
+//    }
+
+    /**
+     * method that calls the setters of the game attributes which contain the last result of the player move.
+     * these setters will trigger the gameObserver which will notify the player that an error occurred
+     * @param ID univocal ID for the client that needs to receive the error message
+     * @param ErrorMessage string containing the error message
+     */
     private void sendErrorMessage(double ID,String ErrorMessage){
         game.setErrorMessageBindingMap(ID,ErrorMessage);
         game.setAckIdBindingMap(ID,false);
     }
-    //auxiliary method that assures that both the error and ack messages arrive before unregistering the client from the
-    //corresponding server
+
+
+    /**
+     * auxiliary method that assures that both the error and ack messages arrive before unregistering the client from the
+     * corresponding server
+     * @param ID univocal ID for the client that needs to receive the ack followed by the error message
+     * @param ErrorMessage string containing the error message
+     */
     private void sendErrorMessageAndUnRegister(double ID,String ErrorMessage){
         game.setAckAndError(ID,ErrorMessage);
     }
 
-    //method that checks whether every player has made their move before switching to the next game state
-    //it won't switch the game state if there's only one player still online
+    /**
+     * method that checks whether every player has made their move before switching to the next game state
+     *     it won't switch the game state if there's only one player still online
+     */
     private synchronized void checkIfNextState(){
             if(1 == game.getOnlinePlayersCounter()){
                 return;
             }
             boolean found=false;
-            //per ogni player
             for(Player player: clientPlayers){
-                //se il player è online, controllo il suo stato, altrimenti lo skippo
+                //if the player is online, I check its status, otherwise I skip it
                 if(player.getIsOnline()){
-                    //se il player è online, controllo se il suo stato è lo stesso di quello del game
-                    //quindi, se ha svolto o meno l'operazione dello stato
+                    //if the player is online, I check if its status is the same as that of the game
+                    //so whether it performed the state operation or not
                     if(player.getPlayerState().ordinal()<= game.getGameState().ordinal()){
                         found=true;
-                        //System.out.println(player.getNickname()+player.getPlayerState()+ " il numero degli stati è P:"+ player.getPlayerState().ordinal() +" e G"+ game.getGameState().ordinal());
                     }
                 }
                 else
                     System.err.println(player.getNickname());
             }
             if(!found){
-                //se i player online hanno fatto tutti l'operazione, chiamo un nuovo stato
+                //if the online players have all done the operation, I call a new state
                 GameState nextState= game.getGameState().nextState();
                 game.setGameState(nextState);
             }

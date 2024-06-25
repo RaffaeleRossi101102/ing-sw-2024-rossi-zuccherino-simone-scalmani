@@ -15,21 +15,21 @@
 //    @Test
 //    void testResourceCardDeserialize() {
 //        Queue<Card> resourceDeck = new LinkedList<>();
-//        assertDoesNotThrow(() -> CardDeserializer.resourceCardDeserialize((List<Card>) resourceDeck));
+//        assertDoesNotThrow(() -> SoftEng_2024.Model.Cards.CardDeserializer.resourceCardDeserialize((List<Card>) resourceDeck));
 //        assertFalse(resourceDeck.isEmpty());
 //    }
 //
 //    @Test
 //    void goldCardDeserialize() {
 //        Queue<Card> goldDeck = new LinkedList<>();
-//        assertDoesNotThrow(() -> CardDeserializer.resourceCardDeserialize((List<Card>) goldDeck));
+//        assertDoesNotThrow(() -> SoftEng_2024.Model.Cards.CardDeserializer.resourceCardDeserialize((List<Card>) goldDeck));
 //        assertFalse(goldDeck.isEmpty());
 //    }
 //
 //    @Test
 //    void starterCardDeserialize() {
 //        Queue<Card> starterDeck = new LinkedList<>();
-//        assertDoesNotThrow(() -> CardDeserializer.resourceCardDeserialize((List<Card>) starterDeck));
+//        assertDoesNotThrow(() -> SoftEng_2024.Model.Cards.CardDeserializer.resourceCardDeserialize((List<Card>) starterDeck));
 //        assertFalse(starterDeck.isEmpty());
 //    }
 //

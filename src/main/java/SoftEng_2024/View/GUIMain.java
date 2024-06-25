@@ -3,6 +3,7 @@ package SoftEng_2024.View;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.View.GUIControllers.MainViewController;
+import SoftEng_2024.View.ViewStates.ViewState;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.*;
@@ -79,6 +80,11 @@ public class GUIMain extends Application implements View{
 
     @Override
     public String getCommand() {
+        return null;
+    }
+
+    @Override
+    public ViewState getViewState() {
         return null;
     }
 }

@@ -17,26 +17,88 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * class containing all the model objects necessary for the game. It also has the methods that will modify them.
+ * these methods can only be called by the gameController
+ */
 public class Game {
+    /**
+     * state of the game
+     */
     private volatile GameState gameState;
+    /**
+     * list of the player objects
+     */
     private List<Player> players;
+    /**
+     * index of the list of players to which the current player corresponds
+     */
     private int playerIndex = 0;
+    /**
+     * player in turn
+     */
     private Player currentPlayer;
+    /**
+     * queue containing the gold cards
+     */
     private Queue<Card> goldDeck;
+    /**
+     * queue containing the resource cards
+     */
     private Queue<Card> resourceDeck;
+    /**
+     * queue containing the starter cards
+     */
     private Queue<Card> starterDeck;
+    /**
+     * array containing the two public goals
+     */
     private GoalCard[] publicGoals;
+    /**
+     * array containing the four public cards
+     */
     private List<Card> publicCards;
+    /**
+     * queue containing the goal cards
+     */
     private Queue<GoalCard> goalCardDeck;
+    /**
+     * boolean that indicates whether the player has already played a card
+     */
     private boolean play;
+    /**
+     * boolean that indicates whether the player has already drawn a card
+     */
     private boolean draw;
-    private boolean gameEnd;
-    private boolean firstTurn= true;
+
+    /**
+     * max points scored by a player
+     */
     private int maxScore=0;
+
+    /**
+     * observer of the game
+     */
     private GameObserver gameObserver;
+
+    /**
+     * counter of the online players
+     */
     private int onlinePlayersCounter;
+
+    /**
+     * thread-safe hash map that has the client ID as the key and the ack of the last operation as the value
+     */
     private ConcurrentHashMap<Double,Boolean> AckIdBindingMap;
+    /**
+     * thread-safe hash map that has the client ID as the key and the errorMessage of the last operation as the value
+     */
     private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
+
+    /**
+     * if the timer expires, this String will contain the nickname of the last online player.
+     * this will be the winner
+     */
     private String winnerDueToForfeit;
     //TODO: notificare il cambiamento di:
     //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
@@ -59,9 +121,12 @@ public class Game {
         this.gameState=GameState.CONNECTION;
 
     }
-    //method that calculates the points each player made by completing both private and public goals
+
+    /**
+     * method that calculates the points each player made by completing both private and public goals
+     */
     public void gameEnd() {
-        //somma i punteggi ottenuti dai goal ai punteggi ottenuti piazzando le carte
+        //add the scores obtained from the goals to the scores obtained by placing the cards
         int [] playerScore= new int[players.size()];
         List<String> nicknameWinners= new ArrayList<>();
         int goalScore;
@@ -87,7 +152,7 @@ public class Game {
                 playerScore[players.indexOf(player)] += goalScore;
             }
         }
-        //trovo il massimo punteggio e azzero i punti dei giocatori che hanno sicuramente perso
+        // find the maximum score and reset the points of the players who definitely lost
         int max = Arrays.stream(playerScore).max().getAsInt();
         counter=players.size();
         for (int i=0; i<playerScore.length; i++){
@@ -97,8 +162,8 @@ public class Game {
                 counter--;
             }
         }
-        //ora playerScore avrà o -1 o il punteggio massimo
-        //adesso scorro goalTypes e elimino i giocatori che hanno fatto meno obiettivi
+        //now playerScore will have either -1 or the maximum score
+        //now I scroll through goalTypes and eliminate the players who have scored fewer goals
 
         max=Arrays.stream(goalTypes).max().getAsInt();
         for (int i=0; i<goalTypes.length; i++){
@@ -107,8 +172,8 @@ public class Game {
                 counter--;
             }
         }
-        //if(counter >1) System.out.println("The number of winners is " + counter + " and they are... ");
-        //ora in playerScore ho gli indici dei vincitori
+
+        //now in playerScore I have the indexes of the winners
         for(int i=0; i<playerScore.length; i++){
             if(playerScore[i]!= (-1)){
                 nicknameWinners.add(players.get(i).getNickname());
@@ -116,15 +181,21 @@ public class Game {
         }
         setWinners(nicknameWinners);
     }
-    //method that triggers the observer to send the winners
+
+    /**
+     * method that triggers the observer to send the winners
+     * @param winners list of winners
+     */
     public void setWinners(List<String> winners){
         gameObserver.updatedWinners(winners);
     }
 
 
-    //method that starts a new turn
-    //If the game isn't ending, it will check if the player index points to an online player.
-    //If the check is true, that player will start their turn. Else, it will increase the index and make the same checks.
+    /**
+     * method that starts a new turn
+     * If the game isn't ending, it will check if the player index points to an online player.
+     * If the check is true, that player will start their turn. Else, it will increase the index and make the same checks.
+     */
     public synchronized void turnStart(){
         if(!checkIfGameEnd()){
 //            int onlinePlayersCounter = 0;
@@ -143,7 +214,12 @@ public class Game {
             }
         }
     }
-    //method that checks
+
+    /**
+     * method that checks if the game has to end. If this check is true, this method will change the game state and the
+     * network manager will stop reading messages and will call the gameEnd method
+     * @return
+     */
     public synchronized boolean checkIfGameEnd(){
         boolean gameEnd = true;
         for(Player p:players){
@@ -293,7 +369,7 @@ public class Game {
 
     public int drawFromTheDeck(Player player, int whichDeck){
         int result=0;
-        if((player.equals(currentPlayer) && draw) | firstTurn){
+        if((player.equals(currentPlayer) && draw) ){
             //firstTurn=false;
             //whichDeck è associato al click del client quando seleziona il deck da pescare
             //se è uguale a 0 prendo il deck risorsa se è =1 quello oro
@@ -372,9 +448,7 @@ public class Game {
         }
     }
 
-    public void setFirstTurn(boolean firstTurn) {
-        this.firstTurn = firstTurn;
-    }
+
     public void removePlayerFromList(Player removedPlayer,double playerID){
         players.remove(removedPlayer);
         getAckIdBindingMap().remove(playerID);
@@ -451,9 +525,7 @@ public class Game {
     public void shufflePlayers(){
         Collections.shuffle(this.players);
     }
-    public boolean getGameEnd(){
-        return this.gameEnd;
-    }
+
 
     public ConcurrentHashMap<Double, Boolean> getAckIdBindingMap() {
         return AckIdBindingMap;

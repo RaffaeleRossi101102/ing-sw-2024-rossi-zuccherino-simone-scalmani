@@ -17,12 +17,12 @@ public class SetColorState extends ViewState{
     }
 
     @Override
-    public void display() {
-        listenDefaultCommand();
+    public synchronized void display() throws InterruptedException {
+        listenDefaultCommand(true);
         defaultCommand(GameState.STARTER,"Waiting for all the players play their starter card...");
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
         System.out.println("Type  Set Color, Show Board, Chat or Quit");
-
+        wait();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
             switch(view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
@@ -30,19 +30,21 @@ public class SetColorState extends ViewState{
                     commandChosen=true;
                     setColor();
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
                     break;
                 case "chat":
                     writeInChat();
-                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
+                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    wait();
                     break;
                 case "showboard":
                     printPlayerBoard(false);
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
                     System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    wait();
                     break;
                 case "quit":
                     quit();
@@ -51,9 +53,10 @@ public class SetColorState extends ViewState{
                     break;
                 default:
                     System.err.println("Command not available... retry");
-                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
                     view.setCommand("");
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
+                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    wait();
                     break;
             }
             if(commandChosen)

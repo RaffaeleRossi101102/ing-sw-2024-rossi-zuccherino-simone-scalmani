@@ -7,9 +7,8 @@ import SoftEng_2024.Model.Fronts.GoldFront;
 import SoftEng_2024.Model.Fronts.ResourceFront;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class CardDeserializer {
@@ -32,7 +31,7 @@ public class CardDeserializer {
 
         // Reading from a file needs an exception in case there is a memory fault for not finding the file
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/resourceCards.json"));
+            Reader reader = new InputStreamReader(CardDeserializer.class.getResourceAsStream("/SoftEng_2024/Model/Cards/resourceCards.json"), "UTF-8");
             SupportResourceCard[] resourceCardsInfoArray = gson.fromJson(reader, SupportResourceCard[].class);
 
             boolean flipped = false;
@@ -63,7 +62,8 @@ public class CardDeserializer {
 
         // Reading from a file needs an exception in case there is a memory fault for not finding the file
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/goldCards.json"));
+            Reader reader = new InputStreamReader(CardDeserializer.class.getResourceAsStream("/SoftEng_2024/Model/Cards/goldCards.json"), "UTF-8");
+//                    Files.newBufferedReader(Paths.get("src/main/resources/goldCards.json"));
             SupportGoldCard[] goldCardsInfoArray = gson.fromJson(reader, SupportGoldCard[].class);
 
             boolean flipped = false;
@@ -98,7 +98,7 @@ public class CardDeserializer {
 
         // Reading from a file needs an exception in case there is a memory fault for not finding the file
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/SoftEng_2024/Model/Cards/starterCards.json"));
+            Reader reader = new InputStreamReader(CardDeserializer.class.getResourceAsStream("/SoftEng_2024/Model/Cards/starterCards.json"), "UTF-8");
             SupportStarterCard[] starterCardsInfoArray = gson.fromJson(reader, SupportStarterCard[].class);
             boolean flipped = false;
 

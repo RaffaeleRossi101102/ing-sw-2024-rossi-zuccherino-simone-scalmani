@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static SoftEng_2024.Model.Cards.CardDeserializer.resourceCardDeserialize;
+import static SoftEng_2024.Model.Cards.CardDeserializer.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardsPackageTesting {

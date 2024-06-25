@@ -15,10 +15,6 @@ public class CreateGameMessage implements ViewMessage {
     }
     @Override
     public void executeMessage(GameController controller) {
-        try {
-            controller.createGame(maxPlayers,nickname,ID);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+        controller.createGame(maxPlayers,nickname,ID);
     }
 }

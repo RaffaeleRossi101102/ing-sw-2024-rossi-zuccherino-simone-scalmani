@@ -13,4 +13,5 @@ module SoftEng_2024 {
     exports SoftEng_2024.View to javafx.graphics;
     exports SoftEng_2024.View.GUIControllers to javafx.graphics;
     opens SoftEng_2024.View.GUIControllers to javafx.fxml;
+    //opens to
 }

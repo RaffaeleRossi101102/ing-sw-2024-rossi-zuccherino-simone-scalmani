@@ -14,10 +14,10 @@ public class JoinGameMessage implements ViewMessage{
     }
     @Override
     public void executeMessage(GameController controller) {
-        try {
+        //try {
             controller.joinGame(nickname,ID);
-        } catch (IOException e) {
-            throw new RuntimeException("Something went terribly wrong.");
-        }
+        //} catch (IOException e) {
+           // throw new RuntimeException("Something went terribly wrong.");
+        //}
     }
 }

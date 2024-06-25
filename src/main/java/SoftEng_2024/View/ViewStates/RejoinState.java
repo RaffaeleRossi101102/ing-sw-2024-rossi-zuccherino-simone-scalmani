@@ -10,7 +10,7 @@ public class RejoinState extends ViewState{
     }
 
     @Override
-    public void display() {
+    public void display() throws InterruptedException {
         System.out.println("lo stato è "+view.getLocalModel().getPlayerState());
         while(view.getLocalModel().getNumberOfMessages()==0 | view.getLocalModel().getNumberOfMessages()!=view.getLocalModel().getArrivedMessages());
             ViewState nextState;
@@ -19,26 +19,25 @@ public class RejoinState extends ViewState{
                 case CONNECTION:
                 case STARTER:
                     nextState= new StarterState(view,client,ID);
+
                     break;
                 case SETCOLOR:
                     nextState = new SetColorState(view, client, ID);
                     break;
                 case CHOOSEGOAL:
                     nextState = new ChooseGoalState(view, client, ID);
-                    listenDefaultCommand();
+                    listenDefaultCommand(true);
                     break;
                 case NOTPLAYING:
-                    nextState = new ReadyToStartState(view, client, ID);
-                    break;
                 case PLAY:
-                    nextState= new ReadyToStartState(view,client,ID);
-                    listenDefaultCommand();
+                    nextState = new ReadyToStartState(view, client, ID);
                     break;
                 default:
                     nextState = new ConnectionState(view, client, ID);
                     break;
 
             }
+            view.setViewState(nextState);
             nextState.display();
 
     }
