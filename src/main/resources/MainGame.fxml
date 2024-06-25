@@ -8,110 +8,114 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0">
+      <ImageView fitHeight="1080.0" fitWidth="1920.0">
          <image>
-            <Image url="@background_play.png" />
+            <Image url="@background_gen2.png" />
          </image>
       </ImageView>
-      <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="572.0" prefWidth="858.0" style="-fx-background: transparent;" vbarPolicy="NEVER" vvalue="0.5">
+      <ScrollPane hbarPolicy="NEVER" hvalue="0.5" pannable="true" prefHeight="1080.0" prefWidth="1362.0" styleClass="playing_field" stylesheets="@button_generic.css" vbarPolicy="NEVER" vvalue="0.5">
          <content>
-             <GridPane fx:id="cardPane" style="-fx-background: transparent;" xmlns:fx="http://javafx.com/fxml">
+             <GridPane fx:id="cardPane" styleClass="playing_field" stylesheets="@button_generic.css" xmlns:fx="http://javafx.com/fxml">
                  <columnConstraints>
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
-                     <ColumnConstraints prefWidth="155" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
+                     <ColumnConstraints prefWidth="155.0" />
                  </columnConstraints>
                  <rowConstraints>
                      <RowConstraints prefHeight="103" />
@@ -201,44 +205,223 @@
                      <RowConstraints prefHeight="103" />
                  </rowConstraints>
              </GridPane>
-         </content></ScrollPane>
-      <Button fx:id="chatBTN" alignment="CENTER" layoutX="1152.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleToggleButtonAction" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
+         </content>
+         <effect>
+            <InnerShadow height="255.0" radius="127.0" width="255.0">
+               <color>
+                  <Color opacity="0.6221374273300171" />
+               </color>
+            </InnerShadow>
+         </effect></ScrollPane>
+      <ScrollPane fx:id="otherPlayersBoard" hbarPolicy="NEVER" hvalue="0.5" layoutX="1034.0" layoutY="75.0" pannable="true" prefHeight="300.0" prefWidth="300.0" styleClass="playing_field" stylesheets="@button_generic.css" vbarPolicy="NEVER" vvalue="0.5">
+         <content>
+            <GridPane fx:id="otherPlayersPane" styleClass="playing_field" stylesheets="@button_generic.css">
+               <columnConstraints>
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+                  <ColumnConstraints prefWidth="155.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+                  <RowConstraints prefHeight="103" />
+               </rowConstraints>
+            </GridPane>
+         </content>
+         <effect>
+            <InnerShadow height="255.0" radius="127.0" width="255.0">
+               <color>
+                  <Color opacity="0.6221374273300171" />
+               </color>
+            </InnerShadow>
+         </effect>
+      </ScrollPane>
+      <ImageView fitHeight="1080.0" fitWidth="1920.0">
+         <image>
+            <Image url="@overlay_game.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="chatBTN" alignment="CENTER" layoutX="1780.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleShowChat" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="17.0" />
          </font>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
-      <Button alignment="CENTER" layoutX="1153.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
+      <Button alignment="CENTER" layoutX="1780.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="17.0" />
          </font>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
-      <ImageView fx:id="goalCardHand" fitHeight="103.0" fitWidth="155.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" x="19.0" y="596.0">
-         <effect>
-            <DropShadow />
-         </effect></ImageView>
-      <ImageView fx:id="hand1" fitHeight="103.0" fitWidth="155.0" layoutY="-3.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="187.0" y="596.0">
-         <effect>
-            <DropShadow />
-         </effect></ImageView>
-      <ImageView fx:id="hand2" fitHeight="103.0" fitWidth="155.0" layoutY="-3.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="355.0" y="596.0">
-         <effect>
-            <DropShadow />
-         </effect></ImageView>
-      <ImageView fx:id="hand3" fitHeight="103.0" fitWidth="155.0" layoutY="-3.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0">
-         <effect>
-            <DropShadow />
-         </effect></ImageView>
-      <Button alignment="CENTER" layoutX="716.0" layoutY="614.0" mnemonicParsing="false" onAction="#confirmPlayCard" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Play Card" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
-      <Button alignment="CENTER" layoutX="717.0" layoutY="654.0" mnemonicParsing="false" onAction="#handleFlipHandCard" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Flip Card" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
-      <GridPane alignment="CENTER" layoutX="883.0" layoutY="108.0" prefHeight="368.0" prefWidth="370.0">
+      <GridPane alignment="CENTER" layoutX="1404.0" layoutY="176.0" prefHeight="478.0" prefWidth="481.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -249,30 +432,225 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="deck1" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleDeck1" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="public1" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleCard1" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <ImageView fx:id="deck2" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleDeck2" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="public3" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleCard3" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <ImageView fx:id="deck1" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleDeck1" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
+            <ImageView fx:id="public1" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleCard1" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
+            <ImageView fx:id="deck2" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleDeck2" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
+            <ImageView fx:id="public3" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleCard3" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <ImageView fx:id="public2" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleCard2" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <ImageView fx:id="public4" fitHeight="103.0" fitWidth="155.0" onMouseClicked="#handleCard4" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <ImageView fx:id="public2" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleCard2" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
+            <ImageView fx:id="public4" fitHeight="143.0" fitWidth="215.0" onMouseClicked="#handleCard4" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect></ImageView>
          </children>
       </GridPane>
-      <Label fx:id="playerScore" accessibleRole="CHECK_BOX" alignment="CENTER" contentDisplay="CENTER" layoutX="970.0" layoutY="25.0" prefHeight="71.0" prefWidth="94.0">
+      <Label fx:id="playerScore" accessibleRole="CHECK_BOX" alignment="CENTER" contentDisplay="CENTER" layoutX="547.0" layoutY="2.0" prefHeight="61.0" prefWidth="269.0" text="Score: 0" textFill="#432918">
          <font>
-            <Font name="Arial Black" size="30.0" />
+            <Font name="LT Cushion Black" size="51.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="chatPane" layoutX="965.0" layoutY="477.0" prefHeight="227.0" prefWidth="301.0">
+      <HBox layoutX="167.0" layoutY="924.0" prefHeight="134.0" prefWidth="617.0" spacing="20.0">
          <children>
-            <TextArea fx:id="chatArea" editable="false" layoutX="10" layoutY="39.0" prefHeight="171.0" prefWidth="300" />
-            <TextField fx:id="messageField" layoutX="10" layoutY="220" prefWidth="240" />
-            <Button layoutX="260" layoutY="220" onAction="#sendMessage" text="Send" />
-            <ChoiceBox fx:id="selectNick" layoutX="10.0" layoutY="7.0" prefWidth="150.0" />
+            <ImageView fx:id="goalCardHand" fitHeight="134.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" x="19.0" y="596.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="hand1" fitHeight="134.0" fitWidth="201.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="187.0" y="596.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="hand2" fitHeight="134.0" fitWidth="201.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="355.0" y="596.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="hand3" fitHeight="134.0" fitWidth="201.0" onMouseClicked="#handleCardChoiceHand" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox layoutX="1073.0" layoutY="947.0" prefHeight="104.0" prefWidth="138.0" spacing="10.0">
+         <children>
+            <Button fx:id="playBTN" alignment="CENTER" mnemonicParsing="false" onAction="#confirmPlayCard" prefHeight="34.0" prefWidth="138.0" style="-fx-font-size: 20;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Play Card" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+            <Button fx:id="flipBTN" alignment="CENTER" mnemonicParsing="false" onAction="#handleFlipHandCard" prefHeight="34.0" prefWidth="138.0" style="-fx-font-size: 20;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Flip Card" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+         </children>
+         <effect>
+            <DropShadow height="10.0" radius="4.5" width="10.0" />
+         </effect>
+      </VBox>
+      <GridPane alignment="CENTER" layoutX="1404.0" layoutY="751.0" prefHeight="160.0" prefWidth="481.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fx:id="publicGoal1" fitHeight="143.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="publicGoal2" fitHeight="143.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true" x="528.0" y="596.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </GridPane>
+      <AnchorPane fx:id="chatPane" layoutX="1546.0" layoutY="810.0" prefHeight="270.0" prefWidth="374.0">
+         <children>
+            <ImageView fitHeight="267.0" fitWidth="374.0">
+               <image>
+                  <Image url="@chatbox.png" />
+               </image>
+            </ImageView>
+            <ChoiceBox fx:id="selectNick" layoutX="61.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="252.0" styleClass="button_chat_combo" stylesheets="@button_generic.css" />
+            <TextArea fx:id="chatArea" editable="false" focusTraversable="false" layoutX="25.0" layoutY="52.0" pickOnBounds="false" prefHeight="164.0" prefWidth="324.0" styleClass="message_textarea" stylesheets="@button_generic.css" wrapText="true" />
+            <TextField fx:id="messageField" layoutX="39.0" layoutY="221.0" onAction="#sendMessage" prefHeight="23.0" prefWidth="296.0" styleClass="button_textfield" stylesheets="@button_generic.css" />
          </children>
       </AnchorPane>
+      <Label fx:id="playerTurn" accessibleRole="CHECK_BOX" alignment="CENTER" contentDisplay="CENTER" layoutX="547.0" layoutY="63.0" prefHeight="49.0" prefWidth="269.0" textFill="WHITE">
+         <font>
+            <Font name="LT Cushion Black" size="18.0" />
+         </font>
+      </Label>
+      <HBox fx:id="resourceBox" layoutX="371.0" layoutY="823.0" prefHeight="61.0" prefWidth="680.0" spacing="58.0">
+         <children>
+            <Label fx:id="res1" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res2" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res3" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res4" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res5" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res6" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+            <Label fx:id="res7" alignment="CENTER" prefHeight="79.0" prefWidth="46.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="LT Cushion Black" size="40.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="plateauPane" prefHeight="104.0" prefWidth="376.0">
+         <children>
+            <ImageView fitHeight="752.0" fitWidth="413.0" preserveRatio="true">
+               <image>
+                  <Image url="@plateau.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="pin0" fitHeight="63.0" fitWidth="63.0" layoutX="68.0" layoutY="668.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin1" fitHeight="63.0" fitWidth="63.0" layoutX="156.0" layoutY="668.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin2" fitHeight="63.0" fitWidth="63.0" layoutX="245.0" layoutY="668.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin3" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="588.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin4" fitHeight="63.0" fitWidth="63.0" layoutX="200.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin5" fitHeight="63.0" fitWidth="63.0" layoutX="112.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin6" fitHeight="63.0" fitWidth="63.0" layoutX="24.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin7" fitHeight="63.0" fitWidth="63.0" layoutX="23.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin8" fitHeight="63.0" fitWidth="63.0" layoutX="112.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin9" fitHeight="63.0" fitWidth="63.0" layoutX="200.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin10" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin11" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin12" fitHeight="63.0" fitWidth="63.0" layoutX="200.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin13" fitHeight="63.0" fitWidth="63.0" layoutX="112.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin14" fitHeight="63.0" fitWidth="63.0" layoutX="24.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin15" fitHeight="63.0" fitWidth="63.0" layoutX="23.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin16" fitHeight="63.0" fitWidth="63.0" layoutX="112.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin17" fitHeight="63.0" fitWidth="63.0" layoutX="201.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin18" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin19" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin20" fitHeight="63.0" fitWidth="63.0" layoutX="157.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin21" fitHeight="63.0" fitWidth="63.0" layoutX="24.0" layoutY="264.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin22" fitHeight="63.0" fitWidth="63.0" layoutX="24.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin23" fitHeight="63.0" fitWidth="63.0" layoutX="24.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin24" fitHeight="63.0" fitWidth="63.0" layoutX="75.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin25" fitHeight="63.0" fitWidth="63.0" layoutX="156.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin26" fitHeight="63.0" fitWidth="63.0" layoutX="238.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin27" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin28" fitHeight="63.0" fitWidth="63.0" layoutX="289.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pin29" fitHeight="63.0" fitWidth="63.0" layoutX="156.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+      <HBox layoutX="879.0" layoutY="20.0" prefHeight="35.0" prefWidth="460.0" spacing="20.0">
+         <children>
+            <Button fx:id="showBoard1" alignment="CENTER" mnemonicParsing="false" onAction="#showPlayerPane" prefHeight="35.0" prefWidth="140.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="showBoard2" alignment="CENTER" mnemonicParsing="false" onAction="#showPlayerPane" prefHeight="35.0" prefWidth="140.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="showBoard3" alignment="CENTER" mnemonicParsing="false" onAction="#showPlayerPane" prefHeight="35.0" prefWidth="140.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

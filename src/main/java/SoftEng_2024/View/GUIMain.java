@@ -3,12 +3,16 @@ package SoftEng_2024.View;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.Network.ToModel.ServerInterface;
 import SoftEng_2024.View.GUIControllers.MainViewController;
-import SoftEng_2024.View.ViewStates.ViewState;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.fxml.*;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,6 +30,8 @@ public class GUIMain extends Application implements View{
     private static double ID;
     private static ClientInterface client;
     private static LocalModel localModel;
+    private final Font font = Font.loadFont(getClass().getResourceAsStream("/FrakturNo2.ttf"), 10);
+    private final Font font2 = Font.loadFont(getClass().getResourceAsStream("/LTCushion-Black.ttf"), 10);
 
     public GUIMain() {
     }
@@ -56,6 +62,7 @@ public class GUIMain extends Application implements View{
         stage.setTitle("Codex Naturalis");
         stage.setScene(mainMenu);
         stage.setResizable(false);
+        stage.setFullScreen(true);
         stage.show();
     }
 
@@ -80,11 +87,6 @@ public class GUIMain extends Application implements View{
 
     @Override
     public String getCommand() {
-        return null;
-    }
-
-    @Override
-    public ViewState getViewState() {
         return null;
     }
 }

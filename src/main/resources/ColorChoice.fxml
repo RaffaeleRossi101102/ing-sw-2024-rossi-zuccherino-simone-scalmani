@@ -5,82 +5,93 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
-   <ImageView fitHeight="720.0" fitWidth="1280.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
+   <ImageView fitHeight="1080.0" fitWidth="1920.0">
       <image>
          <Image url="@background_gen.png" />
       </image>
    </ImageView>
-    <Label alignment="TOP_CENTER" layoutX="229.0" layoutY="6.0" prefHeight="140.0" prefWidth="823.0" stylesheets="@button_generic.css" text="Color Choice" textAlignment="CENTER" textFill="#432918">
+    <Label alignment="TOP_CENTER" layoutX="460.0" prefHeight="130.0" prefWidth="1000.0" stylesheets="@button_generic.css" text="Color Choice" textAlignment="CENTER" textFill="#432918">
         <font>
-            <Font name="FrakturNo2" size="96.0" />
+            <Font name="FrakturNo2" size="130.0" />
         </font>
     </Label>
-   <Button fx:id="chatBTN" alignment="CENTER" layoutX="1153.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleToggleButtonAction" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
-      <font>
-         <Font size="17.0" />
-      </font>
-   </Button>
-   <Button alignment="CENTER" layoutX="1153.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
-      <font>
-         <Font size="17.0" />
-      </font>
-   </Button>
-   <Label fx:id="nickLabel1" alignment="TOP_CENTER" layoutX="411.0" layoutY="196.0" prefHeight="37.0" prefWidth="460.0" text="Choose your color!" textAlignment="CENTER" textFill="#432918">
-      <font>
-         <Font name="LT Cushion Black" size="30.0" />
-      </font>
-   </Label>
-   <VBox alignment="CENTER" layoutX="453.0" layoutY="233.0" prefHeight="150.0" prefWidth="184.0" spacing="10.0">
+   <VBox alignment="CENTER" layoutX="710.0" layoutY="261.0" prefHeight="410.0" prefWidth="500.0" spacing="10.0">
       <children>
-         <Button fx:id="ylwBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="57.0" prefWidth="171.0" style="-fx-background-color: #ded600;" styleClass="button_generic" stylesheets="@button_generic.css" text="Yellow" textAlignment="CENTER" textFill="WHITE">
+         <Button fx:id="ylwBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="95.0" prefWidth="721.0" style="-fx-background-color: #ded600;" styleClass="button_generic" stylesheets="@button_generic.css" text="Yellow" textAlignment="CENTER" textFill="WHITE">
             <font>
                <Font size="42.0" />
             </font>
          </Button>
-         <Button fx:id="grnBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="57.0" prefWidth="171.0" style="-fx-background-color: #00c217;" styleClass="button_generic" stylesheets="@button_generic.css" text="Green" textAlignment="CENTER" textFill="WHITE">
+         <Button fx:id="grnBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="95.0" prefWidth="721.0" style="-fx-background-color: #00c217;" styleClass="button_generic" stylesheets="@button_generic.css" text="Green" textAlignment="CENTER" textFill="WHITE">
+            <font>
+               <Font size="42.0" />
+            </font>
+         </Button>
+         <Button fx:id="bluBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="95.0" prefWidth="789.0" style="-fx-background-color: #000dc2;" styleClass="button_generic" stylesheets="@button_generic.css" text="Blue" textAlignment="CENTER" textFill="WHITE">
+            <font>
+               <Font size="42.0" />
+            </font>
+         </Button>
+         <Button fx:id="redBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="95.0" prefWidth="613.0" style="-fx-background-color: #c20000;" styleClass="button_generic" stylesheets="@button_generic.css" text="Red" textAlignment="CENTER" textFill="WHITE">
             <font>
                <Font size="42.0" />
             </font>
          </Button>
       </children>
+      <effect>
+         <DropShadow />
+      </effect>
    </VBox>
-   <Label alignment="CENTER" layoutX="490.0" layoutY="574.0" prefHeight="19.0" prefWidth="301.0" styleClass="button_smaller-alert" stylesheets="@button_generic.css" text="You will then go to the Goal Card choice" textAlignment="CENTER" textFill="#432918" textOverrun="WORD_ELLIPSIS" wrapText="true">
+   <Label alignment="CENTER" layoutX="639.0" layoutY="815.0" prefHeight="28.0" prefWidth="642.0" styleClass="button_smaller-alert" stylesheets="@button_generic.css" text="You will then go to the Goal Card choice" textAlignment="CENTER" textFill="#432918" textOverrun="WORD_ELLIPSIS" wrapText="true">
       <font>
          <Font name="LT Cushion Black" size="30.0" />
       </font>
+      <effect>
+         <DropShadow />
+      </effect>
    </Label>
-   <Button alignment="CENTER" layoutX="456.0" layoutY="517.0" mnemonicParsing="false" onAction="#goToGoalChoice" prefHeight="57.0" prefWidth="369.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Choose Color!" textAlignment="CENTER" textFill="WHITE">
+   <Button alignment="CENTER" layoutX="460.0" layoutY="721.0" mnemonicParsing="false" onAction="#goToGoalChoice" prefHeight="57.0" prefWidth="1000.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Choose Color!" textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font size="42.0" />
       </font>
+      <effect>
+         <DropShadow />
+      </effect>
    </Button>
-   <VBox alignment="CENTER" layoutX="644.0" layoutY="233.0" prefHeight="150.0" prefWidth="184.0" spacing="10.0">
+   <AnchorPane fx:id="chatPane" layoutX="1546.0" layoutY="810.0" prefHeight="270.0" prefWidth="374.0">
       <children>
-         <Button fx:id="bluBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="57.0" prefWidth="171.0" style="-fx-background-color: #000dc2;" styleClass="button_generic" stylesheets="@button_generic.css" text="Blue" textAlignment="CENTER" textFill="WHITE">
-            <font>
-               <Font size="42.0" />
-            </font>
-         </Button>
-         <Button fx:id="redBTN" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handlePickColor" prefHeight="57.0" prefWidth="171.0" style="-fx-background-color: #c20000;" styleClass="button_generic" stylesheets="@button_generic.css" text="Red" textAlignment="CENTER" textFill="WHITE">
-            <font>
-               <Font size="42.0" />
-            </font>
-         </Button>
-      </children>
-   </VBox>
-   <AnchorPane fx:id="chatPane" layoutX="956.0" layoutY="461.0" prefHeight="227.0" prefWidth="301.0">
-      <children>
-         <TextArea fx:id="chatArea" editable="false" layoutX="10" layoutY="39.0" prefHeight="171.0" prefWidth="300" />
-         <TextField fx:id="messageField" layoutX="10" layoutY="220" prefWidth="240" />
-         <Button layoutX="260" layoutY="220" onAction="#sendMessage" text="Send" />
-         <ChoiceBox fx:id="selectNick" layoutX="10.0" layoutY="7.0" prefWidth="150.0" />
+         <ImageView fitHeight="267.0" fitWidth="374.0">
+            <image>
+               <Image url="@chatbox.png" />
+            </image>
+         </ImageView>
+         <ChoiceBox fx:id="selectNick" layoutX="61.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="252.0" styleClass="button_chat_combo" stylesheets="@button_generic.css" />
+         <TextArea fx:id="chatArea" editable="false" layoutX="25.0" layoutY="52.0" prefHeight="164.0" prefWidth="324.0" styleClass="message_textarea" stylesheets="@button_generic.css" wrapText="true" />
+         <TextField fx:id="messageField" layoutX="39.0" layoutY="221.0" onAction="#sendMessage" prefHeight="23.0" prefWidth="296.0" styleClass="button_textfield" stylesheets="@button_generic.css" />
       </children>
    </AnchorPane>
+   <Button fx:id="chatBTN" alignment="CENTER" layoutX="1780.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleShowChat" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font size="17.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Button>
+   <Button alignment="CENTER" layoutX="1780.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font size="17.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Button>
 </AnchorPane>

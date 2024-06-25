@@ -5,38 +5,49 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
-    <ImageView fitHeight="720.0" fitWidth="1280.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
+    <ImageView fitHeight="1080.0" fitWidth="1920.0">
         <image>
             <Image url="@background_gen.png" />
         </image>
     </ImageView>
-    <Label alignment="TOP_CENTER" layoutX="229.0" layoutY="271.0" prefHeight="140.0" prefWidth="823.0" stylesheets="@button_generic.css" text="Please wait..." textAlignment="CENTER" textFill="#432918">
+    <Label alignment="TOP_CENTER" layoutX="458.0" layoutY="405.0" prefHeight="180.0" prefWidth="1000.0" stylesheets="@button_generic.css" text="Please wait..." textAlignment="CENTER" textFill="#432918">
         <font>
-            <Font name="FrakturNo2" size="96.0" />
+            <Font name="FrakturNo2" size="160.0" />
         </font>
     </Label>
-    <Button alignment="CENTER" layoutX="1153.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
-        <font>
-            <Font size="17.0" />
-        </font>
-    </Button>
-    <Button fx:id="chatBTN" alignment="CENTER" layoutX="1153.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleToggleButtonAction" prefHeight="28.0" prefWidth="107.0" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
-        <font>
-            <Font size="17.0" />
-        </font>
-    </Button>
-   <AnchorPane fx:id="chatPane" layoutX="961.0" layoutY="464.0" prefHeight="227.0" prefWidth="301.0">
+   <Button fx:id="chatBTN" alignment="CENTER" layoutX="1780.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleShowChat" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Chat" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font size="17.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Button>
+   <Button alignment="CENTER" layoutX="1780.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font size="17.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Button>
+   <AnchorPane fx:id="chatPane" layoutX="1546.0" layoutY="810.0" prefHeight="270.0" prefWidth="374.0">
       <children>
-         <TextArea fx:id="chatArea" editable="false" layoutX="10" layoutY="39.0" prefHeight="171.0" prefWidth="300" />
-         <TextField fx:id="messageField" layoutX="10" layoutY="220" prefWidth="240" />
-         <Button layoutX="260" layoutY="220" onAction="#sendMessage" text="Send" />
-         <ChoiceBox fx:id="selectNick" layoutX="10.0" layoutY="7.0" prefWidth="150.0" />
+         <ImageView fitHeight="267.0" fitWidth="374.0">
+            <image>
+               <Image url="@chatbox.png" />
+            </image>
+         </ImageView>
+         <ChoiceBox fx:id="selectNick" layoutX="61.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="252.0" styleClass="button_chat_combo" stylesheets="@button_generic.css" />
+         <TextArea fx:id="chatArea" editable="false" layoutX="25.0" layoutY="52.0" prefHeight="164.0" prefWidth="324.0" styleClass="message_textarea" stylesheets="@button_generic.css" wrapText="true" />
+         <TextField fx:id="messageField" layoutX="39.0" layoutY="221.0" onAction="#sendMessage" prefHeight="23.0" prefWidth="296.0" styleClass="button_textfield" stylesheets="@button_generic.css" />
       </children>
    </AnchorPane>
 </AnchorPane>
