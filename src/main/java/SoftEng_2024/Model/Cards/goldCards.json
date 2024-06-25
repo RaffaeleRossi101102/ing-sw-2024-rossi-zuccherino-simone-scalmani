@@ -379,6 +379,196 @@
     ],
     "cardID": 60
   },
+    {
+      "angles": [
+        "INK",
+        "EMPTY",
+        "EMPTY",
+        "INVISIBLE"
+      ],
+      "backResource": "ANIMALS",
+      "points": 1,
+      "scoreType": "INK",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "INSECTS",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 61
+    },
+    {
+      "angles": [
+        "INVISIBLE",
+        "EMPTY",
+        "EMPTY",
+        "SCROLL"
+      ],
+      "backResource": "ANIMALS",
+      "points": 1,
+      "scoreType": "SCROLL",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "PLANTS",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 62
+    },
+    {
+      "angles": [
+        "EMPTY",
+        "INVISIBLE",
+        "FEATHER",
+        "EMPTY"
+      ],
+      "backResource": "ANIMALS",
+      "points": 1,
+      "scoreType": "FEATHER",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "FUNGI",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 63
+    },
+    {
+      "angles": [
+        "EMPTY",
+        "EMPTY",
+        "INVISIBLE",
+        "EMPTY"
+      ],
+      "backResource": "ANIMALS",
+      "points": 2,
+      "scoreType": "ANGLES",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "INSECTS",
+        "EMPTY"
+      ],
+      "cardID": 64
+    },
+    {
+      "angles": [
+        "EMPTY",
+        "INVISIBLE",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "backResource": "ANIMALS",
+      "points": 2,
+      "scoreType": "ANGLES",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "FUNGI",
+        "EMPTY"
+      ],
+      "cardID": 65
+    },
+    {
+      "angles": [
+        "INVISIBLE",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "backResource": "ANIMALS",
+      "points": 2,
+      "scoreType": "ANGLES",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "PLANTS",
+        "EMPTY"
+      ],
+      "cardID": 66
+    },
+    {
+      "angles": [
+        "EMPTY",
+        "INVISIBLE",
+        "SCROLL",
+        "INVISIBLE"
+      ],
+      "backResource": "ANIMALS",
+      "points": 3,
+      "scoreType": "STATIC",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 67
+    },
+    {
+      "angles": [
+        "EMPTY",
+        "INK",
+        "INVISIBLE",
+        "INVISIBLE"
+      ],
+      "backResource": "ANIMALS",
+      "points": 3,
+      "scoreType": "STATIC",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 68
+    },
+    {
+      "angles": [
+        "INVISIBLE",
+        "EMPTY",
+        "INVISIBLE",
+        "FEATHER"
+      ],
+      "backResource": "ANIMALS",
+      "points": 3,
+      "scoreType": "STATIC",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "EMPTY",
+        "EMPTY"
+      ],
+      "cardID": 69
+    },
+    {
+      "angles": [
+        "INVISIBLE",
+        "EMPTY",
+        "INVISIBLE",
+        "EMPTY"
+      ],
+      "backResource": "ANIMALS",
+      "points": 5,
+      "scoreType": "STATIC",
+      "requiredResources": [
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS",
+        "ANIMALS"
+      ],
+      "cardID": 70
+    },
   {
     "angles": [
       "EMPTY",
@@ -396,7 +586,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 61
+    "cardID": 71
   },
   {
     "angles": [
@@ -415,7 +605,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 62
+    "cardID": 72
   },
   {
     "angles": [
@@ -434,7 +624,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 63
+    "cardID": 73
   },
   {
     "angles": [
@@ -453,7 +643,7 @@
       "ANIMALS",
       "EMPTY"
     ],
-    "cardID": 64
+    "cardID": 74
   },
   {
     "angles": [
@@ -472,7 +662,7 @@
       "PLANTS",
       "EMPTY"
     ],
-    "cardID": 65
+    "cardID": 75
   },
   {
     "angles": [
@@ -491,7 +681,7 @@
       "FUNGI",
       "EMPTY"
     ],
-    "cardID": 66
+    "cardID": 76
   },
   {
     "angles": [
@@ -510,7 +700,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 67
+    "cardID": 77
   },
   {
     "angles": [
@@ -529,7 +719,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 68
+    "cardID": 78
   },
   {
     "angles": [
@@ -548,7 +738,7 @@
       "EMPTY",
       "EMPTY"
     ],
-    "cardID": 69
+    "cardID": 79
   },
   {
     "angles": [
@@ -566,196 +756,6 @@
       "INSECTS",
       "INSECTS",
       "INSECTS"
-    ],
-    "cardID": 70
-  },
-  {
-    "angles": [
-      "INK",
-      "EMPTY",
-      "EMPTY",
-      "INVISIBLE"
-    ],
-    "backResource": "ANIMALS",
-    "points": 1,
-    "scoreType": "INK",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "INSECTS",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 71
-  },
-  {
-    "angles": [
-      "INVISIBLE",
-      "EMPTY",
-      "EMPTY",
-      "SCROLL"
-    ],
-    "backResource": "ANIMALS",
-    "points": 1,
-    "scoreType": "SCROLL",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "PLANTS",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 72
-  },
-  {
-    "angles": [
-      "EMPTY",
-      "INVISIBLE",
-      "FEATHER",
-      "EMPTY"
-    ],
-    "backResource": "ANIMALS",
-    "points": 1,
-    "scoreType": "FEATHER",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "FUNGI",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 73
-  },
-  {
-    "angles": [
-      "EMPTY",
-      "EMPTY",
-      "INVISIBLE",
-      "EMPTY"
-    ],
-    "backResource": "ANIMALS",
-    "points": 2,
-    "scoreType": "ANGLES",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "INSECTS",
-      "EMPTY"
-    ],
-    "cardID": 74
-  },
-  {
-    "angles": [
-      "EMPTY",
-      "INVISIBLE",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "backResource": "ANIMALS",
-    "points": 2,
-    "scoreType": "ANGLES",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "FUNGI",
-      "EMPTY"
-    ],
-    "cardID": 75
-  },
-  {
-    "angles": [
-      "INVISIBLE",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "backResource": "ANIMALS",
-    "points": 2,
-    "scoreType": "ANGLES",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "PLANTS",
-      "EMPTY"
-    ],
-    "cardID": 76
-  },
-  {
-    "angles": [
-      "EMPTY",
-      "INVISIBLE",
-      "SCROLL",
-      "INVISIBLE"
-    ],
-    "backResource": "ANIMALS",
-    "points": 3,
-    "scoreType": "STATIC",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 77
-  },
-  {
-    "angles": [
-      "EMPTY",
-      "INK",
-      "INVISIBLE",
-      "INVISIBLE"
-    ],
-    "backResource": "ANIMALS",
-    "points": 3,
-    "scoreType": "STATIC",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 78
-  },
-  {
-    "angles": [
-      "INVISIBLE",
-      "EMPTY",
-      "INVISIBLE",
-      "FEATHER"
-    ],
-    "backResource": "ANIMALS",
-    "points": 3,
-    "scoreType": "STATIC",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "EMPTY",
-      "EMPTY"
-    ],
-    "cardID": 79
-  },
-  {
-    "angles": [
-      "INVISIBLE",
-      "EMPTY",
-      "INVISIBLE",
-      "EMPTY"
-    ],
-    "backResource": "ANIMALS",
-    "points": 5,
-    "scoreType": "STATIC",
-    "requiredResources": [
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS",
-      "ANIMALS"
     ],
     "cardID": 80
   }

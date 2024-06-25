@@ -7,29 +7,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
-   <ImageView fitHeight="720.0" fitWidth="1280.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SoftEng_2024.View.GUIControllers.MainViewController">
+   <ImageView fitHeight="1080.0" fitWidth="1920.0">
       <image>
          <Image url="@background_menu.png" />
       </image>
    </ImageView>
-    <VBox layoutX="25.0" layoutY="157.0" prefHeight="500.0" prefWidth="432.0" spacing="20.0">
-        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToCreateSetup" prefHeight="100.0" prefWidth="370.0" styleClass="button_generic" stylesheets="@button_generic.css" text="New Game" textAlignment="CENTER" textFill="WHITE">
+    <VBox layoutX="83.0" layoutY="293.0" prefHeight="241.0" prefWidth="550.0" spacing="20.0">
+        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToCreateSetup" prefHeight="150.0" prefWidth="550.0" styleClass="button_generic" stylesheets="@button_generic.css" text="New Game" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="24.0" />
             </font>
         </Button>
-        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToJoinSetup" prefHeight="100.0" prefWidth="370.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Join Game" textAlignment="CENTER" textFill="WHITE">
+        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToJoinSetup" prefHeight="150.0" prefWidth="550.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Join Game" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="24.0" />
             </font>
         </Button>
-        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="370.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Settings" textAlignment="CENTER" textFill="WHITE">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Button>
-        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="370.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Credits" textAlignment="CENTER" textFill="WHITE">
+        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="150.0" prefWidth="550.0" styleClass="button_generic" stylesheets="@button_generic.css" text="Credits" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font size="24.0" />
             </font>
