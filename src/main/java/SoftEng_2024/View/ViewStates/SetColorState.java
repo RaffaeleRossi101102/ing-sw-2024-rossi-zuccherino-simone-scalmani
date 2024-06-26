@@ -18,10 +18,11 @@ public class SetColorState extends ViewState{
 
     @Override
     public synchronized void display() throws InterruptedException {
+        String indications="Type  Set Color, Show Board, Chat or Quit";
         listenDefaultCommand(true);
         defaultCommand(GameState.STARTER,"Waiting for all the players play their starter card...");
         System.out.println("Everyone played their starter card! Now you all have to choose your color!");
-        System.out.println("Type  Set Color, Show Board, Chat or Quit");
+        System.out.println(indications);
         wait();
         //loops until the player chooses a command different from writeInChat
         while(!commandChosen){
@@ -31,19 +32,23 @@ public class SetColorState extends ViewState{
                     setColor();
                     view.setCommand("");
                     listenDefaultCommand(true);
+                    if(!commandChosen) {
+                        System.out.println(indications);
+                        wait();
+                    }
                     break;
                 case "chat":
                     writeInChat();
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
                 case "showboard":
                     printPlayerBoard(false);
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
                 case "quit":
@@ -55,7 +60,7 @@ public class SetColorState extends ViewState{
                     System.err.println("Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type  Set Color, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
             }

@@ -18,12 +18,13 @@ public class StarterState extends ViewState{
     }
     @Override
     public synchronized void display() throws InterruptedException {
+        String indications="Type  Play Starter Card, Chat or Quit";
         listenDefaultCommand(true);
         defaultCommand(GameState.CONNECTION,"Waiting for all the players to connect");
         System.out.println("Now it's time to play your starter card:");
         //TODO: prints player's starter card
         //Scanner scanner = new Scanner(System.in);
-        System.out.println("Type  Play Starter Card, Chat or Quit");
+        System.out.println(indications);
         wait();
 
         //loops until the player chooses a command different from writeInChat
@@ -34,13 +35,18 @@ public class StarterState extends ViewState{
                         System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
                         view.setCommand("");
                         listenDefaultCommand(true);
-                        System.out.println("Type  Play Starter Card, Chat or Quit");
+                        System.out.println(indications);
                         wait();
                     }
                     else {
                         System.out.println("This is your starter card:");
                         commandChosen=true;
                         playStarterCard();
+                        if(!commandChosen) {
+                            listenDefaultCommand(true);
+                            System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                            wait();
+                        }
                         view.setCommand("");
                     }
                     break;
@@ -49,7 +55,7 @@ public class StarterState extends ViewState{
 
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type  Play Starter Card, Chat or Quit");
+                    System.out.println(indications);
                     wait();
 
                     break;
@@ -63,7 +69,7 @@ public class StarterState extends ViewState{
                     System.err.println("Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type  Play Starter Card, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
             }

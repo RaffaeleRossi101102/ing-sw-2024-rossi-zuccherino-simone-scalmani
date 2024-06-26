@@ -465,15 +465,16 @@ public class Game {
     }
 
     public void setOnlinePlayersCounter(int add) {
+        synchronized ((Integer)this.onlinePlayersCounter) {
+            onlinePlayersCounter += add;
 
-        onlinePlayersCounter += add;
-
-        if(onlinePlayersCounter==1 & add<0) {
-            gameObserver.lastPlayerStanding(winnerDueToForfeit);
-            for(Player player : players){
-                if(player.getIsOnline()){
-                    this.winnerDueToForfeit = player.getNickname();
-                    break;
+            if (onlinePlayersCounter == 1 & add < 0) {
+                gameObserver.lastPlayerStanding(winnerDueToForfeit);
+                for (Player player : players) {
+                    if (player.getIsOnline()) {
+                        this.winnerDueToForfeit = player.getNickname();
+                        break;
+                    }
                 }
             }
         }
@@ -546,7 +547,9 @@ public class Game {
     public int getMaxScore(){return this.maxScore;}
 
     public int getOnlinePlayersCounter() {
-        return onlinePlayersCounter;
+        synchronized ((Integer)this.onlinePlayersCounter) {
+            return onlinePlayersCounter;
+        }
     }
 
 }

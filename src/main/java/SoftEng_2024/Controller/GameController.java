@@ -335,8 +335,9 @@ public class GameController {
         }else{
             //if the game isn't in the connection state, the player will be set offline
             removedPlayer=playerIdMap.get(ID);
+            if(removedPlayer.getIsOnline())
+                game.setOnlinePlayersCounter(-1);
             removedPlayer.setOnline(false);
-            game.setOnlinePlayersCounter(-1);
             game.getAckIdBindingMap().remove(ID);
             game.getErrorMessageBindingMap().remove(ID);
             //if the game is in play state and the player disconnected during their turn and there's at least two players still online, set them to not playing and make
@@ -491,8 +492,9 @@ public class GameController {
         //places the starter card of the client calling the method
         try {
             Player player = playerIdMap.get(ID);
-            player.getHand().get(0).setFlipped(flipped);
-            player.getPlayerBoard().updateBoard(42, 42, player.getHand().remove(0));
+            player.getStarterCard().setFlipped(flipped);
+            player.getPlayerBoard().updateBoard(42, 42, player.getStarterCard());
+            player.setStarterCard(null);
             player.setPlayerState(GameState.SETCOLOR);
             if (player.getPlayerState().ordinal() >= game.getGameState().ordinal() & !player.getIsOnline()){
                 player.setOnline(true);
@@ -719,7 +721,7 @@ public class GameController {
     public void handOutStarterCards(){
         for(Player player: game.getPlayers()){
             //adding a starter card to the player's hand
-            player.addCard(game.getStarterDeck().poll());
+            player.setStarterCard((StarterCard) game.getStarterDeck().poll());
         }
     }
 

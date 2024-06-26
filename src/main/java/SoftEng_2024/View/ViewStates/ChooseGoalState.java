@@ -15,10 +15,10 @@ public class ChooseGoalState extends ViewState {
 
     @Override
     public synchronized void display() throws InterruptedException {
-
+        String indications="Type Choose Private Goal, Show Board, Chat or Quit";
         defaultCommand(GameState.SETCOLOR,"Waiting for all the players to choose a color");
         System.out.println("Now it's time to choose your private goal!");
-        System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+        System.out.println(indications);
         wait();
         //loops until the player chooses a command different from writeInChat
         while (!commandChosen) {
@@ -28,12 +28,17 @@ public class ChooseGoalState extends ViewState {
                         System.err.println("Goals are not already available, wait a few seconds and retry...");
                         view.setCommand("");
                         listenDefaultCommand(true);
-                        System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                        System.out.println(indications);
                         wait();
 
                     }else{
                         commandChosen = true;
                         choosePrivateGoal();
+                        if(!commandChosen) {
+                            listenDefaultCommand(true);
+                            System.out.println(indications);
+                            wait();
+                        }
                         view.setCommand("");
                     }
                     break;
@@ -41,7 +46,7 @@ public class ChooseGoalState extends ViewState {
                     writeInChat();
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
                 case "quit":
@@ -51,7 +56,7 @@ public class ChooseGoalState extends ViewState {
                     printPlayerBoard(false);
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
                 case "":
@@ -60,7 +65,7 @@ public class ChooseGoalState extends ViewState {
                     System.err.println("Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
-                    System.out.println("Type Choose Private Goal, Show Board, Chat or Quit");
+                    System.out.println(indications);
                     wait();
                     break;
             }

@@ -21,11 +21,10 @@ public class PlayState extends ViewState{
     @Override
     public synchronized void display() throws InterruptedException {
         System.out.println("It's your turn!");
-
+        String indications="Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and decks, Chat or Quit";
         if(view.getLocalModel().getPersonalHand().size() == 3) {
 //            Scanner scanner = new Scanner(System.in);
-            System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                    " decks, Chat or Quit");
+            System.out.println(indications);
             if(!defaultCommandChosen)
                 wait();
 //            String command = scanner.nextLine();
@@ -37,11 +36,15 @@ public class PlayState extends ViewState{
                         playCard();
                         view.setCommand("");
                         listenDefaultCommand(true);
+                        if(!commandChosen) {
+                            listenDefaultCommand(true);
+                            System.out.println(indications);
+                            wait();
+                        }
                         break;
                     case "chat":
                         writeInChat();
-                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                                " decks, Chat or Quit");
+                        System.out.println(indications);
                         view.setCommand("");
                         listenDefaultCommand(true);
                         wait();
@@ -50,14 +53,12 @@ public class PlayState extends ViewState{
                         printPlayerBoard(false);
                         view.setCommand("");
                         listenDefaultCommand(true);
-                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                                " decks, Chat or Quit");
+                        System.out.println(indications);
                         wait();
                         break;
                     case "showhand":
                         showHand();
-                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                                " decks, Chat or Quit");
+                        System.out.println(indications);
                         view.setCommand("");
                         listenDefaultCommand(true);
                         wait();
@@ -66,8 +67,7 @@ public class PlayState extends ViewState{
                         showDecksAndPublicCards();
                         view.setCommand("");
                         listenDefaultCommand(true);
-                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                                " decks, Chat or Quit");
+                        System.out.println(indications);
                         wait();
                         break;
                     case "quit":
@@ -77,8 +77,7 @@ public class PlayState extends ViewState{
                         break;
                     default:
                         System.err.println("Command not available... retry");
-                        System.out.println("Type Play Card to play a card, Show Board to see a player's board, Show Hand to see your hand, Show Playground to see public cards and" +
-                                " decks, Chat or Quit");
+                        System.out.println(indications);
                         view.setCommand("");
                         listenDefaultCommand(true);
                         wait();
