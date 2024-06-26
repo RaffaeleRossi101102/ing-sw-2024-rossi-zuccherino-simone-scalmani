@@ -335,11 +335,7 @@ public class MainViewController {
                 }
                 if(localModel.getQuitALL()){
                     Platform.runLater(()->{
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setHeaderText(null);
-                        alert.setContentText("SEI SOLO");
-                        alert.show();
+                        aloneInGameHandler();
                         localModel.setQuitAll(false);
                     });
                 }
@@ -968,11 +964,7 @@ public class MainViewController {
                                 }
                                 if(localModel.getQuitALL()){
                                     Platform.runLater(()->{
-                                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                                        alert.setTitle("ERROR");
-                                        alert.setHeaderText(null);
-                                        alert.setContentText("SEI SOLO");
-                                        alert.show();
+                                        aloneInGameHandler();
                                         localModel.setQuitAll(false);
                                     });
                                 }
@@ -1689,6 +1681,14 @@ public class MainViewController {
         alert.setTitle("REQUIRED RESOURCES ERROR");
         alert.setHeaderText(null);
         alert.setContentText("MORE RESOURCES NEEDED... CHOOSE ANOTHER CARD OR FLIP THIS ONE!!!!!");
+        alert.show();
+    }
+
+    private void aloneInGameHandler(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR");
+        alert.setHeaderText(null);
+        alert.setContentText("You are alone in the game, in 30 seconds you will be declared winner if no one rejoins!");
         alert.show();
     }
 
