@@ -61,6 +61,7 @@ public class MainViewController {
     private static ArrayList<String> boardNicknames = new ArrayList<>();
     private static Color color;
     private static ArrayDeque<String> chatMsg;
+    private Thread t1;
     @FXML
     private TextField textField, intField, messageField;
     @FXML
@@ -397,7 +398,7 @@ public class MainViewController {
     }
 
     public void switchToMainGame() throws IOException {
-        new Thread(() -> {
+        t1 = new Thread(() -> {
             while (true) {
                 Platform.runLater(() -> {
                     deck1 = (ImageView) scene.lookup("#deck1");
@@ -498,7 +499,8 @@ public class MainViewController {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();
+        });
+        t1.start();
         flipped1 = false;
         flipped2 = false;
         flipped3 = false;
@@ -572,7 +574,7 @@ public class MainViewController {
     }
 
     public void switchToReMainGame() throws IOException {
-        new Thread(() -> {
+        t1 = new Thread(() -> {
             while (true) {
                 Platform.runLater(() -> {
                     deck1 = (ImageView) scene.lookup("#deck1");
@@ -672,7 +674,8 @@ public class MainViewController {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();
+        });
+        t1.start();
         flipped1 = false;
         flipped2 = false;
         flipped3 = false;
@@ -746,6 +749,7 @@ public class MainViewController {
     }
 
     public void switchToPlayerEndGame() throws IOException {
+        t1.interrupt();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/PlayerEndGame.fxml")));
         scene = new Scene(root);
 
@@ -947,10 +951,14 @@ public class MainViewController {
                         new Thread(() -> {
                             while (!Thread.currentThread().isInterrupted()) {
                                 if (!localModel.getChat().isEmpty()) {
-                                    Platform.runLater(() -> {
-                                        chatMsg.add(localModel.getChat().element());
-                                        chatArea.appendText(localModel.getChat().poll() + "\n");
-                                    });
+                                    synchronized(localModel.getChat()) {
+                                        Platform.runLater(() -> {
+                                            if (!localModel.getChat().isEmpty()) {
+                                                chatMsg.add(localModel.getChat().element());
+                                                chatArea.appendText(localModel.getChat().poll() + "\n");
+                                            }
+                                        });
+                                    }
                                 }
                                 if (localModel.getChatError() != null) {
                                     chatMsg.add(localModel.getChatError());
