@@ -40,6 +40,8 @@ public class LocalModel {
     private volatile int numberOfMessages;
     private volatile int arrivedMessages;
     private String chatError;
+    private boolean quitAll;
+    private boolean lastManStanding;
 
     public LocalModel() {
         otherPlayersHand =new ConcurrentHashMap<>();
@@ -58,9 +60,20 @@ public class LocalModel {
         numberOfMessages=0;
         arrivedMessages=0;
         errorLog="";
+        quitAll=false;
+        lastManStanding=false;
     }
 
     //GETTERS******************************************************************
+
+    public boolean getLastManStanding() {
+        return lastManStanding;
+    }
+
+    public boolean getQuitALL(){
+        return quitAll;
+    }
+
     public GameState getState(){return gameState;}
 
     public ConcurrentHashMap<String, List<Card>> getOtherPlayersHand() {
@@ -131,6 +144,15 @@ public class LocalModel {
     }
 
     //SETTERS******************************************************************
+
+    public void setQuitAll(boolean quitAll){
+        this.quitAll = quitAll;
+    }
+
+    public void setLastManStanding(boolean lastManStanding){
+        this.lastManStanding = lastManStanding;
+    }
+
     public void setOtherPlayersHand(String playerNickname, List<Card> otherPlayersHand) {
         //System.out.println("in set other players hand"+playerNickname);
         if(this.otherPlayersHand.containsKey(playerNickname))
