@@ -59,7 +59,7 @@ public class Board {
      * @param whichAngle The angle index indicating the direction.
      */
     private void checkIfPlaceable(int r,int c, Card played, AngleIndexes whichAngle){
-        if(!cardBoard[r][c].getCellState().equals(CellState.NOTPLACEABLE))
+        if(cardBoard[r][c].getCellState().equals(CellState.BANNED))
             return;
         if(played.getFlipped() | !played.getFront().getFrontAngles()[AngleIndexes.getIndex(whichAngle)].equals(Angles.INVISIBLE)) {
             cardBoard[r][c].setCellState(CellState.PLACEABLE);
