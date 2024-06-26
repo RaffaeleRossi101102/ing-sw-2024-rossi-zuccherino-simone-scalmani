@@ -55,7 +55,7 @@ public class MainViewController {
     private static final String IMAGE_PATH_BACK = "/Cards/CODEX_cards_gold_back-%d.jpg";
     private double scale = 1.0;
     int playerCount = 0, choice = 0, handIndex, cardID, deckTopID;
-    private static int chosenBoard;
+    private static int chosenBoard, prevChosen;
     private static String nickname, destNickname;
     private ArrayList<String> destNicknames;
     private static ArrayList<String> boardNicknames = new ArrayList<>();
@@ -319,10 +319,14 @@ public class MainViewController {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (!localModel.getChat().isEmpty()) {
-                    Platform.runLater(() -> {
-                        chatMsg.add(localModel.getChat().element());
-                        chatArea.appendText(localModel.getChat().poll() + "\n");
-                    });
+                    synchronized(localModel.getChat()) {
+                        Platform.runLater(() -> {
+                            if (!localModel.getChat().isEmpty()) {
+                                chatMsg.add(localModel.getChat().element());
+                                chatArea.appendText(localModel.getChat().poll() + "\n");
+                            }
+                        });
+                    }
                 }
                 if (localModel.getChatError() != null) {
                     chatMsg.add(localModel.getChatError());
@@ -504,6 +508,8 @@ public class MainViewController {
         flipped1 = false;
         flipped2 = false;
         flipped3 = false;
+        rowIndex = -1;
+        columnIndex = -1;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/MainGame.fxml")));
         scene = new Scene(root);
         stage.setScene(scene);
@@ -679,6 +685,8 @@ public class MainViewController {
         flipped1 = false;
         flipped2 = false;
         flipped3 = false;
+        rowIndex = -1;
+        columnIndex = -1;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/MainGame.fxml")));
         scene = new Scene(root);
         stage.setScene(scene);
@@ -902,31 +910,39 @@ public class MainViewController {
     }
 
     public void confirmJoinGame(ActionEvent event) {
-        try {
-            assert client != null;
-            client.registerToServer(ID, client);
-            ViewMessage msg = new JoinGameMessage(nickname, ID);
-            client.update(msg);
-            while (!localModel.isAckReceived()) ;
-            if (localModel.isAckSuccessful()) {
-                switchToWaitingScreen(event);
-                inWaitingScreen(GameState.CONNECTION, false);
-            } else {
-                localModel.setAckReceived(false);
-                localModel.setAckSuccessful(false);
-                switchToMainMenu(event);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("JOIN GAME ERROR");
-                alert.setHeaderText(null);
-                alert.setContentText("You are trying to join with an existing nickname, or joining a non existent game, create one before!");
-                alert.show();
+        if(nickname != null) {
+            try {
+                assert client != null;
+                client.registerToServer(ID, client);
+                ViewMessage msg = new JoinGameMessage(nickname, ID);
+                client.update(msg);
+                while (!localModel.isAckReceived()) ;
+                if (localModel.isAckSuccessful()) {
+                    switchToWaitingScreen(event);
+                    inWaitingScreen(GameState.CONNECTION, false);
+                } else {
+                    localModel.setAckReceived(false);
+                    localModel.setAckSuccessful(false);
+                    switchToMainMenu(event);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("JOIN GAME ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You are trying to join with an existing nickname, or joining a non existent game, create one before!");
+                    alert.show();
+                }
+            } catch (RemoteException | NotBoundException e) {
+                serverWarningHandler();
+                System.exit(1);
+            } catch (IOException e) {
+                IOWarningHandler();
+                System.exit(1);
             }
-        } catch (RemoteException | NotBoundException e) {
-            serverWarningHandler();
-            System.exit(1);
-        } catch (IOException e) {
-            IOWarningHandler();
-            System.exit(1);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("CREATE SOME NULL!!!");
+            alert.show();
         }
     }
 
@@ -1021,76 +1037,86 @@ public class MainViewController {
 
     public void confirmPlayCard() {
         if (localModel.getPlayerState() == GameState.PLAY) {
-            if(handIndex == 0){
+            if (handIndex == 0) {
                 flipped = flipped1;
-                if(flipped1) flipped1 = false;
-            } else if (handIndex == 1){
+                if (flipped1) flipped1 = false;
+            } else if (handIndex == 1) {
                 flipped = flipped2;
-                if(flipped2) flipped2 = false;
-            } else if (handIndex == 2){
+                if (flipped2) flipped2 = false;
+            } else if (handIndex == 2) {
                 flipped = flipped3;
-                if(flipped3) flipped3 = false;
+                if (flipped3) flipped3 = false;
             }
             if (flipped || (!flipped && localModel.getPersonalHand().get(handIndex).getFront().checkRequiredResources(localModel.getPlayersBoards().get(nickname).getAnglesCounter(), localModel.getPersonalHand().get(handIndex)))) {
-                try {
-                    ImageView image = new ImageView();
-                    switch (handIndex) {
-                        case 0:
-                            if (!flipped) {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(0).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            } else {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(0).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            }
-                            break;
-                        case 1:
-                            if (!flipped) {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(1).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            } else {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(1).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            }
-                            break;
-                        case 2:
-                            if (!flipped) {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(2).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            } else {
-                                image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(2).getCardID())))));
-                                image.setFitWidth(155);
-                                image.setFitHeight(103);
-                            }
-                            break;
-                    }
-                    ViewMessage msg = new PlayCardMessage(handIndex, rowIndex, columnIndex, flipped, ID);
-                    client.update(msg);
-                    System.out.println("CARD SENT");
-                    switch (handIndex) {
-                        case 0:
-                            cardPane.add(image, columnIndex, rowIndex);
-                            hand1.setImage(null);
-                            break;
-                        case 1:
-                            cardPane.add(image, columnIndex, rowIndex);
-                            hand2.setImage(null);
-                            break;
-                        case 2:
-                            cardPane.add(image, columnIndex, rowIndex);
-                            hand3.setImage(null);
-                            break;
-                    }
-                    playBTN.setDisable(true);
-                    flipBTN.setDisable(true);
+                if (rowIndex == -1 || columnIndex == -1) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Chose a cell before play a card...");
+                    alert.show();
+                } else {
+                    try {
+                        ImageView image = new ImageView();
+                        switch (handIndex) {
+                            case 0:
+                                if (!flipped) {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(0).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                } else {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(0).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                }
+                                break;
+                            case 1:
+                                if (!flipped) {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(1).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                } else {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(1).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                }
+                                break;
+                            case 2:
+                                if (!flipped) {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(2).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                } else {
+                                    image.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(2).getCardID())))));
+                                    image.setFitWidth(155);
+                                    image.setFitHeight(103);
+                                }
+                                break;
+                        }
+                        ViewMessage msg = new PlayCardMessage(handIndex, rowIndex, columnIndex, flipped, ID);
+                        client.update(msg);
+                        System.out.println("CARD SENT");
+                        switch (handIndex) {
+                            case 0:
+                                cardPane.add(image, columnIndex, rowIndex);
+                                hand1.setImage(null);
+                                break;
+                            case 1:
+                                cardPane.add(image, columnIndex, rowIndex);
+                                hand2.setImage(null);
+                                break;
+                            case 2:
+                                cardPane.add(image, columnIndex, rowIndex);
+                                hand3.setImage(null);
+                                break;
+                        }
+                        playBTN.setDisable(true);
+                        flipBTN.setDisable(true);
+                        rowIndex = -1;
+                        columnIndex = -1;
 
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } else {
                 requiredResourcesHandler();
@@ -1240,6 +1266,8 @@ public class MainViewController {
                 alert.setHeaderText(null);
                 alert.setContentText("CELL NOT AVAILABLE...CHOOSE ANOTHER ONE !!!!!");
                 alert.show();
+                columnIndex = -1;
+                rowIndex = -1;
             }
         }
     }
@@ -1705,12 +1733,16 @@ public class MainViewController {
         if (clickedName == showBoard1) {
             chosenBoard = 0;
             if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
         } else if (clickedName == showBoard2) {
             chosenBoard = 1;
             if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
         } else if (clickedName == showBoard3) {
             chosenBoard = 2;
             if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
         }
+        prevChosen = chosenBoard;
     }
 }
