@@ -485,6 +485,8 @@ public class MainViewController {
                             }
                         }
                     }
+                    playerScore = (Label) scene.getRoot().lookup("#playerScore");
+                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 });
 
                 if (localModel.getPlayerState() == GameState.ENDGAME) {
@@ -662,6 +664,8 @@ public class MainViewController {
                             }
                         }
                     }
+                    playerScore = (Label) scene.getRoot().lookup("#playerScore");
+                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 });
 
                 if (localModel.getPlayerState() == GameState.ENDGAME) {
@@ -1379,7 +1383,6 @@ public class MainViewController {
             if (localModel.getPlayerState() == GameState.PLAY) {
                 deck = 0;
                 ViewMessage msg = new DrawFromTheDeckMessage(deck, ID);
-                playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 try {
                     client.update(msg);
                 } catch (RemoteException e) {
@@ -1405,7 +1408,6 @@ public class MainViewController {
             if (localModel.getPlayerState() == GameState.PLAY) {
                 deck = 1;
                 ViewMessage msg = new DrawFromTheDeckMessage(deck, ID);
-                playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 try {
                     client.update(msg);
                 } catch (RemoteException e) {
@@ -1432,7 +1434,6 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(0) != null) {
                     publicCard = 0;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
-                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -1467,7 +1468,6 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(1) != null) {
                     publicCard = 1;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
-                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -1502,7 +1502,6 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(2) != null) {
                     publicCard = 2;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
-                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
@@ -1537,7 +1536,6 @@ public class MainViewController {
                 if (localModel.getPublicCards().get(3) != null) {
                     publicCard = 3;
                     ViewMessage msg = new DrawFromPublicCardsMessage(publicCard, ID);
-                    playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                     try {
                         client.update(msg);
                     } catch (RemoteException e) {
