@@ -7,16 +7,30 @@ import SoftEng_2024.View.ViewMessages.ViewMessage;
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Manages network communication and synchronization between the game controller and views.
+ */
 public class NetworkManager {
+
     private final GameController controller;
     private LinkedBlockingQueue<ViewMessage> viewMessages;
 
+    /**
+     * Constructs a NetworkManager object.
+     *
+     * @param controller The GameController instance managing the game state.
+     */
     public NetworkManager(GameController controller){
         this.controller = controller;
         this.viewMessages = new LinkedBlockingQueue<>();
     }
 
-
+    /**
+     * Runs the network manager, processing messages and synchronizing game state.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     * @throws IOException          If there is an I/O related exception.
+     */
     public synchronized void run() throws InterruptedException, IOException {
         System.out.println("Executing messages from the queue");
         controller.setNetworkManager(this);
@@ -71,6 +85,11 @@ public class NetworkManager {
 
     }
 
+    /**
+     * Processes messages from the view messages queue in a separate thread.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     */
     private void pollThreaded() throws InterruptedException {
         if (viewMessages.isEmpty()) {
             this.wait();
@@ -87,11 +106,19 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Adds a view message to the manager's queue and wakes up the manager if it is waiting.
+     *
+     * @param msg The view message to add to the queue.
+     */
     public synchronized void addViewMessages(ViewMessage msg) {
         viewMessages.add(msg);
         notifyAll();
     }
 
+    /**
+     * Wakes up the network manager thread if it is waiting.
+     */
     public synchronized void wakeUpManager(){
         notifyAll();
     }

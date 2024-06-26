@@ -7,6 +7,10 @@ import SoftEng_2024.Model.Fronts.Front;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * Abstract class representing a card in the game. A card has a front, can be flipped,
+ * and contains resources represented by angles. Each card has a unique identifier.
+ */
 public abstract class Card implements Serializable {
     private Front front;
     private boolean flipped;
@@ -14,6 +18,14 @@ public abstract class Card implements Serializable {
     private int cardID;
 
     //METHODS
+    /**
+     * Constructs a Card with the specified front, flipped state, resources, and ID.
+     *
+     * @param front    the front of the card
+     * @param flipped  whether the card is flipped
+     * @param resource the resources on the angles and at the center on the back of the card
+     * @param cardID   the unique identifier for the card
+     */
     public Card(Front front, boolean flipped, Angles[] resource, int cardID) {
         this.front = front;
         this.flipped = flipped;
@@ -21,23 +33,50 @@ public abstract class Card implements Serializable {
         this.cardID = cardID;
     }
     //GETTERS
+    /**
+     * Gets the unique identifier for the card.
+     *
+     * @return the card's unique identifier
+     */
     public int getCardID(){
         return cardID;
     }
 
+    /**
+     * Gets the flipped state of the card.
+     *
+     * @return true if the card is flipped, false otherwise
+     */
     public boolean getFlipped() {
         return flipped;
     }
 
+    /**
+     * Gets the front of the card.
+     *
+     * @return the front of the card
+     */
     public Front getFront() {
         return front;
     }
 
+    /**
+     * Gets the resources on the back of the card.
+     *
+     * @return an array of angles representing the resources on the back of the card
+     */
     public Angles[] getCardBackAnglesType(){
         return resource;
     }
     //Method that counts the number of resources or objects that are in the card's angles.
     // This specific implementation is for Resource and Object card. Starter cards will have to Override.
+    /**
+     * Counts the number of resources or objects in the card's angles.
+     * This specific implementation is for Resource and Object cards.
+     * Starter cards will have to override this method.
+     *
+     * @return an array where each index represents the count of a specific resource or object
+     */
     public int[] getSumResources(){
         //initializing the array with all 0 values, since it still has to begin counting.
         //Its dimension is 7 since we have 4 resources and 3 objects
@@ -75,16 +114,38 @@ public abstract class Card implements Serializable {
         return res;
     }
 
+    /**
+     * Sets the flipped state of the card.
+     *
+     * @param flipped the new flipped state
+     */
     public void setFlipped(boolean flipped) {
         this.flipped = flipped;
     }
 
+    /**
+     * Abstract method to get a printable string representation of the card.
+     *
+     * @return a string representation of the card
+     */
     abstract public String getPrintableCardString();
+
+    /**
+     * Clones the resources on the back of the card.
+     *
+     * @return a cloned array of the resources on the back of the card
+     */
     public Angles[] cloneBackResources(){
         Angles[] clone= new Angles[resource.length];
         System.arraycopy(resource, 0, clone, 0, resource.length);
         return clone;
     }
+
+    /**
+     * Displays the card in a graphical format as an array of strings.
+     *
+     * @return an array of strings representing the graphical display of the card
+     */
     public String[] displayGraphicCard(){
         String[] graphicCard = new String[3];
         char ULangle='█';

@@ -7,12 +7,27 @@ import SoftEng_2024.View.ViewMessages.ChoosePrivateGoalMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.util.Scanner;
-
+/**
+ * Represents the state where a player chooses their private goal in the game.
+ * Extends {@link ViewState}.
+ */
 public class ChooseGoalState extends ViewState {
+    /**
+     * Constructs a ChooseGoalState instance with the specified view, client interface, and player ID.
+     *
+     * @param view   The CLI view client managing the state transitions.
+     * @param client The client interface used for communication with the game server.
+     * @param ID     The ID of the player associated with this state.
+     */
     public ChooseGoalState(CliViewClient view, ClientInterface client, double ID){
         super(view,client,ID);
     }
-
+    /**
+     * Displays the state's options and handles user input for choosing a private goal.
+     * Waits for user input and processes commands until a valid choice is made.
+     *
+     * @throws InterruptedException If interrupted while waiting for user input.
+     */
     @Override
     public synchronized void display() throws InterruptedException {
         String indications="Type Choose Private Goal, Show Board, Chat or Quit";
@@ -76,7 +91,9 @@ public class ChooseGoalState extends ViewState {
         this.view.getWaitingState().setPreviousState(this);
         this.view.getWaitingState().setNextState(new ReadyToStartState(view,client, ID));
     }
-
+    /**
+     * Handles the process of choosing a private goal by displaying options and updating the client.
+     */
     private void choosePrivateGoal() {
         System.out.println("Inside choose private goal...");
         Scanner scanner = new Scanner(System.in);

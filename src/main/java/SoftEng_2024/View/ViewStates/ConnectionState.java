@@ -7,13 +7,25 @@ import SoftEng_2024.View.ViewMessages.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
+/**
+ * Represents the initial state where a player can create a game, join an existing game, or rejoin a previous game.
+ * Extends {@link ViewState}.
+ */
 public class ConnectionState extends ViewState {
-
+    /**
+     * Constructs a ConnectionState instance with the specified CLI view client, client interface, and player ID.
+     *
+     * @param view   The CLI view client managing the state transitions.
+     * @param client The client interface used for communication with the game server.
+     * @param ID     The ID of the player associated with this state.
+     */
     public ConnectionState(CliViewClient view, ClientInterface client, double ID) {
         super(view,client,ID);
     }
-
+    /**
+     * Displays the options for creating a game, joining a game, or rejoining a game.
+     * Waits for user input and processes commands until a valid command is chosen.
+     */
     @Override
     public void display() {
         ViewState nextState=new StarterState(view,client,ID);
@@ -53,6 +65,10 @@ public class ConnectionState extends ViewState {
         view.getWaitingState().setPreviousState(new ConnectionState(this.view,this.client,this.ID));
         view.getWaitingState().setNextState(nextState);
     }
+    /**
+     * Handles the process of creating a new game.
+     * Prompts the user for nickname and maximum players, then sends a message to update the client.
+     */
     private void createGame() {
         System.out.println("Inside create game command...");
 
@@ -82,7 +98,13 @@ public class ConnectionState extends ViewState {
         updateClient(msg);
 
     }
-
+    /**
+     * Prompts the user to enter the maximum number of players for the game.
+     * Validates the input and returns the number of players chosen.
+     *
+     * @param input The scanner object to read user input.
+     * @return The maximum number of players chosen, or -1 if the operation is canceled.
+     */
     private int askMaxPlayers(Scanner input) {
         System.out.println("Insert how many players the game will have, or type 'exit' to cancel");
         String maxPlayers = input.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
@@ -99,7 +121,12 @@ public class ConnectionState extends ViewState {
 
         return Integer.parseInt(maxPlayers);
     }
-
+    /**
+     * Prompts the user to enter a nickname for joining or rejoining the game.
+     *
+     * @param input The scanner object to read user input.
+     * @return The nickname entered by the user.
+     */
     private String askNickname(Scanner input){
         String nickname;
         System.out.println("Type your nickname (max 20 char), or type 'exit' to cancel");
@@ -111,7 +138,10 @@ public class ConnectionState extends ViewState {
         System.out.println("Got it :)");
         return nickname;
     }
-
+    /**
+     * Handles the process of joining an existing game.
+     * Prompts the user for nickname and sends a message to update the client.
+     */
     private void join() {
         System.out.println("Inside join command...");
 
@@ -135,6 +165,10 @@ public class ConnectionState extends ViewState {
         ViewMessage msg= new JoinGameMessage(nickname,this.ID);
         updateClient(msg);
     }
+    /**
+     * Handles the process of rejoining a previous game.
+     * Prompts the user for nickname and sends a message to update the client.
+     */
     private void reJoin(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type the nickname you chose when you first connected (max 20 char), or type 'exit' to cancel");

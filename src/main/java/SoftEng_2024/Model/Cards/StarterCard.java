@@ -5,17 +5,39 @@ import SoftEng_2024.Model.Fronts.Front;
 
 import java.io.Serializable;
 
+/**
+ * Represents a Starter Card in the game. A Starter Card is a type of card that
+ * can be played on its front or back at the start of the game.
+ */
 public class StarterCard extends Card {
 
     //private ResourceFront front;
 
     //CONSTRUCTOR
+    /**
+     * Constructs a StarterCard with the specified front, flipped state, resources, and ID.
+     *
+     * @param front    the front of the card
+     * @param flipped  whether the card is flipped
+     * @param resource the resources on the card's angles and at the center on the back of the card
+     * @param cardID   the unique identifier for the card
+     */
     public StarterCard(Front front, Boolean flipped, Angles[] resource, int cardID) {
         super(front, flipped, resource,cardID);
     }
 
     //overriding superclass' method
 
+    /**
+     * Overrides the superclass method to count the resources in the card's angles.
+     * This implementation accounts for the specific behavior of a Starter Card.
+     *
+     * <p>The method initializes an array to hold the count of each type of resource or object.
+     * If the card is played on its back (flipped), it counts the resources from the back angles.
+     * If the card is played on its front, it counts the resources from the front angles.</p>
+     *
+     * @return an array where each index represents the count of a specific resource or object
+     */
     @Override
     public int[] getSumResources() {
         //initializing the array that will be returned and the index variable
@@ -44,38 +66,25 @@ public class StarterCard extends Card {
         }
         return res;
     }
+
+    /**
+     * Provides a printable string representation of the Starter Card.
+     * This method exists because StarterCard, inheriting from Card, must override this method.
+     * However, it is not necessary for this implementation to return anything meaningful,
+     * so it returns an empty string.
+     *
+     * @return an empty string
+     */
     @Override
     public String getPrintableCardString(){
-        String printableCardString="";
-
-//        if (flipped){
-//            printableCardString = String.format("starter card on its back with these type of angles:\n" +
-//                            "%s %s %s %s \n" +
-//                            "and nothing in the center",
-//                    this.getCardBackAnglesType()[0],
-//                    this.getCardBackAnglesType()[1],
-//                    this.getCardBackAnglesType()[2],
-//                    this.getCardBackAnglesType()[3]);
-//
-//        }else{
-//            printableCardString = String.format("starter card on its front with these type of angles:%s %s %s %s\n" +
-//                            "and these resources in the center:\n" +
-//                            "%s %s %s",
-//                    this.getFront().getFrontAngles()[0],
-//                    this.getFront().getFrontAngles()[1],
-//                    this.getFront().getFrontAngles()[2],
-//                    this.getFront().getFrontAngles()[3],
-//                    this.getFront().getFrontAngles()[4],
-//                    this.getFront().getFrontAngles()[5],
-//                    this.getFront().getFrontAngles()[6]);
-//        }
-//
-//
-
-
-        return printableCardString;
+        return "";
     }
 
+    /**
+     * Displays the Starter Card in a graphical format as an array of strings.
+     *
+     * @return an array of strings representing the graphical display of the card
+     */
     @Override
     public String[] displayGraphicCard() {
         String[] graphicCard = new String[3];

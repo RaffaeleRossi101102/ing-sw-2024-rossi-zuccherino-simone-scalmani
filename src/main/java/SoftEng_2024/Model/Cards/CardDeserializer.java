@@ -11,6 +11,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.*;
 
+/**
+ * Utility class for deserializing card objects from JSON files.
+ * This class contains methods to deserialize Resource, Gold, and Starter cards
+ * from their respective JSON files and populate the provided card decks.
+ */
 public class CardDeserializer {
 
     // USED FOR DEBUGGING - Main method to run the deserializers - decks of cards are instantiated inside the main method and then passed to the corresponding deserialization function
@@ -24,6 +29,13 @@ public class CardDeserializer {
     // resourceCardsInfoArray variable - repeat the process for both the gold and starter cards, paying attention to modify
     // the corresponding .json files according to how the support card classes are made. Comments included for the resource
     // deserializer, as the workflow is identical for the most part between the three methods.
+    /**
+     * Deserializes Resource cards from a JSON file and populates the given deck.
+     * The method reads the JSON file, extracts the necessary information, and
+     * creates ResourceCard objects to add to the deck.
+     *
+     * @param resourceDeck the deck to populate with Resource cards
+     */
     public static void resourceCardDeserialize(List<Card> resourceDeck) {
 
         // Adding a new gson instance
@@ -55,6 +67,13 @@ public class CardDeserializer {
     }
 
     // Separate method for deserializing gold cards, from a different .json file
+    /**
+     * Deserializes Gold cards from a JSON file and populates the given deck.
+     * The method reads the JSON file, extracts the necessary information, and
+     * creates GoldCard objects to add to the deck.
+     *
+     * @param goldDeck the deck to populate with Gold cards
+     */
     public static void goldCardDeserialize(List<Card> goldDeck) {
 
         // Adding a new gson instance
@@ -91,6 +110,13 @@ public class CardDeserializer {
         }
     }
 
+    /**
+     * Deserializes Starter cards from a JSON file and populates the given deck.
+     * The method reads the JSON file, extracts the necessary information, and
+     * creates StarterCard objects to add to the deck.
+     *
+     * @param starterDeck the deck to populate with Starter cards
+     */
     public static void starterCardDeserialize(List<Card> starterDeck) {
 
         // Adding a new gson instance

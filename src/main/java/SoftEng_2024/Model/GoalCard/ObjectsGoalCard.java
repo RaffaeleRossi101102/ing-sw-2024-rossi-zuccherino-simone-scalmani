@@ -4,15 +4,35 @@ import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Enums.Angles;
 
 // Classe che rappresenta le carte con il Goal delle coppie di un tipo di oggetto e delle triplette di oggetti differenti
+/**
+ * Represents goal cards that involve counting pairs or triplets of specific objects (Angles) on the player's board.
+ * Extends the {@link GoalCard} abstract class.
+ */
 public class ObjectsGoalCard extends GoalCard {
     // Array di oggetti nel Goal
     private final Angles[] objects;
     // Costruttore
+    /**
+     * Constructs an ObjectsGoalCard with specified objects, points, goal type, and card ID.
+     *
+     * @param objects  The array of objects (Angles) involved in the goal.
+     * @param points   The points awarded for achieving this goal.
+     * @param goaltype The type of goal this card represents.
+     * @param cardID   The unique identifier for this card.
+     */
     public ObjectsGoalCard(Angles[] objects, int points, String goaltype, int cardID){
         super(points, goaltype, cardID);
         this.objects=objects;
     }
 
+    /**
+     * Calculates the score based on the number of pairs or triplets of specific objects (Angles) present on the player's board.
+     * For pairs, it counts the number of complete pairs of the same object.
+     * For triplets, it counts the number of complete triplets of different objects.
+     *
+     * @param playerBoard The player's board containing cards and cells.
+     * @return The calculated score based on the specific criteria of the goal card.
+     */
     @Override
     public int calcScore(Board playerBoard) {
         // Inizializzo il risultato a 0 per evitare aggiunta di punti in caso di errore nella chiamata o nel metodo

@@ -9,15 +9,30 @@ import SoftEng_2024.View.ViewMessages.ViewMessage;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**
+ * Represents the state where a player can choose to draw a card from either the public cards or one of the decks.
+ * Extends {@link ViewState}.
+ */
 public class DrawState extends ViewState{
 
 
     private ViewState nextState;
+    /**
+     * Constructs a DrawState instance with the specified CLI view client, client interface, and player ID.
+     *
+     * @param view   The CLI view client managing the state transitions.
+     * @param client The client interface used for communication with the game server.
+     * @param ID     The ID of the player associated with this state.
+     */
     public DrawState(CliViewClient view, ClientInterface client, double ID) {
         super(view,client,ID);
     }
-
+    /**
+     * Displays the options for drawing a card from the public cards or the decks.
+     * Waits for user input and processes commands until a valid command is chosen.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting for input.
+     */
     @Override
     public synchronized void display() throws InterruptedException {
         if(view.getLocalModel().getState().equals(GameState.ENDGAME)){
@@ -95,11 +110,18 @@ public class DrawState extends ViewState{
             this.view.getWaitingState().setNextState(nextState);
         }
     }
-
+    /**
+     * Sets the next state after this state.
+     *
+     * @param nextState The next state to be set.
+     */
     public void setNextState(ViewState nextState) {
         this.nextState = nextState;
     }
-
+    /**
+     * Handles the process of drawing a card from one of the decks (gold or resources).
+     * Prompts the user for the deck choice and sends a message to update the client.
+     */
     private void drawFromTheDeck(){
         Scanner input = new Scanner(System.in);
         String deck;
@@ -121,7 +143,10 @@ public class DrawState extends ViewState{
         updateClient(msg);
 
     }
-
+    /**
+     * Handles the process of drawing a card from the public cards.
+     * Prompts the user for the card choice and sends a message to update the client.
+     */
     private void drawPublicCard(){
         Scanner input=new Scanner(System.in);
         String answer;

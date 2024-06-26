@@ -7,10 +7,23 @@ import javafx.application.Application;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
+/**
+ * The main entry point for the Codex Naturalis game application. This class
+ * allows users to choose the type of connection (RMI or Socket) and the type
+ * of view (CLI or GUI) they want to use. It initializes the appropriate client
+ * based on user input and starts the corresponding view.
+ */
 public class MainView {
 
-
+    /**
+     * Main method that initializes and starts the Codex Naturalis game application.
+     *
+     * @param args Command-line arguments:
+     *             args[0] - Unused.
+     *             args[1] - IP address for the connection.
+     *             args[2] - Optional: port number for the connection.
+     * @throws RemoteException If an error occurs during RMI connection setup.
+     */
     public static void main(String[] args) throws RemoteException {
         System.out.println("\n" +
                 " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +

@@ -7,17 +7,32 @@ import SoftEng_2024.View.ViewMessages.PlayCardMessage;
 import SoftEng_2024.View.ViewMessages.ViewMessage;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**
+ * PlayState represents the state where a player can interactively play their turn in the game.
+ * It allows the player to perform actions such as playing a card, viewing boards and hands,
+ * chatting, and quitting the game.
+ */
 public class PlayState extends ViewState{
 
 
 
     private ViewState nextState;
-
+    /**
+     * Constructs a PlayState object.
+     *
+     * @param view   The CliViewClient associated with this state.
+     * @param client The ClientInterface through which interactions with the game server occur.
+     * @param ID     The unique identifier of the player in the game.
+     */
     public PlayState(CliViewClient view, ClientInterface client, double ID){
         super(view,client,ID);
     }
-
+    /**
+     * Displays the play state, allowing the player to interact with the game by choosing actions
+     * such as playing a card, viewing boards and hands, chatting, or quitting.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting for user input.
+     */
     @Override
     public synchronized void display() throws InterruptedException {
         System.out.println("It's your turn!");
@@ -99,11 +114,19 @@ public class PlayState extends ViewState{
 
         }
     }
-
+    /**
+     * Sets the next state of this PlayState.
+     *
+     * @param nextState The next state to set.
+     */
     public void setNextState(ViewState nextState) {
         this.nextState = nextState;
     }
-
+    /**
+     * Allows the player to play a card by interacting with the console input.
+     * Collects card index, target row and column, and whether the card is flipped or not,
+     * then sends a PlayCardMessage to update the game state.
+     */
     private void playCard(){
         Scanner input = new Scanner(System.in);
         int card;

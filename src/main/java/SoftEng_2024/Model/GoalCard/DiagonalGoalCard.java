@@ -7,18 +7,37 @@ import SoftEng_2024.Model.Enums.Angles;
 
 import java.util.List;
 
-
+/**
+ * Represents a diagonal goal card in the game. Extends {@link GoalCard}.
+ * Calculates the score based on diagonal alignments of specific resources on the player's board.
+ */
 public class DiagonalGoalCard extends GoalCard {
 
     private final Angles resource;
     private boolean tiltedForward;
 
+    /**
+     * Constructs a DiagonalGoalCard with specified resource, points, tilt direction, goal type, and card ID.
+     *
+     * @param resource      The specific resource (Angle) this goal card targets.
+     * @param points        The points awarded for achieving this goal.
+     * @param tiltedForward Whether the diagonal is tilted forward or backward.
+     * @param goaltype      The type of goal this card represents.
+     * @param cardID        The unique identifier for this card.
+     */
     public DiagonalGoalCard(Angles resource, int points, boolean tiltedForward, String goaltype, int cardID) {
         super(points, goaltype, cardID);
         this.resource=resource;
         this.tiltedForward = tiltedForward;
     }
 
+    /**
+     * Calculates the score for achieving the diagonal goal on the player's board.
+     * Scores based on consecutive alignment of the specified resource in a diagonal direction.
+     *
+     * @param playerBoard The player's board containing cards and cells.
+     * @return The calculated score based on diagonal alignments of the specified resource.
+     */
     @Override
     public int calcScore(Board playerBoard) {
 

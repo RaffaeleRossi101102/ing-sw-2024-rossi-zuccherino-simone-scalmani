@@ -12,7 +12,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Represents a client using RMI (Remote Method Invocation) to communicate with a server.
+ * Implements the {@link ClientInterface} interface.
+ */
 public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
+
     private View view;
     private ServerInterface server;
     public volatile LinkedBlockingQueue<ModelMessage> modelQueue;
@@ -20,6 +25,14 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
     private final String ip;
     private final int port;
 
+    /**
+     * Constructs a new ClientRMI object.
+     *
+     * @param ID   The unique identifier for the client.
+     * @param ip   The IP address of the RMI server.
+     * @param port The port number for RMI communication.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     public ClientRMI(double ID ,String ip, int port) throws RemoteException {
         this.modelQueue=new LinkedBlockingQueue<>();
         this.ID = ID;
@@ -27,6 +40,11 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         this.port=port;
     }
 
+    /**
+     * Runs the client's execution logic, continuously processing messages from the model queue.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     */
     public synchronized void run() throws InterruptedException {
         while(true){
             //se andasse in wait anche se non ha la coda vuota???
@@ -39,17 +57,36 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
             }
         }
     }
+
+    /**
+     * Updates the client's view with the provided message.
+     *
+     * @param msg The message containing information to update the view.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public  void update(ViewMessage msg) throws RemoteException {
         server.addToNetworkManager(msg);
 
     }
 
+    /**
+     * Signals the server that the client wishes to quit.
+     *
+     * @param msg The message indicating the reason for quitting.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public void quit(ViewMessage msg) throws RemoteException {
 
     }
 
+    /**
+     * Adds a model message to the client's view queue.
+     *
+     * @param msg The model message to be added to the client's view queue.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
         //System.err.println("sto aggiungendo il messaggio: "+msg);
@@ -57,6 +94,14 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         notifyAll();
     }
 
+    /**
+     * Registers the client to the server with a unique ID.
+     *
+     * @param ID     The unique identifier for the client.
+     * @param client The client interface instance to register with the server.
+     * @throws RemoteException   If there is an RMI-related exception.
+     * @throws NotBoundException If the server is not bound to this client.
+     */
     public void registerToServer(double ID, ClientInterface client) throws RemoteException, NotBoundException {
         //lookup on the registry
         Registry registry = LocateRegistry.getRegistry(ip, port);
@@ -64,28 +109,23 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
         server.registerClient(ID, client);
     }
 
-//    private void pollThreaded()  {
-//        Thread t = new Thread(() -> {
-//            try {
-//                System.out.println(modelQueue.peek());
-//                //System.out.println("sto per eseguire il messaggio diocane" + modelQueue.take());
-//
-//                System.out.println("Ho eseguito il messaggio");
-//            } catch (InterruptedException e) {
-//                System.err.println("Something went wrong while executing the messages");
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        t.start();
-//    }
 
+    /**
+     * Pings the server to confirm connectivity.
+     *
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public void pong() throws RemoteException{
     }
 
 
 
-
+    /**
+     * Sets the view associated with the client.
+     *
+     * @param view The view object to associate with the client.
+     */
     public void setView(View view) {
         this.view = view;
     }
