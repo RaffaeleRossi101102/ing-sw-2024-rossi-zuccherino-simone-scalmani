@@ -139,7 +139,6 @@ public class Board {
         for(int i=0;i<7;i++){
             this.anglesCounter[i] += count[i];
         }
-        System.out.println(Arrays.toString(playedCard.getFront().getCovered()));
         return counter;
     }
 

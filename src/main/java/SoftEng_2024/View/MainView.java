@@ -12,6 +12,32 @@ public class MainView {
 
 
     public static void main(String[] args) throws RemoteException {
+        String ip="localhost";
+        String socketPort="4567";
+        String rmiPort="9999";
+        if(args.length%2==0){
+            System.out.println("Wrong command line arguments. If you want to set the server ip digit <--ip 'ipAddress'>. If the servers weren't started" +
+                    " on the default ports make sure you've set them. Digit <--s 'port'> to set the socket port and/or <--rmi 'port'> to set the rmi port." +
+                    "If you don't set the ports the corresponding server will start on the default port.");
+            return;
+        }
+        for(int i=1; i< args.length;i+=2){
+            if(args[i].equals("--ip"))
+                ip=args[i+1];
+            else if (args[i].equals("--rmi")) {
+                rmiPort=args[i+1];
+            } else if (args[i].equals("--s")) {
+                socketPort=args[i+1];
+            }
+            else{
+                System.out.println("Wrong command line arguments. If you want to set the server ip digit <--ip 'ipAddress'>. If the servers weren't started" +
+                        " on the default ports make sure you've set them. Digit <--s 'port'> to set the socket port and/or <--rmi 'port'> to set the rmi port." +
+                        "If you don't set the ports the corresponding server will start on the default port.");
+            }
+        }
+        System.out.println("The selected ip address for the server is: "+ip+"\nThe selected socket port is: "+socketPort+
+                "\nThe selected RMI port is: "+rmiPort);
+
         System.out.println("\n" +
                 " ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗    ███╗   ██╗ █████╗ ████████╗██╗   ██╗██████╗  █████╗ ██╗     ██╗███████╗\n" +
                 "██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝    ████╗  ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔══██╗██║     ██║██╔════╝\n" +
@@ -21,8 +47,6 @@ public class MainView {
                 " ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝\n");
         //creating a random ID based on currentTimeMillis() method
         double ID = System.currentTimeMillis();
-        String ip;
-        int port = 0;
         System.out.println("Welcome to CODEX NATURALIS!");
         //Ask user which type of connection he wants to use
         System.out.println("Choose your type of connection, type: 'RMI' or 'Socket' ");
@@ -47,27 +71,16 @@ public class MainView {
 
 
         ClientInterface client;
-        ip=args[1];
-
         if(connectionType.equals("rmi")){
             try {
-                if(args.length==3){
-                    port=Integer.parseInt(args[2]);
-                }
-                else
-                    port=9999;
-                 client = new ClientRMI(ID,ip,port);
+                 client = new ClientRMI(ID,ip,Integer.parseInt(rmiPort));
             } catch (RemoteException e) {
                 throw new RuntimeException("Something went wrong while trying to create the client...");
             }
         } else {
-            if(args.length==3){
-               client=new SocketClient(ip,Integer.parseInt(args[2]),ID);
-            }
-            else
-                client=new SocketClient(ip,4567,ID);
+               client=new SocketClient(ip,Integer.parseInt(socketPort),ID);
         }
-        System.out.println(ip+port);
+
         if(viewType.equals("cli")) {
             CliViewClient cliView = new CliViewClient(ID, client);
             client.setView(cliView);

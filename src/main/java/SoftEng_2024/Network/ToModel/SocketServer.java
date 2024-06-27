@@ -23,7 +23,7 @@ public class SocketServer{
     public void startServer(SocketServer server) throws IOException {
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("SERVER STARTED AT PORT:" + port);
+            System.out.println("Socket Server started on port " + port);
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();

@@ -289,46 +289,6 @@ public class Game {
         if(!player.equals(currentPlayer)) result=-3;
         return result;
     }
-    //RICORDA L'ECCEZIONE PER PLAYER NON CORRETTO, GIà PESCATO/GIOCATO E CARTE FINITE
-//    public int drawPublicCards(Player player, int index){
-//        //draw =false
-//        int result=0;
-//        //se il giocatore non ha già pescato la carta ed è quello giusto,
-//        if (player.equals(currentPlayer) && draw){
-//            //se le carte pubbliche non sono finite
-//            if(!publicCards.isEmpty()) {
-//                //e la carta che voglio pescare c'è
-//                if(publicCards.get(index)!=null) {
-//                    player.addCard(publicCards.get(index));
-//                    draw = false;
-//                    //tutto liscio
-//                    result = 1;
-//                    //rimpiazza lo spazio della carta pescata con una carta del deck se il deck non è vuoto
-//                    //risorsa
-//                    if(index<2){
-//                        if(!resourceDeck.isEmpty())
-//                            publicCards.set(index, resourceDeck.poll());
-//                        else
-//                            publicCards.set(index,null);
-//                    }
-//                    else{
-//                        if(!goldDeck.isEmpty())
-//                            publicCards.set(index, goldDeck.poll());
-//                        else
-//                            publicCards.set(index,null);
-//                    }
-//                    gameObserver.updatedPublicCards(player.getNickname(), index);
-//                }
-//                else{
-//                    result=-3;
-//                }
-//            }else {
-//                result = -1;
-//            }
-//        }
-//        if(!player.equals(currentPlayer)) result=-2;
-//        return result;
-//    }
 
     public int drawPublicCards(Player player, int index) {
         //checks if the player is allowed to draw a card

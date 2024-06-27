@@ -23,26 +23,52 @@ public class ServerMain {
         GameController controller= new GameController();
 
         NetworkManager managerToModel= new NetworkManager(controller);
-        ServerInterface engineRMI;
+        ServerInterface engineRMI = null;
 
-        SocketServer serverSocket;
-        if(args.length==3){
-            engineRMI = new RMIServer(managerToModel,Integer.parseInt(args[2]));
-            serverSocket = new SocketServer(Integer.parseInt(args[1]), managerToModel);
+        SocketServer serverSocket = null;
+        if(args.length%2==0) {
+            System.out.println("Please insert both which server you want to set the port on and the port. Digit <--s port>, <--rmi port> or both. If nothing is set" +
+                    " the server will start on the default ports");
+            return;
         }
-        else if(args.length==2) {
-            serverSocket = new SocketServer(Integer.parseInt(args[1]), managerToModel);
-            engineRMI= new RMIServer(managerToModel,9999);
+        if(args.length==3 ){
+            if( args[1].equals("--s")) {
+                engineRMI = new RMIServer(managerToModel, 9999);
+                serverSocket = new SocketServer(Integer.parseInt(args[2]), managerToModel);
+
+            }
+            else if(args[1].equals("--rmi")){
+                engineRMI = new RMIServer(managerToModel, Integer.parseInt(args[2]));
+                serverSocket = new SocketServer(4567, managerToModel);
+
+            }
+            else {
+                System.out.println("Wrong command line argument.Digit <--s port>, <--rmi port> or both. If nothing is set" +
+                        " the server will start on the default ports");
+                return;
+            }
+        }
+        else if(args.length==5) {
+            if(args[1].equals("--s") && args[3].equals("--rmi")) {
+                serverSocket = new SocketServer(Integer.parseInt(args[2]), managerToModel);
+                engineRMI = new RMIServer(managerToModel, Integer.parseInt(args[4]));
+
+            } else if (args[1].equals("--rmi") && args[3].equals("--s")) {
+                serverSocket = new SocketServer(Integer.parseInt(args[4]), managerToModel);
+                engineRMI = new RMIServer(managerToModel, Integer.parseInt(args[2]));
+
+            }
+            else{
+                System.out.println("Wrong command line argument.Digit <--s port>, <--rmi port> or both. If nothing is set"+
+                        " the server will start on the default ports");
+                return;
+            }
         }
         else if(args.length==1) {
             serverSocket = new SocketServer(4567, managerToModel);
-            engineRMI= new RMIServer(managerToModel,9999);
-        } else {
-            serverSocket = null;
-            engineRMI = null;
+            engineRMI = new RMIServer(managerToModel, 9999);
+
         }
-        for(int i=0;i< args.length;i++)
-            System.out.println(args[i] + " ");
 
         ObServerManager managerToView = new ObServerManager(engineRMI, serverSocket);
 
@@ -50,16 +76,18 @@ public class ServerMain {
         controller.setServerSocket(serverSocket);
         controller.setToViewManager(managerToView);
 
+        ServerInterface finalEngineRMI = engineRMI;
         Thread RMIThread = new Thread(() -> {
             try {
-                engineRMI.run();
+                finalEngineRMI.run();
             } catch (RemoteException | AlreadyBoundException e) {
                 throw new RuntimeException(e);
             }
         });
+        SocketServer finalServerSocket = serverSocket;
         Thread socketThread = new Thread(() -> {
             try {
-                serverSocket.startServer(serverSocket);
+                finalServerSocket.startServer(finalServerSocket);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

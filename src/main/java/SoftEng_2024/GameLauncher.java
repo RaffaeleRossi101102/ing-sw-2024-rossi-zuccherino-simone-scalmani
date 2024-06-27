@@ -14,6 +14,11 @@ public class GameLauncher {
             }else if(args[0].equalsIgnoreCase("client")){
                 MainView.main(args);
             }
+            else
+                System.out.println("Invalid command line arguments. Insert 'server' or 'client'.\n" +
+                        "After 'server' you can choose the ports to start the server on. Insert <--s port> <--rmi port>, otherwise default ports will be set.\n" +
+                        "After 'client' you can insert the ip address for the server and the server ports. " +
+                        "Insert <ipAddress> <--s port> <--rmi port>. Make sure the ports are the same as the server ports.\n  ");
         }
 
 }
