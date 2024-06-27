@@ -29,9 +29,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -726,8 +724,10 @@ public class MainViewController {
                     if (row == 42 && col == 42) {
                         if (auxFlip) {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         } else {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         }
                     }
                     imageView.setFitWidth(155);
@@ -916,8 +916,10 @@ public class MainViewController {
                     if (localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard() != null) {
                         if (localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getFlipped()) {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         } else {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         }
                     }
                     imageView.setFitWidth(155);
@@ -992,21 +994,18 @@ public class MainViewController {
      * @param quit Flag indicating if the player won because other players quit.
      * @throws IOException If an error occurs while loading the FinalScreen.fxml file.
      */
-    public void switchToFinalScreen(boolean quit) throws IOException {  // SONO ARRIVATO QUI
+    public void switchToFinalScreen(boolean quit) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FinalScreen.fxml")));
         scene = new Scene(root);
 
-//        chatInit(visibleChat);
-//         for(String nick : localModel.getPlayersNickname().keySet()){
-//            boardNicknames.add(nick);
-//            System.out.println(nick);
-//        }
         Platform.runLater(() -> {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setFullScreen(true);
             stage.show();
         });
+
+
 
         if (localModel.getWinnersNickname().size() == 2) {
             winnerLabel = new Label();
@@ -1021,6 +1020,15 @@ public class MainViewController {
             winnerLabel = (Label) scene.lookup("#winnerLabel") ;
             winnerLabel.setText("YOU WON!!! \n" + "the others players quit");
         }
+
+        Timer terminationTimer = new Timer();
+        TimerTask terminationTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.exit(0); // Exit the application
+            }
+        };
+        terminationTimer.schedule(terminationTask, 10000);
     }
 
     /**
