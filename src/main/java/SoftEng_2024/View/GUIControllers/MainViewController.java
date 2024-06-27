@@ -531,6 +531,8 @@ public class MainViewController {
         showBoard2 = (Button) scene.lookup("#showBoard2");
         showBoard3 = (Button) scene.lookup("#showBoard3");
         showBoard1.setText(boardNicknames.get(0) + "'s board");
+        showBoard2.setVisible(false);
+        showBoard3.setVisible(false);
 
         if (localModel.getPlayersNickname().size() == 2){
             showBoard3.setVisible(false);
@@ -712,6 +714,8 @@ public class MainViewController {
         showBoard2 = (Button) scene.lookup("#showBoard2");
         showBoard3 = (Button) scene.lookup("#showBoard3");
         showBoard1.setText(boardNicknames.get(0) + "'s board");
+        showBoard2.setVisible(false);
+        showBoard3.setVisible(false);
 
         if (localModel.getPlayersNickname().size() == 2) {
             showBoard3.setVisible(false);
