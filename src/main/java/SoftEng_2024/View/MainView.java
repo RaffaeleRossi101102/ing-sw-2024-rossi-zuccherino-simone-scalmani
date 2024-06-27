@@ -26,8 +26,8 @@ public class MainView {
      */
     public static void main(String[] args) throws RemoteException {
         String ip="localhost";
-        String socketPort="50001";
-        String rmiPort="50000";
+        String socketPort="59697";
+        String rmiPort="53784";
         if(args.length%2==0){
             System.out.println("Wrong command line arguments. If you want to set the server ip digit <--ip 'ipAddress'>. If the servers weren't started" +
                     " on the default ports make sure you've set them. Digit <--s 'port'> to set the socket port and/or <--rmi 'port'> to set the rmi port." +
