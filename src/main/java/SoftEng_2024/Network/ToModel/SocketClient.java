@@ -92,7 +92,7 @@ public class SocketClient implements ClientInterface {
             out.flush();
             out.reset();
         } catch (IOException e) {
-            System.err.println("Something went terribly wrong, shutting down");
+            System.out.println("[ERROR] Something went terribly wrong, shutting down");
             System.exit(0);
         }
     }
@@ -205,7 +205,7 @@ public class SocketClient implements ClientInterface {
                 try {
                     this.modelQueue.take().executeMessage(this.view);
                 } catch (InterruptedException e) {
-                    System.err.println("SOMETHING WENT WRONG WHILE EXECUTING MESSAGE");
+                    System.out.println("[ERROR] SOMETHING WENT WRONG WHILE EXECUTING THE MESSAGE");
 
                 }
             });

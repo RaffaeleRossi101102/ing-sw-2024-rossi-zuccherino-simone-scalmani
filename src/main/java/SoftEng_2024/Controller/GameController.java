@@ -298,8 +298,7 @@ public class GameController {
                 checkIfNextState();
         }
         else{
-            System.err.println("Someone tried to join the game...");
-            //TODO show error maxPlayerReached
+            System.out.println("[ERROR] Someone tried to join the game...");
             sendErrorMessageAndUnRegister(ID,"MaxPlayers already reached, please wait for the game to finish...Or for us to implement multiple games :)");
         }
     }
@@ -388,7 +387,7 @@ public class GameController {
                     terminationTimer.cancel();
                     terminationTimer.purge();
                 }
-                System.err.println("NO MORE PLAYERS IN GAME... ENDING GAME TERMINATION ACTION");
+                System.out.println("[ERROR] NO MORE PLAYERS IN GAME... ENDING GAME TERMINATION ACTION");
                 ServerMain.quitAll();
             }
         }

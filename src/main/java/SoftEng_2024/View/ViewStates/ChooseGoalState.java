@@ -40,7 +40,7 @@ public class ChooseGoalState extends ViewState {
             switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "chooseprivategoal":
                     if (view.getLocalModel().getAvailableGoals().isEmpty()){
-                        System.err.println("Goals are not already available, wait a few seconds and retry...");
+                        System.out.println("[ERROR] Goals are not already available, wait a few seconds and retry...");
                         view.setCommand("");
                         listenDefaultCommand(true);
                         System.out.println(indications);
@@ -77,7 +77,7 @@ public class ChooseGoalState extends ViewState {
                 case "":
                     break;
                 default:
-                    System.err.println("Command not available... retry");
+                    System.out.println("[ERROR] Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
                     System.out.println(indications);
@@ -104,7 +104,7 @@ public class ChooseGoalState extends ViewState {
         answer = scanner.nextLine();
         while (!answer.equals("1") && !answer.equals("2") && !answer.equals("exit")) {
              
-            System.err.println("Wrong input, type [1] or [2] to choose your private goal");
+            System.out.println("[ERROR] Wrong input, type [1] or [2] to choose your private goal");
             answer = scanner.nextLine();
         }
          

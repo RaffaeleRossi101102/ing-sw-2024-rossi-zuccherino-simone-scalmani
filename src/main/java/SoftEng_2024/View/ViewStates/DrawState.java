@@ -40,6 +40,7 @@ public class DrawState extends ViewState{
         }else {
             String indications="Type Draw From Deck, Draw Public Card, Show Board, Show Hand, Chat or Quit";
             printPlayerBoard(true);
+            showPublicGoals();
             showDecksAndPublicCards();
             System.out.println("Now, you have to draw a card from the 4 public cards or from one of the decks!");
             System.out.println(indications);
@@ -48,6 +49,7 @@ public class DrawState extends ViewState{
                 switch (view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                     case "drawfromdeck":
                         commandChosen = true;
+
                         drawFromTheDeck();
                         view.setCommand("");
                         listenDefaultCommand(true);
@@ -58,6 +60,7 @@ public class DrawState extends ViewState{
                         break;
                     case "drawpubliccard":
                         commandChosen = true;
+
                         drawPublicCard();
                         view.setCommand("");
                         listenDefaultCommand(true);
@@ -79,6 +82,13 @@ public class DrawState extends ViewState{
                         listenDefaultCommand(true);
                         wait();
                         break;
+                    case "playerscore":
+                        playersScore();
+                        System.out.println(indications);
+                        view.setCommand("");
+                        listenDefaultCommand(true);
+                        wait();
+                        break;
                     case "chat":
                         writeInChat();
                         view.setCommand("");
@@ -92,7 +102,7 @@ public class DrawState extends ViewState{
                     case "":
                         break;
                     default:
-                        System.err.println("Command not available... retry");
+                        System.out.println("[ERROR] Command not available... retry");
                         view.setCommand("");
                         listenDefaultCommand(true);
                         System.out.println(indications);
@@ -129,7 +139,7 @@ public class DrawState extends ViewState{
         System.out.println("Type which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
         deck = input.nextLine();
         while(!deck.equals("gold") && !deck.equals("resources") && !deck.equals("exit")){
-            System.err.println("Wrong input... retry!!\nType which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
+            System.out.println("[ERROR] Wrong input... retry!!\nType which deck (gold or resources) you want to draw from, or type 'exit' to cancel");
             deck = input.nextLine();
         }
          

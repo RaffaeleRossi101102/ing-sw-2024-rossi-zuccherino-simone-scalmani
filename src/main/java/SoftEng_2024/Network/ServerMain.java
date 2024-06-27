@@ -50,13 +50,13 @@ public class ServerMain {
         }
         if(args.length==3 ){
             if( args[1].equals("--s")) {
-                engineRMI = new RMIServer(managerToModel, 9999);
+                engineRMI = new RMIServer(managerToModel, 53784);
                 serverSocket = new SocketServer(Integer.parseInt(args[2]), managerToModel);
 
             }
             else if(args[1].equals("--rmi")){
                 engineRMI = new RMIServer(managerToModel, Integer.parseInt(args[2]));
-                serverSocket = new SocketServer(4567, managerToModel);
+                serverSocket = new SocketServer(59697, managerToModel);
 
             }
             else {
@@ -82,8 +82,8 @@ public class ServerMain {
             }
         }
         else if(args.length==1) {
-            serverSocket = new SocketServer(4567, managerToModel);
-            engineRMI = new RMIServer(managerToModel, 9999);
+            serverSocket = new SocketServer(59697, managerToModel);
+            engineRMI = new RMIServer(managerToModel, 53784);
 
         }
 

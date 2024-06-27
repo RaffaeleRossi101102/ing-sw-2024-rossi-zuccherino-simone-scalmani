@@ -164,18 +164,14 @@ public abstract class Card implements Serializable {
                 DRangle = Angles.getAngleSymbol(this.getFront().getFrontAngles()[3]);
         }
         else{
-            try {
-                if (!this.getFront().getCovered()[0])
-                    ULangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[0]);
-                if (!this.getFront().getCovered()[1])
-                    URangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[1]);
-                if (!this.getFront().getCovered()[2])
-                    DLangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[2]);
-                if (!this.getFront().getCovered()[3])
-                    DRangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[3]);
-            }catch(ArrayIndexOutOfBoundsException e){
-                System.err.println("LA CARTA SBAGLIATA è "+this+" la size di getCovered è: "+ Arrays.toString(this.getFront().getCovered()));
-            }
+            if (!this.getFront().getCovered()[0])
+                ULangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[0]);
+            if (!this.getFront().getCovered()[1])
+                URangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[1]);
+            if (!this.getFront().getCovered()[2])
+                DLangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[2]);
+            if (!this.getFront().getCovered()[3])
+                DRangle = Angles.getAngleSymbol(this.getCardBackAnglesType()[3]);
         }
 
         graphicCard[0] = String.format("|%c-%c|", ULangle, URangle);

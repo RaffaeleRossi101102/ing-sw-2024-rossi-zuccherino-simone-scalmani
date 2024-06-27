@@ -3,6 +3,7 @@ package SoftEng_2024.View.ViewStates;
 import SoftEng_2024.Model.Cards.Card;
 import SoftEng_2024.Model.Enums.Angles;
 import SoftEng_2024.Model.Enums.GameState;
+import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.Player_and_Board.*;
 import SoftEng_2024.Network.ToModel.ClientInterface;
 import SoftEng_2024.View.CliViewClient;
@@ -86,7 +87,7 @@ public abstract class ViewState {
         try {
             client.update(msg);
         } catch (RemoteException e) {
-            System.err.println("Something went wrong, retry!");
+            System.out.println("[ERROR] Something went wrong, retry!");
         }
     }
 
@@ -122,6 +123,12 @@ public abstract class ViewState {
                         defaultCommandChosen=true;
                         break;
                     case "playground":
+                        if(!model.getPublicGoals().isEmpty()){
+                            showPublicGoals();
+                        }
+                        else{
+                            System.out.println("Public goals aren't available yet, retry later in game");
+                        }
                         if(!view.getLocalModel().getState().equals(GameState.PLAY)){
                             System.out.println("Decks and drawable public cards are not available yet, retry later in game");
                         }
@@ -158,7 +165,7 @@ public abstract class ViewState {
                     case "":
                         break;
                     default:
-                        System.err.println("Command not available... retry");
+                        System.out.println("[ERROR] Command not available... retry");
                         listenDefaultCommand(false);
                         view.setCommand("");
                         System.out.println(insertCommandString);
@@ -248,7 +255,7 @@ public abstract class ViewState {
         Scanner scanner= new Scanner(System.in);
         String nickname= scanner.nextLine();
         while(!view.getLocalModel().getPlayersNickname().containsKey(nickname)){
-            System.err.println("There isn't a player with that nickname! Retry or type 'exit' to cancel...");
+            System.out.println("[ERROR] There isn't a player with that nickname! Retry or type 'exit' to cancel...");
             nickname= scanner.nextLine();
             if(nickname.equals("exit")) return;
         }
@@ -304,7 +311,7 @@ public abstract class ViewState {
         answer = input.nextLine().trim().toLowerCase();
         while (!answer.equals("y") && !answer.equals("n")) {
             
-            System.err.println("Wrong input, type y/n");
+            System.out.println("[ERROR] Wrong input, type y/n");
             answer = input.nextLine();
         }
         if (answer.equals("y")) {
@@ -337,22 +344,22 @@ public abstract class ViewState {
             try {
                 choice = input.nextInt();
             } catch (InputMismatchException e) {
-                System.err.println("Wrong input, please insert a number...");
+                System.out.println("[ERROR] Wrong input, please insert a number...");
                 input.nextLine();
             }
             while (choice < 0 | choice > view.getLocalModel().getPlayersNickname().keySet().size()) {
-                System.err.println("Wrong input, choose a number from the proposed ones");
+                System.out.println("[ERROR] Wrong input, choose a number from the proposed ones");
                 choice = -1;
                 try {
                     choice = input.nextInt();
                 } catch (InputMismatchException e) {
-                    System.err.println("Wrong input, please insert a number...");
+                    System.out.println("[ERROR] Wrong input, please insert a number...");
                     input.nextLine();
                 }
             }
             System.out.println();
             if (!view.getLocalModel().getPlayersBoards().containsKey(players.get(choice))) {
-                System.err.println("The board isn't already available, please wait...");
+                System.out.println("[ERROR] The board isn't already available, please wait...");
                 return;
             }
             boardToPrint = view.getLocalModel().getPlayersBoards().get(players.get(choice));
@@ -415,7 +422,7 @@ public abstract class ViewState {
                     downCard=downCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[2];
                 }
                 else{
-                    upCard=upCard + "|‾‾‾|";
+                    upCard=upCard + "|---|";
                     midCard=midCard+ "|   |";
                     downCard=downCard+"|___|";
                 }
@@ -493,8 +500,11 @@ public abstract class ViewState {
             i++;
             System.out.println();
         }
-
-
+    }
+    protected void showPublicGoals(){
+        System.out.println("The public goals are:");
+        for(GoalCard publicGoal:model.getPublicGoals())
+            System.out.println(publicGoal.getGoalType());
     }
     /**
      * Wakes up the current state, notifying all waiting threads.

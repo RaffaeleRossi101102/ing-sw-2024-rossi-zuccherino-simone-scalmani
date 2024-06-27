@@ -341,8 +341,7 @@ public class LocalModel {
         this.playersNickname.put(playersNickname,true);
         if(!otherPlayersHand.containsKey(playersNickname))
             otherPlayersHand.put(playersNickname,new ArrayList<>());
-//        if(!playersColor.containsKey(playersNickname))
-//            playersColor.put(playersNickname, Color.EMPTY);
+
         if(!playersBoards.containsKey(playersNickname)){
             playersBoards.put(playersNickname,new LocalBoard());
         }

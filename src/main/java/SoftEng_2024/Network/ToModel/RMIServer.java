@@ -161,7 +161,6 @@ public class RMIServer implements ServerInterface{
                 }
             }
         }catch(RemoteException re){
-            //TODO: quit message?
             //client probably crashed or something went wrong with his stub
             //pingThread is going to find it and send a quit message to model
         }

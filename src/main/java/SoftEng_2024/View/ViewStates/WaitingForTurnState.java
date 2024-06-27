@@ -32,7 +32,6 @@ public class WaitingForTurnState extends ViewState{
         if (view.getLocalModel().getState().equals(GameState.ENDGAME)) {
             nextState = new EndGameState(view, client, ID);
         }
-
         nextState.setDefaultCommandChosen(true);
         nextState.display();
     }

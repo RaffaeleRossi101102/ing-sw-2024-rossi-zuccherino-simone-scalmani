@@ -72,7 +72,7 @@ public class SetColorState extends ViewState{
                 case "":
                     break;
                 default:
-                    System.err.println("Command not available... retry");
+                    System.out.println("[ERROR] Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
                     System.out.println(indications);
@@ -114,11 +114,11 @@ public class SetColorState extends ViewState{
             else if ((answer.equals("RED") | answer.equals("BLUE") | answer.equals("YELLOW") | answer.equals("GREEN")) && !colorMap.containsValue(Color.valueOf(answer))) {
                 correctColor = true;
             }else if(!answer.equals("RED") && !answer.equals("BLUE") && !answer.equals("YELLOW") && !answer.equals("GREEN")){
-                System.err.println("Wrong input, please choose between the colors: Red , Blue, Green, Yellow");
+                System.out.println("[ERROR] Wrong input, please choose between the colors: Red , Blue, Green, Yellow");
                  
                 answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
             } else if (colorMap.containsValue(Color.valueOf(answer))){
-                System.err.println("Type a correct color, but it has been already chosen by someone else... retry");
+                System.out.println("[ERROR] The color you chose has been already chosen by someone else... retry");
                  
                 answer = input.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
             }

@@ -47,7 +47,7 @@ public class StarterState extends ViewState{
             switch(view.getCommand().trim().replaceAll("\\s+", "").toLowerCase()) {
                 case "playstartercard":
                     if(view.getLocalModel().getStarterCard()==null){
-                        System.err.println("StarterCard isn't already available, wait a few seconds and retry...");
+                        System.out.println("[ERROR] StarterCard isn't already available, wait a few seconds and retry...");
                         view.setCommand("");
                         listenDefaultCommand(true);
                         System.out.println(indications);
@@ -81,7 +81,7 @@ public class StarterState extends ViewState{
                 case "":
                     break;
                 default:
-                    System.err.println("Command not available... retry");
+                    System.out.println("[ERROR] Command not available... retry");
                     view.setCommand("");
                     listenDefaultCommand(true);
                     System.out.println(indications);

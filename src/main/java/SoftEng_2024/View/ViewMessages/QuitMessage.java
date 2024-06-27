@@ -29,7 +29,7 @@ public class QuitMessage implements ViewMessage {
         try {
             controller.quit(ID);
         } catch (RemoteException e) {
-            System.err.println("Something went terribly wrong");
+            System.out.println("[ERROR] Something went terribly wrong");
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);

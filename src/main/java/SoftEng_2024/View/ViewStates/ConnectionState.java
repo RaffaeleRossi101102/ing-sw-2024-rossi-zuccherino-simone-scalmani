@@ -53,7 +53,7 @@ public class ConnectionState extends ViewState {
                     quit();
                     break;
                 default:
-                    System.err.println("Command not available... retry");
+                    System.out.println("[ERROR] Command not available... retry");
                     break;
             }
             if(commandChosen)
@@ -90,7 +90,7 @@ public class ConnectionState extends ViewState {
         try {
             client.registerToServer(ID, client);
         } catch (RemoteException | NotBoundException e) {
-            System.err.println("Server not found or something went terribly wrong!");
+            System.out.println("[ERROR] Server not found or something went terribly wrong!");
             System.exit(0);
         }
 
@@ -110,7 +110,7 @@ public class ConnectionState extends ViewState {
         String maxPlayers = input.nextLine().toLowerCase().trim().replaceAll("\\s+", "");
 
         while(!maxPlayers.equals("2") && !maxPlayers.equals("3") && !maxPlayers.equals("4") && !maxPlayers.equals("exit")){
-            System.err.println("The maximum number of players has to be between 2 and 4, or you can type 'exit' to cancel");
+            System.out.println("[ERROR] The maximum number of players has to be between 2 and 4, or you can type 'exit' to cancel");
             maxPlayers = input.nextLine();
         }
 
@@ -132,7 +132,7 @@ public class ConnectionState extends ViewState {
         System.out.println("Type your nickname (max 20 char), or type 'exit' to cancel");
         nickname=input.nextLine();
         while(nickname.length()>20){
-            System.err.println("Nice name, but make it shorter! (max 20 char)");
+            System.out.println("[ERROR] Nice name, but make it shorter! (max 20 char)");
             nickname=input.nextLine();
         }
         System.out.println("Got it :)");
@@ -158,7 +158,7 @@ public class ConnectionState extends ViewState {
         try {
             client.registerToServer(ID, client);
         } catch (RemoteException | NotBoundException e) {
-            System.err.println("Error 404... server not found");
+            System.out.println("[ERROR] Error 404... server not found");
             return;
         }
 
@@ -174,7 +174,7 @@ public class ConnectionState extends ViewState {
         System.out.println("Type the nickname you chose when you first connected (max 20 char), or type 'exit' to cancel");
         String nickname = scanner.nextLine();
         while(nickname.length()>20){
-            System.err.println("There are not nicknames this long in game, retry...");
+            System.out.println("[ERROR] There are not nicknames this long in game, retry...");
             nickname = scanner.nextLine();
         }
         if(nickname.equals("exit")){

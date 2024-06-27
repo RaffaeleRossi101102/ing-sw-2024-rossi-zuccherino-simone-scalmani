@@ -46,11 +46,11 @@ public class SocketServer{
                     Thread t = new SocketClientHandler(server, socket, manager);
                     t.start();
                 }catch (IOException e) {
-                    System.err.println("Error accepting client connection... ");
+                    System.out.println("Error accepting client connection... ");
                 }
             }
         }catch (IOException e){
-            System.err.println("Error starting server... ");
+            System.out.println("[ERROR] Error starting server... ");
         } finally {
            serverSocket.close();
         }

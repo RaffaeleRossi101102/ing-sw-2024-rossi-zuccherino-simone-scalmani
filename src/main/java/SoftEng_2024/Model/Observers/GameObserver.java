@@ -200,6 +200,7 @@ public class GameObserver {
      */
     public void updatedWinners(List<String> winnersNickname){
         notifyServer(new UpdatedWinnersMessage("",winnersNickname));
+        System.out.println("winnerrrsss");
     }
 
     /**

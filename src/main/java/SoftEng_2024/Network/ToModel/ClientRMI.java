@@ -89,7 +89,7 @@ public class ClientRMI extends UnicastRemoteObject implements ClientInterface {
      */
     @Override
     public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
-        //System.err.println("sto aggiungendo il messaggio: "+msg);
+
         modelQueue.add(msg);
         notifyAll();
     }

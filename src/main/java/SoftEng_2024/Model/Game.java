@@ -474,7 +474,7 @@ public class Game {
         try {
             gameObserver.unRegisterClient(errorMessage, ID);
         } catch (IOException e) {
-            System.err.println("Something went terribly wrong! (at Game setAckAndError)");
+            System.out.println("[ERROR] Something went terribly wrong! (at Game setAckAndError)");
         }
     }
 

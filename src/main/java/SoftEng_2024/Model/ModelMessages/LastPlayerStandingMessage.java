@@ -24,7 +24,7 @@ public class LastPlayerStandingMessage extends ModelMessage {
      */
     @Override
     public void executeMessage(View view) {
-        System.err.println("\n\n" + message + "\n\n");
+        System.out.println("\n\n" + message + "\n\n");
         view.getLocalModel().setQuitAll(true);
     }
 }

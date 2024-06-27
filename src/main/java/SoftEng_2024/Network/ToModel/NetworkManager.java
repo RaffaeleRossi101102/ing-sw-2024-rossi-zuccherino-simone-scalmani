@@ -35,7 +35,7 @@ public class NetworkManager {
         System.out.println("Executing messages from the queue");
         controller.setNetworkManager(this);
         controller.gameInit();
-        while(controller.getGame().getGameState()==GameState.CONNECTION){
+        while(controller.getGame().getGameState().equals(GameState.CONNECTION)){
             pollThreaded();
         }
 
@@ -48,7 +48,7 @@ public class NetworkManager {
         controller.handOutStarterCards();
 
         //Each player plays their starter card and choose the color of his pawn
-        while(controller.getGame().getGameState()==GameState.STARTER | controller.getGame().getGameState()==GameState.SETCOLOR){
+        while(controller.getGame().getGameState().equals(GameState.STARTER) | controller.getGame().getGameState().equals(GameState.SETCOLOR)){
             pollThreaded();
         }
 
@@ -59,7 +59,7 @@ public class NetworkManager {
         controller.handOutPrivateGoals();
         //Each player choose his private goal
 
-        while(controller.getGame().getGameState()==GameState.CHOOSEGOAL){
+        while(controller.getGame().getGameState().equals(GameState.CHOOSEGOAL)){
             pollThreaded();
         }
         controller.getGame().updatePublicCards();
@@ -70,15 +70,11 @@ public class NetworkManager {
         //vengono date le carte a tutti i giocatori
         controller.handOutCards();
         controller.getGame().turnStart();
-        //TODO: potrebbe mandare un messaggio in cui dice chi è di turno? Oppure lo si manda direttamente con
-        //TODO: il messaggio di cambio stato
         //Each player is now initialized, and we are ready to start the game
-        while(controller.getGame().getGameState()==GameState.PLAY){
+        while(controller.getGame().getGameState().equals(GameState.PLAY)){
             pollThreaded();
         }
-
-
-
+        System.out.println(controller.getGame().getGameState());
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat
         controller.getGame().gameEnd();
     }
@@ -90,13 +86,13 @@ public class NetworkManager {
      */
     private void pollThreaded() throws InterruptedException {
         if (viewMessages.isEmpty()) {
-            this.wait();
+            wait();
         } else {
             Thread t = new Thread(() -> {
                 try {
                     viewMessages.take().executeMessage(this.controller);
                 } catch (InterruptedException e) {
-                    System.err.println("Something went wrong while executing the messages");
+                    System.out.println("[ERROR] Something went wrong while executing the messages");
                     throw new RuntimeException(e);
                 }
             });

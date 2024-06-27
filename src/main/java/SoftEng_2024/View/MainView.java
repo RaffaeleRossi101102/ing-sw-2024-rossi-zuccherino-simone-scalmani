@@ -26,8 +26,8 @@ public class MainView {
      */
     public static void main(String[] args) throws RemoteException {
         String ip="localhost";
-        String socketPort="4567";
-        String rmiPort="9999";
+        String socketPort="50001";
+        String rmiPort="50000";
         if(args.length%2==0){
             System.out.println("Wrong command line arguments. If you want to set the server ip digit <--ip 'ipAddress'>. If the servers weren't started" +
                     " on the default ports make sure you've set them. Digit <--s 'port'> to set the socket port and/or <--rmi 'port'> to set the rmi port." +
@@ -67,7 +67,7 @@ public class MainView {
         String connectionType;
         connectionType= scan.nextLine().trim().toLowerCase().replaceAll("\\s+", "");
         while(!connectionType.equals("rmi") && !connectionType.equals("socket")){
-            System.err.println("Wrong input! Type: 'RMI' or 'Socket' ");
+            System.out.println("[ERROR] Wrong input! Type: 'RMI' or 'Socket' ");
             connectionType= scan.nextLine().trim().toLowerCase();
         }
         System.out.println("Got it :)");
@@ -77,7 +77,7 @@ public class MainView {
         System.out.println("Choose your type of view, type CLI or GUI");
         viewType= scan.nextLine().trim().toLowerCase().replaceAll("\\s+", "");
         while(!viewType.equals("cli") && !viewType.equals("gui")){
-            System.err.println("Wrong input! Type: 'CLI' or 'GUI' ");
+            System.out.println("[ERROR] Wrong input! Type: 'CLI' or 'GUI' ");
             viewType= scan.nextLine().trim().toLowerCase();
         }
         System.out.println("Got it :)");
