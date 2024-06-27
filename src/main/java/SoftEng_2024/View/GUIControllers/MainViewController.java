@@ -489,7 +489,7 @@ public class MainViewController {
                     playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 });
 
-                if (localModel.getPlayerState() == GameState.ENDGAME) {
+                if (localModel.getPlayerState() == GameState.ENDGAME && !localModel.getCurrentTurnPlayerNickname().equals(nickname)) {
                     Platform.runLater(() -> {
                         try {
                             switchToPlayerEndGame();
@@ -672,7 +672,7 @@ public class MainViewController {
                     playerScore.setText("Score: " + localModel.getPlayersBoards().get(nickname).getScore());
                 });
 
-                if (localModel.getPlayerState() == GameState.ENDGAME) {
+                if (localModel.getPlayerState() == GameState.ENDGAME && !localModel.getCurrentTurnPlayerNickname().equals(nickname)) {
                     Platform.runLater(() -> {
                         try {
                             switchToPlayerEndGame();
@@ -824,11 +824,11 @@ public class MainViewController {
         if (localModel.getWinnersNickname().size() == 2) {
             winnerLabel = new Label();
             winnerLabel = (Label) scene.lookup("#winnerLabel");
-            winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATIONS TO: " + localModel.getWinnersNickname().get(0) + localModel.getWinnersNickname().get(0) + " \n YOU WON!!");
+            winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATIONS TO: " + localModel.getWinnersNickname().get(0) + " " + localModel.getWinnersNickname().get(0) + " \n YOU WON!!" + localModel.getPlayersBoards().get(localModel.getWinnersNickname().get(0)).getScore() + "POINTS");
         } else if (localModel.getWinnersNickname().size() == 1) {
             winnerLabel = new Label();
             winnerLabel = (Label) scene.lookup("#winnerLabel");
-            winnerLabel.setText("CONGRATULATIONS" + localModel.getWinnersNickname().get(0) + "YOU WON!!");
+            winnerLabel.setText("CONGRATULATIONS" + localModel.getWinnersNickname().get(0) + "YOU WON!! \n" + localModel.getPlayersBoards().get(localModel.getWinnersNickname().get(0)).getScore() + "POINTS");
         } else if (quit) {
             winnerLabel = new Label();
             winnerLabel = (Label) scene.lookup("#winnerLabel") ;
@@ -1629,6 +1629,7 @@ public class MainViewController {
             while (true) {
                 String boardToPrint = boardNicknames.get(chosenBoard);
                 Platform.runLater(() -> {
+                    otherPlayersPane.getChildren().removeIf(node -> node instanceof ImageView);
                     for (int col = 32; col < 53; col++) {
                         for (int row = 32; row < 53; row++) {
                             if ((row + col) % 2 == 0) {
