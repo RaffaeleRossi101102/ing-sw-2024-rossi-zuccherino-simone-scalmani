@@ -30,7 +30,6 @@ public class ReadyToStartState extends ViewState{
         listenDefaultCommand(true);
         defaultCommand(GameState.CHOOSEGOAL,"Waiting for all the players to choose their private goal...");
         System.out.println("Now it's time to Play!");
-        //TODO: MODIFICARE DEFAULT COMMAND IN MODO TALE CHE NON TERMINI SUBITO APPENA UNO SIA IN PLAY
         PlayState playState = new PlayState(view, client, ID);
         DrawState drawState = new DrawState(view, client, ID);
         WaitingForTurnState waitingForTurnState = new WaitingForTurnState(view, client, ID);

@@ -52,7 +52,7 @@
 //        Board testBoard = new Board();
 //
 //        testGameInit.getGame().getPlayers().add(new Player(new ArrayList<>(), testBoard));
-//        //TODO: SET NAME
+//
 //
 //        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getStarterDeck().poll());
 //        testGameInit.getGame().getPlayers().get(0).addCard(testGameInit.getGame().getResourceDeck().poll());

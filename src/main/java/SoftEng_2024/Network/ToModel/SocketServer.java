@@ -151,7 +151,6 @@ public class SocketServer{
                         out.reset();
                     }
                 } catch (IOException e) {
-                    //TODO: lancia l'eccezione o no?
                     System.out.println("ERROR WRITING OBJECT...");
                 }
             }

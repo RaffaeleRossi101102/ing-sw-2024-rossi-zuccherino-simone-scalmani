@@ -35,7 +35,6 @@ public class ServerMain {
      */
     public static void main(String[] args) throws AlreadyBoundException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException, IOException {
         //crea
-        //TODO: PRENDI IN INPUT LA PORTA PER OGNI SERVER, SE NON SPECIFICATA METTI QUELLA DI DEFAULT
 
         GameController controller= new GameController();
 

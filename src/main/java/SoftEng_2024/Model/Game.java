@@ -103,13 +103,6 @@ public class Game {
      * this will be the winner
      */
     private String winnerDueToForfeit;
-    //TODO: notificare il cambiamento di:
-    //TODO: TUTTI I DECK--> ogni volta che viene pescata una carta ---
-    //TODO: LE PUBLIC CARDS--> vanno fatte vedere sempre aggiornate ---
-    //TODO: I PUBLIC GOALS-->vanno fatti vedere una volta posizionati ---
-    //TODO: I CURRENT PLAYERS--> ogni volta che cambia, va fatto sapere ai client ---
-    //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
-    //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
     public Game(List<Player> players, Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck, NetworkManager networkManager){
         this.players = players;
@@ -460,7 +453,6 @@ public class Game {
     public void setErrorMessageBindingMap(double ID,String errorMessage) {
         ErrorMessageBindingMap.put(ID,errorMessage);
         gameObserver.updatedError(ID,errorMessage);
-        //TODO: VALUTARE CASO CHAT!!! Fare una mappa a parte/controllare nella view/invece di una stringa mettere una
 
     }
 

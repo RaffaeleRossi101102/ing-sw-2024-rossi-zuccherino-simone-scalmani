@@ -345,7 +345,6 @@ public class LocalModel {
         if(!playersBoards.containsKey(playersNickname)){
             playersBoards.put(playersNickname,new LocalBoard());
         }
-        System.out.println(playersNickname + "has joined the game!");
     }
     /**
      * Sets the online status of a player.

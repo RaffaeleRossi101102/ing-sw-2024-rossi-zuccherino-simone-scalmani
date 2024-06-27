@@ -37,8 +37,6 @@ public class StarterState extends ViewState{
         listenDefaultCommand(true);
         defaultCommand(GameState.CONNECTION,"Waiting for all the players to connect");
         System.out.println("Now it's time to play your starter card:");
-        //TODO: prints player's starter card
-        //Scanner scanner = new Scanner(System.in);
         System.out.println(indications);
         wait();
 

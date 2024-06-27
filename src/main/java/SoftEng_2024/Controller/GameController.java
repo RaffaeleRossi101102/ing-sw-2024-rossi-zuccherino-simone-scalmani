@@ -267,7 +267,6 @@ public class GameController {
             game.getErrorMessageBindingMap().put(ID,"");
         if (!game.getGameState().equals(GameState.CONNECTION)){
             System.err.println(nickname + " attempted to join an already started game");
-            //TODO: manda messaggio only reconnect
             sendErrorMessageAndUnRegister(ID,"The game has already started, you can only reconnect!!");
             return;
         }
@@ -285,7 +284,6 @@ public class GameController {
             for(Player player: clientPlayers){
                 if(player.getNickname().equals(nickname)){
                     System.err.println(nickname + " tried to join the game with a nickname already used by someone");
-                    //TODO show "NickAlreadyChosenError + return
                     sendErrorMessageAndUnRegister(ID,"You chose an aleady existing nickname, please insert a new one!");
                     return;
                 }
@@ -313,8 +311,6 @@ public class GameController {
      */
     public void quit(double ID) throws IOException {
         Player removedPlayer;
-        //TODO: VALUTARE SE SERVE CONTROLLARE SE IL GIOCATORE SIA ISTATO AGGIUNTO ALLA LISTA DEI PLAYERS O MENO
-        // CHE LA STAMPA COMMENTATA DAVA PROBLEMI
 
         serverRMI.unregisterClient(ID);
         serverSocket.unRegisterClient(ID);
@@ -344,7 +340,6 @@ public class GameController {
             if (game.getGameState().equals(GameState.PLAY) && removedPlayer.getPlayerState().equals(GameState.PLAY) & game.getOnlinePlayersCounter()!=1){
                 playerIdMap.get(ID).setPlayerState(GameState.NOTPLAYING);
                 game.turnEnd(playerIdMap.get(ID).getNickname());
-                //TODO: SE è ARRIVATO A 20 PUNTI E POI QUITTA?
             //and if the game isn't already in the play state, it will check if all the other players already did their move
             }else if(game.getGameState().ordinal()<GameState.PLAY.ordinal()){
                 checkIfNextState();
@@ -379,7 +374,6 @@ public class GameController {
                 };
 
                 //start the timer with a 5-seconds delay
-                //TODO:CHANGE DELAY
                 terminationTimer.schedule(terminationTask, 30000);
 
             }else if(onlinePlayers == 0){
@@ -415,7 +409,6 @@ public class GameController {
                 game.getAckIdBindingMap().put(ID,true);
                 game.getErrorMessageBindingMap().put(ID,"");
 
-                //TODO playerIdMap.get(ID).setOnline(true); da valutare se messo in altro messaggio e metodo (recovered)
                 System.out.println(nickname + " has reJoined and successfully remapped with the new ID: " + ID);
                 PlayerObserver o=player.getPlayerObserver();
                 o.setReceiverID(ID);
