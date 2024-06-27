@@ -11,6 +11,10 @@ import java.io.*;
 import java.net.*;
 import java.rmi.RemoteException;
 import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * SocketClient class implements the ClientInterface for communication with a server over sockets.
+ */
 public class SocketClient implements ClientInterface {
     private View view;
     private String ip;
@@ -24,6 +28,13 @@ public class SocketClient implements ClientInterface {
     private LinkedBlockingQueue<ModelMessage> modelQueue;
     private boolean clientRunning;
 
+    /**
+     * Constructs a SocketClient object.
+     *
+     * @param ip   The IP address of the server.
+     * @param port The port number for socket connection.
+     * @param ID   The unique identifier for the client.
+     */
     public SocketClient(String ip, int port, double ID){
         this.ip =ip;
         this.port = port;
@@ -34,7 +45,9 @@ public class SocketClient implements ClientInterface {
         clientRunning = true;
     }
 
-
+    /**
+     * Starts the client by establishing a connection to the server and initializing streams.
+     */
     public void startClient(){
         try {
             clientRunning = true;
@@ -68,7 +81,11 @@ public class SocketClient implements ClientInterface {
         }
     }
 
-
+    /**
+     * Sends an update message to the server.
+     *
+     * @param msg The update message to be sent.
+     */
     public synchronized void update(ViewMessage msg) {
         try {
             out.writeObject(msg);
@@ -81,6 +98,12 @@ public class SocketClient implements ClientInterface {
     }
 
     //INVIA IL MESSAGGIO DI QUIT E POI CHIUDE LA CONNESSIONE
+    /**
+     * Sends a quit message to the server and closes the connection.
+     *
+     * @param msg The quit message to be sent.
+     * @throws IOException If there is an I/O related exception.
+     */
     @Override
     public void quit(ViewMessage msg) throws IOException {
         update(msg);
@@ -95,11 +118,23 @@ public class SocketClient implements ClientInterface {
     }
 
     //METODO CHE RICEVE I MESSAGI DAL SERVER E LI AGGIUNGE ALLA QUEUE DEL CLIENT
+    /**
+     * Adds a model message to the client's view queue.
+     *
+     * @param msg The model message to add to the queue.
+     * @throws RemoteException If there is an RMI related exception.
+     */
     @Override
     public synchronized void addToViewQueue(ModelMessage msg) throws RemoteException {
         this.modelQueue.add(msg);
         notifyAll();
     }
+    /**
+     * Runs the client, continuously processing messages from the server.
+     *
+     * @throws RemoteException    If there is an RMI related exception.
+     * @throws InterruptedException If the thread is interrupted.
+     */
     @Override
     public void run() throws RemoteException, InterruptedException {
         while (true) {
@@ -108,6 +143,13 @@ public class SocketClient implements ClientInterface {
     }
 
     //CREA IL SOCKET E AGGIUNGE L'ID NELLA MAPPA DEL SERVER
+    /**
+     * Registers the client to the server.
+     *
+     * @param ID     The unique identifier for the client.
+     * @param client The client interface instance.
+     * @throws RemoteException If there is an RMI related exception.
+     */
     public void registerToServer(double ID, ClientInterface client) throws RemoteException{
 
         //if(!socketCreated){
@@ -117,11 +159,22 @@ public class SocketClient implements ClientInterface {
     }
 
     //METODO CHE VIENE CHIAMATO DALLA VIEW PER DARE IL RIFERIMENTO AL CLIENT
+    /**
+     * Sets the view associated with this client.
+     *
+     * @param view The view instance.
+     * @throws RemoteException If there is an RMI related exception.
+     */
     @Override
     public void setView(View view) throws RemoteException {
         this.view = view;
     }
 
+    /**
+     * Sends periodic 'pong' messages to the server to maintain connectivity.
+     *
+     * @throws RemoteException If there is an RMI related exception.
+     */
     @Override
     public void pong() throws RemoteException {
         Thread t1 = new Thread(() -> {
@@ -138,7 +191,12 @@ public class SocketClient implements ClientInterface {
     }
 
 
-
+    /**
+     * Processes model messages from the queue in a separate thread.
+     *
+     * @throws RemoteException    If there is an RMI related exception.
+     * @throws InterruptedException If the thread is interrupted while waiting.
+     */
     private synchronized void pollThreaded() throws RemoteException, InterruptedException {
         if (modelQueue.isEmpty()) {
             wait();

@@ -218,7 +218,7 @@ public class Game {
     /**
      * method that checks if the game has to end. If this check is true, this method will change the game state and the
      * network manager will stop reading messages and will call the gameEnd method
-     * @return
+     * @return return true if the game has to end, false otherwise
      */
     public synchronized boolean checkIfGameEnd(){
         boolean gameEnd = true;
@@ -235,6 +235,9 @@ public class Game {
         return gameEnd;
     }
 
+    /**
+     * Checks if the current turn is the last turn.
+     */
     public void checkIfIsLastTurn(){
         if(maxScore>=20 | (goldDeck.isEmpty() && resourceDeck.isEmpty() && publicCards.isEmpty())){
             for(int i=0; i<=playerIndex; i++){
@@ -246,6 +249,11 @@ public class Game {
     //fa scorrere la lista e controlla se maxscore è arrivato a 20 e se il giro dei turni è finito
     //in questo caso vado a gameEnd dove verranno calcolati i punteggi dei goal e sommati ai punteggi correnti dei giocatori
     //else, passa il turno al prossimo ritornando a turn start
+    /**
+     * Ends the turn for the current player.
+     *
+     * @param nickname The nickname of the player ending the turn.
+     */
     public synchronized void turnEnd(String nickname){
         if(nickname.equals(currentPlayer.getNickname())) {
             checkIfIsLastTurn();
@@ -263,6 +271,15 @@ public class Game {
     }
     //metodo che aggiorna il model in base alla carta scelta dal client
     //ESISTE IL MODO PER ASCOLTARE SOLTANTO UN PLAYER?
+    /**
+     * Method that updates the model based on the card chosen by the client.
+     *
+     * @param playedCard The card played by the player.
+     * @param player The player who played the card.
+     * @param r The row position on the board.
+     * @param c The column position on the board.
+     * @return Result code indicating success or failure.
+     */
     public int playCard(Card playedCard, Player player, int r, int c){
         int result=-2;
         try{
@@ -289,7 +306,16 @@ public class Game {
         if(!player.equals(currentPlayer)) result=-3;
         return result;
     }
+    //RICORDA L'ECCEZIONE PER PLAYER NON CORRETTO, GIà PESCATO/GIOCATO E CARTE FINITE
 
+
+    /**
+     * Draws a public card for the current player.
+     *
+     * @param player The player drawing the card.
+     * @param index The index of the public card to draw.
+     * @return Result code indicating success or failure.
+     */
     public int drawPublicCards(Player player, int index) {
         //checks if the player is allowed to draw a card
         if (!player.equals(currentPlayer)) {
@@ -326,7 +352,13 @@ public class Game {
     }
 
 
-
+    /**
+     * Draws a card from the specified deck for the current player.
+     *
+     * @param player The player drawing the card.
+     * @param whichDeck The deck from which to draw the card (0 for resource deck, 1 for gold deck).
+     * @return Result code indicating success or failure.
+     */
     public int drawFromTheDeck(Player player, int whichDeck){
         int result=0;
         if((player.equals(currentPlayer) && draw) ){
@@ -356,6 +388,12 @@ public class Game {
         return result;
     }
     //method that gives out the cards to the player and if necessary, notifies about the changes to the deck
+    /**
+     * Hands out cards to the player and optionally updates observers about the deck changes.
+     *
+     * @param player The player to receive the cards.
+     * @param updateAboutTheDecks Whether to update observers about the deck changes.
+     */
     public void handOutCards(Player player,boolean updateAboutTheDecks){
         List<Card> newHand=new ArrayList<>();
         newHand.add(resourceDeck.poll());
@@ -371,6 +409,10 @@ public class Game {
             gameObserver.updatedDeck(player.getNickname(), goldDeck.peek(), 1);
         }
     }
+
+    /**
+     * Updates the public cards.
+     */
     public void updatePublicCards(){
         publicCards.add(resourceDeck.poll());
         publicCards.add(resourceDeck.poll());
@@ -380,10 +422,21 @@ public class Game {
         gameObserver.updatedPublicCards("",3);
     }
     //metodo che aggiorna il current player,
+    /**
+     * Gets the public goals.
+     *
+     * @return An array of public goal cards.
+     */
     public GoalCard[] getPublicGoals() {
         return publicGoals;
     }
 
+    /**
+     * Sets the acknowledgment ID binding map.
+     *
+     * @param ID The ID to bind.
+     * @param ack The acknowledgment to bind.
+     */
     public synchronized void setAckIdBindingMap(double ID, boolean ack) {
         //se non è stato inserito l'Id in precedenza, lo setto ora
         if(!AckIdBindingMap.containsKey(ID))
@@ -394,12 +447,25 @@ public class Game {
         gameObserver.updatedAck(ack,ID);
     }
 
+    /**
+     * Sets the error message binding map.
+     *
+     * @param ID The ID to bind.
+     * @param errorMessage The error message to bind.
+     */
     public void setErrorMessageBindingMap(double ID,String errorMessage) {
         ErrorMessageBindingMap.put(ID,errorMessage);
         gameObserver.updatedError(ID,errorMessage);
         //TODO: VALUTARE CASO CHAT!!! Fare una mappa a parte/controllare nella view/invece di una stringa mettere una
 
     }
+
+    /**
+     * Sets both acknowledgment and error message for a given ID.
+     *
+     * @param ID The ID to bind.
+     * @param errorMessage The error message to bind.
+     */
     public void setAckAndError(double ID,  String errorMessage) {
         try {
             gameObserver.unRegisterClient(errorMessage, ID);
@@ -409,21 +475,44 @@ public class Game {
     }
 
 
+    /**
+     * Removes a player from the list and updates the maps and observer.
+     *
+     * @param removedPlayer The player to remove.
+     * @param playerID The ID of the player to remove.
+     */
     public void removePlayerFromList(Player removedPlayer,double playerID){
         players.remove(removedPlayer);
         getAckIdBindingMap().remove(playerID);
         ErrorMessageBindingMap.remove(playerID);
         gameObserver.removedPlayer(removedPlayer.getNickname());
     }
+
+    /**
+     * Sets the public goals and updates the observer.
+     *
+     * @param publicGoals The public goals to set.
+     */
     public void setPublicGoals(GoalCard[] publicGoals) {
         this.publicGoals = publicGoals;
         gameObserver.updatedPublicGoals(this.publicGoals);
     }
+
+    /**
+     * Sets the game state and updates the observer.
+     *
+     * @param gameState The game state to set.
+     */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         gameObserver.updatedGameState(gameState);
     }
 
+    /**
+     * Sets the online players counter.
+     *
+     * @param add The value to add to the counter.
+     */
     public void setOnlinePlayersCounter(int add) {
         synchronized ((Integer)this.onlinePlayersCounter) {
             onlinePlayersCounter += add;
@@ -440,72 +529,158 @@ public class Game {
         }
     }
 
+    /**
+     * Triggers the winner due to forfeit and notifies the observer.
+     */
     public void triggerWinnerDueToForfeit() {
         gameObserver.winnerDueToForfeit(winnerDueToForfeit);
     }
 
+    /**
+     * Gets the goal card deck.
+     *
+     * @return The goal card deck.
+     */
     public Queue<GoalCard> getGoalCardDeck() {
         return goalCardDeck;
     }
 
+    /**
+     * Gets the list of players.
+     *
+     * @return The list of players.
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Gets the public cards.
+     *
+     * @return The public cards.
+     */
     public List<Card> getPublicCards() {
         return publicCards;
     }
 
+    /**
+     * Gets the current player.
+     *
+     * @return The current player.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Gets the gold deck.
+     *
+     * @return The gold deck.
+     */
     public Queue<Card> getGoldDeck() {
         return goldDeck;
     }
 
+    /**
+     * Gets the resource deck.
+     *
+     * @return The resource deck.
+     */
     public Queue<Card> getResourceDeck() {
         return resourceDeck;
     }
 
+    /**
+     * Gets the game observer.
+     *
+     * @return The game observer.
+     */
     public GameObserver getGameObserver() {
         return gameObserver;
     }
 
+    /**
+     * Gets the starter deck.
+     *
+     * @return The starter deck.
+     */
     public Queue<Card> getStarterDeck() {
         return starterDeck;
     }
 
+    /**
+     * Gets the game state.
+     *
+     * @return The game state.
+     */
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * Sets the player index.
+     *
+     * @param playerIndex The player index to set.
+     */
     public void setPlayerIndex(int playerIndex) {
         this.playerIndex = playerIndex;
     }
+
+    /**
+     * Shuffles the list of players.
+     */
     public void shufflePlayers(){
         Collections.shuffle(this.players);
     }
 
-
+    /**
+     * Gets the acknowledgment ID binding map.
+     *
+     * @return The acknowledgment ID binding map.
+     */
     public ConcurrentHashMap<Double, Boolean> getAckIdBindingMap() {
         return AckIdBindingMap;
     }
 
+    /**
+     * Gets the error message binding map.
+     *
+     * @return The error message binding map.
+     */
     public ConcurrentHashMap<Double, String> getErrorMessageBindingMap() {
         return ErrorMessageBindingMap;
     }
 
+    /**
+     * Sets the game observer.
+     *
+     * @param gameObserver The game observer to set.
+     */
     public void setGameObserver(GameObserver gameObserver) {
         this.gameObserver = gameObserver;
     }
 
+    /**
+     * Sets the maximum score.
+     *
+     * @param maxScore The maximum score to set.
+     */
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
 
+    /**
+     * Gets the maximum score.
+     *
+     * @return The maximum score.
+     */
     public int getMaxScore(){return this.maxScore;}
 
+    /**
+     * Gets the online players counter.
+     *
+     * @return The online players counter.
+     */
     public int getOnlinePlayersCounter() {
         synchronized ((Integer)this.onlinePlayersCounter) {
             return onlinePlayersCounter;

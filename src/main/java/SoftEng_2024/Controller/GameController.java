@@ -814,38 +814,84 @@ public class GameController {
 
     //GETTERS AND SETTERS*********************************************
 
-
+    /**
+     * Gets the ObServerManager for the view.
+     *
+     * @return the ObServerManager for the view.
+     */
     public ObServerManager getToViewManager() {
         return toViewManager;
     }
 
+    /**
+     * Sets the ObServerManager for the view.
+     *
+     * @param toViewManager the ObServerManager to set for the view.
+     */
     public void setToViewManager(ObServerManager toViewManager) {
         this.toViewManager = toViewManager;
     }
 
+    /**
+     * Sets the ServerInterface for RMI communication.
+     *
+     * @param serverRMI the ServerInterface to set for RMI communication.
+     */
     public void setServerRMI(ServerInterface serverRMI) {
         this.serverRMI = serverRMI;
     }
 
+    /**
+     * Sets the SocketServer for socket communication.
+     *
+     * @param serverSocket the SocketServer to set for socket communication.
+     */
     public void setServerSocket(SocketServer serverSocket) {
         this.serverSocket = serverSocket;
     }
 
+    /**
+     * Gets the current Game instance.
+     *
+     * @return the current Game instance.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Gets the list of client players.
+     *
+     * @return the list of client players.
+     */
     public List<Player> getClientPlayers() {
         return clientPlayers;
     }
 
+    /**
+     * Sets the list of client players.
+     *
+     * @param clientPlayers the list of client players to set.
+     */
     public void setClientPlayers(List<Player> clientPlayers) {
         this.clientPlayers = clientPlayers;
     }
 
+    /**
+     * Sets the NetworkManager for managing network operations.
+     *
+     * @param networkManager the NetworkManager to set for managing network operations.
+     */
     public void setNetworkManager(NetworkManager networkManager) {
         this.networkManager = networkManager;
     }
+
+    /**
+     * Sends a chat error message to the view manager.
+     *
+     * @param ID the ID of the chat message.
+     * @param errorString the error message to send.
+     */
     private void sendChatErrorMessage(double ID, String errorString){
         toViewManager.addModelMessageToQueue(new ChatErrorMessage(ID,errorString));
     }

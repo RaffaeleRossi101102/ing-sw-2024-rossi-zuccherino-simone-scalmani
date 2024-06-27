@@ -17,7 +17,10 @@ import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
+/**
+ * ViewState is an abstract class representing a state in the user interface for a game client.
+ * It provides methods for displaying information, handling user commands, and updating the client interface.
+ */
 public abstract class ViewState {
 
     protected CliViewClient view;
@@ -40,7 +43,13 @@ public abstract class ViewState {
     protected final long drawTimer;
     protected boolean defaultCommandChosen;
 
-
+    /**
+     * Constructs a ViewState object with the specified parameters.
+     *
+     * @param view   The CliViewClient associated with this state.
+     * @param client The ClientInterface used for communication with the server.
+     * @param ID     The ID associated with this client.
+     */
     public ViewState(CliViewClient view,ClientInterface client, double ID){
         this.view=view;
         this.client=client;
@@ -61,8 +70,18 @@ public abstract class ViewState {
         this.defaultCommand="";
         this.defaultCommandChosen=false;
     }
-    public abstract void display() throws InterruptedException;
 
+    /**
+     * Abstract method to display the state's information or interface.
+     *
+     * @throws InterruptedException If interrupted while displaying.
+     */
+    public abstract void display() throws InterruptedException;
+    /**
+     * Updates the client with the given message.
+     *
+     * @param msg The ViewMessage to update the client with.
+     */
     protected void updateClient(ViewMessage msg){
         try {
             client.update(msg);
@@ -71,7 +90,12 @@ public abstract class ViewState {
         }
     }
 
-
+    /**
+     * Executes a default command based on the current game state.
+     *
+     * @param gameState   The GameState to check against.
+     * @param waitMessage The message to display while waiting for input.
+     */
     protected void defaultCommand(GameState gameState,String waitMessage)  {
         String insertCommandString="Type Show Board to see a player's board, Player Score to see the scoreboard, Show hand to see your hand, Playground to see public cards and decks, Chat to show recent messages and chat, quit to quit the game";
         if(view.getLocalModel().getState().equals(gameState)) {
@@ -144,7 +168,9 @@ public abstract class ViewState {
             }
         }
     }
-
+    /**
+     * Displays the scores of all players currently in the game.
+     */
     protected void playersScore(){
         
         System.out.println("Here are the players' scores in the game so far:");
@@ -153,7 +179,11 @@ public abstract class ViewState {
         }
         
     }
-
+    /**
+     * Listens for the default command input from the user.
+     *
+     * @param wakeUp If true, wakes up the state after receiving a command.
+     */
     protected void listenDefaultCommand(boolean wakeUp){
         Thread defaultCommandThread = new Thread(() -> {
             //System.out.println("Type 'chat', 'quit' to use the chat or to quit the game");
@@ -173,7 +203,9 @@ public abstract class ViewState {
         });
         defaultCommandThread.start();
     }
-
+    /**
+     * Allows the user to type a message to send in the chat.
+     */
     protected void writeInChat(){
         Scanner scanner = new Scanner(System.in);
         List<String> chatMessages=view.getLocalModel().getLastNMessages(15);
@@ -204,7 +236,9 @@ public abstract class ViewState {
         else
             return;
     }
-
+    /**
+     * Allows the user to send a whispered message to a specific player.
+     */
     protected void whisper(){
         System.out.println("Inside whisper command...");
         System.out.println("Who do you want to whisper to? These are the nicknames, choose one of them: ");
@@ -226,7 +260,9 @@ public abstract class ViewState {
             updateClient(new WhisperMessage( msg, nickname, ID));
         }
     }
-
+    /**
+     * Allows the user to broadcast a message to all players in the game.
+     */
     protected void broadcast(){
         System.out.println("Inside broadcast command...");
         
@@ -241,7 +277,11 @@ public abstract class ViewState {
         }
 
     }
-
+    /**
+     * Allows the user to type a message for chat, ensuring it does not exceed 128 characters.
+     *
+     * @return The message typed by the user.
+     */
     protected String typeMessage(){
         
         System.out.println("Type your message [max 128 char] or type 'exit' to cancel");
@@ -254,7 +294,9 @@ public abstract class ViewState {
         }
         return message;
     }
-
+    /**
+     * Allows the user to quit the game, if confirmed by user input.
+     */
     protected void quit() {
         Scanner input = new Scanner(System.in);
         String answer;
@@ -272,7 +314,11 @@ public abstract class ViewState {
         }
 
     }
-
+    /**
+     * Prints the graphical representation of a player's board.
+     *
+     * @param showPersonalBoard If true, shows the current user's board; otherwise, prompts user to select a player's board.
+     */
     protected void printPlayerBoard(boolean showPersonalBoard){
         LocalBoard boardToPrint=null;
         if(!showPersonalBoard) {
@@ -384,6 +430,9 @@ public abstract class ViewState {
         }
         System.out.println();
     }
+    /**
+     * Displays the user's current hand of cards.
+     */
     protected void showHand(){
         String upperHand="";
         String midHand="";
@@ -406,6 +455,9 @@ public abstract class ViewState {
         }
         System.out.println(view.getLocalModel().getAvailableGoals().get(0).getGoalType());
     }
+    /**
+     * Displays the current state of decks and public cards.
+     */
     protected void showDecksAndPublicCards(){
         String upperCards;
         String midCards;
@@ -444,10 +496,17 @@ public abstract class ViewState {
 
 
     }
+    /**
+     * Wakes up the current state, notifying all waiting threads.
+     */
     protected synchronized void wakeUpState(){
         notifyAll();
     }
-
+    /**
+     * Sets whether a default command has been chosen.
+     *
+     * @param defaultCommandChosen True if a default command has been chosen; false otherwise.
+     */
     protected void setDefaultCommandChosen(boolean defaultCommandChosen) {
         this.defaultCommandChosen = defaultCommandChosen;
     }

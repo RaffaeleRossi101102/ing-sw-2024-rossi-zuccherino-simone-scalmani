@@ -8,8 +8,11 @@ import SoftEng_2024.Model.Observers.BoardObserver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/**
+ * Represents the game board where cards can be placed and manipulated.
+ */
 public class Board {
+
     private final Cell[][] cardBoard;
     private final ArrayList<Cell> cardList;
     private final int[] anglesCounter;
@@ -17,6 +20,9 @@ public class Board {
     private BoardObserver boardObserver;
 
     //CONSTRUCTOR AND METHODS
+    /**
+     * Constructs a new game board with default dimensions and initializes its state.
+     */
     public Board(){
         this.cardBoard= new Cell[85][85];
         for(int i=0; i< this.cardBoard.length; i++){
@@ -29,45 +35,31 @@ public class Board {
         this.score = 0;
         this.cardBoard[42][42].setCellState(CellState.PLACEABLE);
     }
+
     //OBSERVER METHODS
+    /**
+     * Sets the observer for this board.
+     *
+     * @param o The observer instance to be set.
+     */
     public void setObserver(BoardObserver o){
         boardObserver=o;
     }
 
-    //Metodo che setta le celle nelle 4 direzioni come placeable, nel caso in cui la carta giocata
-    //sia flipped (non controlla che l'angolo sia visible)
-//    private void setAvailableCellsFlipped(int r, int c){
-//        if((r-1)>=0 && (c-1)>=0) {
-//            if (cardBoard[r - 1][c - 1].getCellState().equals(CellState.NOTPLACEABLE)) {
-//                cardBoard[r - 1][c - 1].setCellState(CellState.PLACEABLE);
-//                System.out.println("LA CELLA " + (r-1) + " " + (c-1) + " è piazzabile");
-//            }
-//        }
-//        if((r+1)<cardBoard.length && c-1>=0) {
-//            if (cardBoard[r + 1][c - 1].getCellState().equals(CellState.NOTPLACEABLE)) {
-//                cardBoard[r + 1][c - 1].setCellState(CellState.PLACEABLE);
-//                System.out.println("LA CELLA " + (r+1) + " " + (c-1) + " è piazzabile");
-//            }
-//        }
-//        if((r-1)>=0 && c+1<cardBoard[0].length) {
-//            if (cardBoard[r - 1][c + 1].getCellState().equals(CellState.NOTPLACEABLE)) {
-//                cardBoard[r - 1][c + 1].setCellState(CellState.PLACEABLE);
-//                System.out.println("LA CELLA " + (r-1) + " " + (c+1) + " è piazzabile");
-//            }
-//        }
-//        if((r+1)<cardBoard.length && (c+1)<cardBoard[0].length) {
-//            if (cardBoard[r + 1][c + 1].getCellState().equals(CellState.NOTPLACEABLE)) {
-//                cardBoard[r + 1][c + 1].setCellState(CellState.PLACEABLE);
-//                System.out.println("LA CELLA " + (r+1) + " " + (c+1) + " è piazzabile");
-//            }
-//        }
-//
-//    }
+
     //metodo che setta le celle come available nel caso in cui la carta è giocata di front.
     //Fa dunque il controllo negli angoli: l'angolo della carta piazzata, nella direzione corrispondente
     //alla cella della matrice non deve essere invisibile
+    /**
+     * Checks and sets cells as placeable if the card is played front-facing.
+     *
+     * @param r          The row index of the cell.
+     * @param c          The column index of the cell.
+     * @param played     The card being played.
+     * @param whichAngle The angle index indicating the direction.
+     */
     private void checkIfPlaceable(int r,int c, Card played, AngleIndexes whichAngle){
-        if(!cardBoard[r][c].getCellState().equals(CellState.NOTPLACEABLE))
+        if(cardBoard[r][c].getCellState().equals(CellState.BANNED))
             return;
         if(played.getFlipped() | !played.getFront().getFrontAngles()[AngleIndexes.getIndex(whichAngle)].equals(Angles.INVISIBLE)) {
             cardBoard[r][c].setCellState(CellState.PLACEABLE);
@@ -76,6 +68,14 @@ public class Board {
             cardBoard[r][c].setCellState(CellState.BANNED);
         }
     }
+
+    /**
+     * Sets cells around the played card as available for placement.
+     *
+     * @param r      The row index of the cell.
+     * @param c      The column index of the cell.
+     * @param played The card being played.
+     */
     private void setAvailableCells(int r, int c,Card played) {
 
         if ((r - 1) >= 0 && (c - 1) >= 0) {
@@ -95,6 +95,15 @@ public class Board {
         }
 
     }
+
+    /**
+     * Updates the counter for covered angles after placing a card.
+     *
+     * @param r          The row index of the cell.
+     * @param c          The column index of the cell.
+     * @param whichAngle The angle index indicating the direction.
+     * @return The number of covered angles updated.
+     */
     private int updateCounter(int r,int c, AngleIndexes whichAngle){
 
         Angles coveredAngle;
@@ -112,7 +121,17 @@ public class Board {
             anglesCounter[Angles.getIndex(coveredAngle)]--;
         return 1;
     }
+
+
     //conta il numero di risorse coperte dopo il piazzamento
+    /**
+     * Counts the number of covered angles after placing a card.
+     *
+     * @param r          The row index of the cell.
+     * @param c          The column index of the cell.
+     * @param playedCard The card being played.
+     * @return The total number of covered angles.
+     */
     private int coveredAnglesCounter(int r, int c,Card playedCard) {
         System.out.println(boardObserver.getCallerNickname()+" "+ Arrays.toString(playedCard.getFront().getCovered()));
         //counter ha nelle prime 7 posizioni il numero di risorse/oggetti. All'ottava c'è il numero di
@@ -142,12 +161,27 @@ public class Board {
         return counter;
     }
 
-
+    /**
+     * Exception indicating that the cell is not available for placing a card.
+     */
     public static class notAvailableCellException extends Exception{}
 
+    /**
+     * Exception indicating that the necessary resources for placing a card are not available.
+     */
     public static class necessaryResourcesNotAvailableException extends Exception{}
 
+
     //metodo che aggiorna la board con la carta piazzata
+    /**
+     * Updates the board by placing the played card at the specified cell.
+     *
+     * @param r      The row index of the cell.
+     * @param c      The column index of the cell.
+     * @param played The card being played.
+     * @throws notAvailableCellException           If the cell is not available for placing the card.
+     * @throws necessaryResourcesNotAvailableException If the necessary resources for placing the card are not available.
+     */
     public void updateBoard(int r, int c, Card played) throws notAvailableCellException, necessaryResourcesNotAvailableException{
         int coveredAnglesCounter;
 
@@ -176,49 +210,51 @@ public class Board {
         //aggiungo alla lista la nuova cella con la nuova carta.
 
     }
+
     //Aggiorno il counter di risorse dopo il piazzamento sottraendo quelle coperte e aggiungendo quelle della carta
     //piazzata
-//    public void updateCountersz(int[] counter, Card played){
-//        int[] count;//= new int[7];
-//        // Angles[] angles;
-//        // toglie da anglescounter le risorse/oggetti coperte dalla nuova carta
-//        //System.out.println("Dentro updateCounters il counter di risorse nella board è : " + counter.length);
-//        for(int i=0; i<7; i++){
-//            this.anglesCounter[i] -= counter[i];
-//
-//        }
-//        //salvo in count il numero di risorse nella carta
-//        count=played.getSumResources();
-//        //System.out.println("la lunghezza di count è: " + count.length);
-//
-//        //sommo il numero di risorse/oggetti della carta al totale di risorse/oggetti nella board
-//        System.out.print("Le risorse sono: [");
-//        for(int i=0;i<7;i++){
-//            this.anglesCounter[i] += count[i];
-//            if (i<6) System.out.print(this.anglesCounter[i]+" - "); //reso carino
-//            else System.out.print(this.anglesCounter[i]);
-//        }
-//        System.out.println("]");
-//    }
-    //public void addObservers(ModelObserver ob){
-//        boardObservers.add()
-//    }
     //GETTER
+    /**
+     * Retrieves the current count of covered angles.
+     *
+     * @return An array representing the count of covered angles.
+     */
     public int[] getAnglesCounter() {
         return anglesCounter;
     }
+
+    /**
+     * Retrieves the current score of the board.
+     *
+     * @return The score of the board.
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * Retrieves the 2D array representing the card board.
+     *
+     * @return The card board.
+     */
     public Cell[][] getCardBoard() {
         return cardBoard;
     }
 
+    /**
+     * Retrieves the list of cells containing cards on the board.
+     *
+     * @return The list of cells containing cards.
+     */
     public ArrayList<Cell> getCardList() {
         return cardList;
     }
 
+    /**
+     * Sets the score of the board.
+     *
+     * @param score The score to set.
+     */
     public void setScore(int score) {
         this.score = score;
     }

@@ -9,6 +9,10 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class handles communication with a client connected via a socket.
+ * It receives messages from the client and manages message processing.
+ */
 public class SocketClientHandler extends Thread {
     private Socket socket;
     private NetworkManager manager;
@@ -18,6 +22,13 @@ public class SocketClientHandler extends Thread {
     private boolean received;
     private boolean firstTime;
 
+    /**
+     * Constructor to initialize a SocketClientHandler object.
+     *
+     * @param server   The SocketServer instance managing this client connection.
+     * @param socket   The Socket connected to the client.
+     * @param manager  The NetworkManager instance for managing network operations.
+     */
     public SocketClientHandler(SocketServer server, Socket socket, NetworkManager manager) {
         this.server = server;
         this.socket = socket;
@@ -26,7 +37,10 @@ public class SocketClientHandler extends Thread {
         this.firstTime = true;
     }
 
-
+    /**
+     * Overrides the run method of Thread.
+     * Handles the communication loop with the client, receiving messages and managing timeouts.
+     */
     public void run(){
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
@@ -72,6 +86,11 @@ public class SocketClientHandler extends Thread {
         }
     }
 
+    /**
+     * Adds a ViewMessage to the NetworkManager's queue for processing.
+     *
+     * @param msg The ViewMessage to add to the queue.
+     */
     private void addToQueue(ViewMessage msg) {
         manager.addViewMessages(msg);
     }

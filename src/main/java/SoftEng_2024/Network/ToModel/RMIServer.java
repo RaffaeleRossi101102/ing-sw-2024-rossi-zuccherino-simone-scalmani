@@ -23,15 +23,34 @@ public class RMIServer implements ServerInterface{
     //**************************************
     //METHODS
     //CONSTRUCTOR
+    /**
+     * Constructs an RMIServer object.
+     *
+     * @param manager The network manager managing incoming view messages.
+     * @param port    The port number for RMI communication.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     public RMIServer(NetworkManager manager,int port) throws RemoteException{
         this.manager = manager;
         IdClientBindingMap = new ConcurrentHashMap<>();
         this.port = port;
     }
+    /**
+     * Adds a view message to the network manager for processing.
+     *
+     * @param msg The view message to be added.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public void addToNetworkManager(ViewMessage msg) throws RemoteException {
         manager.addViewMessages(msg);
     }
+    /**
+     * Starts the RMI server, binds it to the registry, and starts a ping thread.
+     *
+     * @throws RemoteException       If there is an RMI-related exception.
+     * @throws AlreadyBoundException If the server is already bound in the registry.
+     */
     public void run() throws RemoteException, AlreadyBoundException {
         String registryName = "RMI_server";
         ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(this,port);
@@ -67,6 +86,10 @@ public class RMIServer implements ServerInterface{
         pingThread.start();
     }
 
+    /**
+     * Sends a ping to all connected clients to check their connectivity.
+     * If a client is unreachable, sends a quit message to the network manager.
+     */
     private void ping() {
         for(Double id : IdClientBindingMap.keySet()){
             try {
@@ -83,6 +106,13 @@ public class RMIServer implements ServerInterface{
         }
     }
 
+    /**
+     * Registers a client to the server.
+     *
+     * @param ID     The unique ID of the client.
+     * @param client The client interface instance.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     //registers the client to the hash map
     @Override
     public void registerClient(double ID, ClientInterface client) throws RemoteException{
@@ -93,11 +123,23 @@ public class RMIServer implements ServerInterface{
         }
     }
     //removes the client from the hash map
+    /**
+     * Unregisters a client from the server.
+     *
+     * @param ID The unique ID of the client to unregister.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public void unregisterClient(double ID) throws RemoteException{
         IdClientBindingMap.remove(ID);
     }
 
+    /**
+     * Adds a model message to the client's view queue based on the receiver's ID.
+     *
+     * @param msg The model message to add.
+     * @throws RemoteException If there is an RMI-related exception.
+     */
     @Override
     public void addToClientQueue(ModelMessage msg) throws RemoteException {
        // System.out.println("trying to send "+msg);
@@ -126,6 +168,12 @@ public class RMIServer implements ServerInterface{
 
     }
 
+    /**
+     * Retrieves the set of client IDs.
+     *
+     * @return A set of client IDs.
+     * @throws RemoteException If there is an issue with remote method invocation.
+     */
     public Set<Double> getClients() throws RemoteException{
         return IdClientBindingMap.keySet();
     }

@@ -100,6 +100,13 @@ public class Player {
         for (PlayerObserver o : playerObservers)
             o.updatedHand(hand, nickname);
     }
+
+    /**
+     * Sets the starter card and notifies the player observer of the update.
+     * This method is synchronized to ensure thread safety.
+     *
+     * @param starterCard The new starter card to be set.
+     */
     public synchronized void setStarterCard(StarterCard starterCard){
         this.starterCard=starterCard;
         getPlayerObserver().updatedStarterCard(starterCard);
@@ -226,6 +233,12 @@ public class Player {
     public GameState getPlayerState() {
         return playerState;
     }
+
+    /**
+     * Retrieves the current starter card.
+     *
+     * @return The current starter card.
+     */
 
     public StarterCard getStarterCard() {
         return starterCard;

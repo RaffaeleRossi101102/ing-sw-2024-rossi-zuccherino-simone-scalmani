@@ -13,9 +13,24 @@ import SoftEng_2024.Network.ToView.ObServerManager;
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-
+/**
+ * The main class to start the server application.
+ */
 public class ServerMain {
     //method that creates
+    /**
+     * Main method to initialize and start the server components.
+     *
+     * @param args Command-line arguments:
+     *             - If 1 argument: Use default port for SocketServer and default port for RMIServer.
+     *             - If 2 arguments: Specify custom port for SocketServer and default port for RMIServer.
+     *             - If 3 arguments: Specify custom port for SocketServer and custom port for RMIServer.
+     * @throws AlreadyBoundException              If an RMI object is already bound to the registry.
+     * @throws RuntimeException                  If a runtime exception occurs during server execution.
+     * @throws Board.necessaryResourcesNotAvailableException If necessary resources for the board are not available.
+     * @throws Board.notAvailableCellException    If a cell on the board is not available.
+     * @throws IOException                       If an I/O error occurs.
+     */
     public static void main(String[] args) throws AlreadyBoundException, RuntimeException, Board.necessaryResourcesNotAvailableException, Board.notAvailableCellException, IOException {
         //crea
         //TODO: PRENDI IN INPUT LA PORTA PER OGNI SERVER, SE NON SPECIFICATA METTI QUELLA DI DEFAULT
@@ -115,7 +130,9 @@ public class ServerMain {
 
 
     }
-
+    /**
+     * Method to quit the server application by terminating the JVM.
+     */
     public static void quitAll(){
         System.exit(0);
     }

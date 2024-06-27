@@ -10,12 +10,27 @@ import SoftEng_2024.View.ViewMessages.ViewMessage;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-
+/**
+ * SetColorState represents the state where players choose their pawn color at the beginning of the game.
+ * Players can choose from available colors and interact with the game through commands such as setting color,
+ * showing the board, chatting, or quitting.
+ */
 public class SetColorState extends ViewState{
+    /**
+     * Constructs a SetColorState object.
+     *
+     * @param view   The CliViewClient associated with this state.
+     * @param client The ClientInterface through which interactions with the game server occur.
+     * @param ID     The unique identifier of the player in the game.
+     */
     public SetColorState(CliViewClient view, ClientInterface client,double ID){
         super(view,client,ID);
     }
-
+    /**
+     * Displays the set color state, allowing the player to interactively choose their pawn color.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting for player actions.
+     */
     @Override
     public synchronized void display() throws InterruptedException {
         String indications="Type  Set Color, Show Board, Chat or Quit";
@@ -72,6 +87,10 @@ public class SetColorState extends ViewState{
         this.view.getWaitingState().setNextState(new ChooseGoalState(view,client,ID));
 
     }
+    /**
+     * Allows the player to choose their pawn color by interacting with console input.
+     * Validates the chosen color against available options and sends a SetColorMessage to update the game state.
+     */
     private void setColor() {
         Scanner input = new Scanner(System.in);
         String answer;

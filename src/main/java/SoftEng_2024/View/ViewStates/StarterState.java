@@ -11,11 +11,26 @@ import SoftEng_2024.View.ViewMessages.ViewMessage;
 import java.util.Scanner;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * StarterState represents the state where players play their starter card at the beginning of the game.
+ * Players can interact by playing their starter card, chatting, or quitting.
+ */
 public class StarterState extends ViewState{
+    /**
+     * Constructs a StarterState object.
+     *
+     * @param view   The CliViewClient associated with this state.
+     * @param client The ClientInterface through which interactions with the game server occur.
+     * @param ID     The unique identifier of the player in the game.
+     */
     public StarterState(CliViewClient view, ClientInterface client,double ID){
         super(view,client,ID);
     }
+    /**
+     * Displays the starter state, allowing the player to play their starter card.
+     *
+     * @throws InterruptedException If the thread is interrupted while waiting for player actions.
+     */
     @Override
     public synchronized void display() throws InterruptedException {
         String indications="Type  Play Starter Card, Chat or Quit";
@@ -81,6 +96,10 @@ public class StarterState extends ViewState{
         this.view.getWaitingState().setPreviousState(this);
         this.view.getWaitingState().setNextState(new SetColorState(view,client,ID));
     }
+    /**
+     * Allows the player to play their starter card by interacting with console input.
+     * Sends a PlayStarterCardMessage to update the game state with the chosen side (front or back) of the card.
+     */
     private void playStarterCard() {
         Scanner input= new Scanner(System.in);
         String answer;

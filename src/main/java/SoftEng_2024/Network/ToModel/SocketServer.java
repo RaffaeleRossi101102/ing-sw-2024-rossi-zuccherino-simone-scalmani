@@ -7,6 +7,10 @@ import java.io.*;
 import java.net.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This class represents a server that listens for incoming client connections
+ * via sockets and manages communication with connected clients.
+ */
 public class SocketServer{
     private final int port;
     private ServerSocket serverSocket;
@@ -14,12 +18,24 @@ public class SocketServer{
     private ConcurrentHashMap<Double, Socket> clientsConnected = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Double, ObjectOutputStream> clientsOut = new ConcurrentHashMap<>();
 
+    /**
+     * Constructor to initialize a SocketServer object.
+     *
+     * @param port    The port number on which the server listens for incoming connections.
+     * @param manager The NetworkManager instance for managing network operations.
+     */
     public SocketServer(int port, NetworkManager manager) {
         this.port = port;
         this.manager = manager;
     }
 
-
+    /**
+     * Starts the server on the specified port, accepting incoming client connections
+     * and spawning a new SocketClientHandler thread for each client connection.
+     *
+     * @param server The SocketServer instance to start.
+     * @throws IOException If an I/O error occurs while starting the server.
+     */
     public void startServer(SocketServer server) throws IOException {
         try {
             serverSocket = new ServerSocket(port);
@@ -40,26 +56,56 @@ public class SocketServer{
         }
     }
 
+    /**
+     * Sets a client's socket connection in the map of connected clients.
+     *
+     * @param id     The client's ID.
+     * @param socket The socket connection associated with the client.
+     */
     public void setClientsConnected(double id, Socket socket) {
         this.clientsConnected.put(id, socket);
     }
 
+    /**
+     * Retrieves the ServerSocket instance of this server.
+     *
+     * @return The ServerSocket instance.
+     */
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
 
+    /**
+     * Sets a client's ObjectOutputStream in the map of output streams for connected clients.
+     *
+     * @param id  The client's ID.
+     * @param out The ObjectOutputStream associated with the client.
+     */
     public void setClientsOut(double id, ObjectOutputStream out) {
         this.clientsOut.put(id,out);
     }
-
+    /**
+     * Retrieves the map of connected clients and their associated sockets.
+     *
+     * @return The ConcurrentHashMap of client IDs mapped to their sockets.
+     */
     public ConcurrentHashMap<Double, Socket> getClientsConnected() {
         return clientsConnected;
     }
-
+    /**
+     * Retrieves the map of connected clients and their associated ObjectOutputStreams.
+     *
+     * @return The ConcurrentHashMap of client IDs mapped to their ObjectOutputStreams.
+     */
     public ConcurrentHashMap<Double, ObjectOutputStream> getClientsOut() {
         return clientsOut;
     }
-
+    /**
+     * Unregisters a client by closing its ObjectOutputStream and Socket.
+     *
+     * @param id The ID of the client to unregister.
+     * @throws IOException If an I/O error occurs while closing the streams or socket.
+     */
     public void unRegisterClient(double id) throws IOException {
         if (clientsOut.containsKey(id)) {
             ObjectOutputStream out = clientsOut.remove(id);
@@ -76,6 +122,11 @@ public class SocketServer{
     }
 
     //QUANDO RICEVE UN MODELMSG LO INVIA NEL SOCKET VERSO IL CLIENT CHE ASCOLTA
+    /**
+     * Adds a ModelMessage to the queue for all connected clients or a specific client.
+     *
+     * @param msg The ModelMessage to send to clients.
+     */
     public void addToClientQueue(ModelMessage msg) {
         if(msg.getReceiverID() == 0.0){
             for(double id : clientsOut.keySet()){
