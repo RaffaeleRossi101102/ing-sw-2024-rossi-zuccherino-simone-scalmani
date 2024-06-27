@@ -300,7 +300,7 @@ public class GameController {
         else{
             System.err.println("Someone tried to join the game...");
             //TODO show error maxPlayerReached
-            sendErrorMessageAndUnRegister(ID,"You tried to join a game that has already started, please wait for it to finish...Or for us to implement multiple games :)");
+            sendErrorMessageAndUnRegister(ID,"MaxPlayers already reached, please wait for the game to finish...Or for us to implement multiple games :)");
         }
     }
 

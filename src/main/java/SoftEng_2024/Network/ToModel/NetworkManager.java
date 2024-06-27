@@ -67,8 +67,6 @@ public class NetworkManager {
 
         //when out of while loop it means that someone arrived at 20 points and users can only use the chat
         controller.getGame().gameEnd();
-
-
     }
 
     private void pollThreaded() throws InterruptedException {
