@@ -16,7 +16,6 @@ public class LastPlayerStandingMessage extends ModelMessage {
      */
     public LastPlayerStandingMessage(String message) {
         super(0, message, "game");
-
     }
     /**
      * Executes the last player standing message by printing the message to the error console.

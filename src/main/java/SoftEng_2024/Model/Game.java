@@ -11,6 +11,7 @@ import SoftEng_2024.Model.GoalCard.GoalCard;
 import SoftEng_2024.Model.Observers.GameObserver;
 import SoftEng_2024.Model.Player_and_Board.Board;
 import SoftEng_2024.Model.Player_and_Board.Player;
+import SoftEng_2024.Network.ToModel.NetworkManager;
 
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * these methods can only be called by the gameController
  */
 public class Game {
+
     /**
      * state of the game
      */
@@ -95,6 +97,7 @@ public class Game {
      */
     private ConcurrentHashMap<Double,String> ErrorMessageBindingMap;
 
+    private NetworkManager networkManager;
     /**
      * if the timer expires, this String will contain the nickname of the last online player.
      * this will be the winner
@@ -108,7 +111,7 @@ public class Game {
     //TODO: LO STATO DEL GIOCO--> ogni volta che cambia, va fatto sapere a tutti i client
     //TODO: SE UN'OPERAZIONE è SUCCESSFUL O MENO
 
-    public Game(List<Player> players, Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck){
+    public Game(List<Player> players, Queue<Card> goldDeck, Queue<Card> resourceDeck, Queue<Card> starterDeck, Queue<GoalCard> goalCardDeck, NetworkManager networkManager){
         this.players = players;
         this.goldDeck = goldDeck;
         this.resourceDeck = resourceDeck;
@@ -119,6 +122,7 @@ public class Game {
         this.AckIdBindingMap=new ConcurrentHashMap<>();
         this.ErrorMessageBindingMap=new ConcurrentHashMap<>();
         this.gameState=GameState.CONNECTION;
+        this.networkManager=networkManager;
 
     }
 
@@ -259,7 +263,6 @@ public class Game {
             checkIfIsLastTurn();
             //questo è l'ultimo turno del current player
             if (!checkIfGameEnd()) {
-//            currentPlayer.setPlayerState(GameState.NOTPLAYING);
                 if (playerIndex == players.size() - 1) {
                     playerIndex = 0;
                 } else {

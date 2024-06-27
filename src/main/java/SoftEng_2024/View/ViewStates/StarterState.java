@@ -112,6 +112,7 @@ public class StarterState extends ViewState{
         System.out.println(upperHand);
         System.out.println(midHand);
         System.out.println(downHand);
+        System.out.println();
         card.setFlipped(true);
         System.out.println("The back is: ");
         upperHand=card.displayGraphicCard()[0];
@@ -120,6 +121,7 @@ public class StarterState extends ViewState{
         System.out.println(upperHand);
         System.out.println(midHand);
         System.out.println(downHand);
+        System.out.println();
         System.out.println("Type the side of the card (front or back), or type 'exit' to cancel");
         answer = input.nextLine().trim().replaceAll("\\s+", "").toLowerCase();
         while(!answer.equals("front") && !answer.equals("back") && !answer.equals("exit")){

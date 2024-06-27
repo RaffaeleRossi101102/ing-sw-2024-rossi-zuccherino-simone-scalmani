@@ -52,7 +52,6 @@ public class PlayState extends ViewState{
                         view.setCommand("");
                         listenDefaultCommand(true);
                         if(!commandChosen) {
-                            listenDefaultCommand(true);
                             System.out.println(indications);
                             wait();
                         }

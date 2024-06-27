@@ -62,7 +62,7 @@ public class RMIServer implements ServerInterface{
         }
         try {
             registry.bind(registryName, stub);
-            System.out.println("RMI Server started on port "+port);
+            System.out.println("ServerRMI started on port: "+port);
         } catch (RemoteException remoteException ) {
             throw new RuntimeException("Something went wrong, retry... ");
         }
@@ -142,7 +142,7 @@ public class RMIServer implements ServerInterface{
      */
     @Override
     public void addToClientQueue(ModelMessage msg) throws RemoteException {
-       // System.out.println("trying to send "+msg);
+        // System.out.println("trying to send "+msg);
         try {
             //if the ID==0 it means that the messge has to be sent to everyone
             if (msg.getReceiverID() == 0) {
@@ -162,8 +162,8 @@ public class RMIServer implements ServerInterface{
             }
         }catch(RemoteException re){
             //TODO: quit message?
-        //client probably crashed or something went wrong with his stub
-        //pingThread is going to find it and send a quit message to model
+            //client probably crashed or something went wrong with his stub
+            //pingThread is going to find it and send a quit message to model
         }
 
     }

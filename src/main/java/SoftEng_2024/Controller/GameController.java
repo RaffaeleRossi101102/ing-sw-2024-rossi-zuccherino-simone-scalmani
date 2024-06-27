@@ -114,7 +114,7 @@ public class GameController {
         //costruisco i 16 goal, inserisco in una lista, faccio shuffle, aggiungo alla coda
         Queue<GoalCard> goalCardDeck = goalInit();
 
-        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck);
+        this.game = new Game(new ArrayList<>(this.clientPlayers), goldDeck, resourceDeck, starterDeck, goalCardDeck,networkManager);
         this.game.setGameObserver(new GameObserver(this.toViewManager,game,this.networkManager));
 
     }
