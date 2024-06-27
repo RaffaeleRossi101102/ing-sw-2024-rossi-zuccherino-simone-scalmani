@@ -234,6 +234,7 @@ public class Game {
         }
         if(gameEnd){
             gameState=GameState.ENDGAME;
+            networkManager.wakeUpManager();
             gameObserver.gameIsEnding();
         }
         return gameEnd;
