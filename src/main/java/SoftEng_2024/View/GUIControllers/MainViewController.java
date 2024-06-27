@@ -44,7 +44,7 @@ public class MainViewController {
     private static ClientInterface client;
     private static double ID;
     private static boolean flipped, flipped1, flipped2, flipped3, auxFlip, visibleChat = false;
-    private static int columnIndex, rowIndex;
+    private static int columnIndex, rowIndex, columnIndex1, rowIndex1;
     private static LocalModel localModel = new LocalModel();
     private Stage stage;
     private Scene scene;
@@ -566,8 +566,10 @@ public class MainViewController {
                     if (row == 42 && col == 42) {
                         if (auxFlip) {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         } else {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+                            imageView.setDisable(true);
                         }
                     }
                     imageView.setFitWidth(155);
@@ -1251,28 +1253,32 @@ public class MainViewController {
     private void handleCellClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
             ImageView imageView = (ImageView) event.getSource();
-            columnIndex = GridPane.getColumnIndex(imageView);
-            rowIndex = GridPane.getRowIndex(imageView);
-
-            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[rowIndex][columnIndex].getCellState().equals(CellState.PLACEABLE)) {
-                if (prevClickedCell != null && prevClickedCell != imageView){
-                    prevClickedCell.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
-                }
-            }
-
-            prevClickedCell = imageView;
+            columnIndex1 = GridPane.getColumnIndex(imageView);
+            rowIndex1 = GridPane.getRowIndex(imageView);
 
             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card_chosen.png"))));
 
-            if (!localModel.getPlayersBoards().get(nickname).getCardBoard()[rowIndex][columnIndex].getCellState().equals(CellState.PLACEABLE)) {
+            if (prevClickedCell != null && prevClickedCell != imageView){
+                prevClickedCell.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+            }
+
+            if (!localModel.getPlayersBoards().get(nickname).getCardBoard()[rowIndex1][columnIndex1].getCellState().equals(CellState.PLACEABLE)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("PLACEABLE ERROR");
                 alert.setHeaderText(null);
                 alert.setContentText("CELL NOT AVAILABLE...CHOOSE ANOTHER ONE !!!!!");
                 alert.show();
+                imageView.setImage((new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png")))));
                 columnIndex = -1;
                 rowIndex = -1;
+            }else{
+                columnIndex = columnIndex1;
+                rowIndex = rowIndex1;
             }
+
+            prevClickedCell = imageView;
+
+
         }
     }
 
