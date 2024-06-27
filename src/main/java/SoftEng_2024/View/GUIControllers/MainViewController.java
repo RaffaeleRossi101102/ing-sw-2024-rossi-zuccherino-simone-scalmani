@@ -34,13 +34,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 /**
  * Main GUI controller. Once the GUI has been launched the management of the interface is handed to this class
  * which manages scene switching, graphic elements such as buttons, images, labels and everything that is game
  * related and could be dynamically updated (eg. score)
  */
 public class MainViewController {
-
+    private static Cell[][] cardBoard;
+    private static ArrayList<Cell> cardList;
+    private static int[] anglesCounter;
+    private static int score;
     private static ClientInterface client;
     private static double ID;
     private static boolean flipped, flipped1, flipped2, flipped3, auxFlip, visibleChat = false;
@@ -186,16 +190,6 @@ public class MainViewController {
         clientQueueExecutor.start();
         localModel.setPlayerState(GameState.CONNECTION);
         localModel.setGameState(GameState.CONNECTION);
-    }
-
-    /**
-     * Retrieves the selected nickname from a dropdown menu and assigns it to the destination nickname variable.
-     * Used for chatting purposes.
-     *
-     * @param event The action event triggered when the selection is made.
-     */
-    public void getDestNickname(ActionEvent event) {
-        destNickname = selectNick.getValue();
     }
 
     /**
@@ -697,11 +691,13 @@ public class MainViewController {
         showBoard3.setVisible(false);
 
         if (localModel.getPlayersNickname().size() == 2){
-            showBoard3.setVisible(false);
+            showBoard2.setVisible(true);
             showBoard2.setText(boardNicknames.get(1) + "'s board");
         } else if (localModel.getPlayersNickname().size() == 3){
             showBoard2.setText(boardNicknames.get(1) + "'s board");
             showBoard3.setText(boardNicknames.get(2) + "'s board");
+            showBoard2.setVisible(true);
+            showBoard3.setVisible(true);
         }
 
         goalCardHand = (ImageView) scene.lookup("#goalCardHand");
@@ -730,10 +726,8 @@ public class MainViewController {
                     if (row == 42 && col == 42) {
                         if (auxFlip) {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
-                            imageView.setDisable(true);
                         } else {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
-                            imageView.setDisable(true);
                         }
                     }
                     imageView.setFitWidth(155);
@@ -746,7 +740,6 @@ public class MainViewController {
         playerScore = (Label) scene.getRoot().lookup("#playerScore");
         playerScore.setText("Score: 0");
     }
-
 
     /**
      * Switches the application view to the main game screen updating it with all the elements present before the quit.
@@ -888,11 +881,13 @@ public class MainViewController {
         showBoard3.setVisible(false);
 
         if (localModel.getPlayersNickname().size() == 2) {
-            showBoard3.setVisible(false);
+            showBoard2.setVisible(true);
             showBoard2.setText(boardNicknames.get(1) + "'s board");
         } else if (localModel.getPlayersNickname().size() == 3) {
             showBoard2.setText(boardNicknames.get(1) + "'s board");
             showBoard3.setText(boardNicknames.get(2) + "'s board");
+            showBoard2.setVisible(true);
+            showBoard3.setVisible(true);
         }
 
         goalCardHand = (ImageView) scene.lookup("#goalCardHand");
@@ -946,9 +941,8 @@ public class MainViewController {
      * @throws IOException If an error occurs while loading the PlayerEndGame.fxml file.
      */
     public void switchToPlayerEndGame(boolean bol) throws IOException {
-        if(!bol){
+        if (!bol){
             t1.interrupt();
-
         }
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/PlayerEndGame.fxml")));
         scene = new Scene(root);
@@ -968,7 +962,7 @@ public class MainViewController {
         
         new Thread(() -> {
             while (true) {
-                if (localModel.getGameState().equals(GameState.ENDGAME)) {
+                if (localModel.getGameState() == GameState.ENDGAME) {
                     Platform.runLater(() -> {
                         try {
                             switchToFinalScreen(false);
@@ -998,7 +992,7 @@ public class MainViewController {
      * @param quit Flag indicating if the player won because other players quit.
      * @throws IOException If an error occurs while loading the FinalScreen.fxml file.
      */
-    public void switchToFinalScreen(boolean quit) throws IOException {
+    public void switchToFinalScreen(boolean quit) throws IOException {  // SONO ARRIVATO QUI
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FinalScreen.fxml")));
         scene = new Scene(root);
 
@@ -1027,6 +1021,68 @@ public class MainViewController {
             winnerLabel = (Label) scene.lookup("#winnerLabel") ;
             winnerLabel.setText("YOU WON!!! \n" + "the others players quit");
         }
+    }
+
+    /**
+     * Handles sending a message based on user input from the message field.
+     * Sends either a broadcast message or a whisper message, depending on the selected destination nickname.
+     * Displays an error alert if no destination nickname is selected before sending the message.
+     * Pressing the ENTER key while the message field is focused triggers the message sending process.
+     */
+    @FXML
+    private void sendMessage() {
+        String message = messageField.getText();
+        messageField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (!message.isEmpty() && destNickname != null) {
+                    messageField.clear();
+                    if (destNickname == "broadcast") {
+                        ViewMessage broadcastMsg = new BroadcastMessage(message, ID);
+                        try {
+                            client.update(broadcastMsg);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        ViewMessage whisperMsg = new WhisperMessage(message, destNickname, ID);
+                        try {
+                            client.update(whisperMsg);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("DESTINATION ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("NO DESTINATION SELECTED... SELECT ONE BEFORE SENDING A MESSAGE...");
+                    alert.show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Toggles the visibility of the chat pane.
+     * If the chat pane is currently visible, hides it; otherwise, makes it visible.
+     * Updates the visibility state of the chat pane and stores the previous visibility state.
+     */
+    @FXML
+    private void handleShowChat() {
+        boolean isVisible = chatPane.isVisible();
+        chatPane.setVisible(!isVisible);
+        chatPane.setManaged(!isVisible);
+        visibleChat = isVisible;
+    }
+
+    /**
+     * Retrieves the selected nickname from a dropdown menu and assigns it to the destination nickname variable.
+     * Used for chatting purposes.
+     *
+     * @param event The action event triggered when the selection is made.
+     */
+    public void getDestNickname(ActionEvent event) {
+        destNickname = selectNick.getValue();
     }
 
     /**
@@ -1121,7 +1177,7 @@ public class MainViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
-            alert.setContentText("Set a nickname before joining!");
+            alert.setContentText("CREATE SOME NULL!!!");
             alert.show();
         }
     }
@@ -1222,7 +1278,7 @@ public class MainViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
-            alert.setContentText("Set a nickname before rejoining!");
+            alert.setContentText("NICKNAME NOT SET...");
             alert.show();
         }
     }
@@ -1233,7 +1289,6 @@ public class MainViewController {
      * Checks if the card is flipped or if it meets the resource requirements.
      * Displays an error if no cell is selected before playing a card.
      * Updates the game board with the played card's image and disables play and flip buttons after playing.
-     *
      * If the player state is not PLAY, displays an error indicating it's not the player's turn to play.
      *
      * @throws RuntimeException If a remote communication error occurs.
@@ -1341,6 +1396,7 @@ public class MainViewController {
         try {
             ViewMessage msg = new PlayStarterCardMessage(flipped, ID);
             client.update(msg);
+            // WAITING
             switchToWaitingScreen(event);
             inWaitingScreen(GameState.STARTER, false);
         } catch (RemoteException e) {
@@ -1351,7 +1407,6 @@ public class MainViewController {
             System.exit(1);
         }
     }
-
 
     /**
      * Sends a message to set the chosen color for the player.
@@ -1451,6 +1506,7 @@ public class MainViewController {
                     break;
                 case ENDGAME:
                     switchToPlayerEndGame(true);
+                    break;
             }
         }else {
             prevState = state;
@@ -1479,163 +1535,6 @@ public class MainViewController {
                     });
                 }
             }).start();
-        }
-    }
-
-    /**
-     * Controls the visibility of the other players' board pane based on the button clicked.
-     * If the same board button is clicked consecutively, toggles the visibility of the pane.
-     *
-     * @param event The action event triggered by clicking a board button.
-     */
-    public void showPlayerPane(ActionEvent event) {
-        Button clickedName = (Button) event.getSource();
-        if (clickedName == showBoard1) {
-            chosenBoard = 0;
-            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
-            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
-        } else if (clickedName == showBoard2) {
-            chosenBoard = 1;
-            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
-            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
-        } else if (clickedName == showBoard3) {
-            chosenBoard = 2;
-            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
-            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
-        }
-        prevChosen = chosenBoard;
-    }
-
-    /**
-     * Initializes the chat with the specified settings to make it visible or invisible.
-     * Retrieves references to the necessary GUI elements for managing the chat.
-     * Populates the choice box with player nicknames except the current player's and adds "broadcast".
-     * Handles the action of the choice box to select the message recipient.
-     * If there are chat messages present, adds them to the chat area and hides the chat pane.
-     *
-     * @param visibleChat Indicates whether the chat should be initially visible or not.
-     */
-    private void chatInit(boolean visibleChat) {
-        chatPane = (AnchorPane) scene.lookup("#chatPane");
-        chatArea = (TextArea) scene.lookup("#chatArea");
-        selectNick = (ChoiceBox<String>) scene.getRoot().lookup("#selectNick");
-        chatPane.setVisible(visibleChat);
-        destNicknames = new ArrayList<>();
-        for (String nick : localModel.getPlayersNickname().keySet()) {
-            if (!nick.equals(nickname)) {
-                destNicknames.add(nick);
-            }
-        }
-        destNicknames.add("broadcast");
-        selectNick.getItems().addAll(destNicknames);
-        selectNick.setOnAction(this::getDestNickname);
-        if (chatMsg != null) {
-            for (String msg : chatMsg) {
-                chatArea.appendText(msg + "\n");
-            }
-            chatPane.setVisible(false);
-        }
-    }
-
-    /**
-     * Initializes the display of other players' boards in a separate thread.
-     * Retrieves references to the necessary GUI elements for managing the display.
-     * Sets up a continuous update loop to refresh the display of the selected player's board.
-     * Clears the previous board display and updates it with the current state of cards on the board.
-     * Uses separate images for flipped and unflipped cards based on their state.
-     * Adjusts the size of each image view to fit the specified dimensions.
-     * Updates the grid pane with the newly configured image views.
-     * Prints an error message if the grid pane reference is null.
-     */
-    public void otherPlayersBoardsInit() {
-        otherPlayersBoard = (ScrollPane) scene.lookup("#otherPlayersBoard");
-        otherPlayersBoard.setVisible(false);
-        otherPlayersPane = (GridPane) scene.lookup("#otherPlayersPane");
-        if (otherPlayersPane != null) {
-            otherPlayersPane.setOnScroll(this::handleZoom2);
-        } else {
-            System.err.println("otherPlayersPane is null");
-        }
-
-        new Thread(() -> {
-            while (true) {
-                String boardToPrint = boardNicknames.get(chosenBoard);
-                Platform.runLater(() -> {
-                    otherPlayersPane.getChildren().removeIf(node -> node instanceof ImageView);
-                    for (int col = 32; col < 53; col++) {
-                        for (int row = 32; row < 53; row++) {
-                            if ((row + col) % 2 == 0) {
-                                ImageView imageView = new ImageView();
-                                if (localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard() != null) {
-                                    if (localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getFlipped()) {
-                                        imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getCardID())))));
-                                    } else {
-                                        imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getCardID())))));
-                                    }
-                                }
-                                imageView.setFitWidth(155);
-                                imageView.setFitHeight(103);
-                                otherPlayersPane.add(imageView, col, row);
-                            }
-                        }
-                    }
-                });
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * Handles flipping of the starterCard based on the clicked image view.
-     * Sets the flipped state based on whether the back or front image view was clicked.
-     * Stores the selected value in auxFlip, which will be used for playing the starter card.
-     *
-     * @param event The mouse event triggered by clicking an image view.
-     */
-    @FXML
-    public void handleFlipCard(MouseEvent event) {
-        ImageView clickedImage = (ImageView) event.getSource();
-        if (clickedImage == backImage) setFlipped(true);
-        else if (clickedImage == frontImage) setFlipped(false);
-        auxFlip = flipped;
-    }
-
-    /**
-     * Handles the selection of a card from the player's hand based on the clicked image view.
-     * Sets the index of the selected hand card based on the clicked image view.
-     *
-     * @param event The mouse event triggered by clicking an image view of a card in the hand.
-     */
-    @FXML
-    public void handleCardChoiceHand(MouseEvent event) {
-        ImageView clickedImage = (ImageView) event.getSource();
-        if (clickedImage == hand1)
-            handIndex = 0;
-        else if (clickedImage == hand2)
-            handIndex = 1;
-        else if (clickedImage == hand3)
-            handIndex = 2;
-    }
-
-    /**
-     * Handles the selection of a goal card based on the clicked imageView in the goal card screen.
-     * Sets the choice and adds the ID of the selected card to the cardID variable according to the clicked goal card image.
-     *
-     * @param event The mouse event triggered by clicking an image view of a goal card.
-     */
-    @FXML
-    public void handlePickGoal(MouseEvent event) {
-        ImageView clickedImage = (ImageView) event.getSource();
-        if (clickedImage == goal1) {
-            choice = 1;
-            cardID = localModel.getAvailableGoals().get(0).getCardID();
-        } else if (clickedImage == goal2) {
-            choice = 2;
-            cardID = localModel.getAvailableGoals().get(1).getCardID();
         }
     }
 
@@ -1682,55 +1581,56 @@ public class MainViewController {
     }
 
     /**
-     * Handles sending a message based on user input from the message field.
-     * Sends either a broadcast message or a whisper message, depending on the selected destination nickname.
-     * Displays an error alert if no destination nickname is selected before sending the message.
-     * Pressing the ENTER key while the message field is focused triggers the message sending process.
+     * Handles the flipping of a card in the player's hand based on the current hand index.
+     * Toggles between showing the front and back images of the card.
+     * Updates the corresponding image view and toggles the flipped state variable.
+     *
+     * @throws IllegalArgumentException If the hand index is invalid (not 0, 1, or 2).
      */
     @FXML
-    private void sendMessage() {
-        String message = messageField.getText();
-        messageField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                if (!message.isEmpty() && destNickname != null) {
-                    messageField.clear();
-                    if (destNickname == "broadcast") {
-                        ViewMessage broadcastMsg = new BroadcastMessage(message, ID);
-                        try {
-                            client.update(broadcastMsg);
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        ViewMessage whisperMsg = new WhisperMessage(message, destNickname, ID);
-                        try {
-                            client.update(whisperMsg);
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("DESTINATION ERROR");
-                    alert.setHeaderText(null);
-                    alert.setContentText("NO DESTINATION SELECTED... SELECT ONE BEFORE SENDING A MESSAGE...");
-                    alert.show();
-                }
-            }
-        });
+    public void handleFlipCard(MouseEvent event) {
+        ImageView clickedImage = (ImageView) event.getSource();
+        if (clickedImage == backImage) setFlipped(true);
+        else if (clickedImage == frontImage) setFlipped(false);
+        auxFlip = flipped;
+        System.out.println("FLIP DEBUG: picked flipped " + flipped);
     }
 
     /**
-     * Toggles the visibility of the chat pane.
-     * If the chat pane is currently visible, hides it; otherwise, makes it visible.
-     * Updates the visibility state of the chat pane and stores the previous visibility state.
+     * Handles the selection of a card from the player's hand based on the clicked image view.
+     * Sets the index of the selected hand card based on the clicked image view.
+     *
+     * @param event The mouse event triggered by clicking an image view of a card in the hand.
      */
     @FXML
-    private void handleShowChat() {
-        boolean isVisible = chatPane.isVisible();
-        chatPane.setVisible(!isVisible);
-        chatPane.setManaged(!isVisible);
-        visibleChat = isVisible;
+    public void handleCardChoiceHand(MouseEvent event) {
+        ImageView clickedImage = (ImageView) event.getSource();
+        if (clickedImage == hand1)
+            handIndex = 0;
+        else if (clickedImage == hand2)
+            handIndex = 1;
+        else if (clickedImage == hand3)
+            handIndex = 2;
+        System.out.println("HAND DEBUG: picked hand card no. " + handIndex);
+    }
+
+    /**
+     * Handles the selection of a goal card based on the clicked imageView in the goal card screen.
+     * Sets the choice and adds the ID of the selected card to the cardID variable according to the clicked goal card image.
+     *
+     * @param event The mouse event triggered by clicking an image view of a goal card.
+     */
+    @FXML
+    public void handlePickGoal(MouseEvent event) {
+        ImageView clickedImage = (ImageView) event.getSource();
+        if (clickedImage == goal1) {
+            choice = 1;
+            cardID = localModel.getAvailableGoals().get(0).getCardID();
+        } else if (clickedImage == goal2) {
+            choice = 2;
+            cardID = localModel.getAvailableGoals().get(1).getCardID();
+        }
+        System.out.println("GOAL DEBUG: picked goal no. " + choice);
     }
 
     /**
@@ -2084,6 +1984,89 @@ public class MainViewController {
     }
 
     /**
+     * Initializes the chat with the specified settings to make it visible or invisible.
+     * Retrieves references to the necessary GUI elements for managing the chat.
+     * Populates the choice box with player nicknames except the current player's and adds "broadcast".
+     * Handles the action of the choice box to select the message recipient.
+     * If there are chat messages present, adds them to the chat area and hides the chat pane.
+     *
+     * @param visibleChat Indicates whether the chat should be initially visible or not.
+     */
+    private void chatInit(boolean visibleChat) {
+        chatPane = (AnchorPane) scene.lookup("#chatPane");
+        chatArea = (TextArea) scene.lookup("#chatArea");
+        selectNick = (ChoiceBox<String>) scene.getRoot().lookup("#selectNick");
+        chatPane.setVisible(visibleChat);
+        destNicknames = new ArrayList<>();
+        for (String nick : localModel.getPlayersNickname().keySet()) {
+            if (!nick.equals(nickname)) {
+                destNicknames.add(nick);
+            }
+        }
+        destNicknames.add("broadcast");
+        selectNick.getItems().addAll(destNicknames);
+        selectNick.setOnAction(this::getDestNickname);
+        if (chatMsg != null) {
+            for (String msg : chatMsg) {
+                chatArea.appendText(msg + "\n");
+            }
+            chatPane.setVisible(false);
+        }
+    }
+
+    /**
+     * Initializes the display of other players' boards in a separate thread.
+     * Retrieves references to the necessary GUI elements for managing the display.
+     * Sets up a continuous update loop to refresh the display of the selected player's board.
+     * Clears the previous board display and updates it with the current state of cards on the board.
+     * Uses separate images for flipped and unflipped cards based on their state.
+     * Adjusts the size of each image view to fit the specified dimensions.
+     * Updates the grid pane with the newly configured image views.
+     * Prints an error message if the grid pane reference is null.
+     */
+    public void otherPlayersBoardsInit() {
+        otherPlayersBoard = (ScrollPane) scene.lookup("#otherPlayersBoard");
+        otherPlayersBoard.setVisible(false);
+        otherPlayersPane = (GridPane) scene.lookup("#otherPlayersPane");
+        if (otherPlayersPane != null) {
+            otherPlayersPane.setOnScroll(this::handleZoom2);
+        } else {
+            System.err.println("otherPlayersPane is null");
+        }
+
+        new Thread(() -> {
+            while (true) {
+                String boardToPrint = boardNicknames.get(chosenBoard);
+                Platform.runLater(() -> {
+                    otherPlayersPane.getChildren().removeIf(node -> node instanceof ImageView);
+                    for (int col = 32; col < 53; col++) {
+                        for (int row = 32; row < 53; row++) {
+                            if ((row + col) % 2 == 0) {
+                                ImageView imageView = new ImageView();
+                                if (localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard() != null) {
+                                    if (localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getFlipped()) {
+                                        imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getCardID())))));
+                                    } else {
+                                        imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard().getCardID())))));
+                                    }
+                                }
+                                imageView.setFitWidth(155);
+                                imageView.setFitHeight(103);
+                                otherPlayersPane.add(imageView, col, row);
+                            }
+                        }
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+    }
+
+    /**
      * Handles the warning related to server connection issues.
      * Shows a warning alert informing the user that the server was not found or something went terribly wrong.
      * Possible causes include: RemoteException, NotBoundException.
@@ -2192,12 +2175,35 @@ public class MainViewController {
      * Handles the error when all other players have quit and the player is alone in the game.
      * Displays an error alert informing the player that they will be declared the winner in 30 seconds if no one rejoins.
      */
-    @FXML
     private void aloneInGameHandler(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERROR");
         alert.setHeaderText(null);
         alert.setContentText("You are alone in the game, in 30 seconds you will be declared winner if no one rejoins!");
         alert.show();
+    }
+
+    /**
+     * Controls the visibility of the other players' board pane based on the button clicked.
+     * If the same board button is clicked consecutively, toggles the visibility of the pane.
+     *
+     * @param event The action event triggered by clicking a board button.
+     */
+    public void showPlayerPane(ActionEvent event) {
+        Button clickedName = (Button) event.getSource();
+        if (clickedName == showBoard1) {
+            chosenBoard = 0;
+            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
+        } else if (clickedName == showBoard2) {
+            chosenBoard = 1;
+            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
+        } else if (clickedName == showBoard3) {
+            chosenBoard = 2;
+            if (!otherPlayersBoard.isVisible()) otherPlayersBoard.setVisible(true);
+            else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
+        }
+        prevChosen = chosenBoard;
     }
 }
