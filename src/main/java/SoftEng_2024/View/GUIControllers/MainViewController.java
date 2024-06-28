@@ -46,7 +46,7 @@ public class MainViewController {
     private static ClientInterface client;
     private static double ID;
     private static boolean flipped, flipped1, flipped2, flipped3, auxFlip, visibleChat = false;
-    private static int columnIndex, rowIndex, columnIndex1, rowIndex1;
+    private static int columnIndex, rowIndex, columnIndex1, rowIndex1, col, row;
     private static LocalModel localModel = new LocalModel();
     private Stage stage;
     private Scene scene;
@@ -75,7 +75,7 @@ public class MainViewController {
     @FXML
     ImageView backImage, frontImage, goalCardHand, goal1, goal2, hand1, hand2, hand3, deck1, deck2, public1, public2, public3, public4, publicGoal1, publicGoal2, prevClickedCell, pin, pin2;
     @FXML
-    Button redBTN, ylwBTN, bluBTN, grnBTN, prvBTN, chatBTN, playBTN, flipBTN, showBoard1, showBoard2, showBoard3;
+    Button redBTN, ylwBTN, bluBTN, grnBTN, prvBTN, chatBTN, playBTN, flipBTN, showBoard1, showBoard2, showBoard3, scoreBTN;
     @FXML
     GridPane cardPane, otherPlayersPane;
     @FXML
@@ -298,7 +298,7 @@ public class MainViewController {
      * Adjusts the scale of the `cardPane` based on the direction of the scroll:
      * - Increases the scale when scrolling up.
      * - Decreases the scale when scrolling down.
-     *
+     * <p>
      * The cardPane corresponds to the main player's board, where he would play his cards.
      *
      * @param event The scroll event triggering the zoom action.
@@ -319,7 +319,7 @@ public class MainViewController {
      * Adjusts the scale of the pane based on the direction of the scroll:
      * - Increases the scale when scrolling up.
      * - Decreases the scale when scrolling down.
-     *
+     * <p>
      * The otherPlayersPane corresponds to the other players's pane, and since it occupies a small
      * portion of the game GUI, needs scrolling and panning functionality in order to see the whole board
      * of the other players.
@@ -448,7 +448,7 @@ public class MainViewController {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (!localModel.getChat().isEmpty()) {
-                    synchronized(localModel.getChat()) {
+                    synchronized (localModel.getChat()) {
                         Platform.runLater(() -> {
                             if (!localModel.getChat().isEmpty()) {
                                 chatMsg.add(localModel.getChat().element());
@@ -467,14 +467,14 @@ public class MainViewController {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if(localModel.getQuitALL()){
-                    Platform.runLater(()->{
+                if (localModel.getQuitALL()) {
+                    Platform.runLater(() -> {
                         aloneInGameHandler();
                         localModel.setQuitAll(false);
                     });
                 }
-                if(localModel.getLastManStanding()){
-                    Platform.runLater(()->{
+                if (localModel.getLastManStanding()) {
+                    Platform.runLater(() -> {
                         try {
                             switchToFinalScreen(true);
                         } catch (IOException e) {
@@ -578,21 +578,20 @@ public class MainViewController {
                     public3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(2).getCardID())))));
                     public4.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPublicCards().get(3).getCardID())))));
                     playerTurn = (Label) scene.getRoot().lookup("#playerTurn");
-                    if (Objects.equals(localModel.getCurrentTurnPlayerNickname(), nickname)){
+                    if (Objects.equals(localModel.getCurrentTurnPlayerNickname(), nickname)) {
                         playerTurn.setText("Now it's your turn");
-                    }
-                    else playerTurn.setText("Now it's " + localModel.getCurrentTurnPlayerNickname() + "'s turn");
+                    } else playerTurn.setText("Now it's " + localModel.getCurrentTurnPlayerNickname() + "'s turn");
 
                     resourceBox = (HBox) scene.lookup("#resourceBox");
-                    for(int i=0; i<7; i++){
+                    for (int i = 0; i < 7; i++) {
                         Label label = (Label) resourceBox.getChildren().get(i);
                         label.setText(String.valueOf(localModel.getPlayersBoards().get(nickname).getAnglesCounter()[i]));
                     }
 
-                    for(int i=0; i<30; i++) {
+                    for (int i = 0; i < 30; i++) {
                         pin = (ImageView) scene.lookup("#pin" + i);
 
-                        if(pin != null){
+                        if (pin != null) {
                             pin.setImage(null);
                         }
 
@@ -602,7 +601,7 @@ public class MainViewController {
                             tempScore = localModel.getPlayersBoards().get(nick).getScore();
                             tempColor = localModel.getPlayersColor().get(nick);
                             if (tempScore == i) {
-                                if(tempColor != null) {
+                                if (tempColor != null) {
                                     switch (tempColor) {
                                         case RED:
                                             pin.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/pin_red.png"))));
@@ -688,10 +687,10 @@ public class MainViewController {
         showBoard2.setVisible(false);
         showBoard3.setVisible(false);
 
-        if (localModel.getPlayersNickname().size() == 2){
+        if (localModel.getPlayersNickname().size() == 2) {
             showBoard2.setVisible(true);
             showBoard2.setText(boardNicknames.get(1) + "'s board");
-        } else if (localModel.getPlayersNickname().size() == 3){
+        } else if (localModel.getPlayersNickname().size() == 3) {
             showBoard2.setText(boardNicknames.get(1) + "'s board");
             showBoard3.setText(boardNicknames.get(2) + "'s board");
             showBoard2.setVisible(true);
@@ -715,28 +714,46 @@ public class MainViewController {
         } else {
             System.err.println("cardPane is null");
         }
+        //imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
 
-        for (int col = 32; col < 53; col++) {
-            for (int row = 32; row < 53; row++) {
-                if ((row + col) % 2 == 0) {
-                    ImageView imageView = new ImageView();
+        ImageView imageView = new ImageView();
+        if (auxFlip) {
+            imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+            imageView.setDisable(true);
+        } else {
+            imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
+            imageView.setDisable(true);
+        }
+        imageView.setFitWidth(155);
+        imageView.setFitHeight(103);
+        imageView.setOnMouseClicked(this::handleCellClick);
+        cardPane.add(imageView, 42, 42);
+
+        for (int i = 43; i < 44; i++) {
+            for (int j = 41; j < 44; j++) {
+                if (localModel.getPlayersBoards().get(nickname).getCardBoard()[j][i].getCellState().equals(CellState.PLACEABLE)) {
+                    imageView = new ImageView();
                     imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
-                    if (row == 42 && col == 42) {
-                        if (auxFlip) {
-                            imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
-                            imageView.setDisable(true);
-                        } else {
-                            imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[42][42].getCard().getCardID())))));
-                            imageView.setDisable(true);
-                        }
-                    }
                     imageView.setFitWidth(155);
                     imageView.setFitHeight(103);
                     imageView.setOnMouseClicked(this::handleCellClick);
-                    cardPane.add(imageView, col, row);
+                    cardPane.add(imageView, i, j);
                 }
             }
         }
+        for (int i = 41; i < 42; i++) {
+            for (int j = 41; j < 44; j++) {
+                if (localModel.getPlayersBoards().get(nickname).getCardBoard()[j][i].getCellState().equals(CellState.PLACEABLE)) {
+                    imageView = new ImageView();
+                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                    imageView.setFitWidth(155);
+                    imageView.setFitHeight(103);
+                    imageView.setOnMouseClicked(this::handleCellClick);
+                    cardPane.add(imageView, i, j);
+                }
+            }
+        }
+
         playerScore = (Label) scene.getRoot().lookup("#playerScore");
         playerScore.setText("Score: 0");
     }
@@ -744,7 +761,7 @@ public class MainViewController {
     /**
      * Switches the application view to the main game screen updating it with all the elements present before the quit.
      * This method starts a background thread (`t1`) to continuously update game elements such as decks, goals, player turns, scores, and board states.
-     *  Monitors game state changes. if condition are met, switches to the player end game screen.
+     * Monitors game state changes. if condition are met, switches to the player end game screen.
      *
      * @throws IOException If there is an error loading resources or initializing components for the main game screen.
      */
@@ -908,11 +925,10 @@ public class MainViewController {
             System.err.println("cardPane is null");
         }
 
-        for (int col = 32; col < 53; col++) {
-            for (int row = 32; row < 53; row++) {
+        for (int col = 0; col < 85; col++) {
+            for (int row = 0; row < 85; row++) {
                 if ((row + col) % 2 == 0) {
                     ImageView imageView = new ImageView();
-                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
                     if (localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard() != null) {
                         if (localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getFlipped()) {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getCardID())))));
@@ -921,14 +937,19 @@ public class MainViewController {
                             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCard().getCardID())))));
                             imageView.setDisable(true);
                         }
+                    } else if (localModel.getPlayersBoards().get(nickname).getCardBoard()[row][col].getCellState().equals(CellState.PLACEABLE)) {
+                        imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                        imageView.setOnMouseClicked(this::handleCellClick);
                     }
                     imageView.setFitWidth(155);
                     imageView.setFitHeight(103);
-                    imageView.setOnMouseClicked(this::handleCellClick);
                     cardPane.add(imageView, col, row);
                 }
+
             }
         }
+
+
         playerScore = (Label) scene.getRoot().lookup("#playerScore");
         playerScore.setText("Score: 0");
     }
@@ -943,25 +964,25 @@ public class MainViewController {
      * @throws IOException If an error occurs while loading the PlayerEndGame.fxml file.
      */
     public void switchToPlayerEndGame(boolean bol) throws IOException {
-        if (!bol){
+        if (!bol) {
             t1.interrupt();
         }
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/PlayerEndGame.fxml")));
         scene = new Scene(root);
 
         chatInit(visibleChat);
-        for(String nick : localModel.getPlayersNickname().keySet()){
+        for (String nick : localModel.getPlayersNickname().keySet()) {
             boardNicknames.add(nick);
             System.out.println(nick);
         }
 
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setFullScreen(true);
             stage.show();
         });
-        
+
         new Thread(() -> {
             while (true) {
                 if (localModel.getGameState() == GameState.ENDGAME) {
@@ -1006,18 +1027,17 @@ public class MainViewController {
         });
 
 
-
         if (localModel.getWinnersNickname().size() == 2) {
             winnerLabel = new Label();
             winnerLabel = (Label) scene.lookup("#winnerLabel");
-            winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATIONS TO:\n" + localModel.getWinnersNickname().get(0) + " " + localModel.getWinnersNickname().get(1) + " \n YOU WON!! \n" + localModel.getPlayersBoards().get(localModel.getWinnersNickname().get(0)).getScore() + "POINTS");
+            winnerLabel.setText("WE HAVE MORE THAN ONE WINNER \n" + "CONGRATULATIONS TO:\n" + localModel.getWinnersNickname().get(0) + " and " + localModel.getWinnersNickname().get(1) + " \n YOU WON!! \n" + localModel.getPlayersBoards().get(localModel.getWinnersNickname().get(0)).getScore() + "POINTS");
         } else if (localModel.getWinnersNickname().size() == 1) {
             winnerLabel = new Label();
             winnerLabel = (Label) scene.lookup("#winnerLabel");
             winnerLabel.setText("CONGRATULATIONS! \n" + localModel.getWinnersNickname().get(0) + "\nYOU WON!! \n" + localModel.getPlayersBoards().get(localModel.getWinnersNickname().get(0)).getScore() + "\n POINTS");
         } else if (quit) {
             winnerLabel = new Label();
-            winnerLabel = (Label) scene.lookup("#winnerLabel") ;
+            winnerLabel = (Label) scene.lookup("#winnerLabel");
             winnerLabel.setText("YOU WON!!! \n" + "the others players quit");
         }
 
@@ -1149,12 +1169,12 @@ public class MainViewController {
      * If unsuccessful due to an existing nickname or attempting to join a non-existent game, returns to the main menu and displays an error message.
      *
      * @param event The action event triggering the method call.
-     * @throws RemoteException If a remote communication error occurs.
+     * @throws RemoteException   If a remote communication error occurs.
      * @throws NotBoundException If the client is not bound to the server.
-     * @throws IOException If an I/O error occurs during the process.
+     * @throws IOException       If an I/O error occurs during the process.
      */
     public void confirmJoinGame(ActionEvent event) {
-        if(nickname != null) {
+        if (nickname != null) {
             try {
                 assert client != null;
                 client.registerToServer(ID, client);
@@ -1181,7 +1201,7 @@ public class MainViewController {
                 IOWarningHandler();
                 System.exit(1);
             }
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
@@ -1198,12 +1218,12 @@ public class MainViewController {
      * If unsuccessful due to an unauthorized rejoin attempt, switches back to the main menu and displays an error message.
      *
      * @param event The action event that triggered the method call.
-     * @throws RemoteException If a remote communication error occurs.
-     * @throws IOException If an I/O error occurs during the process.
+     * @throws RemoteException   If a remote communication error occurs.
+     * @throws IOException       If an I/O error occurs during the process.
      * @throws NotBoundException If the client is not bound to the server.
      */
     public void confirmReJoinGame(ActionEvent event) {
-        if(nickname != null) {
+        if (nickname != null) {
             try {
                 assert client != null;
                 client.registerToServer(ID, client);
@@ -1212,7 +1232,8 @@ public class MainViewController {
                 while (!localModel.isAckReceived()) ;
                 if (localModel.isAckSuccessful()) {
                     switchToWaitingScreen(event);
-                    while (localModel.getNumberOfMessages() == 0 || localModel.getNumberOfMessages() != localModel.getArrivedMessages());
+                    while (localModel.getNumberOfMessages() == 0 || localModel.getNumberOfMessages() != localModel.getArrivedMessages())
+                        ;
                     ViewMessage broadcastMsg = new BroadcastMessage(nickname + " ReJoined.", ID);
                     try {
                         client.update(broadcastMsg);
@@ -1223,7 +1244,7 @@ public class MainViewController {
                         new Thread(() -> {
                             while (!Thread.currentThread().isInterrupted()) {
                                 if (!localModel.getChat().isEmpty()) {
-                                    synchronized(localModel.getChat()) {
+                                    synchronized (localModel.getChat()) {
                                         Platform.runLater(() -> {
                                             if (!localModel.getChat().isEmpty()) {
                                                 chatMsg.add(localModel.getChat().element());
@@ -1242,14 +1263,14 @@ public class MainViewController {
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);
                                 }
-                                if(localModel.getQuitALL()){
-                                    Platform.runLater(()->{
+                                if (localModel.getQuitALL()) {
+                                    Platform.runLater(() -> {
                                         aloneInGameHandler();
                                         localModel.setQuitAll(false);
                                     });
                                 }
-                                if(localModel.getLastManStanding()){
-                                    Platform.runLater(()->{
+                                if (localModel.getLastManStanding()) {
+                                    Platform.runLater(() -> {
                                         try {
                                             switchToFinalScreen(true);
                                         } catch (IOException e) {
@@ -1282,7 +1303,7 @@ public class MainViewController {
                 serverWarningHandler();
                 System.exit(1);
             }
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
@@ -1360,7 +1381,7 @@ public class MainViewController {
                         }
                         ViewMessage msg = new PlayCardMessage(handIndex, rowIndex, columnIndex, flipped, ID);
                         client.update(msg);
-                        System.out.println("CARD SENT");
+                        //System.out.println("CARD SENT");
                         switch (handIndex) {
                             case 0:
                                 cardPane.add(image, columnIndex, rowIndex);
@@ -1377,8 +1398,12 @@ public class MainViewController {
                         }
                         playBTN.setDisable(true);
                         flipBTN.setDisable(true);
-                        rowIndex = -1;
+                        col = columnIndex;
+                        row = rowIndex;
+                        //System.out.println("riga: " + rowIndex + "colonna: " + columnIndex);
+
                         columnIndex = -1;
+                        rowIndex = -1;
 
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -1398,7 +1423,7 @@ public class MainViewController {
      *
      * @param event The action event that triggered the method call.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws IOException If an I/O error occurs during the process.
+     * @throws IOException     If an I/O error occurs during the process.
      */
     public void goToColorChoice(ActionEvent event) {
         try {
@@ -1423,12 +1448,12 @@ public class MainViewController {
      *
      * @param event The action event that triggered the method call.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws IOException If an I/O error occurs during the process.
+     * @throws IOException     If an I/O error occurs during the process.
      */
     public void goToGoalChoice(ActionEvent event) {
         if (color != null) {
             try {
-                System.out.println(color);
+                //System.out.println(color);
                 ViewMessage msg = new SetColorMessage(color, ID);
                 client.update(msg);
                 // WAITING
@@ -1441,7 +1466,7 @@ public class MainViewController {
                 IOWarningHandler();
                 System.exit(1);
             }
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
@@ -1457,7 +1482,7 @@ public class MainViewController {
      *
      * @param event The action event that triggered the method call.
      * @throws RemoteException If a remote communication error occurs.
-     * @throws IOException If an I/O error occurs during the process.
+     * @throws IOException     If an I/O error occurs during the process.
      */
     public void goToPlayGame(ActionEvent event) {
         if (choice != 0) {
@@ -1491,12 +1516,12 @@ public class MainViewController {
      * If successful, calls the `nextGame(state)` method to change screen.
      *
      * @param state The current Player's game state.
-     * @param rej Flag indicating if there was a rejection of action.
+     * @param rej   Flag indicating if there was a rejection of action.
      * @throws IOException If an input/output error occurs during the state transition.
      */
     public void inWaitingScreen(GameState state, boolean rej) throws IOException {
-        if(rej){
-            switch (state){
+        if (rej) {
+            switch (state) {
                 case STARTER:
                     switchToStarterPlay();
                     break;
@@ -1516,7 +1541,7 @@ public class MainViewController {
                     switchToPlayerEndGame(true);
                     break;
             }
-        }else {
+        } else {
             prevState = state;
             new Thread(() -> {
                 while (!localModel.isAckReceived()) {
@@ -1526,14 +1551,14 @@ public class MainViewController {
                         e.printStackTrace();
                     }
                 }
-                System.out.println("ricevuto");
+                //System.out.println("ricevuto");
                 localModel.setAckReceived(false);
-                System.out.println("ricevuto e settato a false");
+                //System.out.println("ricevuto e settato a false");
                 if (!localModel.isAckSuccessful()) {
                     localModel.setGameState(prevState);
                 } else {
                     localModel.setAckSuccessful(false);
-                    System.out.println("funzionato e settato a false");
+                    //System.out.println("funzionato e settato a false");
                     Platform.runLater(() -> {
                         try {
                             nextState(prevState);
@@ -1564,7 +1589,7 @@ public class MainViewController {
 
             imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card_chosen.png"))));
 
-            if (prevClickedCell != null && prevClickedCell != imageView){
+            if (prevClickedCell != null && !prevClickedCell.equals(imageView)) {
                 prevClickedCell.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
             }
 
@@ -1577,7 +1602,7 @@ public class MainViewController {
                 imageView.setImage((new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png")))));
                 columnIndex = -1;
                 rowIndex = -1;
-            }else{
+            } else {
                 columnIndex = columnIndex1;
                 rowIndex = rowIndex1;
             }
@@ -1601,7 +1626,7 @@ public class MainViewController {
         if (clickedImage == backImage) setFlipped(true);
         else if (clickedImage == frontImage) setFlipped(false);
         auxFlip = flipped;
-        System.out.println("FLIP DEBUG: picked flipped " + flipped);
+        //System.out.println("FLIP DEBUG: picked flipped " + flipped);
     }
 
     /**
@@ -1619,7 +1644,7 @@ public class MainViewController {
             handIndex = 1;
         else if (clickedImage == hand3)
             handIndex = 2;
-        System.out.println("HAND DEBUG: picked hand card no. " + handIndex);
+        //System.out.println("HAND DEBUG: picked hand card no. " + handIndex);
     }
 
     /**
@@ -1638,7 +1663,7 @@ public class MainViewController {
             choice = 2;
             cardID = localModel.getAvailableGoals().get(1).getCardID();
         }
-        System.out.println("GOAL DEBUG: picked goal no. " + choice);
+        //System.out.println("GOAL DEBUG: picked goal no. " + choice);
     }
 
     /**
@@ -1652,28 +1677,28 @@ public class MainViewController {
     public void handleFlipHandCard() {
         switch (handIndex) {
             case 0:
-                if(flipped1){
+                if (flipped1) {
                     hand1.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(handIndex).getCardID())))));
-                    flipped1 =false;
-                }else{
+                    flipped1 = false;
+                } else {
                     hand1.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(handIndex).getCardID())))));
                     flipped1 = true;
                 }
                 break;
             case 1:
-                if(flipped2){
+                if (flipped2) {
                     hand2.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(handIndex).getCardID())))));
                     flipped2 = false;
-                }else{
+                } else {
                     hand2.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(handIndex).getCardID())))));
-                    flipped2 =true;
+                    flipped2 = true;
                 }
                 break;
             case 2:
-                if(flipped3){
+                if (flipped3) {
                     hand3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_FRONT, localModel.getPersonalHand().get(handIndex).getCardID())))));
                     flipped3 = false;
-                }else{
+                } else {
                     hand3.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream(String.format(IMAGE_PATH_BACK, localModel.getPersonalHand().get(handIndex).getCardID())))));
                     flipped3 = true;
                 }
@@ -1718,7 +1743,7 @@ public class MainViewController {
         } else if (clickedButton == ylwBTN && !colorMap.containsValue(Color.YELLOW)) {
             color = Color.YELLOW;
         }
-        System.out.println("COLOR DEBUG: picked color: " + color);
+        //System.out.println("COLOR DEBUG: picked color: " + color);
     }
 
     /**
@@ -1747,6 +1772,50 @@ public class MainViewController {
                 deck1TopResource(localModel.getTopResourceCard());
                 playBTN.setDisable(false);
                 flipBTN.setDisable(false);
+
+                for (int i = row + 1; i < row + 2; i++) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                            boolean alreadySet = false;
+                            for (Node node : cardPane.getChildren()) {
+                                if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                    alreadySet = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadySet) {
+                                ImageView imageView = new ImageView();
+                                imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                imageView.setFitWidth(155);
+                                imageView.setFitHeight(103);
+                                imageView.setOnMouseClicked(this::handleCellClick);
+                                cardPane.add(imageView, j, i);
+                            }
+                        }
+                    }
+                }
+                for (int i = row - 1; i < row; i++) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                            boolean alreadySet = false;
+                            for (Node node : cardPane.getChildren()) {
+                                if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                    alreadySet = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadySet) {
+                                ImageView imageView = new ImageView();
+                                imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                imageView.setFitWidth(155);
+                                imageView.setFitHeight(103);
+                                imageView.setOnMouseClicked(this::handleCellClick);
+                                cardPane.add(imageView, j, i);
+                            }
+                        }
+
+                    }
+                }
             } else {
                 deckChosenHandler();
             }
@@ -1781,6 +1850,50 @@ public class MainViewController {
                 deck2TopResource(localModel.getTopGoldCard());
                 playBTN.setDisable(false);
                 flipBTN.setDisable(false);
+
+                for (int i = row + 1; i < row + 2; i++) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                            boolean alreadySet = false;
+                            for (Node node : cardPane.getChildren()) {
+                                if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                    alreadySet = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadySet) {
+                                ImageView imageView = new ImageView();
+                                imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                imageView.setFitWidth(155);
+                                imageView.setFitHeight(103);
+                                imageView.setOnMouseClicked(this::handleCellClick);
+                                cardPane.add(imageView, j, i);
+                            }
+                        }
+                    }
+                }
+                for (int i = row - 1; i < row; i++) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                            boolean alreadySet = false;
+                            for (Node node : cardPane.getChildren()) {
+                                if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                    alreadySet = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadySet) {
+                                ImageView imageView = new ImageView();
+                                imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                imageView.setFitWidth(155);
+                                imageView.setFitHeight(103);
+                                imageView.setOnMouseClicked(this::handleCellClick);
+                                cardPane.add(imageView, j, i);
+                            }
+                        }
+
+                    }
+                }
             } else {
                 deckChosenHandler();
             }
@@ -1822,6 +1935,50 @@ public class MainViewController {
                     deck1TopResource(localModel.getTopResourceCard());
                     playBTN.setDisable(false);
                     flipBTN.setDisable(false);
+
+                    for (int i = row + 1; i < row + 2; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+                        }
+                    }
+                    for (int i = row - 1; i < row; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+
+                        }
+                    }
                 } else {
                     publicCardHandler();
                 }
@@ -1866,6 +2023,50 @@ public class MainViewController {
                     deck1TopResource(localModel.getTopResourceCard());
                     playBTN.setDisable(false);
                     flipBTN.setDisable(false);
+
+                    for (int i = row + 1; i < row + 2; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+                        }
+                    }
+                    for (int i = row - 1; i < row; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+
+                        }
+                    }
                 } else {
                     publicCardHandler();
                 }
@@ -1910,6 +2111,50 @@ public class MainViewController {
                     deck2TopResource(localModel.getTopGoldCard());
                     playBTN.setDisable(false);
                     flipBTN.setDisable(false);
+
+                    for (int i = row + 1; i < row + 2; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+                        }
+                    }
+                    for (int i = row - 1; i < row; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+
+                        }
+                    }
                 } else {
                     publicCardHandler();
                 }
@@ -1954,6 +2199,50 @@ public class MainViewController {
                     deck2TopResource(localModel.getTopGoldCard());
                     playBTN.setDisable(false);
                     flipBTN.setDisable(false);
+
+                    for (int i = row + 1; i < row + 2; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+                        }
+                    }
+                    for (int i = row - 1; i < row; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
+                            if (localModel.getPlayersBoards().get(nickname).getCardBoard()[i][j].getCellState().equals(CellState.PLACEABLE)) {
+                                boolean alreadySet = false;
+                                for (Node node : cardPane.getChildren()) {
+                                    if (GridPane.getRowIndex(node) == i && GridPane.getColumnIndex(node) == j && node instanceof ImageView) {
+                                        alreadySet = true;
+                                        break;
+                                    }
+                                }
+                                if (!alreadySet) {
+                                    ImageView imageView = new ImageView();
+                                    imageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/empty_card.png"))));
+                                    imageView.setFitWidth(155);
+                                    imageView.setFitHeight(103);
+                                    imageView.setOnMouseClicked(this::handleCellClick);
+                                    cardPane.add(imageView, j, i);
+                                }
+                            }
+
+                        }
+                    }
                 } else {
                     publicCardHandler();
                 }
@@ -2047,8 +2336,8 @@ public class MainViewController {
                 String boardToPrint = boardNicknames.get(chosenBoard);
                 Platform.runLater(() -> {
                     otherPlayersPane.getChildren().removeIf(node -> node instanceof ImageView);
-                    for (int col = 32; col < 53; col++) {
-                        for (int row = 32; row < 53; row++) {
+                    for (int col = 26; col < 59; col++) {
+                        for (int row = 26; row < 59; row++) {
                             if ((row + col) % 2 == 0) {
                                 ImageView imageView = new ImageView();
                                 if (localModel.getPlayersBoards().get(boardToPrint).getCardBoard()[row][col].getCard() != null) {
@@ -2151,7 +2440,7 @@ public class MainViewController {
         alert.setHeaderText(null);
         alert.setContentText("IT'S NOT YOUR TURN, WAIT...");
         alert.show();
-    }
+}
 
     /**
      * Handles the error when attempting to draw a card from the public cards, but the public card spot is empty.
@@ -2213,5 +2502,38 @@ public class MainViewController {
             else if (prevChosen == chosenBoard) otherPlayersBoard.setVisible(false);
         }
         prevChosen = chosenBoard;
+    }
+
+    /**
+     * Toggles the visibility of the scoreboard.
+     * This method is invoked when the score board button is clicked. It checks
+     * the current visibility state of the  plateauPane and sets it to the
+     * opposite state. If the  plateauPane is currently visible, it will
+     * be hidden; if it is hidden, it will be made visible.
+     *
+     * @param event the event that triggered the action, typically a button click.
+     */
+    @FXML
+    public void  handleScoreBoard(ActionEvent event){
+        boolean isVisible = plateauPane.isVisible();
+        plateauPane.setVisible(!isVisible);
+    }
+
+    /**
+     * Handles the action triggered when the player clicks on the quit button in the create or join screen.
+     * This method displays a confirmation dialog asking if the player really wants to quit the game.
+     * If the player confirms the action by clicking "OK", the application will exit.
+     *
+     * @param event The action event triggered by clicking the quit button.
+     */
+    @FXML
+    public void  handleConnectionQuit(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quitting Game");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to quit?");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) System.exit(0);
+        });
     }
 }
