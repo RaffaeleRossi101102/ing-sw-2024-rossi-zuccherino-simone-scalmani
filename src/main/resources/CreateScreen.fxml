@@ -99,7 +99,7 @@
          <DropShadow />
       </effect>
    </HBox>
-   <Button alignment="CENTER" layoutX="1780.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleQuit" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
+   <Button alignment="CENTER" layoutX="1780.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleConnectionQuit" prefHeight="35.0" prefWidth="120.0" style="-fx-font-size: 18;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Quit Game" textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font size="11.0" />
       </font>

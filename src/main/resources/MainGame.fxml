@@ -491,7 +491,7 @@
             </ImageView>
          </children>
       </HBox>
-      <VBox layoutX="1073.0" layoutY="947.0" prefHeight="104.0" prefWidth="138.0" spacing="10.0">
+      <VBox layoutX="1075.0" layoutY="911.0" prefHeight="164.0" prefWidth="138.0" spacing="10.0">
          <children>
             <Button fx:id="playBTN" alignment="CENTER" mnemonicParsing="false" onAction="#confirmPlayCard" prefHeight="34.0" prefWidth="138.0" style="-fx-font-size: 20;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Play Card" textAlignment="CENTER" textFill="WHITE">
                <font>
@@ -499,6 +499,11 @@
                </font>
             </Button>
             <Button fx:id="flipBTN" alignment="CENTER" mnemonicParsing="false" onAction="#handleFlipHandCard" prefHeight="34.0" prefWidth="138.0" style="-fx-font-size: 20;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Flip Card" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="scoreBTN" alignment="CENTER" mnemonicParsing="false" onAction="#handleScoreBoard" prefHeight="34.0" prefWidth="138.0" style="-fx-font-size: 20;" styleClass="button_smaller_2" stylesheets="@button_generic.css" text="Scoreboard" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font>
