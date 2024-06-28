@@ -39,11 +39,10 @@ public class ReadyToStartState extends ViewState{
         playState.setNextState(drawState);
         drawState.setNextState(waitingForTurnState);
 
-        //aspetto che mi arrivino tutte le carte e che venga settato il current player
+        //waiting for all the cards and for the current player to be set
 
         while(view.getLocalModel().getCurrentTurnPlayerNickname()==null );
-//        System.out.println("sono uscito dal loop, ho le carte");
-        //se è il mio turno e sono il primo, "aggiungo il colore nero tra i colori" e parto col turno
+        //if it's my turn then i also have the black color
         if (view.getLocalModel().getCurrentTurnPlayerNickname().equals(view.getLocalModel().getNickname())) {
             view.getLocalModel().setFirstPlayer(true);
             if(defaultCommandChosen)

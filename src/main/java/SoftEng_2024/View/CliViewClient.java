@@ -56,8 +56,8 @@ public class CliViewClient implements View {
         while(true)
         {
             try {
-                this.viewState.display();//-->setta this.waitingstate con il giusto previous e il giusto next
-                this.waitingState.display();// -->se ack successful--> view.setState(nextState) else previous
+                this.viewState.display();//-->sets this.waitingstate with the right previous and next state
+                this.waitingState.display();// -->if ack successful--> view.setState(nextState) else previous
             }catch(InterruptedException e){
 
             }

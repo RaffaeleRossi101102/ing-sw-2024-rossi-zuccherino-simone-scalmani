@@ -202,7 +202,7 @@ public abstract class ViewState {
                     System.out.println("Please insert a command...");
             }
             view.setCommand(command);
-            //se sono in ready to start, voglio essere sicuro di aver settato questo booleano a true
+
             if(view.getViewState().getClass().equals(ReadyToStartState.class))
                 defaultCommandChosen=true;
             if(wakeUp)
@@ -276,8 +276,7 @@ public abstract class ViewState {
         String msg = typeMessage();
         
         if (!msg.equals("exit")) {
-//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//            LocalDateTime now = LocalDateTime.now();
+
             System.out.println("sto per mandare il messaggio");
             updateClient(new BroadcastMessage( msg, ID));
             System.out.println("messaggio mandato");
@@ -316,7 +315,7 @@ public abstract class ViewState {
         }
         if (answer.equals("y")) {
             ViewMessage msg = new QuitMessage(this.ID);
-            //updateClient(msg);
+
             System.exit(0);
         }
 
@@ -415,7 +414,7 @@ public abstract class ViewState {
             else
                 midCard=midCard+r + " ";
             for(int c=minColumn-1;c<=maxColumn+1;c++){
-                //se la cella non è vuota, aggiungi alle stringhe la carta
+                //if the cell isnt' empty, add the card to the Strings
                 if(boardToPrint.getCardBoard()[r][c].getCard()!=null){
                     upCard=upCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[0];
                     midCard=midCard+boardToPrint.getCardBoard()[r][c].getCard().displayGraphicCard()[1];
@@ -451,7 +450,7 @@ public abstract class ViewState {
             midHand= midHand+ card.displayGraphicCard()[1]+"   ";
             downHand= downHand+ card.displayGraphicCard()[2]+"   ";
 //            System.out.println("["+cardIndex+"] "+card.getPrintableCardString());
-//            cardIndex++;
+
         }
         System.out.println(upperHand);
         System.out.println(midHand);
