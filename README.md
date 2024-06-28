@@ -43,7 +43,7 @@ RuleBook: [Codex_Naturalis_Rulebook.pdf](https://github.com/user-attachments/fil
 # How to use
 1. Go to *Deliverables* folder
 2. Download *CodexNaturalis* file
-3. Double-click the downloaded file once to start the server and once for each player who wants to play
+3. Open a powershell terminal once to start the server and once for each player who wants to play
 4. On each opened terminal type: " *java -jar FILE_PATH ARGUMENTS* " , replace FILE_PATH with the path of the jar file and ARGUMENTS with one of those below
 
 ## Arguments to start the server
