@@ -57,6 +57,6 @@ RuleBook: [Codex_Naturalis_Rulebook.pdf](https://github.com/user-attachments/fil
 - In order to play on different computers, make sure to have only one IP address available on the server machine, disable any other network card.
 - Make sure to connect all the computers to the same local network and disable all the firewall on your computer
 
-
+NOTA: Codex Naturalis è un gioco da tavolo sviluppato ed edito da Cranio Creations Srl. I contenuti grafici di questo progetto riconducibili al prodotto editoriale da tavolo sono utilizzati previa approvazione di Cranio Creations Srl a solo scopo didattico. È vietata la distribuzione, la copia o la riproduzione dei contenuti e immagini in qualsiasi forma al di fuori del progetto, così come la redistribuzione e la pubblicazione dei contenuti e immagini a fini diversi da quello sopracitato. È inoltre vietato l'utilizzo commerciale di suddetti contenuti.
 
 
